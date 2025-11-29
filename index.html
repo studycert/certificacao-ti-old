@@ -1078,18 +1078,24 @@
             </div>
 
             <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM 11 SIMULADOS -->
-            <!-- ITIL 4 Foundation - COM 3 SIMULADOS DISPONÍVEIS -->
+               <!-- ITIL 4 Foundation - COM BOTÃO PARA MOSTRAR SIMULADOS -->
 <div class="simulado-card">
     <div class="card-header">
         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
     </div>
     <div class="card-body">
-        <span class="simulado-badge">3 de 11 Simulados Disponíveis</span>
+        <span class="simulado-badge">11 Simulados Disponíveis</span>
         <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
         
-        <!-- Lista dos 3 Simulados ITIL 4 DISPONÍVEIS -->
-        <div class="simulados-lista" style="margin-top: 15px;">
+        <!-- Botão para mostrar simulados -->
+        <div style="text-align: center; margin: 15px 0;">
+            <button class="btn btn-outline" onclick="toggleSimulados('itil4')" id="btn-itil4" style="width: 100%;">
+                📋 Ver Todos os 11 Simulados
+            </button>
+        </div>
+        
+        <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
+        <div class="simulados-lista" id="lista-itil4" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto;">
             <!-- SIMULADO 1 - DISPONÍVEL -->
             <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
                 <span>✅ Simulado 1 - Conceitos Básicos</span>
@@ -1108,9 +1114,52 @@
                 <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm" style="padding: 4px 12px; font-size: 0.8em;">Iniciar</a>
             </div>
             
-            <!-- INDICADOR DOS PRÓXIMOS SIMULADOS -->
-            <div style="text-align: center; padding: 10px; background: #f8f9fa; border-radius: 4px; margin-top: 10px;">
-                <small>⏳ <strong>8 simulados adicionais</strong> em breve</small>
+            <!-- SIMULADO 4 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 4 - Práticas Gerais</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 5 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 5 - Gerenciamento de Serviço</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 6 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 6 - Princípios Orientadores</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 7 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 7 - Melhoria Contínua</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 8 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 8 - Governança</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 9 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 9 - Modelos de Mudança</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 10 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
+                <span>⏳ Simulado 10 - Práticas Técnicas</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+            </div>
+            
+            <!-- SIMULADO 11 - EM BREVE -->
+            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; opacity: 0.6;">
+                <span>⏳ Simulado 11 - Final Completo</span>
+                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
             </div>
         </div>
     </div>
@@ -1271,5 +1320,21 @@
             }
         });
     </script>
+    <script>
+function toggleSimulados(tipo) {
+    const lista = document.getElementById(`lista-${tipo}`);
+    const botao = document.getElementById(`btn-${tipo}`);
+    
+    if (lista.style.display === 'none') {
+        lista.style.display = 'block';
+        botao.innerHTML = '📁 Ocultar Simulados';
+        botao.classList.add('btn-primary');
+    } else {
+        lista.style.display = 'none';
+        botao.innerHTML = '📋 Ver Todos os 11 Simulados';
+        botao.classList.remove('btn-primary');
+    }
+}
+</script>
 </body>
 </html>
