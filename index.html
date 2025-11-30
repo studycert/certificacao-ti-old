@@ -623,13 +623,13 @@ nav a:hover, nav a.active {
                 font-size: 1rem;
             }
 /* EFEITO REACT PARA O BOTÃO VER TODOS OS SIMULADOS */
-button[onclick="toggleSimulados('itil4')"] {
+.btn-ver-simulados {
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
-button[onclick="toggleSimulados('itil4')"]::before {
+.btn-ver-simulados::before {
     content: '';
     position: absolute;
     top: 0;
@@ -640,11 +640,11 @@ button[onclick="toggleSimulados('itil4')"]::before {
     transition: left 0.6s;
 }
 
-button[onclick="toggleSimulados('itil4')"]:hover::before {
+.btn-ver-simulados:hover::before {
     left: 100%;
 }
 
-button[onclick="toggleSimulados('itil4')"]:hover {
+.btn-ver-simulados:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
