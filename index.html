@@ -376,6 +376,67 @@
             border-bottom: none;
         }
 
+        /* Simulado Card Styles */
+        .simulados-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .simulado-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .simulado-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .simulado-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
         /* Footer */
         footer {
             background: var(--primary);
@@ -628,8 +689,6 @@
         </div>
     </section>
 
-    <!-- Conteúdo existente permanece igual até a seção de simulados -->
-
     <!-- Simulados Content -->
     <section id="simulados" class="main-content">
         <div class="container">
@@ -708,8 +767,35 @@
                             <small><strong>Progresso:</strong> 3 de 11 disponíveis • 120 questões</small>
                         </div>
                     </div>
-                    
-                    <!-- Outros simulados... -->
+
+                    <!-- Outros simulados -->
+                    <div class="simulado-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-server"></i> LPIC-1</h3>
+                        </div>
+                        <div class="card-body">
+                            <span class="simulado-badge">60 questões</span>
+                            <p>Simulado para Linux Professional Institute Certification Level 1.</p>
+                            <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                        </div>
+                    </div>
+
+                    <div class="simulado-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shield-alt"></i> Security+</h3>
+                        </div>
+                        <div class="card-body">
+                            <span class="simulado-badge">45 questões</span>
+                            <p>Simulado para CompTIA Security+ (SY0-601).</p>
+                            <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -739,30 +825,155 @@
         </div>
     </section>
 
-    <!-- Footer (conteúdo permanece igual) -->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>StudyCert</h3>
+                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
 
-    <!-- Modais (Login, Cadastro, Upload) -->
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-target="home">Início</a></li>
+                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
+                        <li><a href="#" data-target="forum">Fórum</a></li>
+                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Certificações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Microsoft Azure</a></li>
+                        <li><a href="#">AWS</a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
+                        <li><a href="#">ITIL 4</a></li>
+                        <li><a href="#">Security+</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Entrar na StudyCert</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="close-login">Cancelar</button>
+                <button class="btn btn-primary" id="submit-login">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Conta na StudyCert</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nome Completo</label>
+                        <input type="text" id="register-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">E-mail</label>
+                        <input type="email" id="register-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Senha</label>
+                        <input type="password" id="register-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm">Confirmar Senha</label>
+                        <input type="password" id="register-confirm" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="close-register">Cancelar</button>
+                <button class="btn btn-primary" id="submit-register">Cadastrar</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Sistema de Gerenciamento de Usuários
         const UserSystem = {
             currentUser: null,
             users: JSON.parse(localStorage.getItem('studyCertUsers')) || [],
-            adminUser: { email: 'admin@studyCert.com', password: 'admin123', name: 'Administrador', role: 'admin', approved: true },
+            adminUser: { 
+                id: 'admin',
+                email: 'admin@studyCert.com', 
+                password: 'admin123', 
+                name: 'Administrador', 
+                role: 'admin', 
+                approved: true 
+            },
             
             init() {
+                // DEBUG: Verificar se há dados salvos
+                console.log('Usuários carregados:', this.users);
+                
                 // Adicionar admin padrão se não existir
-                if (!this.users.find(u => u.role === 'admin')) {
+                const adminExists = this.users.some(u => u.role === 'admin');
+                console.log('Admin existe:', adminExists);
+                
+                if (!adminExists) {
                     this.users.push(this.adminUser);
                     this.saveUsers();
+                    console.log('Admin criado:', this.adminUser);
                 }
                 
                 // Verificar se há usuário logado
                 const savedUser = localStorage.getItem('studyCertCurrentUser');
                 if (savedUser) {
                     this.currentUser = JSON.parse(savedUser);
-                    this.updateUI();
+                    console.log('Usuário logado encontrado:', this.currentUser);
                 }
+                
+                this.updateUI();
             },
             
             registerUser(userData) {
@@ -786,6 +997,8 @@
             
             loginUser(email, password) {
                 const user = this.users.find(u => u.email === email && u.password === password);
+                console.log('Tentativa de login:', { email, user });
+                
                 if (user) {
                     this.currentUser = user;
                     localStorage.setItem('studyCertCurrentUser', JSON.stringify(user));
@@ -855,24 +1068,34 @@
                 const simuladosContent = document.getElementById('simulados-content');
                 const accessPendingMessage = document.getElementById('access-pending-message');
                 
+                console.log('Atualizando UI. Usuário atual:', this.currentUser);
+                
                 if (this.currentUser) {
                     authButtons.style.display = 'none';
                     userInfo.style.display = 'flex';
                     document.getElementById('user-name').textContent = this.currentUser.name;
                     document.getElementById('user-avatar').textContent = this.currentUser.name.charAt(0).toUpperCase();
                     
+                    // DEBUG: Verificar se é admin
+                    console.log('É admin?', this.currentUser.role === 'admin');
+                    
                     // Mostrar link admin se for administrador
                     if (this.currentUser.role === 'admin') {
                         adminLink.style.display = 'block';
+                        console.log('Mostrando link do admin');
+                    } else {
+                        adminLink.style.display = 'none';
                     }
                     
                     // Controlar acesso aos simulados
                     if (this.currentUser.approved) {
                         simuladosContent.style.display = 'block';
                         accessPendingMessage.style.display = 'none';
+                        console.log('Mostrando simulados - usuário aprovado');
                     } else {
                         simuladosContent.style.display = 'none';
                         accessPendingMessage.style.display = 'block';
+                        console.log('Mostrando mensagem de aprovação pendente');
                     }
                 } else {
                     authButtons.style.display = 'flex';
@@ -880,6 +1103,7 @@
                     adminLink.style.display = 'none';
                     simuladosContent.style.display = 'none';
                     accessPendingMessage.style.display = 'none';
+                    console.log('Usuário não logado - mostrando botões de auth');
                 }
                 
                 // Atualizar lista de usuários no painel admin
@@ -895,36 +1119,50 @@
                 approvedList.innerHTML = '';
                 
                 // Preencher usuários pendentes
-                this.getPendingUsers().forEach(user => {
-                    const li = document.createElement('li');
-                    li.className = 'user-item';
-                    li.innerHTML = `
-                        <div class="user-info">
-                            <div class="user-name">${user.name}</div>
-                            <div class="user-email">${user.email}</div>
-                            <div class="status-badge status-pending">Pendente</div>
-                        </div>
-                        <div class="user-actions">
-                            <button class="btn btn-success btn-sm" onclick="UserSystem.approveUser('${user.id}')">Aprovar</button>
-                            <button class="btn btn-danger btn-sm" onclick="UserSystem.rejectUser('${user.id}')">Rejeitar</button>
-                        </div>
-                    `;
-                    pendingList.appendChild(li);
-                });
+                const pendingUsers = this.getPendingUsers();
+                console.log('Usuários pendentes:', pendingUsers);
+                
+                if (pendingUsers.length === 0) {
+                    pendingList.innerHTML = '<li class="user-item"><div class="user-info">Nenhum usuário pendente</div></li>';
+                } else {
+                    pendingUsers.forEach(user => {
+                        const li = document.createElement('li');
+                        li.className = 'user-item';
+                        li.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-name">${user.name}</div>
+                                <div class="user-email">${user.email}</div>
+                                <div class="status-badge status-pending">Pendente</div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="btn btn-success btn-sm" onclick="UserSystem.approveUser('${user.id}')">Aprovar</button>
+                                <button class="btn btn-danger btn-sm" onclick="UserSystem.rejectUser('${user.id}')">Rejeitar</button>
+                            </div>
+                        `;
+                        pendingList.appendChild(li);
+                    });
+                }
                 
                 // Preencher usuários aprovados
-                this.getApprovedUsers().forEach(user => {
-                    const li = document.createElement('li');
-                    li.className = 'user-item';
-                    li.innerHTML = `
-                        <div class="user-info">
-                            <div class="user-name">${user.name}</div>
-                            <div class="user-email">${user.email}</div>
-                            <div class="status-badge status-approved">Aprovado</div>
-                        </div>
-                    `;
-                    approvedList.appendChild(li);
-                });
+                const approvedUsers = this.getApprovedUsers();
+                console.log('Usuários aprovados:', approvedUsers);
+                
+                if (approvedUsers.length === 0) {
+                    approvedList.innerHTML = '<li class="user-item"><div class="user-info">Nenhum usuário aprovado</div></li>';
+                } else {
+                    approvedUsers.forEach(user => {
+                        const li = document.createElement('li');
+                        li.className = 'user-item';
+                        li.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-name">${user.name}</div>
+                                <div class="user-email">${user.email}</div>
+                                <div class="status-badge status-approved">Aprovado</div>
+                            </div>
+                        `;
+                        approvedList.appendChild(li);
+                    });
+                }
             }
         };
 
@@ -932,7 +1170,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             UserSystem.init();
             
-            // Sistema de navegação entre seções (existente)
+            // Sistema de navegação entre seções
             const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
@@ -959,7 +1197,7 @@
                 });
             });
             
-            // Sistema de modais (existente, atualizado para usar o UserSystem)
+            // Sistema de modais
             const modals = document.querySelectorAll('.modal');
             const closeButtons = document.querySelectorAll('.close-modal, .btn-outline[id^="close-"]');
             
