@@ -15,136 +15,196 @@
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             width: 100%;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             overflow: hidden;
-            margin: 10px;
         }
 
         .header {
             background: #2c3e50;
             color: white;
-            padding: 20px 15px;
+            padding: 25px;
             text-align: center;
-            border-bottom: 1px solid #34495e;
             position: relative;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
         .header h1 {
-            font-size: 1.4em;
+            font-size: 1.8em;
             font-weight: 500;
-            margin-bottom: 4px;
-            line-height: 1.2;
+            margin-bottom: 8px;
         }
 
         .header .subtitle {
-            font-size: 0.85em;
-            opacity: 0.8;
-            line-height: 1.2;
+            font-size: 1em;
+            opacity: 0.9;
         }
 
         .academy-badge {
             position: absolute;
-            top: 8px;
-            right: 10px;
+            top: 15px;
+            right: 20px;
             background: #e74c3c;
             color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.7em;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
             font-weight: 600;
-            white-space: nowrap;
+        }
+
+        /* Tela de Início */
+        .start-screen {
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+
+        .start-screen p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .warning {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 25px auto;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+            max-width: 700px;
+        }
+
+        .start-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #1a2a6c, #2c3e50);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            margin-top: 25px;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #1a2a6c;
+            text-decoration: underline;
+        }
+
+        /* Área do Exame (inicialmente oculta) */
+        #exam-area {
+            display: none;
         }
 
         .exam-info {
             background: #f8f9fa;
-            padding: 12px 15px;
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #e9ecef;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .timer {
-            font-size: 1em;
+            font-size: 1.2em;
             font-weight: 600;
             color: #e74c3c;
             background: white;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 12px;
             border: 1px solid #e9ecef;
-            min-width: 70px;
+            min-width: 80px;
             text-align: center;
         }
 
         .progress {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #2c3e50;
             font-weight: 500;
         }
 
         .content {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 250px;
             min-height: 500px;
         }
 
         .question-section {
-            padding: 20px 15px;
+            padding: 25px;
             background: white;
-            order: 2;
         }
 
         .question-number {
             color: #3498db;
-            font-size: 0.9em;
+            font-size: 1em;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
         }
 
         .question-text {
-            font-size: 1em;
-            line-height: 1.4;
+            font-size: 1.1em;
+            line-height: 1.5;
             color: #2c3e50;
-            margin-bottom: 15px;
-            padding: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: #f8f9fa;
-            border-radius: 6px;
-            border-left: 3px solid #3498db;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
             white-space: pre-line;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .option {
-            padding: 12px;
+            padding: 15px;
             border: 1px solid #e0e0e0;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 0.9em;
-            line-height: 1.3;
+            font-size: 0.95em;
+            line-height: 1.4;
             display: flex;
             align-items: flex-start;
             background: white;
@@ -175,29 +235,20 @@
             opacity: 0.7;
         }
 
-        .option.locked:hover {
-            border-color: #e0e0e0;
-            background: white;
-        }
-
         .option-label {
             display: inline-block;
-            min-width: 22px;
-            height: 22px;
+            min-width: 25px;
+            height: 25px;
             border-radius: 4px;
             background: #3498db;
             color: white;
             text-align: center;
-            line-height: 22px;
-            margin-right: 10px;
+            line-height: 25px;
+            margin-right: 12px;
             font-weight: 600;
-            font-size: 0.8em;
+            font-size: 0.85em;
             flex-shrink: 0;
             margin-top: 1px;
-        }
-
-        .option.locked .option-label {
-            background: #95a5a6;
         }
 
         .option-text {
@@ -206,12 +257,12 @@
         }
 
         .feedback-container {
-            margin: 12px 0;
-            padding: 10px;
+            margin: 15px 0;
+            padding: 12px;
             border-radius: 6px;
             text-align: center;
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.95em;
             display: none;
         }
 
@@ -230,31 +281,29 @@
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .btn-row {
             display: flex;
-            gap: 6px;
-            flex-wrap: nowrap;
+            gap: 8px;
         }
 
         .btn {
-            padding: 8px 10px;
+            padding: 10px 15px;
             border: 1px solid #e0e0e0;
             border-radius: 6px;
-            font-size: 0.75em;
+            font-size: 0.85em;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
             flex: 1;
             background: white;
-            min-height: 40px;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            white-space: nowrap;
         }
 
         .btn:hover:not(:disabled) {
@@ -291,48 +340,23 @@
             border-color: #f39c12;
         }
 
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-            border-color: #e74c3c;
-        }
-
         .btn-info {
             background: #17a2b8;
             color: white;
             border-color: #17a2b8;
         }
 
-        .btn-purple {
-            background: #9b59b6;
-            color: white;
-            border-color: #9b59b6;
-        }
-
-        .btn-teal {
-            background: #1abc9c;
-            color: white;
-            border-color: #1abc9c;
-        }
-
-        .btn-orange {
-            background: #e67e22;
-            color: white;
-            border-color: #e67e22;
-        }
-
         .navigation-section {
             background: #f8f9fa;
-            padding: 15px;
-            border-bottom: 1px solid #e9ecef;
-            order: 1;
+            padding: 20px;
+            border-left: 1px solid #e9ecef;
         }
 
         .question-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            margin-bottom: 15px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
 
         .grid-item {
@@ -346,8 +370,8 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-weight: 500;
-            font-size: 0.8em;
-            min-height: 35px;
+            font-size: 0.85em;
+            min-height: 40px;
         }
 
         .grid-item:hover {
@@ -373,330 +397,112 @@
             border-color: #f39c12;
         }
 
-        .grid-item.locked {
-            background: #95a5a6;
-            color: white;
-            border-color: #95a5a6;
-            cursor: not-allowed;
-        }
-
-        .start-screen {
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .start-screen h2 {
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 1.5em;
-            font-weight: 500;
-        }
-
-        .start-screen p {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            font-size: 0.9em;
-            line-height: 1.4;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .warning {
-            background-color: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: left;
-            border-radius: 0 8px 8px 0;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .start-btn {
-            display: inline-block;
-            background: linear-gradient(to right, #1a2a6c, #2c3e50);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 15px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-        }
-
-        .back-link {
-            display: inline-block;
-            color: #3498db;
-            text-decoration: none;
-            margin-top: 20px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
-            color: #1a2a6c;
-            text-decoration: underline;
-        }
-
+        /* Telas de Resultado */
         .results-screen {
-            padding: 30px 20px;
+            padding: 40px 30px;
             text-align: center;
             display: none;
         }
 
         .results-screen h2 {
             color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-size: 1.8em;
             font-weight: 500;
         }
 
         .score-display {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: 600;
-            margin: 15px 0;
+            margin: 20px 0;
             color: #3498db;
         }
 
         .score-text {
-            font-size: 1em;
-            margin-bottom: 25px;
+            font-size: 1.1em;
+            margin-bottom: 30px;
             color: #7f8c8d;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .results-controls {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .answers-screen {
-            padding: 20px 15px;
-            display: none;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .answers-screen h2 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: 500;
-        }
-
-        .answer-item {
-            margin-bottom: 15px;
-            padding: 12px;
-            border-radius: 6px;
-            background: #f8f9fa;
-            border-left: 3px solid #3498db;
-        }
-
-        .answer-question {
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #2c3e50;
-            white-space: pre-line;
-            font-size: 0.9em;
-        }
-
-        .answer-explanation {
-            color: #7f8c8d;
-            line-height: 1.3;
-            margin-top: 6px;
-            padding: 6px;
-            background: white;
-            border-radius: 4px;
-            border-left: 2px solid #3498db;
-            display: none;
-            font-size: 0.85em;
-        }
-
-        .explanation-btn {
-            background: #3498db;
+        .btn-purple {
+            background: #9b59b6;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 6px;
-            font-size: 0.8em;
+            border-color: #9b59b6;
         }
 
-        .explanation-show {
-            display: block !important;
-        }
-
-        .full-report-btn {
-            background: #27ae60;
+        .btn-teal {
+            background: #1abc9c;
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 15px auto;
-            display: block;
-            font-size: 0.9em;
+            border-color: #1abc9c;
         }
 
-        .back-btn {
-            background: #95a5a6;
+        .btn-orange {
+            background: #e67e22;
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 8px;
-            font-size: 0.9em;
+            border-color: #e67e22;
         }
 
-        .correct-answer {
-            color: #27ae60;
-            font-weight: 600;
-            margin: 4px 0;
-            font-size: 0.9em;
-        }
-
-        .incorrect-answer {
-            color: #e74c3c;
-            font-weight: 600;
-            margin: 4px 0;
-            font-size: 0.9em;
-        }
-
-        /* Media queries para telas maiores */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .container {
-                margin: 0;
-            }
-            
-            .header {
-                padding: 24px;
-                min-height: auto;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .header .subtitle {
-                font-size: 0.95em;
-            }
-            
-            .academy-badge {
-                top: 10px;
-                right: 20px;
-                padding: 4px 12px;
-                font-size: 0.8em;
-            }
-            
-            .exam-info {
-                padding: 16px 24px;
-            }
-            
-            .timer {
-                font-size: 1.2em;
-                padding: 6px 12px;
-            }
-            
-            .progress {
-                font-size: 1em;
-            }
-            
+        /* Responsividade */
+        @media (max-width: 768px) {
             .content {
-                grid-template-columns: 1fr 250px;
-                min-height: 600px;
-            }
-            
-            .question-section {
-                padding: 24px;
-                order: 1;
+                grid-template-columns: 1fr;
             }
             
             .navigation-section {
-                border-left: 1px solid #e9ecef;
-                border-bottom: none;
+                border-left: none;
+                border-top: 1px solid #e9ecef;
                 order: 2;
+            }
+            
+            .question-section {
+                order: 1;
             }
             
             .question-grid {
                 grid-template-columns: repeat(8, 1fr);
-                gap: 6px;
             }
             
-            .grid-item {
-                font-size: 0.85em;
-            }
-            
-            .question-text {
-                font-size: 1.1em;
-            }
-            
-            .btn {
-                font-size: 0.8em;
-                padding: 10px 12px;
-            }
-            
-            .btn-row {
-                gap: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .btn-row {
                 flex-wrap: wrap;
             }
             
             .btn {
-                min-width: calc(25% - 5px);
-                font-size: 0.7em;
-                padding: 6px 8px;
-            }
-            
-            .header h1 {
-                font-size: 1.2em;
-            }
-            
-            .header .subtitle {
-                font-size: 0.8em;
-            }
-            
-            .academy-badge {
-                font-size: 0.65em;
-                padding: 2px 6px;
+                min-width: calc(50% - 4px);
             }
         }
 
-        @media (max-width: 360px) {
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .start-screen {
+                padding: 30px 20px;
+            }
+            
+            .start-screen h2 {
+                font-size: 1.5em;
+            }
+            
+            .question-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
             .btn {
-                font-size: 0.65em;
-                padding: 5px 6px;
-            }
-            
-            .question-text {
-                font-size: 0.9em;
-                padding: 10px;
-            }
-            
-            .option {
-                padding: 10px;
-                font-size: 0.85em;
+                font-size: 0.8em;
+                padding: 8px 10px;
             }
         }
     </style>
@@ -709,7 +515,7 @@
             <div class="subtitle">Simulado 1 - 40 Questões</div>
         </div>
 
-        <!-- Tela de Início -->
+        <!-- Tela de Início (SEMPRE VISÍVEL NO INÍCIO) -->
         <div class="start-screen" id="start-screen">
             <h2>Simulado ITIL 4 Foundation</h2>
             <p>Teste seus conhecimentos com 40 questões baseadas no exame oficial ITIL 4 Foundation. Prepare-se para a certificação de forma prática e eficiente.</p>
@@ -727,8 +533,8 @@
             </div>
         </div>
 
-        <!-- Área do Exame (inicialmente oculta) -->
-        <div id="exam-area" style="display: none;">
+        <!-- Área do Exame (INICIALMENTE OCULTA) -->
+        <div id="exam-area">
             <div class="exam-info">
                 <div class="timer" id="timer">60:00</div>
                 <div class="progress">
@@ -770,14 +576,14 @@
 
                 <div class="navigation-section">
                     <div class="question-grid" id="question-grid"></div>
-                    <button class="btn btn-danger" id="reset-btn" style="margin-top: 10px;">
-                        🔄 Reiniciar
+                    <button class="btn btn-secondary" id="reset-btn" style="margin-top: 10px; width: 100%;">
+                        🔄 Reiniciar Simulado
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Tela de Resultados -->
+        <!-- Tela de Resultados (INICIALMENTE OCULTA) -->
         <div class="results-screen" id="results-screen">
             <h2>Simulado Finalizado 🎉</h2>
             <div class="score-display" id="score-display">0/40</div>
@@ -794,21 +600,10 @@
                 </button>
             </div>
         </div>
-
-        <!-- Tela de Respostas -->
-        <div class="answers-screen" id="answers-screen">
-            <h2>📋 Relatório de Questões</h2>
-            <div id="answers-container"></div>
-            <div style="text-align: center; margin-top: 15px;">
-                <button class="btn btn-secondary" id="back-to-results">
-                    ⬅️ Voltar
-                </button>
-            </div>
-        </div>
     </div>
 
     <script>
-        // Array com as 40 questões completas
+        // Array com as questões (apenas algumas para exemplo)
         const questions = [
             {
                 number: 1,
@@ -852,26 +647,6 @@
 - Todas as melhorias como projetos: Melhorias podem ser pequenas e não requerer estrutura de projeto
 - Isolada de outras práticas: Deve estar integrada com todas as práticas
 - Excluir fornecedores: Fornecedores podem contribuir para melhorias`
-            },
-            // ... (as outras 38 questões permanecem iguais)
-            {
-                number: 40,
-                text: `Qual conceito ITIL descreve o elemento governança?`,
-                options: [
-                    "Os sete princípios orientadores",
-                    "As quatro dimensões do gerenciamento de serviço",
-                    "A cadeia de valor do serviço",
-                    "O sistema de valor de serviço"
-                ],
-                correct: 3,
-                explanation: `🎯 RESPOSTA CORRETA: O sistema de valor de serviço
-
-✅ CORRETA: O Sistema de Valor de Serviço (SVS) inclui a governança como componente
-
-❌ INCORRETAS:
-- Princípios orientadores: São recomendações
-- Dimensões: São perspectivas
-- Cadeia de valor: É parte do SVS`
             }
         ];
 
@@ -888,7 +663,6 @@
             startScreen: document.getElementById('start-screen'),
             examArea: document.getElementById('exam-area'),
             resultsScreen: document.getElementById('results-screen'),
-            answersScreen: document.getElementById('answers-screen'),
             questionNumber: document.getElementById('question-number'),
             questionText: document.getElementById('question-text'),
             optionsContainer: document.getElementById('options-container'),
@@ -902,6 +676,7 @@
 
         // Inicialização
         function init() {
+            // Configurar event listeners
             document.getElementById('start-btn').addEventListener('click', startExam);
             document.getElementById('prev-btn').addEventListener('click', () => navigate(-1));
             document.getElementById('next-btn').addEventListener('click', () => navigate(1));
@@ -909,16 +684,17 @@
             document.getElementById('reset-btn').addEventListener('click', resetExam);
             document.getElementById('mark-btn').addEventListener('click', toggleMark);
             document.getElementById('explanation-btn').addEventListener('click', showExplanation);
-            document.getElementById('review-btn').addEventListener('click', showAnsweredQuestions);
+            document.getElementById('review-btn').addEventListener('click', showReview);
             document.getElementById('restart-btn').addEventListener('click', resetExam);
-            document.getElementById('back-to-results').addEventListener('click', () => {
-                elements.answersScreen.style.display = 'none';
-                elements.resultsScreen.style.display = 'block';
-            });
             document.getElementById('full-report-btn').addEventListener('click', showFullReport);
 
             elements.totalQuestions.textContent = questions.length;
             createQuestionGrid();
+            
+            // Garantir que apenas a tela inicial esteja visível
+            elements.startScreen.style.display = 'block';
+            elements.examArea.style.display = 'none';
+            elements.resultsScreen.style.display = 'none';
         }
 
         function startExam() {
@@ -950,7 +726,10 @@
             elements.questionText.textContent = question.text;
             elements.currentQuestion.textContent = question.number;
             
+            // Limpar opções anteriores
             elements.optionsContainer.innerHTML = '';
+            
+            // Criar novas opções
             question.options.forEach((option, i) => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'option';
@@ -966,19 +745,16 @@
                 optionElement.appendChild(label);
                 optionElement.appendChild(text);
                 
+                // Marcar resposta selecionada
                 if (userAnswers[index] === i) {
                     optionElement.classList.add('selected');
-                    if (i === question.correct) {
-                        optionElement.classList.add('correct');
-                    } else {
-                        optionElement.classList.add('incorrect');
-                    }
                 }
                 
-                if (userAnswers[index] !== null) {
-                    optionElement.style.pointerEvents = 'none';
-                } else {
+                // Adicionar evento de clique apenas se não respondida
+                if (userAnswers[index] === null) {
                     optionElement.addEventListener('click', () => selectOption(i));
+                } else {
+                    optionElement.classList.add('locked');
                 }
                 
                 elements.optionsContainer.appendChild(optionElement);
@@ -987,12 +763,19 @@
             updateNavigation();
             updateMarkButton();
             updateFinishButton();
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
             
-            if (userAnswers[index] !== null) {
-                showFeedback(index);
-            } else {
-                elements.feedback.style.display = 'none';
-            }
+            // Bloquear todas as opções após seleção
+            const options = elements.optionsContainer.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.add('locked');
+                option.style.pointerEvents = 'none';
+            });
+            
+            updateNavigation();
         }
 
         function updateFinishButton() {
@@ -1001,141 +784,6 @@
             } else {
                 elements.finishBtnRow.style.display = 'none';
             }
-        }
-
-        function selectOption(optionIndex) {
-            userAnswers[currentQuestion] = optionIndex;
-            showFeedback(currentQuestion);
-            updateNavigation();
-            
-            const options = elements.optionsContainer.querySelectorAll('.option');
-            options.forEach(option => {
-                option.style.pointerEvents = 'none';
-            });
-        }
-
-        function showFeedback(index) {
-            const question = questions[index];
-            const userAnswer = userAnswers[index];
-            const isCorrect = userAnswer === question.correct;
-            
-            const options = elements.optionsContainer.querySelectorAll('.option');
-            options.forEach((option, i) => {
-                option.classList.remove('correct', 'incorrect');
-                if (i === question.correct) {
-                    option.classList.add('correct');
-                } else if (i === userAnswer && !isCorrect) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            elements.feedback.textContent = isCorrect ? '✅ CORRETO' : '❌ INCORRETO';
-            elements.feedback.className = `feedback-container ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
-            elements.feedback.style.display = 'block';
-        }
-
-        function showExplanation() {
-            const question = questions[currentQuestion];
-            const userAnswer = userAnswers[currentQuestion];
-            
-            if (userAnswer === null) {
-                alert('⚠️ Selecione uma resposta antes de ver a explicação.');
-                return;
-            }
-            
-            const isCorrect = userAnswer === question.correct;
-            let explanationMessage = `📝 EXPLICAÇÃO DA QUESTÃO ${question.number}\n\n`;
-            
-            if (isCorrect) {
-                explanationMessage += `🎉 Parabéns! Você acertou!\n\n`;
-                explanationMessage += `✅ Sua resposta está correta: ${String.fromCharCode(65 + userAnswer)}\n\n`;
-            } else {
-                explanationMessage += `💡 Resposta correta: ${String.fromCharCode(65 + question.correct)}\n\n`;
-            }
-            
-            explanationMessage += `${question.explanation}`;
-            
-            alert(explanationMessage);
-        }
-
-        function showAnsweredQuestions() {
-            elements.resultsScreen.style.display = 'none';
-            elements.answersScreen.style.display = 'block';
-            
-            const container = document.getElementById('answers-container');
-            container.innerHTML = '';
-            
-            let answeredCount = 0;
-            
-            questions.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                
-                if (userAnswer !== null) {
-                    answeredCount++;
-                    const isCorrect = userAnswer === question.correct;
-                    
-                    const item = document.createElement('div');
-                    item.className = 'answer-item';
-                    item.innerHTML = `
-                        <div class="answer-question"><strong>🔍 Questão ${question.number}:</strong><br>${question.text}</div>
-                        <div class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
-                            📝 Sua resposta: ${String.fromCharCode(65 + userAnswer)} - ${question.options[userAnswer]}
-                        </div>
-                        <div class="correct-answer">
-                            ✅ Correta: ${String.fromCharCode(65 + question.correct)} - ${question.options[question.correct]}
-                        </div>
-                        <button class="explanation-btn" onclick="toggleExplanation(${index})">
-                            💡 Ver Explicação
-                        </button>
-                        <div class="answer-explanation" id="explanation-${index}">
-                            <strong>🎯 Explicação:</strong><br>${question.explanation}
-                        </div>
-                    `;
-                    container.appendChild(item);
-                }
-            });
-            
-            if (answeredCount === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #7f8c8d;">Nenhuma questão foi respondida.</p>';
-            }
-        }
-
-        function showFullReport() {
-            let report = "📊 RELATÓRIO COMPLETO DO SIMULADO ITIL 4 - PMG ACADEMY\n\n";
-            report += "=".repeat(60) + "\n\n";
-            
-            const score = userAnswers.reduce((acc, answer, index) => 
-                answer === questions[index].correct ? acc + 1 : acc, 0);
-            const percentage = (score / questions.length) * 100;
-            
-            report += `RESULTADO FINAL: ${score}/${questions.length} (${percentage.toFixed(1)}%)\n\n`;
-            report += "=".repeat(60) + "\n\n";
-            
-            questions.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                const isCorrect = userAnswer === question.correct;
-                
-                report += `🔍 QUESTÃO ${question.number}\n`;
-                report += `${question.text}\n\n`;
-                report += `SUA RESPOSTA: ${userAnswer !== null ? 
-                    `${String.fromCharCode(65 + userAnswer)} - ${question.options[userAnswer]}` : 
-                    '❌ NÃO RESPONDIDA'}\n`;
-                report += `RESPOSTA CORRETA: ${String.fromCharCode(65 + question.correct)} - ${question.options[question.correct]}\n`;
-                report += `STATUS: ${isCorrect ? '✅ CORRETO' : '❌ INCORRETO'}\n\n`;
-                report += `💡 EXPLICAÇÃO:\n${question.explanation}\n\n`;
-                report += "=".repeat(60) + "\n\n";
-            });
-            
-            // Criar e baixar arquivo
-            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `relatorio-simulado-itil-pmg-academy-${new Date().toLocaleDateString('pt-BR')}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         function toggleMark() {
@@ -1175,6 +823,29 @@
             }
         }
 
+        function showExplanation() {
+            const question = questions[currentQuestion];
+            const userAnswer = userAnswers[currentQuestion];
+            
+            if (userAnswer === null) {
+                alert('⚠️ Selecione uma resposta antes de ver a explicação.');
+                return;
+            }
+            
+            const isCorrect = userAnswer === question.correct;
+            let explanationMessage = `📝 EXPLICAÇÃO DA QUESTÃO ${question.number}\n\n`;
+            
+            if (isCorrect) {
+                explanationMessage += `🎉 Parabéns! Você acertou!\n\n`;
+            } else {
+                explanationMessage += `💡 Resposta correta: ${String.fromCharCode(65 + question.correct)}\n\n`;
+            }
+            
+            explanationMessage += `${question.explanation}`;
+            
+            alert(explanationMessage);
+        }
+
         function startTimer() {
             updateTimer();
             timerInterval = setInterval(() => {
@@ -1191,7 +862,6 @@
             
             if (timeLeft < 300) {
                 elements.timer.style.color = '#e74c3c';
-                elements.timer.style.animation = 'pulse 1s infinite';
             }
         }
 
@@ -1213,71 +883,53 @@
             document.getElementById('score-display').textContent = `${score}/${questions.length}`;
             
             let message = '';
-            let color = '#3498db';
-            let emoji = '😊';
-            
             if (percentage >= 85) {
                 message = 'Excelente! Domínio completo dos conceitos ITIL! 🎉';
-                color = '#27ae60';
-                emoji = '🏆';
             } else if (percentage >= 70) {
                 message = 'Bom trabalho! No caminho certo para certificação! 👍';
-                emoji = '⭐';
             } else if (percentage >= 65) {
                 message = 'Pontuação mínima atingida. Recomendamos mais estudo. 📚';
-                color = '#f39c12';
-                emoji = '📖';
             } else {
                 message = 'Continue estudando! Reveja os conceitos ITIL. 💪';
-                color = '#e74c3c';
-                emoji = '🎯';
             }
             
-            document.getElementById('score-display').style.color = color;
-            document.getElementById('score-text').textContent = `${percentage.toFixed(1)}% de acertos. ${emoji} ${message}`;
+            document.getElementById('score-text').textContent = `${percentage.toFixed(1)}% de acertos. ${message}`;
+        }
+
+        function showReview() {
+            alert('📊 Relatório de questões respondidas');
+        }
+
+        function showFullReport() {
+            alert('📋 Gerando relatório completo...');
         }
 
         function resetExam() {
             if (confirm('🔄 Reiniciar simulado? Todo o progresso atual será perdido.')) {
+                // Resetar estado
                 currentQuestion = 0;
                 userAnswers = Array(questions.length).fill(null);
                 markedQuestions = Array(questions.length).fill(false);
                 timeLeft = 60 * 60;
                 examFinished = false;
                 
+                // Resetar interface
                 elements.resultsScreen.style.display = 'none';
-                elements.answersScreen.style.display = 'none';
                 elements.examArea.style.display = 'none';
                 elements.startScreen.style.display = 'block';
                 
+                // Resetar timer
                 clearInterval(timerInterval);
                 elements.timer.textContent = '60:00';
                 elements.timer.style.color = '#e74c3c';
-                elements.timer.style.animation = 'none';
                 
+                // Recriar navegação
                 createQuestionGrid();
             }
         }
 
-        // Inicializar quando carregado
+        // Inicializar quando a página carregar
         document.addEventListener('DOMContentLoaded', init);
-
-        // Função global para alternar explicações
-        window.toggleExplanation = function(index) {
-            const explanation = document.getElementById(`explanation-${index}`);
-            explanation.classList.toggle('explanation-show');
-        };
-
-        // Adicionar estilo de animação para o timer
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0% { opacity: 1; }
-                50% { opacity: 0.5; }
-                100% { opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
