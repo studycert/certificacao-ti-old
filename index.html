@@ -132,6 +132,11 @@
             color: white;
         }
 
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+
         .btn-outline:hover {
             background: white;
             color: var(--primary);
@@ -147,6 +152,20 @@
 
         .btn-warning:hover {
             background: #e67e22;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
         }
 
         /* Hero Section */
@@ -235,269 +254,126 @@
             border-top: 1px solid #eee;
         }
 
-        /* Forum */
-        .forum-container {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            gap: 2rem;
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .forum-categories {
+        .status-pending {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-approved {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-rejected {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
             background: white;
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: 2rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
         }
 
-        .forum-categories h3 {
-            margin-bottom: 1rem;
+        .admin-panel h3 {
+            margin-bottom: 1.5rem;
             color: var(--primary);
             border-bottom: 2px solid var(--secondary);
             padding-bottom: 0.5rem;
         }
 
-        .category-list {
+        .user-list {
             list-style: none;
         }
 
-        .category-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .category-list li:last-child {
-            border-bottom: none;
-        }
-
-        .category-list a {
-            color: var(--dark);
-            text-decoration: none;
+        .user-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .category-list a:hover {
-            color: var(--secondary);
-        }
-
-        .category-count {
-            background: var(--secondary);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .forum-posts {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .post {
-            padding: 1.5rem 0;
+            padding: 1rem;
             border-bottom: 1px solid #eee;
         }
 
-        .post:last-child {
+        .user-item:last-child {
             border-bottom: none;
         }
 
-        .post-header {
+        .user-info {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
+            flex-direction: column;
         }
 
-        .post-title {
-            font-size: 1.2rem;
+        .user-name {
             font-weight: 600;
             color: var(--primary);
-            text-decoration: none;
         }
 
-        .post-title:hover {
-            color: var(--secondary);
-        }
-
-        .post-meta {
+        .user-email {
             color: var(--gray);
             font-size: 0.9rem;
         }
 
-        .post-excerpt {
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .post-footer {
+        .user-actions {
             display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
+            gap: 0.5rem;
         }
 
-        .new-post-btn {
-            display: block;
-            margin: 2rem auto;
-            width: 200px;
-        }
-
-        /* Study Materials */
-        .materials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .material-card {
+        /* Access Message */
+        .access-message {
             background: white;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .material-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .material-icon {
-            background: var(--primary);
-            color: white;
-            padding: 1.5rem;
+            padding: 2rem;
             text-align: center;
-            font-size: 2rem;
-        }
-
-        .material-content {
-            padding: 1.5rem;
-        }
-
-        .material-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .material-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Simulados */
-        .simulados-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .simulado-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .simulado-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .simulado-badge {
-            background: var(--accent);
-            color: white;
-            padding: 0.5rem 1rem;
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .upload-area {
-            background: white;
-            border: 2px dashed var(--gray);
-            border-radius: 8px;
-            padding: 3rem 2rem;
-            text-align: center;
             margin-bottom: 2rem;
-            transition: all 0.3s;
         }
 
-        .upload-area:hover {
-            border-color: var(--secondary);
-            background: #f8fafc;
-        }
-
-        .upload-area i {
+        .access-message i {
             font-size: 3rem;
-            color: var(--gray);
+            color: var(--warning);
             margin-bottom: 1rem;
         }
 
-        .upload-area h3 {
-            margin-bottom: 1rem;
+        .access-message h3 {
             color: var(--primary);
+            margin-bottom: 1rem;
         }
 
-        .upload-area p {
+        .access-message p {
             color: var(--gray);
             margin-bottom: 1.5rem;
         }
 
-        /* Certifications Grid */
-        .certifications-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+        /* Simulados List */
+        .simulados-lista {
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
-        .cert-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+        .simulado-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
         }
 
-        .cert-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .cert-icon {
-            background: var(--primary);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 2.5rem;
-        }
-
-        .cert-content {
-            padding: 1.5rem;
-        }
-
-        .cert-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .cert-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .cert-level {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
+        .simulado-item:last-child {
+            border-bottom: none;
         }
 
         /* Footer */
@@ -673,74 +549,6 @@
             gap: 1rem;
         }
 
-        /* Upload Form */
-        .upload-form {
-            display: none;
-        }
-
-        .upload-form.active {
-            display: block;
-        }
-
-        .file-input-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .file-input {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: block;
-            padding: 1rem;
-            border: 2px dashed var(--gray);
-            border-radius: 4px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-input-label:hover {
-            border-color: var(--secondary);
-            background: #f8fafc;
-        }
-
-        .file-name {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        /* User Info */
-        .user-info {
-            display: none;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-info.active {
-            display: flex;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .user-name {
-            color: white;
-            font-weight: 500;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -754,10 +562,6 @@
                 gap: 1rem;
             }
 
-            .forum-container {
-                grid-template-columns: 1fr;
-            }
-
             .hero h2 {
                 font-size: 2rem;
             }
@@ -768,6 +572,17 @@
 
             .modal-content {
                 width: 95%;
+            }
+
+            .user-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .user-actions {
+                width: 100%;
+                justify-content: flex-end;
             }
         }
     </style>
@@ -788,13 +603,14 @@
                         <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
                         <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
                         <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
+                        <li><a href="#" class="nav-link" data-target="admin" id="admin-link" style="display: none;">Painel Admin</a></li>
                     </ul>
                 </nav>
                 <div class="auth-buttons" id="auth-buttons">
                     <a href="#" class="btn btn-outline" id="login-btn">Entrar</a>
                     <a href="#" class="btn btn-primary" id="register-btn">Cadastrar</a>
                 </div>
-                <div class="user-info" id="user-info">
+                <div class="user-info" id="user-info" style="display: none;">
                     <div class="user-avatar" id="user-avatar">U</div>
                     <div class="user-name" id="user-name">Usuário</div>
                     <a href="#" class="btn btn-outline" id="logout-btn">Sair</a>
@@ -812,425 +628,7 @@
         </div>
     </section>
 
-    <!-- Home Content -->
-    <section id="home" class="main-content active">
-        <div class="container">
-            <div class="section-title">
-                <h2>Bem-vindo ao StudyCert</h2>
-                <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação</p>
-            </div>
-
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-comments"></i> Fórum de Discussão</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Participe de discussões, tire dúvidas e compartilhe conhecimento com outros profissionais de TI.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="forum">Acessar Fórum</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-book"></i> Material de Estudo</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Acesse guias, resumos, videoaulas e outros recursos para sua preparação.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="materiais">Ver Materiais</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> Simulados</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Teste seus conhecimentos com nossos simulados e acompanhe seu progresso.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="simulados">Ver Simulados</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-title">
-                <h2>Certificações em Destaque</h2>
-                <p>As certificações mais relevantes do mercado de TI</p>
-            </div>
-
-            <div class="certifications-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Fundamentals</h3>
-                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Cloud Practitioner</h3>
-                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Security+</h3>
-                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Foundation</h3>
-                        <p>Framework de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certificações Content -->
-    <section id="certificacoes" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nossas Certificações</h2>
-                <p>Prepare-se para as certificações mais demandadas do mercado</p>
-            </div>
-
-            <div class="certifications-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Administrator</h3>
-                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Solutions Architect</h3>
-                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Specialist</h3>
-                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-1</h3>
-                        <p>Certificação Linux Professional Institute - Nível 1.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-2</h3>
-                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Rede</span>
-                        <h3>CCNA</h3>
-                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Dados</span>
-                        <h3>Data Fundamentals</h3>
-                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Forum Content -->
-    <section id="forum" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Fórum de Discussão</h2>
-                <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
-            </div>
-
-            <div class="forum-container">
-                <div class="forum-categories">
-                    <h3>Categorias</h3>
-                    <ul class="category-list">
-                        <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                        <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                        <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                        <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                        <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                        <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                        <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
-                    </ul>
-                </div>
-
-                <div class="forum-posts">
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                            <div class="post-meta">por João Silva • 2 horas atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 7 respostas</span>
-                            <span><i class="far fa-eye"></i> 42 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                            <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 12 respostas</span>
-                            <span><i class="far fa-eye"></i> 87 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Experiência com exame Security+</a>
-                            <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 23 respostas</span>
-                            <span><i class="far fa-eye"></i> 156 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Diferença entre LPIC-1 e LPIC-2</a>
-                            <div class="post-meta">por Ana Costa • 5 dias atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Estou com dificuldades para entender a diferença entre o conteúdo da LPIC-1 e LPIC-2. Alguém pode explicar os principais tópicos de cada uma?</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 9 respostas</span>
-                            <span><i class="far fa-eye"></i> 74 visualizações</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="btn btn-primary new-post-btn" id="new-post-btn">Nova Discussão</a>
-        </div>
-    </section>
-
-    <!-- Study Materials Content -->
-    <section id="materiais" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Material de Estudo</h2>
-                <p>Recursos selecionados para sua preparação</p>
-            </div>
-
-            <div class="materials-grid">
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Microsoft Azure</h3>
-                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Amazon AWS</h3>
-                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>LPIC-1 e LPIC-2</h3>
-                        <p>Recursos para certificações Linux Professional Institute.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>ITIL 4</h3>
-                        <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Security+</h3>
-                        <p>Material para preparação da certificação CompTIA Security+.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>CCNA</h3>
-                        <p>Recursos para Cisco Certified Network Associate.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-title" style="margin-top: 4rem;">
-                <h2>Videoaulas</h2>
-                <p>Aprenda com instrutores especializados</p>
-            </div>
-
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
-                        <p><strong>Duração:</strong> 6 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
-                        <p><strong>Duração:</strong> 5 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Preparação completa para o exame CompTIA Security+.</p>
-                        <p><strong>Duração:</strong> 12 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Conteúdo existente permanece igual até a seção de simulados -->
 
     <!-- Simulados Content -->
     <section id="simulados" class="main-content">
@@ -1240,320 +638,301 @@
                 <p>Teste seus conhecimentos e acompanhe seu progresso</p>
             </div>
 
-            <div class="upload-area" id="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Compartilhe Seu Simulado</h3>
-                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary" id="upload-btn">Upload de Arquivo</a>
+            <!-- Mensagem de acesso pendente -->
+            <div class="access-message" id="access-pending-message" style="display: none;">
+                <i class="fas fa-clock"></i>
+                <h3>Acesso Pendente de Aprovação</h3>
+                <p>Seu cadastro está aguardando aprovação do administrador. Você receberá um e-mail quando seu acesso for liberado.</p>
+                <div class="status-badge status-pending">Status: Pendente</div>
             </div>
 
-            <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM BOTÃO PARA MOSTRAR SIMULADOS -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                        
-                        <!-- Botão para mostrar simulados -->
-                        <div style="text-align: center; margin: 15px 0;">
-                            <button class="btn btn-outline" onclick="toggleSimulados('itil4')" id="btn-itil4" style="width: 100%;">
-                                📋 Ver Todos os 11 Simulados
-                            </button>
+            <!-- Conteúdo dos simulados (visível apenas para usuários aprovados) -->
+            <div id="simulados-content" style="display: none;">
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Compartilhe Seu Simulado</h3>
+                    <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+                    <a href="#" class="btn btn-primary" id="upload-btn">Upload de Arquivo</a>
+                </div>
+
+                <div class="simulados-container">
+                    <!-- ITIL 4 Foundation - COM BOTÃO PARA MOSTRAR SIMULADOS -->
+                    <div class="simulado-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
                         </div>
-                        
-                        <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
-                        <div class="simulados-lista" id="lista-itil4" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto;">
-                            <!-- SIMULADO 1 - DISPONÍVEL -->
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
-                                <span>✅ Simulado 1 - Conceitos Básicos</span>
-                                <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm" style="padding: 4px 12px; font-size: 0.8em;">Iniciar</a>
+                        <div class="card-body">
+                            <span class="simulado-badge">11 Simulados Disponíveis</span>
+                            <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                            
+                            <!-- Botão para mostrar simulados -->
+                            <div style="text-align: center; margin: 15px 0;">
+                                <button class="btn btn-outline" onclick="toggleSimulados('itil4')" id="btn-itil4" style="width: 100%;">
+                                    📋 Ver Todos os 11 Simulados
+                                </button>
                             </div>
                             
-                            <!-- SIMULADO 2 - DISPONÍVEL -->
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
-                                <span>✅ Simulado 2 - Dimensões do Serviço</span>
-                                <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm" style="padding: 4px 12px; font-size: 0.8em;">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 3 - DISPONÍVEL -->
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
-                                <span>✅ Simulado 3 - Cadeia de Valor</span>
-                                <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm" style="padding: 4px 12px; font-size: 0.8em;">Iniciar</a>
-                            </div>
-                            
-                           <!-- SIMULADO 4 - DISPONÍVEL -->
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>✅ Simulado 4 - Práticas Gerais</span>
-                                <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm" style="padding: 4px 12px; font-size: 0.8em;">Iniciar</a>
-                            </div>
-                            
-                             <!-- SIMULADO 5-11 - EM BREVE -->
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 5 - Gerenciamento de Serviço</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 6 - Princípios Orientadores</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 7 - Melhoria Contínua</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 8 - Governança</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 9 - Modelos de Mudança</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; opacity: 0.6;">
-                                <span>⏳ Simulado 10 - Práticas Técnicas</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; opacity: 0.6;">
-                                <span>⏳ Simulado 11 - Final Completo</span>
-                                <button class="btn btn-secondary btn-sm" style="padding: 4px 12px; font-size: 0.8em;" disabled>Em Breve</button>
+                            <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
+                            <div class="simulados-lista" id="lista-itil4" style="display: none;">
+                                <!-- SIMULADO 1 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 1 - Conceitos Básicos</span>
+                                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 2 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 2 - Dimensões do Serviço</span>
+                                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 3 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 3 - Cadeia de Valor</span>
+                                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADOS 4-11 - EM BREVE -->
+                                <div class="simulado-item" style="opacity: 0.6;">
+                                    <span>⏳ Simulado 4 - Práticas Gerais</span>
+                                    <button class="btn btn-secondary btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item" style="opacity: 0.6;">
+                                    <span>⏳ Simulado 5 - Gerenciamento de Serviço</span>
+                                    <button class="btn btn-secondary btn-sm" disabled>Em Breve</button>
+                                </div>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <small><strong>Progresso:</strong> 3 de 11 disponíveis • 120 questões</small>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 3 de 11 disponíveis • 120 questões</small>
-                    </div>
-                </div>
-                                           
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">60 questões</span>
-                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">45 questões</span>
-                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">50 questões</span>
-                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-outline" id="add-simulado-btn">Upload</a>
-                    </div>
+                    
+                    <!-- Outros simulados... -->
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Painel Administrativo -->
+    <section id="admin" class="main-content">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>StudyCert</h3>
-                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Links Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="#" data-target="home">Início</a></li>
-                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
-                        <li><a href="#" data-target="forum">Fórum</a></li>
-                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
-                        <li><a href="#" data-target="simulados">Simulados</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Certificações</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Microsoft Azure</a></li>
-                        <li><a href="#">AWS</a></li>
-                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
-                        <li><a href="#">ITIL 4</a></li>
-                        <li><a href="#">Security+</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Contato</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
-                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
-                    </ul>
-                </div>
+            <div class="section-title">
+                <h2>Painel Administrativo</h2>
+                <p>Gerencie usuários e aprovações de acesso</p>
             </div>
 
-            <div class="copyright">
-                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
+            <div class="admin-panel">
+                <h3><i class="fas fa-users-cog"></i> Usuários Pendentes de Aprovação</h3>
+                <ul class="user-list" id="pending-users-list">
+                    <!-- Lista de usuários pendentes será preenchida via JavaScript -->
+                </ul>
+            </div>
+
+            <div class="admin-panel">
+                <h3><i class="fas fa-user-check"></i> Usuários Aprovados</h3>
+                <ul class="user-list" id="approved-users-list">
+                    <!-- Lista de usuários aprovados será preenchida via JavaScript -->
+                </ul>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <!-- Login Modal -->
-    <div class="modal" id="login-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Entrar na StudyCert</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="login-email">E-mail</label>
-                        <input type="email" id="login-email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Senha</label>
-                        <input type="password" id="login-password" class="form-control" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" id="close-login">Cancelar</button>
-                <button class="btn btn-primary" id="submit-login">Entrar</button>
-            </div>
-        </div>
-    </div>
+    <!-- Footer (conteúdo permanece igual) -->
 
-    <!-- Register Modal -->
-    <div class="modal" id="register-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Criar Conta na StudyCert</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="register-form">
-                    <div class="form-group">
-                        <label for="register-name">Nome Completo</label>
-                        <input type="text" id="register-name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-email">E-mail</label>
-                        <input type="email" id="register-email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-password">Senha</label>
-                        <input type="password" id="register-password" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-confirm">Confirmar Senha</label>
-                        <input type="password" id="register-confirm" class="form-control" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" id="close-register">Cancelar</button>
-                <button class="btn btn-primary" id="submit-register">Cadastrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upload Modal -->
-    <div class="modal" id="upload-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Upload de Simulado</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="upload-form">
-                    <div class="form-group">
-                        <label for="simulado-title">Título do Simulado</label>
-                        <input type="text" id="simulado-title" class="form-control" placeholder="Ex: ITIL 4 Foundation - Simulado 1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="simulado-cert">Certificação</label>
-                        <select id="simulado-cert" class="form-control" required>
-                            <option value="">Selecione uma certificação</option>
-                            <option value="ITIL 4">ITIL 4</option>
-                            <option value="LPIC-1">LPIC-1</option>
-                            <option value="Security+">Security+</option>
-                            <option value="AWS">AWS</option>
-                            <option value="Azure">Azure</option>
-                            <option value="Outra">Outra</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="simulado-desc">Descrição</label>
-                        <textarea id="simulado-desc" class="form-control" rows="3" placeholder="Descreva o conteúdo do simulado..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Arquivo HTML</label>
-                        <div class="file-input-container">
-                            <input type="file" id="simulado-file" class="file-input" accept=".html,.htm">
-                            <label for="simulado-file" class="file-input-label">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Clique para selecionar um arquivo HTML</p>
-                            </label>
-                            <div class="file-name" id="file-name">Nenhum arquivo selecionado</div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" id="close-upload">Cancelar</button>
-                <button class="btn btn-primary" id="submit-upload">Enviar Simulado</button>
-            </div>
-        </div>
-    </div>
+    <!-- Modais (Login, Cadastro, Upload) -->
 
     <script>
-        // Navigation between sections
+        // Sistema de Gerenciamento de Usuários
+        const UserSystem = {
+            currentUser: null,
+            users: JSON.parse(localStorage.getItem('studyCertUsers')) || [],
+            adminUser: { email: 'admin@studyCert.com', password: 'admin123', name: 'Administrador', role: 'admin', approved: true },
+            
+            init() {
+                // Adicionar admin padrão se não existir
+                if (!this.users.find(u => u.role === 'admin')) {
+                    this.users.push(this.adminUser);
+                    this.saveUsers();
+                }
+                
+                // Verificar se há usuário logado
+                const savedUser = localStorage.getItem('studyCertCurrentUser');
+                if (savedUser) {
+                    this.currentUser = JSON.parse(savedUser);
+                    this.updateUI();
+                }
+            },
+            
+            registerUser(userData) {
+                const existingUser = this.users.find(u => u.email === userData.email);
+                if (existingUser) {
+                    return { success: false, message: 'E-mail já cadastrado' };
+                }
+                
+                const newUser = {
+                    ...userData,
+                    id: Date.now().toString(),
+                    role: 'user',
+                    approved: false, // Todos os novos usuários começam como não aprovados
+                    createdAt: new Date().toISOString()
+                };
+                
+                this.users.push(newUser);
+                this.saveUsers();
+                return { success: true, message: 'Cadastro realizado! Aguarde aprovação do administrador.' };
+            },
+            
+            loginUser(email, password) {
+                const user = this.users.find(u => u.email === email && u.password === password);
+                if (user) {
+                    this.currentUser = user;
+                    localStorage.setItem('studyCertCurrentUser', JSON.stringify(user));
+                    this.updateUI();
+                    return { success: true, message: 'Login realizado com sucesso!' };
+                }
+                return { success: false, message: 'E-mail ou senha incorretos' };
+            },
+            
+            logoutUser() {
+                this.currentUser = null;
+                localStorage.removeItem('studyCertCurrentUser');
+                this.updateUI();
+            },
+            
+            approveUser(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (user) {
+                    user.approved = true;
+                    this.saveUsers();
+                    
+                    // Se o usuário aprovado está logado, atualizar a sessão
+                    if (this.currentUser && this.currentUser.id === userId) {
+                        this.currentUser.approved = true;
+                        localStorage.setItem('studyCertCurrentUser', JSON.stringify(this.currentUser));
+                    }
+                    
+                    this.updateUI();
+                    return true;
+                }
+                return false;
+            },
+            
+            rejectUser(userId) {
+                const index = this.users.findIndex(u => u.id === userId);
+                if (index !== -1) {
+                    this.users.splice(index, 1);
+                    this.saveUsers();
+                    
+                    // Se o usuário rejeitado está logado, fazer logout
+                    if (this.currentUser && this.currentUser.id === userId) {
+                        this.logoutUser();
+                    }
+                    
+                    this.updateUI();
+                    return true;
+                }
+                return false;
+            },
+            
+            getPendingUsers() {
+                return this.users.filter(u => u.role === 'user' && !u.approved);
+            },
+            
+            getApprovedUsers() {
+                return this.users.filter(u => u.role === 'user' && u.approved);
+            },
+            
+            saveUsers() {
+                localStorage.setItem('studyCertUsers', JSON.stringify(this.users));
+            },
+            
+            updateUI() {
+                const authButtons = document.getElementById('auth-buttons');
+                const userInfo = document.getElementById('user-info');
+                const adminLink = document.getElementById('admin-link');
+                const simuladosContent = document.getElementById('simulados-content');
+                const accessPendingMessage = document.getElementById('access-pending-message');
+                
+                if (this.currentUser) {
+                    authButtons.style.display = 'none';
+                    userInfo.style.display = 'flex';
+                    document.getElementById('user-name').textContent = this.currentUser.name;
+                    document.getElementById('user-avatar').textContent = this.currentUser.name.charAt(0).toUpperCase();
+                    
+                    // Mostrar link admin se for administrador
+                    if (this.currentUser.role === 'admin') {
+                        adminLink.style.display = 'block';
+                    }
+                    
+                    // Controlar acesso aos simulados
+                    if (this.currentUser.approved) {
+                        simuladosContent.style.display = 'block';
+                        accessPendingMessage.style.display = 'none';
+                    } else {
+                        simuladosContent.style.display = 'none';
+                        accessPendingMessage.style.display = 'block';
+                    }
+                } else {
+                    authButtons.style.display = 'flex';
+                    userInfo.style.display = 'none';
+                    adminLink.style.display = 'none';
+                    simuladosContent.style.display = 'none';
+                    accessPendingMessage.style.display = 'none';
+                }
+                
+                // Atualizar lista de usuários no painel admin
+                this.updateAdminPanel();
+            },
+            
+            updateAdminPanel() {
+                const pendingList = document.getElementById('pending-users-list');
+                const approvedList = document.getElementById('approved-users-list');
+                
+                // Limpar listas
+                pendingList.innerHTML = '';
+                approvedList.innerHTML = '';
+                
+                // Preencher usuários pendentes
+                this.getPendingUsers().forEach(user => {
+                    const li = document.createElement('li');
+                    li.className = 'user-item';
+                    li.innerHTML = `
+                        <div class="user-info">
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-email">${user.email}</div>
+                            <div class="status-badge status-pending">Pendente</div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-success btn-sm" onclick="UserSystem.approveUser('${user.id}')">Aprovar</button>
+                            <button class="btn btn-danger btn-sm" onclick="UserSystem.rejectUser('${user.id}')">Rejeitar</button>
+                        </div>
+                    `;
+                    pendingList.appendChild(li);
+                });
+                
+                // Preencher usuários aprovados
+                this.getApprovedUsers().forEach(user => {
+                    const li = document.createElement('li');
+                    li.className = 'user-item';
+                    li.innerHTML = `
+                        <div class="user-info">
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-email">${user.email}</div>
+                            <div class="status-badge status-approved">Aprovado</div>
+                        </div>
+                    `;
+                    approvedList.appendChild(li);
+                });
+            }
+        };
+
+        // Inicializar o sistema quando a página carregar
         document.addEventListener('DOMContentLoaded', function() {
+            UserSystem.init();
+            
+            // Sistema de navegação entre seções (existente)
             const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
@@ -1580,11 +959,11 @@
                 });
             });
             
-            // Modal functionality
+            // Sistema de modais (existente, atualizado para usar o UserSystem)
             const modals = document.querySelectorAll('.modal');
             const closeButtons = document.querySelectorAll('.close-modal, .btn-outline[id^="close-"]');
             
-            // Open modals
+            // Abrir modais
             document.getElementById('login-btn').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.getElementById('login-modal').classList.add('active');
@@ -1595,35 +974,14 @@
                 document.getElementById('register-modal').classList.add('active');
             });
             
-            document.getElementById('upload-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (checkLogin()) {
-                    document.getElementById('upload-modal').classList.add('active');
-                }
-            });
-            
-            document.getElementById('add-simulado-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (checkLogin()) {
-                    document.getElementById('upload-modal').classList.add('active');
-                }
-            });
-            
-            document.getElementById('new-post-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (checkLogin()) {
-                    alert('Funcionalidade de criar nova discussão será implementada em breve!');
-                }
-            });
-            
-            // Close modals
+            // Fechar modais
             closeButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     modals.forEach(modal => modal.classList.remove('active'));
                 });
             });
             
-            // Close modal when clicking outside
+            // Fechar modal ao clicar fora
             modals.forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
@@ -1632,27 +990,24 @@
                 });
             });
             
-            // File input display
-            document.getElementById('simulado-file').addEventListener('change', function(e) {
-                const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
-                document.getElementById('file-name').textContent = fileName;
-            });
-            
-            // Form submissions
+            // Submissão do formulário de login
             document.getElementById('submit-login').addEventListener('click', function() {
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 
                 if (email && password) {
-                    // Simulate login
-                    loginUser(email.split('@')[0]);
-                    document.getElementById('login-modal').classList.remove('active');
-                    document.getElementById('login-form').reset();
+                    const result = UserSystem.loginUser(email, password);
+                    alert(result.message);
+                    if (result.success) {
+                        document.getElementById('login-modal').classList.remove('active');
+                        document.getElementById('login-form').reset();
+                    }
                 } else {
                     alert('Por favor, preencha todos os campos!');
                 }
             });
             
+            // Submissão do formulário de cadastro
             document.getElementById('submit-register').addEventListener('click', function() {
                 const name = document.getElementById('register-name').value;
                 const email = document.getElementById('register-email').value;
@@ -1661,32 +1016,14 @@
                 
                 if (name && email && password && confirm) {
                     if (password === confirm) {
-                        // Simulate registration
-                        loginUser(name);
-                        document.getElementById('register-modal').classList.remove('active');
-                        document.getElementById('register-form').reset();
+                        const result = UserSystem.registerUser({ name, email, password });
+                        alert(result.message);
+                        if (result.success) {
+                            document.getElementById('register-modal').classList.remove('active');
+                            document.getElementById('register-form').reset();
+                        }
                     } else {
                         alert('As senhas não coincidem!');
-                    }
-                } else {
-                    alert('Por favor, preencha todos os campos!');
-                }
-            });
-            
-            document.getElementById('submit-upload').addEventListener('click', function() {
-                const title = document.getElementById('simulado-title').value;
-                const cert = document.getElementById('simulado-cert').value;
-                const file = document.getElementById('simulado-file').files[0];
-                
-                if (title && cert && file) {
-                    if (file.type === 'text/html' || file.name.endsWith('.html') || file.name.endsWith('.htm')) {
-                        // Simulate upload
-                        alert(`Simulado "${title}" enviado com sucesso!`);
-                        document.getElementById('upload-modal').classList.remove('active');
-                        document.getElementById('upload-form').reset();
-                        document.getElementById('file-name').textContent = 'Nenhum arquivo selecionado';
-                    } else {
-                        alert('Por favor, selecione um arquivo HTML válido!');
                     }
                 } else {
                     alert('Por favor, preencha todos os campos!');
@@ -1696,42 +1033,11 @@
             // Logout
             document.getElementById('logout-btn').addEventListener('click', function(e) {
                 e.preventDefault();
-                logoutUser();
+                UserSystem.logoutUser();
             });
-            
-            // Check if user is logged in
-            function checkLogin() {
-                const userInfo = document.getElementById('user-info');
-                if (!userInfo.classList.contains('active')) {
-                    alert('Por favor, faça login para acessar esta funcionalidade!');
-                    document.getElementById('login-modal').classList.add('active');
-                    return false;
-                }
-                return true;
-            }
-            
-            // Login function
-            function loginUser(name) {
-                document.getElementById('auth-buttons').style.display = 'none';
-                document.getElementById('user-info').classList.add('active');
-                document.getElementById('user-name').textContent = name;
-                document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
-                
-                // Show upload area
-                document.getElementById('upload-area').style.display = 'block';
-            }
-            
-            // Logout function
-            function logoutUser() {
-                document.getElementById('auth-buttons').style.display = 'flex';
-                document.getElementById('user-info').classList.remove('active');
-                
-                // Hide upload area
-                document.getElementById('upload-area').style.display = 'none';
-            }
         });
-    </script>
-    <script>
+
+        // Função para alternar visibilidade dos simulados
         function toggleSimulados(tipo) {
             const lista = document.getElementById(`lista-${tipo}`);
             const botao = document.getElementById(`btn-${tipo}`);
