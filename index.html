@@ -622,35 +622,31 @@ nav a:hover, nav a.active {
             .hero p {
                 font-size: 1rem;
             }
-/* EFEITO REACT PARA O BOTÃO VER TODOS OS SIMULADOS - FORTE */
-.btn.btn-outline.btn-ver-simulados {
-    position: relative !important;
-    overflow: hidden !important;
-    transition: all 0.3s ease !important;
+/* EFEITO REACT PARA O BOTÃO VER TODOS OS SIMULADOS */
+button[onclick="toggleSimulados('itil4')"] {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.btn.btn-outline.btn-ver-simulados::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: -100% !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.3), transparent) !important;
-    transition: left 0.6s !important;
-    z-index: 1 !important;
+button[onclick="toggleSimulados('itil4')"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.3), transparent);
+    transition: left 0.6s;
 }
 
-.btn.btn-outline.btn-ver-simulados:hover::before {
-    left: 100% !important;
+button[onclick="toggleSimulados('itil4')"]:hover::before {
+    left: 100%;
 }
 
-.btn.btn-outline.btn-ver-simulados:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-    background-color: var(--secondary) !important;
-    color: white !important;
-    border-color: var(--secondary) !important;
+button[onclick="toggleSimulados('itil4')"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
     
     </style>
