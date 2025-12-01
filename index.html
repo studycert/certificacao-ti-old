@@ -260,7 +260,7 @@
             margin-bottom: 2rem;
         }
 
-        /* ESTILOS DOS SIMULADOS ITIL 4 */
+        /* ESTILOS DOS SIMULADOS ITIL 4 - RESPONSIVO */
         .show-simulados-btn {
             display: inline-block;
             padding: 8px 16px;
@@ -283,17 +283,96 @@
             background: #e74c3c;
         }
 
-        .simulados-lista {
+        /* CONTAINER DA LISTA - RESPONSIVO */
+        .simulados-lista-container {
             display: none;
+            position: relative;
             margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            z-index: 100;
         }
 
-        .simulados-lista.visible {
+        .simulados-lista-container.visible {
             display: block;
+        }
+
+        .simulados-lista {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            position: relative;
+            width: 100%;
+        }
+
+        /* PARA DISPOSITIVOS PEQUENOS E TABLETS */
+        @media (max-width: 1024px) {
+            .simulados-lista-container {
+                position: relative;
+            }
+            
+            .simulados-lista {
+                position: static;
+                width: 100%;
+                max-height: 350px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* PARA CELULARES */
+        @media (max-width: 768px) {
+            .simulados-lista-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                margin: 0;
+                padding: 20px;
+            }
+            
+            .simulados-lista-container.visible {
+                display: flex;
+            }
+            
+            .simulados-lista {
+                position: relative;
+                width: 100%;
+                max-width: 500px;
+                max-height: 80vh;
+                margin: auto;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .close-modal-btn {
+                display: block;
+                margin: 15px auto 0;
+                padding: 8px 16px;
+                background: #e74c3c;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-weight: 600;
+                cursor: pointer;
+            }
         }
 
         .simulado-item {
@@ -397,7 +476,7 @@
         </div>
     </section>
 
-    <!-- Simulados Content - VERSÃO SIMPLIFICADA E FUNCIONAL -->
+    <!-- Simulados Content - VERSÃO RESPONSIVA -->
     <section id="simulados" class="main-content">
         <div class="container">
             <div class="section-title">
@@ -413,7 +492,7 @@
             </div>
 
             <div class="simulados-container">
-                <!-- ITIL 4 Foundation - VERSÃO FUNCIONAL SIMPLES -->
+                <!-- ITIL 4 Foundation - VERSÃO RESPONSIVA -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
@@ -427,66 +506,73 @@
                             <i class="fas fa-list"></i> Ver 11 Simulados
                         </button>
                         
-                        <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
-                        <div class="simulados-lista" id="simuladosLista">
-                            <!-- SIMULADO 1 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 1 - Conceitos Básicos</span>
-                                <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 2 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 2 - Dimensões do Serviço</span>
-                                <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 3 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 3 - Cadeia de Valor</span>
-                                <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 4 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 4 - Práticas Gerais</span>
-                                <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 5 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
-                                <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 6 - Princípios Orientadores</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 7 - Melhoria Contínua</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 8 - Governança</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 9 - Modelos de Mudança</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 10 - Práticas Técnicas</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 11 - Final Completo</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        <!-- Container da lista (inicialmente oculto) -->
+                        <div class="simulados-lista-container" id="simuladosListaContainer">
+                            <div class="simulados-lista">
+                                <!-- SIMULADO 1 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 1 - Conceitos Básicos</span>
+                                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 2 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 2 - Dimensões do Serviço</span>
+                                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 3 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 3 - Cadeia de Valor</span>
+                                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 4 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 4 - Práticas Gerais</span>
+                                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <!-- SIMULADO 5 - DISPONÍVEL -->
+                                <div class="simulado-item">
+                                    <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
+                                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 6 - Princípios Orientadores</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 7 - Melhoria Contínua</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 8 - Governança</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 9 - Modelos de Mudança</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 10 - Práticas Técnicas</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <div class="simulado-item">
+                                    <span>⏳ Simulado 11 - Final Completo</span>
+                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                                </div>
+                                
+                                <!-- Botão para fechar no mobile -->
+                                <button class="close-modal-btn" id="closeModalBtn" style="display: none;">
+                                    <i class="fas fa-times"></i> Fechar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -605,45 +691,106 @@
                 });
             }
             
-            // Controle dos simulados ITIL 4 - VERSÃO SIMPLES
+            // Controle dos simulados ITIL 4 - VERSÃO RESPONSIVA
             const showSimuladosBtn = document.getElementById('showSimuladosBtn');
-            const simuladosLista = document.getElementById('simuladosLista');
+            const simuladosListaContainer = document.getElementById('simuladosListaContainer');
+            const closeModalBtn = document.getElementById('closeModalBtn');
             
-            if (showSimuladosBtn && simuladosLista) {
-                // Esconde a lista inicialmente
-                simuladosLista.style.display = 'none';
-                
-                // Mostrar/ocultar lista ao clicar no botão
+            if (showSimuladosBtn && simuladosListaContainer) {
+                // Mostrar/ocultar lista ao clicar no botão principal
                 showSimuladosBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    if (simuladosLista.style.display === 'none') {
-                        // Mostrar lista
-                        simuladosLista.style.display = 'block';
-                        simuladosLista.classList.add('visible');
-                        this.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
-                        this.classList.add('active');
+                    if (simuladosListaContainer.classList.contains('visible')) {
+                        closeLista();
                     } else {
-                        // Esconder lista
-                        simuladosLista.style.display = 'none';
-                        simuladosLista.classList.remove('visible');
-                        this.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
-                        this.classList.remove('active');
+                        openLista();
                     }
                 });
                 
-                // Fechar lista ao clicar fora (opcional)
+                // Fechar lista ao clicar no botão de fechar (mobile)
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        closeLista();
+                    });
+                }
+                
+                // Fechar lista ao clicar fora (para desktop)
                 document.addEventListener('click', function(event) {
-                    if (!showSimuladosBtn.contains(event.target) && !simuladosLista.contains(event.target)) {
-                        if (simuladosLista.style.display === 'block') {
-                            simuladosLista.style.display = 'none';
-                            simuladosLista.classList.remove('visible');
-                            showSimuladosBtn.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
-                            showSimuladosBtn.classList.remove('active');
+                    const isMobile = window.innerWidth <= 768;
+                    
+                    // No desktop, fecha ao clicar fora
+                    if (!isMobile && simuladosListaContainer.classList.contains('visible')) {
+                        if (!showSimuladosBtn.contains(event.target) && 
+                            !simuladosListaContainer.contains(event.target)) {
+                            closeLista();
+                        }
+                    }
+                    
+                    // No mobile, fecha ao clicar no overlay escuro
+                    if (isMobile && simuladosListaContainer.classList.contains('visible')) {
+                        if (event.target === simuladosListaContainer) {
+                            closeLista();
                         }
                     }
                 });
+                
+                // Fechar com ESC
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && simuladosListaContainer.classList.contains('visible')) {
+                        closeLista();
+                    }
+                });
+                
+                // Ajustar visibilidade do botão de fechar baseado no tamanho da tela
+                function updateCloseButton() {
+                    const isMobile = window.innerWidth <= 768;
+                    if (closeModalBtn) {
+                        closeModalBtn.style.display = isMobile ? 'block' : 'none';
+                    }
+                }
+                
+                // Verificar quando a janela é redimensionada
+                window.addEventListener('resize', function() {
+                    updateCloseButton();
+                    // Se a lista estiver aberta e mudar para mobile, ajustar
+                    if (simuladosListaContainer.classList.contains('visible')) {
+                        // Forçar reflow para ajustar posicionamento
+                        simuladosListaContainer.style.display = 'none';
+                        setTimeout(() => {
+                            if (simuladosListaContainer.classList.contains('visible')) {
+                                simuladosListaContainer.style.display = window.innerWidth <= 768 ? 'flex' : 'block';
+                            }
+                        }, 10);
+                    }
+                });
+                
+                // Inicializar
+                updateCloseButton();
+                
+                // Funções para abrir/fechar lista
+                function openLista() {
+                    simuladosListaContainer.classList.add('visible');
+                    showSimuladosBtn.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
+                    showSimuladosBtn.classList.add('active');
+                    
+                    // Ajustar display baseado no dispositivo
+                    if (window.innerWidth <= 768) {
+                        simuladosListaContainer.style.display = 'flex';
+                    } else {
+                        simuladosListaContainer.style.display = 'block';
+                    }
+                }
+                
+                function closeLista() {
+                    simuladosListaContainer.classList.remove('visible');
+                    showSimuladosBtn.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
+                    showSimuladosBtn.classList.remove('active');
+                    simuladosListaContainer.style.display = 'none';
+                }
             }
         });
     </script>
