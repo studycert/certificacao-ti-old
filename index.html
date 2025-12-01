@@ -37,7 +37,7 @@
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Header - BOTÕES SEM BORDA */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -74,10 +74,11 @@
             color: var(--secondary);
         }
 
+        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
         nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         nav a {
@@ -89,8 +90,7 @@
             border-radius: 4px;
             position: relative;
             overflow: hidden;
-            background-color: rgba(52, 152, 219, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: transparent; /* Sem fundo */
         }
 
         nav a::before {
@@ -109,11 +109,8 @@
         }
 
         nav a:hover, nav a.active {
-            background-color: #3498db;
-            color: white;
+            color: var(--secondary);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-            border-color: #3498db;
         }
         
         .auth-buttons {
@@ -161,6 +158,8 @@
 
         .btn-primary:hover {
             background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
 
         .btn-success:hover {
@@ -603,33 +602,7 @@
             font-size: 0.9rem;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .forum-container {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-
-        /* ========== NOVA LISTA DE SIMULADOS - MODAL OVERLAY ========== */
+        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
         
         /* Botão "Ver todos os simulados" */
         .show-simulados-btn {
@@ -838,8 +811,31 @@
             background: #2980b9;
         }
 
-        /* Responsividade da modal */
+        /* Responsividade */
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            
             .modal-container {
                 max-width: 95%;
                 max-height: 85vh;
@@ -862,7 +858,7 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header com botões SEM BORDA -->
     <header>
         <div class="container">
             <div class="header-content">
