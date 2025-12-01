@@ -757,6 +757,81 @@
                 }
             }
         }
+        /* Estilo do botão menor */
+.show-simulados-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 10px 0;
+    width: 180px;
+}
+
+.show-simulados-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.show-simulados-btn i {
+    margin-right: 5px;
+}
+
+/* Estilo da lista de simulados */
+.simulados-lista {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+/* Quando a lista está visível */
+.simulados-lista[style*="display: block"] {
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .simulados-lista {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-height: 70vh;
+    }
+}
     </style>
 </head>
 <body>
@@ -1215,102 +1290,145 @@
     </section>
 
     <!-- Simulados Content -->
-    <section id="simulados" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Simulados</h2>
-                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
-            </div>
+<section id="simulados" class="main-content">
+    <div class="container">
+        <div class="section-title">
+            <h2>Simulados</h2>
+            <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+        </div>
 
-            <div class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Compartilhe Seu Simulado</h3>
-                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
-            </div>
+        <div class="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Compartilhe Seu Simulado</h3>
+            <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+            <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+        </div>
 
-            <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM BOTÃO MENOR -->
-                <div class="simulado-card" id="itil4-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+        <div class="simulados-container">
+            <!-- ITIL 4 Foundation - COM FUNCIONALIDADE SIMPLES -->
+            <div class="simulado-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+                </div>
+                <div class="card-body">
+                    <span class="simulado-badge">11 Simulados Disponíveis</span>
+                    <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                    
+                    <!-- Botão para mostrar simulados -->
+                    <button class="show-simulados-btn" onclick="toggleSimulados()">
+                        <i class="fas fa-list"></i> Ver 11 Simulados
+                    </button>
+                    
+                    <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
+                    <div class="simulados-lista" id="simuladosLista" style="display: none;">
+                        <!-- SIMULADO 1 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 1 - Conceitos Básicos</span>
+                            <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
                         
-                        <!-- Botão menor para mostrar simulados -->
-                        <button class="show-simulados-btn" id="show-simulados-btn">
-                            <i class="fas fa-list"></i> Ver 11 Simulados
-                        </button>
+                        <!-- SIMULADO 2 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 2 - Dimensões do Serviço</span>
+                            <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
                         
-                        <!-- Lista dos Simulados ITIL 4 -->
-                        <div class="simulados-lista" id="simulados-lista">
-                            <!-- SIMULADO 1 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 1 - Conceitos Básicos</span>
-                                <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 2 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 2 - Dimensões do Serviço</span>
-                                <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 3 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 3 - Cadeia de Valor</span>
-                                <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 4 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 4 - Práticas Gerais</span>
-                                <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <!-- SIMULADO 5 - DISPONÍVEL -->
-                            <div class="simulado-item">
-                                <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
-                                <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 6 - Princípios Orientadores</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 7 - Melhoria Contínua</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 8 - Governança</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 9 - Modelos de Mudança</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 10 - Práticas Técnicas</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
-                            
-                            <div class="simulado-item">
-                                <span>⏳ Simulado 11 - Final Completo</span>
-                                <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                            </div>
+                        <!-- SIMULADO 3 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 3 - Cadeia de Valor</span>
+                            <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 4 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 4 - Práticas Gerais</span>
+                            <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 5 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
+                            <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 6 - Princípios Orientadores</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 7 - Melhoria Contínua</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 8 - Governança</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 9 - Modelos de Mudança</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 10 - Práticas Técnicas</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 11 - Final Completo</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
-                    </div>
                 </div>
+                <div class="card-footer">
+                    <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
+                </div>
+            </div>
+            
+            <!-- Outros simulados... -->
+        </div>
+    </div>
+</section>
+
+<script>
+// Função simples para mostrar/ocultar simulados
+function toggleSimulados() {
+    const lista = document.getElementById('simuladosLista');
+    const botao = document.querySelector('.show-simulados-btn');
+    
+    if (lista.style.display === 'none' || lista.style.display === '') {
+        lista.style.display = 'block';
+        lista.style.opacity = '1';
+        lista.style.transform = 'translateY(0)';
+        botao.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
+        botao.style.background = '#e74c3c';
+    } else {
+        lista.style.display = 'none';
+        botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
+        botao.style.background = '';
+    }
+}
+
+// Fechar lista ao clicar fora
+document.addEventListener('click', function(event) {
+    const lista = document.getElementById('simuladosLista');
+    const botao = document.querySelector('.show-simulados-btn');
+    const card = document.querySelector('.simulado-card');
+    
+    if (lista && lista.style.display === 'block') {
+        // Se clicou fora do card e fora da lista
+        if (!card.contains(event.target) && !lista.contains(event.target)) {
+            lista.style.display = 'none';
+            if (botao) {
+                botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
+                botao.style.background = '';
+            }
+        }
+    }
+});
+</script>
                                        
                 <div class="simulado-card">
                     <div class="card-header">
