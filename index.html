@@ -89,6 +89,8 @@
             border-radius: 4px;
             position: relative;
             overflow: hidden;
+            background-color: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         nav a::before {
@@ -107,9 +109,11 @@
         }
 
         nav a:hover, nav a.active {
-            background-color: rgba(255,255,255,0.15);
-            color: var(--secondary);
+            background-color: #3498db;
+            color: white;
             transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            border-color: #3498db;
         }
         
         .auth-buttons {
@@ -624,214 +628,237 @@
                 font-size: 1rem;
             }
         }
-                    
-        /* ========== CORREÇÃO DOS SIMULADOS ========== */
+
+        /* ========== NOVA LISTA DE SIMULADOS - MODAL OVERLAY ========== */
         
-        /* BOTÃO MENOR PARA VER SIMULADOS */
+        /* Botão "Ver todos os simulados" */
         .show-simulados-btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--secondary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            text-align: center;
-            margin: 10px 0;
-            width: 180px;
+            margin: 15px 0 5px 0;
+            width: 200px;
         }
-        
+
         .show-simulados-btn:hover {
             background: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
         }
-        
-        /* LISTA DE SIMULADOS - ESTILO CORRIGIDO */
-        .simulados-lista {
+
+        /* Modal overlay para lista de simulados */
+        .modal-simulados {
             display: none;
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 0;
             left: 0;
             right: 0;
-            margin-top: 10px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            z-index: 1000;
-            max-height: 400px;
-            overflow-y: auto;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
+            padding: 20px;
         }
-        
-        /* MOSTRAR LISTA QUANDO VISÍVEL */
-        .simulados-lista.visible {
-            display: block;
+
+        .modal-simulados.active {
+            display: flex;
             opacity: 1;
-            transform: translateY(0);
         }
-        
-        /* ANIMAÇÃO DE APARECIMENTO */
-        @keyframes slideDown {
+
+        /* Container interno da modal */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-15px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
-        /* GARANTIR QUE O CARD TENHA POSITION RELATIVE */
-        .simulado-card {
-            position: relative !important;
-        }
-        
-        /* MELHORIAS NA LISTA */
-        .simulado-item {
+
+        /* Cabeçalho da modal */
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
-        
-        .simulado-item:hover {
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-        
-        .simulado-item:last-child {
-            border-bottom: none;
-        }
-        
-        .simulado-item span:first-child {
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        
-        /* BOTÕES PEQUENOS */
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo da modal */
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Cada item da lista */
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        /* Ícones de status */
+        .status-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .status-disponivel {
+            color: #27ae60;
+        }
+
+        .status-em-breve {
+            color: #f39c12;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Botões na modal */
         .btn-sm {
-            padding: 6px 16px !important;
-            font-size: 0.85em !important;
-            border-radius: 4px !important;
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border-radius: 4px;
             min-width: 80px;
             text-align: center;
+            transition: all 0.3s;
         }
-        
-        /* RESPONSIVIDADE */
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Rodapé da modal */
+        .modal-footer {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Scrollbar customizada */
+        .modal-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 0 12px 0;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+
+        /* Responsividade da modal */
         @media (max-width: 768px) {
-            .simulados-lista {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) !important;
-                width: 90vw;
-                max-height: 70vh;
-                z-index: 9999;
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
             }
             
-            .simulados-lista.visible {
-                animation: fadeInMobile 0.3s ease;
+            .modal-body {
+                padding: 15px;
             }
             
-            @keyframes fadeInMobile {
-                from {
-                    opacity: 0;
-                    transform: translate(-50%, -40%) !important;
-                }
-                to {
-                    opacity: 1;
-                    transform: translate(-50%, -50%) !important;
-                }
+            .simulado-item-modal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn-sm {
+                align-self: flex-end;
             }
         }
-        /* Estilo do botão menor */
-.show-simulados-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin: 10px 0;
-    width: 180px;
-}
-
-.show-simulados-btn:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.show-simulados-btn i {
-    margin-right: 5px;
-}
-
-/* Estilo da lista de simulados */
-.simulados-lista {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 10px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    z-index: 1000;
-    max-height: 400px;
-    overflow-y: auto;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-}
-
-/* Quando a lista está visível */
-.simulados-lista[style*="display: block"] {
-    opacity: 1;
-    transform: translateY(0);
-    animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .simulados-lista {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 90vw;
-        max-height: 70vh;
-    }
-}
     </style>
 </head>
 <body>
@@ -1290,146 +1317,41 @@
     </section>
 
     <!-- Simulados Content -->
-<section id="simulados" class="main-content">
-    <div class="container">
-        <div class="section-title">
-            <h2>Simulados</h2>
-            <p>Teste seus conhecimentos e acompanhe seu progresso</p>
-        </div>
+    <section id="simulados" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simulados</h2>
+                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+            </div>
 
-        <div class="upload-area">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <h3>Compartilhe Seu Simulado</h3>
-            <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-            <a href="#" class="btn btn-primary">Upload de Arquivo</a>
-        </div>
+            <div class="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Compartilhe Seu Simulado</h3>
+                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+            </div>
 
-        <div class="simulados-container">
-            <!-- ITIL 4 Foundation - COM FUNCIONALIDADE SIMPLES -->
-            <div class="simulado-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                </div>
-                <div class="card-body">
-                    <span class="simulado-badge">11 Simulados Disponíveis</span>
-                    <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                    
-                    <!-- Botão para mostrar simulados -->
-                    <button class="show-simulados-btn" onclick="toggleSimulados()">
-                        <i class="fas fa-list"></i> Ver 11 Simulados
-                    </button>
-                    
-                    <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
-                    <div class="simulados-lista" id="simuladosLista" style="display: none;">
-                        <!-- SIMULADO 1 - DISPONÍVEL -->
-                        <div class="simulado-item">
-                            <span>✅ Simulado 1 - Conceitos Básicos</span>
-                            <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                        </div>
+            <div class="simulados-container">
+                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">11 Simulados Disponíveis</span>
+                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
                         
-                        <!-- SIMULADO 2 - DISPONÍVEL -->
-                        <div class="simulado-item">
-                            <span>✅ Simulado 2 - Dimensões do Serviço</span>
-                            <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                        </div>
-                        
-                        <!-- SIMULADO 3 - DISPONÍVEL -->
-                        <div class="simulado-item">
-                            <span>✅ Simulado 3 - Cadeia de Valor</span>
-                            <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                        </div>
-                        
-                        <!-- SIMULADO 4 - DISPONÍVEL -->
-                        <div class="simulado-item">
-                            <span>✅ Simulado 4 - Práticas Gerais</span>
-                            <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                        </div>
-                        
-                        <!-- SIMULADO 5 - DISPONÍVEL -->
-                        <div class="simulado-item">
-                            <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
-                            <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 6 - Princípios Orientadores</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 7 - Melhoria Contínua</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 8 - Governança</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 9 - Modelos de Mudança</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 10 - Práticas Técnicas</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
-                        
-                        <div class="simulado-item">
-                            <span>⏳ Simulado 11 - Final Completo</span>
-                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                        </div>
+                        <!-- Botão para mostrar simulados -->
+                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
+                            <i class="fas fa-list"></i> Ver 11 Simulados
+                        </button>
+                    </div>
+                    <div class="card-footer">
+                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
-                </div>
-            </div>
-            
-            <!-- Outros simulados... -->
-        </div>
-    </div>
-</section>
-
-<script>
-// Função simples para mostrar/ocultar simulados
-function toggleSimulados() {
-    const lista = document.getElementById('simuladosLista');
-    const botao = document.querySelector('.show-simulados-btn');
-    
-    if (lista.style.display === 'none' || lista.style.display === '') {
-        lista.style.display = 'block';
-        lista.style.opacity = '1';
-        lista.style.transform = 'translateY(0)';
-        botao.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
-        botao.style.background = '#e74c3c';
-    } else {
-        lista.style.display = 'none';
-        botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
-        botao.style.background = '';
-    }
-}
-
-// Fechar lista ao clicar fora
-document.addEventListener('click', function(event) {
-    const lista = document.getElementById('simuladosLista');
-    const botao = document.querySelector('.show-simulados-btn');
-    const card = document.querySelector('.simulado-card');
-    
-    if (lista && lista.style.display === 'block') {
-        // Se clicou fora do card e fora da lista
-        if (!card.contains(event.target) && !lista.contains(event.target)) {
-            lista.style.display = 'none';
-            if (botao) {
-                botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
-                botao.style.background = '';
-            }
-        }
-    }
-});
-</script>
-                                       
+                
+                <!-- LPIC-1 -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-server"></i> LPIC-1</h3>
@@ -1444,6 +1366,7 @@ document.addEventListener('click', function(event) {
                     </div>
                 </div>
 
+                <!-- Security+ -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-shield-alt"></i> Security+</h3>
@@ -1458,6 +1381,7 @@ document.addEventListener('click', function(event) {
                     </div>
                 </div>
 
+                <!-- AWS Cloud Practitioner -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
@@ -1472,6 +1396,7 @@ document.addEventListener('click', function(event) {
                     </div>
                 </div>
 
+                <!-- Adicionar Simulado -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
@@ -1486,6 +1411,122 @@ document.addEventListener('click', function(event) {
             </div>
         </div>
     </section>
+
+    <!-- Modal da Lista de Simulados -->
+    <div id="modalSimulados" class="modal-simulados">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> Simulados ITIL 4 Foundation</h3>
+                <button class="fechar-modal" onclick="fecharModalSimulados()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- SIMULADO 1 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
+                    </div>
+                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 2 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 3 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
+                    </div>
+                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 4 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
+                    </div>
+                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 5 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 6 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 7 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 8 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 8 - Governança</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 9 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 10 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 11 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <div><strong>5 de 11</strong> simulados disponíveis</div>
+                <div><strong>120</strong> questões no total</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1577,34 +1618,32 @@ document.addEventListener('click', function(event) {
                     alert('Funcionalidade de upload será implementada em breve!');
                 });
             }
-            
-            // ========== SIMULADOS ITIL 4 - FUNCIONALIDADE SIMPLES ==========
-            const showSimuladosBtn = document.getElementById('show-simulados-btn');
-            const simuladosLista = document.getElementById('simulados-lista');
-            const itil4Card = document.getElementById('itil4-card');
-            
-            if (showSimuladosBtn && simuladosLista) {
-                // Mostrar/ocultar lista ao clicar no botão
-                showSimuladosBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    simuladosLista.classList.toggle('visible');
-                });
-                
-                // Fechar lista ao clicar fora
-                document.addEventListener('click', function(e) {
-                    if (!itil4Card.contains(e.target) && !simuladosLista.contains(e.target)) {
-                        simuladosLista.classList.remove('visible');
-                    }
-                });
-                
-                // Para mobile: fechar ao rolar
-                window.addEventListener('scroll', function() {
-                    if (window.innerWidth <= 768) {
-                        simuladosLista.classList.remove('visible');
-                    }
-                });
-                
-                console.log('✅ Sistema de simulados configurado!');
+        });
+
+        // Funções para abrir/fechar a modal de simulados
+        function abrirModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal ao clicar fora do container
+        document.getElementById('modalSimulados').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModalSimulados();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalSimulados();
             }
         });
     </script>
