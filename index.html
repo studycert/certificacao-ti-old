@@ -1381,6 +1381,21 @@ nav a:hover, nav a.active {
             }
         });
     </script>
+    <script>
+function toggleSimulados(tipo) {
+    const lista = document.getElementById(`lista-${tipo}`);
+    const botao = document.getElementById(`btn-${tipo}`);
     
+    if (lista.style.display === 'none') {
+        lista.style.display = 'block';
+        botao.innerHTML = '📁 Ocultar Simulados';
+        botao.classList.add('btn-primary');
+    } else {
+        lista.style.display = 'none';
+        botao.innerHTML = '📋 Ver Todos os 11 Simulados';
+        botao.classList.remove('btn-primary');
+    }
+}
+</script>
 </body>
 </html>
