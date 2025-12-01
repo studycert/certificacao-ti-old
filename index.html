@@ -1361,6 +1361,9 @@ nav a:hover, nav a.active {
         });
     </script>
     <script>
+// CÓDIGO CORRETO - SUBSTITUA TODO O SCRIPT
+    </script>
+    <script>
 function toggleSimulados(tipo) {
     const lista = document.getElementById(`lista-${tipo}`);
     const botao = document.getElementById(`btn-${tipo}`);
@@ -1375,14 +1378,8 @@ function toggleSimulados(tipo) {
         botao.classList.remove('btn-primary');
     }
 }
-        } else {
-        lista.style.display = 'none';
-        botao.innerHTML = '📋 Ver Todos os 11 Simulados';
-        botao.classList.remove('btn-primary');
-    }
-}
 
-// FUNÇÕES PARA HOVER - ADICIONE AQUI
+// FUNÇÕES PARA HOVER
 function mostrarSimulados() {
     const lista = document.getElementById('lista-itil4');
     const botao = document.getElementById('btn-itil4');
@@ -1407,30 +1404,14 @@ function ocultarSimulados() {
     }
 }
 
-// OU alternativa com hover puro via CSS
+// Configura hover automático
 document.addEventListener('DOMContentLoaded', function() {
     const botao = document.getElementById('btn-itil4');
-    const card = document.querySelector('.simulado-card');
     
-    if (botao && card) {
-        // Hover no botão
-        botao.addEventListener('mouseenter', function() {
-            const lista = document.getElementById('lista-itil4');
-            if (lista) {
-                lista.style.display = 'block';
-                this.innerHTML = '📁 Simulados Visíveis';
-                this.classList.add('btn-primary');
-            }
-        });
-        
-        botao.addEventListener('mouseleave', function() {
-            const lista = document.getElementById('lista-itil4');
-            if (lista) {
-                lista.style.display = 'none';
-                this.innerHTML = '📋 Ver Todos os 11 Simulados';
-                this.classList.remove('btn-primary');
-            }
-        });
+    if (botao) {
+        // Adiciona eventos de hover
+        botao.addEventListener('mouseenter', mostrarSimulados);
+        botao.addEventListener('mouseleave', ocultarSimulados);
     }
 });
 </script>
