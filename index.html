@@ -87,11 +87,29 @@
             transition: all 0.3s;
             padding: 0.5rem 1rem;
             border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
         }
 
         nav a:hover, nav a.active {
             background-color: rgba(255,255,255,0.15);
             color: var(--secondary);
+            transform: translateY(-1px);
         }
         
         .auth-buttons {
@@ -122,6 +140,16 @@
             color: white;
         }
 
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
         .btn-outline:hover {
             background: white;
             color: var(--primary);
@@ -129,6 +157,14 @@
 
         .btn-primary:hover {
             background: #2980b9;
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
         }
 
         /* Hero Section */
@@ -193,6 +229,12 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .card-header {
@@ -211,6 +253,158 @@
             border-top: 1px solid #eee;
         }
 
+        /* Forum */
+        .forum-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .forum-categories {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .forum-categories h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-count {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .forum-posts {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .post-title:hover {
+            color: var(--secondary);
+        }
+
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .new-post-btn {
+            display: block;
+            margin: 2rem auto;
+            width: 200px;
+        }
+
+        /* Study Materials */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .material-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .material-content {
+            padding: 1.5rem;
+        }
+
+        .material-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .material-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
         /* Simulados */
         .simulados-container {
             display: grid;
@@ -223,7 +417,12 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
             position: relative;
+        }
+
+        .simulado-card:hover {
+            transform: translateY(-5px);
         }
 
         .simulado-badge {
@@ -244,6 +443,80 @@
             padding: 3rem 2rem;
             text-align: center;
             margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certifications Grid */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .cert-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-level {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         /* Footer */
@@ -260,137 +533,305 @@
             margin-bottom: 2rem;
         }
 
-        /* ESTILOS DOS SIMULADOS ITIL 4 - RESPONSIVO */
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+                    
+        /* ========== CORREÇÃO DOS SIMULADOS ========== */
+        
+        /* BOTÃO MENOR PARA VER SIMULADOS */
         .show-simulados-btn {
             display: inline-block;
-            padding: 8px 16px;
-            background: #3498db;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
             color: white;
             border: none;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
             margin: 10px 0;
             width: 180px;
         }
-
+        
         .show-simulados-btn:hover {
             background: #2980b9;
+            transform: translateY(-2px);
         }
-
-        .show-simulados-btn.active {
-            background: #e74c3c;
-        }
-
-        /* CONTAINER DA LISTA - RESPONSIVO */
-        .simulados-lista-container {
-            display: none;
-            position: relative;
-            margin-top: 15px;
-            z-index: 100;
-        }
-
-        .simulados-lista-container.visible {
-            display: block;
-        }
-
+        
+        /* LISTA DE SIMULADOS - ESTILO CORRIGIDO */
         .simulados-lista {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 10px;
             background: white;
-            border-radius: 8px;
             border: 1px solid #ddd;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
             max-height: 400px;
             overflow-y: auto;
-            padding: 15px;
-            position: relative;
-            width: 100%;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
         }
-
-        /* PARA DISPOSITIVOS PEQUENOS E TABLETS */
-        @media (max-width: 1024px) {
-            .simulados-lista-container {
-                position: relative;
-            }
-            
-            .simulados-lista {
-                position: static;
-                width: 100%;
-                max-height: 350px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            }
+        
+        /* MOSTRAR LISTA QUANDO VISÍVEL */
+        .simulados-lista.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        /* PARA CELULARES */
-        @media (max-width: 768px) {
-            .simulados-lista-container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                margin: 0;
-                padding: 20px;
+        
+        /* ANIMAÇÃO DE APARECIMENTO */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
             }
-            
-            .simulados-lista-container.visible {
-                display: flex;
-            }
-            
-            .simulados-lista {
-                position: relative;
-                width: 100%;
-                max-width: 500px;
-                max-height: 80vh;
-                margin: auto;
-                animation: fadeIn 0.3s ease;
-            }
-            
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(-20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            .close-modal-btn {
-                display: block;
-                margin: 15px auto 0;
-                padding: 8px 16px;
-                background: #e74c3c;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                font-weight: 600;
-                cursor: pointer;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-
+        
+        /* GARANTIR QUE O CARD TENHA POSITION RELATIVE */
+        .simulado-card {
+            position: relative !important;
+        }
+        
+        /* MELHORIAS NA LISTA */
         .simulado-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
         }
-
+        
+        .simulado-item:hover {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        
         .simulado-item:last-child {
             border-bottom: none;
         }
-
-        .btn-sm {
-            padding: 4px 12px;
-            font-size: 0.85em;
+        
+        .simulado-item span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        
+        /* BOTÕES PEQUENOS */
+        .btn-sm {
+            padding: 6px 16px !important;
+            font-size: 0.85em !important;
+            border-radius: 4px !important;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .simulados-lista {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) !important;
+                width: 90vw;
+                max-height: 70vh;
+                z-index: 9999;
+            }
+            
+            .simulados-lista.visible {
+                animation: fadeInMobile 0.3s ease;
+            }
+            
+            @keyframes fadeInMobile {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -40%) !important;
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) !important;
+                }
+            }
+        }
+        /* Estilo do botão menor */
+.show-simulados-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 10px 0;
+    width: 180px;
+}
+
+.show-simulados-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.show-simulados-btn i {
+    margin-right: 5px;
+}
+
+/* Estilo da lista de simulados */
+.simulados-lista {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+/* Quando a lista está visível */
+.simulados-lista[style*="display: block"] {
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .simulados-lista {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-height: 70vh;
+    }
+}
     </style>
 </head>
 <body>
@@ -473,113 +914,521 @@
                     </div>
                 </div>
             </div>
+
+            <div class="section-title">
+                <h2>Certificações em Destaque</h2>
+                <p>As certificações mais relevantes do mercado de TI</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Fundamentals</h3>
+                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Cloud Practitioner</h3>
+                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Security+</h3>
+                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Foundation</h3>
+                        <p>Framework de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Simulados Content - VERSÃO RESPONSIVA -->
-    <section id="simulados" class="main-content">
+    <!-- Certificações Content -->
+    <section id="certificacoes" class="main-content">
         <div class="container">
             <div class="section-title">
-                <h2>Simulados</h2>
-                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+                <h2>Nossas Certificações</h2>
+                <p>Prepare-se para as certificações mais demandadas do mercado</p>
             </div>
 
-            <div class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Compartilhe Seu Simulado</h3>
-                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
-            </div>
-
-            <div class="simulados-container">
-                <!-- ITIL 4 Foundation - VERSÃO RESPONSIVA -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
                     </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                        
-                        <!-- Botão para mostrar simulados -->
-                        <button class="show-simulados-btn" id="showSimuladosBtn">
-                            <i class="fas fa-list"></i> Ver 11 Simulados
-                        </button>
-                        
-                        <!-- Container da lista (inicialmente oculto) -->
-                        <div class="simulados-lista-container" id="simuladosListaContainer">
-                            <div class="simulados-lista">
-                                <!-- SIMULADO 1 - DISPONÍVEL -->
-                                <div class="simulado-item">
-                                    <span>✅ Simulado 1 - Conceitos Básicos</span>
-                                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                                </div>
-                                
-                                <!-- SIMULADO 2 - DISPONÍVEL -->
-                                <div class="simulado-item">
-                                    <span>✅ Simulado 2 - Dimensões do Serviço</span>
-                                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                                </div>
-                                
-                                <!-- SIMULADO 3 - DISPONÍVEL -->
-                                <div class="simulado-item">
-                                    <span>✅ Simulado 3 - Cadeia de Valor</span>
-                                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                                </div>
-                                
-                                <!-- SIMULADO 4 - DISPONÍVEL -->
-                                <div class="simulado-item">
-                                    <span>✅ Simulado 4 - Práticas Gerais</span>
-                                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                                </div>
-                                
-                                <!-- SIMULADO 5 - DISPONÍVEL -->
-                                <div class="simulado-item">
-                                    <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
-                                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 6 - Princípios Orientadores</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 7 - Melhoria Contínua</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 8 - Governança</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 9 - Modelos de Mudança</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 10 - Práticas Técnicas</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <div class="simulado-item">
-                                    <span>⏳ Simulado 11 - Final Completo</span>
-                                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
-                                </div>
-                                
-                                <!-- Botão para fechar no mobile -->
-                                <button class="close-modal-btn" id="closeModalBtn" style="display: none;">
-                                    <i class="fas fa-times"></i> Fechar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Administrator</h3>
+                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Solutions Architect</h3>
+                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Cybersecurity Analyst</h3>
+                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Specialist</h3>
+                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-1</h3>
+                        <p>Certificação Linux Professional Institute - Nível 1.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-2</h3>
+                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Rede</span>
+                        <h3>CCNA</h3>
+                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Dados</span>
+                        <h3>Data Fundamentals</h3>
+                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum Content -->
+    <section id="forum" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fórum de Discussão</h2>
+                <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
+            </div>
+
+            <div class="forum-container">
+                <div class="forum-categories">
+                    <h3>Categorias</h3>
+                    <ul class="category-list">
+                        <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
+                        <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
+                        <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
+                        <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
+                        <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
+                        <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="forum-posts">
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
+                            <div class="post-meta">por João Silva • 2 horas atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 7 respostas</span>
+                            <span><i class="far fa-eye"></i> 42 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
+                            <div class="post-meta">por Maria Santos • 1 dia atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 12 respostas</span>
+                            <span><i class="far fa-eye"></i> 87 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Experiência com exame Security+</a>
+                            <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 23 respostas</span>
+                            <span><i class="far fa-eye"></i> 156 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Diferença entre LPIC-1 e LPIC-2</a>
+                            <div class="post-meta">por Ana Costa • 5 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou com dificuldades para entender a diferença entre o conteúdo da LPIC-1 e LPIC-2. Alguém pode explicar os principais tópicos de cada uma?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 9 respostas</span>
+                            <span><i class="far fa-eye"></i> 74 visualizações</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-primary new-post-btn">Nova Discussão</a>
+        </div>
+    </section>
+
+    <!-- Study Materials Content -->
+    <section id="materiais" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Material de Estudo</h2>
+                <p>Recursos selecionados para sua preparação</p>
+            </div>
+
+            <div class="materials-grid">
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Microsoft Azure</h3>
+                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Amazon AWS</h3>
+                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>LPIC-1 e LPIC-2</h3>
+                        <p>Recursos para certificações Linux Professional Institute.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>ITIL 4</h3>
+                        <p>Guias, resumos e material para certificação ITIL.</p>
+                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Security+</h3>
+                        <p>Material para preparação da certificação CompTIA Security+.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>CCNA</h3>
+                        <p>Recursos para Cisco Certified Network Associate.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 4rem;">
+                <h2>Videoaulas</h2>
+                <p>Aprenda com instrutores especializados</p>
+            </div>
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
+                        <p><strong>Duração:</strong> 6 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
+                        <p><strong>Duração:</strong> 5 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Preparação completa para o exame CompTIA Security+.</p>
+                        <p><strong>Duração:</strong> 12 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulados Content -->
+<section id="simulados" class="main-content">
+    <div class="container">
+        <div class="section-title">
+            <h2>Simulados</h2>
+            <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+        </div>
+
+        <div class="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Compartilhe Seu Simulado</h3>
+            <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+            <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+        </div>
+
+        <div class="simulados-container">
+            <!-- ITIL 4 Foundation - COM FUNCIONALIDADE SIMPLES -->
+            <div class="simulado-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+                </div>
+                <div class="card-body">
+                    <span class="simulado-badge">11 Simulados Disponíveis</span>
+                    <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                    
+                    <!-- Botão para mostrar simulados -->
+                    <button class="show-simulados-btn" onclick="toggleSimulados()">
+                        <i class="fas fa-list"></i> Ver 11 Simulados
+                    </button>
+                    
+                    <!-- Lista dos Simulados ITIL 4 (inicialmente oculta) -->
+                    <div class="simulados-lista" id="simuladosLista" style="display: none;">
+                        <!-- SIMULADO 1 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 1 - Conceitos Básicos</span>
+                            <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 2 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 2 - Dimensões do Serviço</span>
+                            <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 3 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 3 - Cadeia de Valor</span>
+                            <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 4 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 4 - Práticas Gerais</span>
+                            <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <!-- SIMULADO 5 - DISPONÍVEL -->
+                        <div class="simulado-item">
+                            <span>✅ Simulado 5 - Gerenciamento de Serviço</span>
+                            <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 6 - Princípios Orientadores</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 7 - Melhoria Contínua</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 8 - Governança</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 9 - Modelos de Mudança</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 10 - Práticas Técnicas</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                        
+                        <div class="simulado-item">
+                            <span>⏳ Simulado 11 - Final Completo</span>
+                            <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
+                </div>
+            </div>
+            
+            <!-- Outros simulados... -->
+        </div>
+    </div>
+</section>
+
+<script>
+// Função simples para mostrar/ocultar simulados
+function toggleSimulados() {
+    const lista = document.getElementById('simuladosLista');
+    const botao = document.querySelector('.show-simulados-btn');
+    
+    if (lista.style.display === 'none' || lista.style.display === '') {
+        lista.style.display = 'block';
+        lista.style.opacity = '1';
+        lista.style.transform = 'translateY(0)';
+        botao.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
+        botao.style.background = '#e74c3c';
+    } else {
+        lista.style.display = 'none';
+        botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
+        botao.style.background = '';
+    }
+}
+
+// Fechar lista ao clicar fora
+document.addEventListener('click', function(event) {
+    const lista = document.getElementById('simuladosLista');
+    const botao = document.querySelector('.show-simulados-btn');
+    const card = document.querySelector('.simulado-card');
+    
+    if (lista && lista.style.display === 'block') {
+        // Se clicou fora do card e fora da lista
+        if (!card.contains(event.target) && !lista.contains(event.target)) {
+            lista.style.display = 'none';
+            if (botao) {
+                botao.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
+                botao.style.background = '';
+            }
+        }
+    }
+});
+</script>
                                        
                 <div class="simulado-card">
                     <div class="card-header">
@@ -622,6 +1471,18 @@
                         <a href="#" class="btn btn-primary">Iniciar Simulado</a>
                     </div>
                 </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline">Upload</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -633,6 +1494,12 @@
                 <div class="footer-column">
                     <h3>StudyCert</h3>
                     <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
 
                 <div class="footer-column">
@@ -643,6 +1510,26 @@
                         <li><a href="#" data-target="forum">Fórum</a></li>
                         <li><a href="#" data-target="materiais">Material de Estudo</a></li>
                         <li><a href="#" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Certificações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Microsoft Azure</a></li>
+                        <li><a href="#">AWS</a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
+                        <li><a href="#">ITIL 4</a></li>
+                        <li><a href="#">Security+</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
                     </ul>
                 </div>
             </div>
@@ -691,106 +1578,33 @@
                 });
             }
             
-            // Controle dos simulados ITIL 4 - VERSÃO RESPONSIVA
-            const showSimuladosBtn = document.getElementById('showSimuladosBtn');
-            const simuladosListaContainer = document.getElementById('simuladosListaContainer');
-            const closeModalBtn = document.getElementById('closeModalBtn');
+            // ========== SIMULADOS ITIL 4 - FUNCIONALIDADE SIMPLES ==========
+            const showSimuladosBtn = document.getElementById('show-simulados-btn');
+            const simuladosLista = document.getElementById('simulados-lista');
+            const itil4Card = document.getElementById('itil4-card');
             
-            if (showSimuladosBtn && simuladosListaContainer) {
-                // Mostrar/ocultar lista ao clicar no botão principal
+            if (showSimuladosBtn && simuladosLista) {
+                // Mostrar/ocultar lista ao clicar no botão
                 showSimuladosBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
                     e.stopPropagation();
-                    
-                    if (simuladosListaContainer.classList.contains('visible')) {
-                        closeLista();
-                    } else {
-                        openLista();
+                    simuladosLista.classList.toggle('visible');
+                });
+                
+                // Fechar lista ao clicar fora
+                document.addEventListener('click', function(e) {
+                    if (!itil4Card.contains(e.target) && !simuladosLista.contains(e.target)) {
+                        simuladosLista.classList.remove('visible');
                     }
                 });
                 
-                // Fechar lista ao clicar no botão de fechar (mobile)
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        closeLista();
-                    });
-                }
-                
-                // Fechar lista ao clicar fora (para desktop)
-                document.addEventListener('click', function(event) {
-                    const isMobile = window.innerWidth <= 768;
-                    
-                    // No desktop, fecha ao clicar fora
-                    if (!isMobile && simuladosListaContainer.classList.contains('visible')) {
-                        if (!showSimuladosBtn.contains(event.target) && 
-                            !simuladosListaContainer.contains(event.target)) {
-                            closeLista();
-                        }
-                    }
-                    
-                    // No mobile, fecha ao clicar no overlay escuro
-                    if (isMobile && simuladosListaContainer.classList.contains('visible')) {
-                        if (event.target === simuladosListaContainer) {
-                            closeLista();
-                        }
-                    }
-                });
-                
-                // Fechar com ESC
-                document.addEventListener('keydown', function(event) {
-                    if (event.key === 'Escape' && simuladosListaContainer.classList.contains('visible')) {
-                        closeLista();
-                    }
-                });
-                
-                // Ajustar visibilidade do botão de fechar baseado no tamanho da tela
-                function updateCloseButton() {
-                    const isMobile = window.innerWidth <= 768;
-                    if (closeModalBtn) {
-                        closeModalBtn.style.display = isMobile ? 'block' : 'none';
-                    }
-                }
-                
-                // Verificar quando a janela é redimensionada
-                window.addEventListener('resize', function() {
-                    updateCloseButton();
-                    // Se a lista estiver aberta e mudar para mobile, ajustar
-                    if (simuladosListaContainer.classList.contains('visible')) {
-                        // Forçar reflow para ajustar posicionamento
-                        simuladosListaContainer.style.display = 'none';
-                        setTimeout(() => {
-                            if (simuladosListaContainer.classList.contains('visible')) {
-                                simuladosListaContainer.style.display = window.innerWidth <= 768 ? 'flex' : 'block';
-                            }
-                        }, 10);
-                    }
-                });
-                
-                // Inicializar
-                updateCloseButton();
-                
-                // Funções para abrir/fechar lista
-                function openLista() {
-                    simuladosListaContainer.classList.add('visible');
-                    showSimuladosBtn.innerHTML = '<i class="fas fa-times"></i> Fechar Lista';
-                    showSimuladosBtn.classList.add('active');
-                    
-                    // Ajustar display baseado no dispositivo
+                // Para mobile: fechar ao rolar
+                window.addEventListener('scroll', function() {
                     if (window.innerWidth <= 768) {
-                        simuladosListaContainer.style.display = 'flex';
-                    } else {
-                        simuladosListaContainer.style.display = 'block';
+                        simuladosLista.classList.remove('visible');
                     }
-                }
+                });
                 
-                function closeLista() {
-                    simuladosListaContainer.classList.remove('visible');
-                    showSimuladosBtn.innerHTML = '<i class="fas fa-list"></i> Ver 11 Simulados';
-                    showSimuladosBtn.classList.remove('active');
-                    simuladosListaContainer.style.display = 'none';
-                }
+                console.log('✅ Sistema de simulados configurado!');
             }
         });
     </script>
