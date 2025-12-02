@@ -6,60 +6,14 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-     /* NAVEGAÇÃO - BOTÕES SEM BORDA */
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    background-color: transparent; /* Sem fundo */
-}
-
-nav a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.5s;
-}
-
-nav a:hover::before {
-    left: 100%;
-}
-
+     /* CORREÇÃO: Garantir que apenas o botão com hover mude */
 nav a:hover {
-    color: #2ecc71 !important; /* Verde claro no hover */
-    transform: translateY(-1px);
+    color: #2ecc71 !important;
 }
 
-nav a.active {
-    background-color: rgba(52, 152, 219, 0.2) !important; /* Azul piscina transparente */
-    backdrop-filter: blur(5px);
-    color: #2ecc71 !important; /* Verde claro para o texto quando ATIVO */
-    border: none !important; /* Sem borda */
-    animation: pulseActive 0.3s ease;
-}
-
-@keyframes pulseActive {
-    0% {
-        background-color: transparent;
-    }
-    100% {
-        background-color: rgba(52, 152, 219, 0.2);
-    }
+/* Garantir que links sem hover permaneçam brancos */
+nav ul li a:not(:hover):not(.active) {
+    color: white !important;
 }
         * {
             margin: 0;
