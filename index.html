@@ -6,7 +6,7 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-       /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+     /* NAVEGAÇÃO - BOTÕES SEM BORDA */
 nav ul {
     display: flex;
     list-style: none;
@@ -41,14 +41,14 @@ nav a:hover::before {
 }
 
 nav a:hover {
-    color: var(--secondary);
+    color: #2ecc71 !important; /* Verde claro no hover */
     transform: translateY(-1px);
 }
 
 nav a.active {
     background-color: rgba(52, 152, 219, 0.2) !important; /* Azul piscina transparente */
     backdrop-filter: blur(5px);
-    color: #2ecc71 !important; /* Verde claro para o texto */
+    color: #2ecc71 !important; /* Verde claro para o texto quando ATIVO */
     border: none !important; /* Sem borda */
     animation: pulseActive 0.3s ease;
 }
