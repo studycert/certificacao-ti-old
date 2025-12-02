@@ -6,6 +6,35 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Botão ativo na navegação */
+nav a.active {
+    background-color: rgba(52, 152, 219, 0.2) !important; /* Azul piscina transparente */
+    backdrop-filter: blur(5px);
+    color: #3498db !important; /* Azul piscina para o texto */
+    border: none !important; /* Sem borda */
+    animation: pulseActive 0.3s ease;
+}
+
+@keyframes pulseActive {
+    0% {
+        background-color: transparent;
+    }
+    100% {
+        background-color: rgba(52, 152, 219, 0.2);
+    }
+}
+
+/* Efeito adicional para o botão ativo - remove qualquer borda residual */
+nav a {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Garantir que o hover também funcione corretamente */
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none !important;
+}
         * {
             margin: 0;
             padding: 0;
