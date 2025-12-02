@@ -6,37 +6,6 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
- /* Botão ativo na navegação - Estilo igual ao botão Cadastrar */
-nav a.active {
-    background-color: #3498db !important; /* Azul esverdeado */
-    color: white !important; /* Fonte branca */
-    border: none !important; /* Sem borda */
-    box-shadow: 0 4px 8px rgba(26, 188, 156, 0.3); /* Sombra azul esverdeada */
-    backdrop-filter: none; /* Remove o blur */
-    animation: pulseActive 0.3s ease;
-}
-
-@keyframes pulseActive {
-    0% {
-        background-color: transparent;
-    }
-    100% {
-        background-color: rgba(52, 152, 219, 0.2);
-    }
-}
-
-/* Efeito adicional para o botão ativo - remove qualquer borda residual */
-nav a {
-    border: none !important;
-    outline: none !important;
-}
-
-/* Garantir que o hover também funcione corretamente */
-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: none !important;
-}
-
         * {
             margin: 0;
             padding: 0;
@@ -105,7 +74,7 @@ nav a:hover {
             color: var(--secondary);
         }
 
-        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+        /* NAVEGAÇÃO CORRIGIDA */
         nav ul {
             display: flex;
             list-style: none;
@@ -121,7 +90,7 @@ nav a:hover {
             border-radius: 4px;
             position: relative;
             overflow: hidden;
-            background-color: transparent; /* Sem fundo */
+            background-color: transparent;
         }
 
         nav a::before {
@@ -139,14 +108,25 @@ nav a:hover {
             left: 100%;
         }
 
+        /* ESTADOS DOS BOTÕES CORRIGIDOS */
         nav a:hover {
-    color: var(--secondary);
-    transform: translateY(-1px);
-}
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
 
-nav a.active:hover {
-    color: white !important; /* Mantém branco quando ativo e com hover */
-}
+        /* BOTÃO ATIVO - ESTILO CORRETO */
+        nav a.active {
+            background-color: var(--secondary) !important;
+            color: white !important;
+            border: none !important;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Hover no botão ativo permanece branco */
+        nav a.active:hover {
+            color: white !important;
+            background-color: var(--secondary) !important;
+        }
         
         .auth-buttons {
             display: flex;
@@ -890,31 +870,6 @@ nav a.active:hover {
                 align-self: flex-end;
             }
         }
-        /* CORREÇÃO: Forçar estado ativo a ter cores corretas */
-nav ul li a.active {
-    background-color: #3498db !important;
-    color: white !important;
-}
-
-/* Garantir que ao passar mouse no botão ativo, ele permaneça branco */
-nav ul li a.active:hover {
-    color: white !important !important;
-    background-color: #3498db !important;
-}
-
-/* Resetar qualquer estilo de :active (pressionado) errado */
-nav ul li a:active:not(.active) {
-    color: var(--secondary) !important;
-    background-color: transparent !important;
-}
-
-/* Especificidade máxima para corrigir o problema */
-header nav ul li a.active {
-    background-color: #3498db !important;
-    color: white !important;
-    border: none !important;
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3) !important;
-}
     </style>
 </head>
 <body>
@@ -1638,32 +1593,59 @@ header nav ul li a.active {
     </footer>
 
     <script>
-        // Navigation between sections
+        // Navigation between sections - CÓDIGO CORRIGIDO
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const footerLinks = document.querySelectorAll('.footer-links a[data-target]');
+            const btnLinks = document.querySelectorAll('.btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
+            // Função para ativar uma seção
+            function activateSection(targetId) {
+                // Ativar/desativar conteúdos
+                mainContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === targetId) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // Ativar/desativar apenas os links de navegação
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-target') === targetId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Scroll suave para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // Eventos para links da navegação
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
                     const targetId = this.getAttribute('data-target');
-                    
-                    // Update active nav link - APENAS links da navegação principal
-const allNavLinks = document.querySelectorAll('.nav-link');
-allNavLinks.forEach(nav => nav.classList.remove('active'));
-this.classList.add('active');
-                    
-                    // Show target section
-                    mainContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === targetId) {
-                            content.classList.add('active');
-                        }
-                    });
-                    
-                    // Scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    activateSection(targetId);
+                });
+            });
+            
+            // Eventos para links do footer (não alteram a navegação superior)
+            footerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    activateSection(targetId);
+                });
+            });
+            
+            // Eventos para botões com data-target
+            btnLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    activateSection(targetId);
                 });
             });
             
