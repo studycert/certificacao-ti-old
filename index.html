@@ -139,10 +139,14 @@ nav a:hover {
             left: 100%;
         }
 
-        nav a:hover, nav a.active {
-            color: var(--secondary);
-            transform: translateY(-1px);
-        }
+        nav a:hover {
+    color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+nav a.active:hover {
+    color: white !important; /* Mantém branco quando ativo e com hover */
+}
         
         .auth-buttons {
             display: flex;
