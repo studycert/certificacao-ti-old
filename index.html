@@ -37,7 +37,7 @@
             padding: 0 20px;
         }
 
-        /* Header - BOTÕES SEM BORDA */
+        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -74,63 +74,97 @@
             color: var(--secondary);
         }
 
-                /* NAVEGAÇÃO CORRIGIDA */
+        /* NAVEGAÇÃO SIMPLES E FUNCIONAL */
         nav ul {
             display: flex;
             list-style: none;
             gap: 1.5rem;
         }
 
-        nav li {
-            position: relative;
-        }
-
         nav a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s;
             padding: 0.5rem 1rem;
             border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            background-color: transparent;
             display: block;
+            transition: all 0.3s;
         }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        /* HOVER CORRIGIDO: APENAS o link específico que recebe hover */
-        nav a:hover::before {
-            left: 100%;
-        }
-
+        /* Quando passar mouse em UM botão, apenas ELE fica azul */
         nav a:hover {
-            color: var(--secondary);
-            transform: translateY(-1px);
+            color: #3498db;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* BOTÃO ATIVO - ESTILO CORRETO */
+        /* Botão selecionado fica AZUL com letra BRANCA */
         nav a.active {
-            background-color: var(--secondary) !important;
-            color: white !important;
-            border: none !important;
+            background-color: #3498db;
+            color: white;
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
 
-        /* Hover no botão ativo permanece branco */
+        /* Quando passar mouse no botão selecionado, continua branco */
         nav a.active:hover {
-            color: white !important;
-            background-color: var(--secondary) !important;
+            color: white;
+            background-color: #3498db;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
         }
 
         /* Hero Section */
@@ -817,22 +851,6 @@
             .btn-sm {
                 align-self: flex-end;
             }
-        }
-                /* CORREÇÃO FINAL - GARANTIR QUE NÃO HÁ INTERFERÊNCIA ENTRE LINKS */
-        nav ul li a {
-            isolation: isolate;
-        }
-        
-        /* Remover qualquer efeito de grupo */
-        nav a:hover,
-        nav a.active,
-        nav a.active:hover {
-            isolation: isolate;
-        }
-        
-        /* Resetar completamente o estado de qualquer link que não esteja ativo nem em hover */
-        nav ul li a:not(:hover):not(.active) {
-            color: white !important;
         }
     </style>
 </head>
@@ -1557,96 +1575,125 @@
     </footer>
 
     <script>
-        // Navigation between sections - CÓDIGO CORRIGIDO
+        // Navigation SIMPLES
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.nav-link');
-            const footerLinks = document.querySelectorAll('.footer-links a[data-target]');
-            const btnLinks = document.querySelectorAll('.btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
-            // Função para ativar uma seção
-            function activateSection(targetId) {
-                // Ativar/desativar conteúdos
-                mainContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === targetId) {
-                        content.classList.add('active');
-                    }
-                });
-                
-                // Ativar/desativar apenas os links de navegação
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('data-target') === targetId) {
-                        link.classList.add('active');
-                    }
-                });
-                
-                // Scroll suave para o topo
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            
-            // Eventos para links da navegação
+            // Quando clicar em um link
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+                    
                     const targetId = this.getAttribute('data-target');
-                    activateSection(targetId);
+                    
+                    // REMOVE ativo de TODOS os links
+                    navLinks.forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    
+                    // ADICIONA ativo apenas no clicado
+                    this.classList.add('active');
+                    
+                    // Mostra a seção correta
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll para o topo
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
             
-            // Eventos para links do footer (não alteram a navegação superior)
+            // Links do footer (não mudam a navegação)
+            const footerLinks = document.querySelectorAll('.footer-links a[data-target]');
             footerLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('data-target');
-                    activateSection(targetId);
+                    
+                    // Ativa a seção
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Ativa o link correto na barra superior
+                    navLinks.forEach(nav => {
+                        nav.classList.remove('active');
+                        if (nav.getAttribute('data-target') === targetId) {
+                            nav.classList.add('active');
+                        }
+                    });
+                    
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
             
-            // Eventos para botões com data-target
+            // Botões com data-target
+            const btnLinks = document.querySelectorAll('.btn[data-target]');
             btnLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('data-target');
-                    activateSection(targetId);
+                    
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    navLinks.forEach(nav => {
+                        nav.classList.remove('active');
+                        if (nav.getAttribute('data-target') === targetId) {
+                            nav.classList.add('active');
+                        }
+                    });
+                    
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
+
+            // Funções da modal
+            function abrirModalSimulados() {
+                const modal = document.getElementById('modalSimulados');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function fecharModalSimulados() {
+                const modal = document.getElementById('modalSimulados');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Fechar modal ao clicar fora
+            document.getElementById('modalSimulados').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModalSimulados();
+                }
+            });
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModalSimulados();
+                }
+            });
             
-            // Simulate file upload for simulados
+            // Upload
             const uploadBtn = document.querySelector('.upload-area .btn');
             if (uploadBtn) {
                 uploadBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     alert('Funcionalidade de upload será implementada em breve!');
                 });
-            }
-        });
-
-        // Funções para abrir/fechar a modal de simulados
-        function abrirModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function fecharModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Fechar modal ao clicar fora do container
-        document.getElementById('modalSimulados').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalSimulados();
-            }
-        });
-
-        // Fechar modal com ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModalSimulados();
             }
         });
     </script>
