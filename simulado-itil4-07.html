@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado 7 – ITIL 4 Foundation – PMG Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            border-bottom: 1px solid #34495e;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header h1 {
+            font-size: 1.4em;
+            font-weight: 500;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .header .subtitle {
+            font-size: 0.85em;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+
+        .academy-badge {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .exam-info {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer {
+            font-size: 1em;
+            font-weight: 600;
+            color: #e74c3c;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .progress {
+            font-size: 0.9em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            min-height: 500px;
+        }
+
+        .question-section {
+            padding: 20px 15px;
+            background: white;
+            order: 2;
+        }
+
+        .question-number {
+            color: #3498db;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1em;
+            line-height: 1.4;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+            white-space: pre-line;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9em;
+            line-height: 1.3;
+            display: flex;
+            align-items: flex-start;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            background: #f8fafc;
+        }
+
+        .option.selected {
+            border-color: #3498db;
+            background: #ebf5fb;
+        }
+
+        .option.correct {
+            border-color: #27ae60;
+            background: #f0f9f4;
+        }
+
+        .option.incorrect {
+            border-color: #e74c3c;
+            background: #fef0f0;
+        }
+
+        .option.locked {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option.locked:hover {
+            border-color: #e0e0e0;
+            background: white;
+        }
+
+        .option-label {
+            display: inline-block;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            background: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 22px;
+            margin-right: 10px;
+            font-weight: 600;
+            font-size: 0.8em;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .option.locked .option-label {
+            background: #95a5a6;
+        }
+
+        .option-text {
+            flex-grow: 1;
+            white-space: pre-line;
+        }
+
+        .feedback-container {
+            margin: 12px 0;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .feedback-correct {
+            background: #f0f9f4;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .feedback-incorrect {
+            background: #fef0f0;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+
+        .btn {
+            padding: 8px 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            flex: 1;
+            background: white;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+            border-color: #95a5a6;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+            border-color: #f39c12;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+            border-color: #17a2b8;
+        }
+
+        .btn-purple {
+            background: #9b59b6;
+            color: white;
+            border-color: #9b59b6;
+        }
+
+        .btn-teal {
+            background: #1abc9c;
+            color: white;
+            border-color: #1abc9c;
+        }
+
+        .btn-orange {
+            background: #e67e22;
+            color: white;
+            border-color: #e67e22;
+        }
+
+        .navigation-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            order: 1;
+        }
+
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.8em;
+            min-height: 35px;
+        }
+
+        .grid-item:hover {
+            border-color: #3498db;
+            background: #f8fafc;
+        }
+
+        .grid-item.current {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .grid-item.answered {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .grid-item.marked {
+            background: #f39c12;
+            color: white;
+            border-color: #f39c12;
+        }
+
+        .grid-item.locked {
+            background: #95a5a6;
+            color: white;
+            border-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .start-screen {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .start-screen p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .results-screen {
+            padding: 30px 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .results-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .score-display {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin: 15px 0;
+            color: #3498db;
+        }
+
+        .score-text {
+            font-size: 1em;
+            margin-bottom: 25px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        .results-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .answers-screen {
+            padding: 20px 15px;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .answers-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+
+        .answer-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            background: #f8f9fa;
+            border-left: 3px solid #3498db;
+        }
+
+        .answer-question {
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            white-space: pre-line;
+            font-size: 0.9em;
+        }
+
+        .answer-explanation {
+            color: #7f8c8d;
+            line-height: 1.3;
+            margin-top: 6px;
+            padding: 6px;
+            background: white;
+            border-radius: 4px;
+            border-left: 2px solid #3498db;
+            display: none;
+            font-size: 0.85em;
+        }
+
+        .explanation-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 6px;
+            font-size: 0.8em;
+        }
+
+        .explanation-show {
+            display: block !important;
+        }
+
+        .full-report-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            font-size: 0.9em;
+        }
+
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 0.9em;
+        }
+
+        .correct-answer {
+            color: #27ae60;
+            font-weight: 600;
+            margin: 4px 0;
+            font-size: 0.9em;
+        }
+
+        .incorrect-answer {
+            color: #e74c3c;
+            font-weight: 600;
+            margin: 4px 0;
+            font-size: 0.9em;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                margin: 0;
+            }
+            
+            .header {
+                padding: 24px;
+                min-height: auto;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header .subtitle {
+                font-size: 0.95em;
+            }
+            
+            .academy-badge {
+                top: 10px;
+                right: 20px;
+                padding: 4px 12px;
+                font-size: 0.8em;
+            }
+            
+            .exam-info {
+                padding: 16px 24px;
+            }
+            
+            .timer {
+                font-size: 1.2em;
+                padding: 6px 12px;
+            }
+            
+            .progress {
+                font-size: 1em;
+            }
+            
+            .content {
+                grid-template-columns: 1fr 250px;
+                min-height: 600px;
+            }
+            
+            .question-section {
+                padding: 24px;
+                order: 1;
+            }
+            
+            .navigation-section {
+                border-left: 1px solid #e9ecef;
+                border-bottom: none;
+                order: 2;
+            }
+            
+            .question-grid {
+                grid-template-columns: repeat(8, 1fr);
+                gap: 6px;
+            }
+            
+            .grid-item {
+                font-size: 0.85em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .btn {
+                font-size: 0.8em;
+                padding: 10px 12px;
+            }
+            
+            .btn-row {
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-row {
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                min-width: calc(25% - 5px);
+                font-size: 0.7em;
+                padding: 6px 8px;
+            }
+            
+            .header h1 {
+                font-size: 1.2em;
+            }
+            
+            .header .subtitle {
+                font-size: 0.8em;
+            }
+            
+            .academy-badge {
+                font-size: 0.65em;
+                padding: 2px 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .btn {
+                font-size: 0.65em;
+                padding: 5px 6px;
+            }
+            
+            .question-text {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            
+            .option {
+                padding: 10px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="academy-badge">PMG Academy</div>
+            <h1>ITIL 4 Foundation</h1>
+            <div class="subtitle">Simulado 7 - 40 Questões</div>
+        </div>
+
+        <!-- Tela de Início -->
+        <div class="start-screen" id="start-screen">
+            <h2>Simulado ITIL 4 Foundation - 7</h2>
+            <p>Teste seus conhecimentos com 40 questões baseadas no exame oficial ITIL 4 Foundation. Prepare-se para a certificação de forma prática e eficiente.</p>
+            <p><strong>⚠️ ATENÇÃO:</strong> Após selecionar uma resposta, você não poderá alterá-la!</p>
+            <button class="btn btn-primary" id="start-btn" style="padding: 12px 24px; font-size: 1em; margin-top: 10px;">
+                🚀 Iniciar Simulado
+            </button>
+        </div>
+
+        <!-- Área do Questionário -->
+        <div id="exam-area" style="display: none;">
+            <div class="exam-info">
+                <div class="progress">Questão <span id="current-question">1</span> de <span id="total-questions">40</span></div>
+                <div class="timer" id="timer">60:00</div>
+            </div>
+
+            <div class="content">
+                <div class="question-section">
+                    <div class="question-number" id="question-number">Questão 1</div>
+                    <div class="question-text" id="question-text"></div>
+                    
+                    <div class="options" id="options-container"></div>
+                    
+                    <div class="feedback-container" id="feedback"></div>
+
+                    <div class="controls">
+                        <div class="btn-row">
+                            <button class="btn btn-secondary" id="prev-btn">
+                                ⬅️ Anterior
+                            </button>
+                            <button class="btn btn-warning" id="mark-btn">
+                                📌 Marcar
+                            </button>
+                            <button class="btn btn-info" id="explanation-btn">
+                                💡 Explicação
+                            </button>
+                            <button class="btn btn-primary" id="next-btn">
+                                Próxima ➡️
+                            </button>
+                        </div>
+                        <div class="btn-row" id="finish-btn-row" style="display: none;">
+                            <button class="btn btn-success" id="finish-btn" style="flex: 1;">
+                                ✅ Finalizar Simulado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation-section">
+                    <div class="question-grid" id="question-grid"></div>
+                    <button class="btn btn-danger" id="reset-btn" style="margin-top: 10px;">
+                        🔄 Reiniciar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Resultados -->
+        <div class="results-screen" id="results-screen">
+            <h2>Simulado Finalizado 🎉</h2>
+            <div class="score-display" id="score-display">0/40</div>
+            <div class="score-text" id="score-text"></div>
+            <div class="results-controls">
+                <button class="btn btn-purple" id="review-btn">
+                    📊 Ver Relatório
+                </button>
+                <button class="btn btn-teal" id="restart-btn">
+                    🔄 Novo Simulado
+                </button>
+                <button class="btn btn-orange" id="full-report-btn">
+                    📋 Relatório Completo
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Respostas -->
+        <div class="answers-screen" id="answers-screen">
+            <h2>📋 Relatório de Questões</h2>
+            <div id="answers-container"></div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn btn-secondary" id="back-to-results">
+                    ⬅️ Voltar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array com as 40 questões do Simulado 7 (extraídas do PDF)
+        const questions = [
+            {
+                number: 1,
+                text: `Realização de uma transação de vendas ou conseguir uma ambulância em X minutos representam qual tipo de métrica?`,
+                options: [
+                    "Pesquisa",
+                    "Métricas comerciais",
+                    "Métricas operacionais",
+                    "Medições baseadas em negócio"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (Medições baseadas em negócio)\n\nEstas são métricas baseadas em negócio porque medem resultados diretamente relacionados aos objetivos do negócio:\n• Transação de vendas → Impacto financeiro direto\n• Ambulância em X minutos → Resultado crítico de serviço\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Pesquisa coleta dados subjetivos\n• B: Métricas comerciais são mais amplas (ex: receita)\n• C: Métricas operacionais medem processos internos`
+            },
+            {
+                number: 2,
+                text: `Qual é o principal foco da etapa "Onde desejamos estar?" no modelo de melhoria contínua?`,
+                options: [
+                    "Definir metas mensuráveis, com fatores críticos de sucesso e principais indicadores de desempenho relevantes, claros e objetivos",
+                    "Traduzir os objetivos e metas organizacionais para o nível específico a ser tratado pela melhoria",
+                    "Definir o plano de melhoria para enfrentar os desafios",
+                    "Mapear e avaliar a situação atual de forma abrangente"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\nA etapa "Onde desejamos estar?" foca na definição de metas mensuráveis com KPIs claros para direcionar a melhoria.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B: Foco da etapa "Qual é a visão?"\n• C: Foco da etapa "Como chegamos lá?"\n• D: Foco da etapa "Onde estamos?"`
+            },
+            {
+                number: 3,
+                text: `Segmentos como finanças ou ciências biológicas, usualmente estão sujeitas a restrições de uso de tecnologia aberta ou pública ao lidar com dados confidenciais. Identifique as palavras que faltam na afirmação: "Essa situação revela que [?] também afeta a tecnologia utilizada."`,
+                options: [
+                    "a competência das equipes",
+                    "a habilidade dos parceiros",
+                    "a cultura da organização",
+                    "a natureza do negócio"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (a natureza do negócio)\n\nA natureza do negócio determina requisitos específicos como segurança, conformidade e privacidade, influenciando diretamente as escolhas tecnológicas.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, C: São fatores importantes, mas não determinam restrições regulatórias específicas do setor`
+            },
+            {
+                number: 4,
+                text: `Qual atividade da cadeia de valor pode e deve aparecer em todas as ações e atividades da cadeia de valor e do sistema de valor de serviço?`,
+                options: [
+                    "Desenho e transição",
+                    "Obtenção/construção",
+                    "Melhorar",
+                    "Entrega e suporte"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (Melhorar)\n\nA atividade "Melhorar" deve estar presente em todas as atividades da cadeia de valor, pois a melhoria contínua é um princípio transversal que se aplica a todo o SVS.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, D: São atividades específicas da cadeia de valor com focos distintos`
+            },
+            {
+                number: 5,
+                text: `Quais são as atividades envolvidas na fase "controle de problema" dentro da prática de gerenciamento de problema?\n1. análise de todos os problemas, sem exceção\n2. documentação de soluções de contorno e de erros conhecidos\n3. análise de risco e impacto\n4. priorização dos problemas`,
+                options: [
+                    "1, 2 e 3",
+                    "1, 2 e 4",
+                    "2, 3 e 4",
+                    "1, 3 e 4"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (2, 3 e 4)\n\nAtividades do controle de problema:\n• 2: Documentação de soluções de contorno e erros conhecidos\n• 3: Análise de risco e impacto dos problemas\n• 4: Priorização dos problemas para tratamento\n\n🚫 POR QUE A OUTRA ESTÁ ERRADA:\n• 1: Análise de todos os problemas pode não ser viável; foca-se nos mais críticos`
+            },
+            {
+                number: 6,
+                text: `"Fazer menos coisas, mas de uma forma melhor" é um dos aspectos de aplicação de qual princípio orientador?`,
+                options: [
+                    "Começar de onde você está",
+                    "Pensar e trabalhar holisticamente",
+                    "Manter de forma simples e prática",
+                    "Colaborar e promover visibilidade"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (Manter de forma simples e prática)\n\nEste princípio enfatiza a simplificação e eliminação de complexidades desnecessárias, focando no que realmente agrega valor.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Foca em aproveitar o que já existe\n• B: Foca na visão sistêmica\n• D: Foca no trabalho conjunto e transparência`
+            },
+            {
+                number: 7,
+                text: `Qual é o propósito da prática de Gerenciamento de Continuidade de Serviço?`,
+                options: [
+                    "Reduzir a probabilidade e o impacto de incidentes, pela identificação das causas reais e potenciais dos incidentes",
+                    "Garantir que, informação precisa e confiável, sobre configuração de serviços e ICs, esteja disponível quando e onde for necessária",
+                    "Tornar serviços e funcionalidades, novos ou modificados, disponíveis para uso",
+                    "Garantir que a disponibilidade e o desempenho de um serviço sejam mantidos em nível suficiente em caso de desastre"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D\n\nO propósito do Gerenciamento de Continuidade de Serviço é garantir que serviços críticos continuem operando durante desastres ou interrupções significativas.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Propósito do Gerenciamento de Problema\n• B: Propósito do Gerenciamento de Configuração\n• C: Propósito do Gerenciamento de Liberação`
+            },
+            {
+                number: 8,
+                text: `Qual alternativa melhor ilustra a diferença entre os conceitos de "saída" e "resultado"?`,
+                options: [
+                    "Uma saída de um curso de idiomas pode ser a melhor comunicação com os clientes no exterior, e um resultado pode ser a nota conseguida por um aluno na avaliação mensal",
+                    "Uma saída de um serviço de cabeleireiro pode ser o corte de cabelo desejado pela cliente, e o resultado pode ser a uma maquiagem que combina perfeitamente com o novo visual",
+                    "Uma saída de um serviço de fotografia de casamento pode ser um álbum bem montado. O resultado desse serviço pode ser a preservação das memórias desse evento através do álbum",
+                    "Uma saída do serviço contratado de um bufê é o cardápio entregue conforme combinado, e o resultado são os garçons experientes contratados para servir"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C\n\nDiferença correta:\n• Saída (output): Álbum físico bem montado (o que é entregue)\n• Resultado (outcome): Preservação das memórias (efeito/benefício)\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Inverte saída e resultado\n• B: Maquiagem não é resultado do corte de cabelo\n• D: Garçons são recursos, não resultado`
+            },
+            {
+                number: 9,
+                text: `Indique a alternativa que descreve, de forma mais adequada, os papéis relacionados à seguinte situação: uma empresa deseja contratar uma escola de cursos de inglês para seus funcionários.\n1. Profissionais de Recursos Humanos e alguns gestores analisam as necessidades, desempenhando assim o papel de cliente\n2. O diretor financeiro assume o papel de patrocinador ao revisar e aprovar a proposta dos serviços\n3. Os empregados indicados para participar dos cursos cumprem o papel de usuários ao participar das aulas`,
+                options: [
+                    "1 e 2",
+                    "1 e 3",
+                    "2 e 3",
+                    "1, 2 e 3"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (1, 2 e 3)\n\nTodos os papéis estão corretamente identificados:\n• 1: Cliente → Define requisitos e paga pelo serviço\n• 2: Patrocinador → Autoriza recursos financeiros\n• 3: Usuário → Utiliza diretamente o serviço\n\nEsta é uma situação típica onde diferentes partes interessadas assumem papéis distintos.`
+            },
+            {
+                number: 10,
+                text: `Qual alternativa representa as palavras faltantes na afirmação: "Além de uma estrutura ou sistema de autoridade, a organização também precisa de [?] que apoie seus objetivos."?`,
+                options: [
+                    "uma arquitetura tecnológica",
+                    "uma estrutura de cargos",
+                    "uma cultura organizacional",
+                    "um sistema de governança"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (uma cultura organizacional)\n\nA cultura organizacional é essencial para apoiar os objetivos da empresa, influenciando comportamentos, valores e práticas de trabalho.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, D: São elementos importantes, mas a cultura é fundamental para o sucesso organizacional`
+            },
+            {
+                number: 11,
+                text: `Qual alternativa melhor descreve a contribuição da prática gerenciamento de nível de serviço na atividade "melhorar" da cadeia de valor de serviço?`,
+                options: [
+                    "Suporte ao planejamento do portfólio de produto e serviço e ofertas de serviço com informação sobre o desempenho real do serviço e tendências",
+                    "Informação proveniente interação do gerenciamento de nível de serviço com os clientes durante a transição",
+                    "O feedback dos usuários, e os requisitos dos clientes, representam orientações importantes para melhoria do serviço",
+                    "Comunicação dos objetivos de desempenho de serviço para as equipes de suporte e operações"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C\n\nO Gerenciamento de Nível de Serviço contribui para "Melhorar" fornecendo feedback dos usuários e requisitos dos clientes, que são insumos essenciais para identificação de oportunidades de melhoria.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Contribuição para "Planejar"\n• B: Contribuição para "Desenho e transição"\n• D: Contribuição para "Entrega e suporte"`
+            },
+            {
+                number: 12,
+                text: `Qual alternativa melhor descreve a contribuição da prática de gerenciamento de incidente nas atividades "desenho e transição" e "obtenção/construção" da cadeia de valor de serviço?`,
+                options: [
+                    "Registros de incidente representam entradas importantes para as atividades de melhoria",
+                    "Incidentes são visíveis para usuários, e incidentes mais graves e significativos são visíveis, também, para os clientes",
+                    "Os incidentes ocorridos durante os testes e liberação devem ser resolvidos em tempo hábil e de forma controlada",
+                    "O gerenciamento de incidente oferece uma contribuição significativa na resolução de incidentes e problemas"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C\n\nDurante "Desenho e transição" e "Obtenção/construção", incidentes em testes precisam ser resolvidos controladamente para garantir qualidade.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Contribuição para "Melhorar"\n• B: É um fato, não uma contribuição específica\n• D: É muito genérico`
+            },
+            {
+                number: 13,
+                text: `Qual é uma consideração importante na aplicação do princípio orientador "progredir iterativamente com feedback"?`,
+                options: [
+                    "Identificação das práticas e serviços de sucesso",
+                    "Saber como os consumidores utilizam cada serviço",
+                    "O ecossistema muda constantemente",
+                    "A automação pode facilitar o trabalho holístico"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C\n\n"O ecossistema muda constantemente" é uma consideração-chave que justifica a abordagem iterativa com feedback contínuo para adaptação.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, D: São considerações válidas, mas não são as principais para este princípio`
+            },
+            {
+                number: 14,
+                text: `O que deve existir para termos acordos de nível de serviço bem-sucedidos?`,
+                options: [
+                    "Devem estar relacionados a um serviço definido no catálogo de serviço",
+                    "Devem medir o desempenho dos serviços do ponto de vista do provedor de serviço",
+                    "Devem demonstrar foco pragmático nos componentes da infraestrutura de hardware e software",
+                    "Devem ser acordados em um contexto de TI mais amplo"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\nSLAs devem estar relacionados a serviços definidos no catálogo, garantindo clareza sobre o que está sendo acordado.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B: Devem medir do ponto de vista do cliente\n• C: Devem focar em resultados do serviço, não componentes\n• D: Devem ser específicos e mensuráveis`
+            },
+            {
+                number: 15,
+                text: `Qual alternativa representa o propósito da atividade da cadeia de valor "planejar"?`,
+                options: [
+                    "Garantir um entendimento compartilhado da visão e da situação atual",
+                    "Garantir o constante aperfeiçoamento de produtos, serviços e práticas ao longo de todas as atividades da cadeia de valor",
+                    "Prover uma boa compreensão das necessidades e bom relacionamento com todas as partes interessadas",
+                    "Garantir que produtos e serviços, continuamente, atendam às expectativas das partes interessadas, relacionadas a qualidade, custos e tempo de mercado"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\n"Planejar" tem como propósito estabelecer visão compartilhada e entender a situação atual para direcionar esforços.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B: Propósito de "Melhorar"\n• C: Propósito de "Engajar"\n• D: Relacionado ao valor do serviço`
+            },
+            {
+                number: 16,
+                text: `Qual alternativa apresenta uma outra prática ou metodologia que NÃO contribui de forma especial para a prática de melhoria contínua?`,
+                options: [
+                    "Gerenciamento de problema",
+                    "Gerenciamento de requisição de serviço",
+                    "Modelos de mudança organizacional",
+                    "Métodos de gerenciamento de projeto"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B (Gerenciamento de requisição de serviço)\n\nO Gerenciamento de Requisição de Serviço é uma prática operacional com foco na execução de solicitações padrão, não contribuindo especialmente para a melhoria contínua.\n\n🚫 POR QUE AS OUTRAS ESTÃO CORRETAS:\n• A: Gerenciamento de Problema identifica causas raiz para melhoria\n• C: Modelos de mudança apoiam implementação de melhorias\n• D: Métodos de gerenciamento de projeto estruturam iniciativas de melhoria`
+            },
+            {
+                number: 17,
+                text: `Qual alternativa apresenta o que pode ser incluído como requisição de serviço?\n1. substituição de um cartucho de tinta\n2. informação sobre o horário de atendimento do suporte\n3. substituição de impressora por erro de impressão\n4. solicitação de acesso a um arquivo ou pasta`,
+                options: [
+                    "1, 2 e 3",
+                    "1, 2 e 4",
+                    "2, 3 e 4",
+                    "1, 3 e 4"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B (1, 2 e 4)\n\nRequisições de serviço incluem:\n• 1: Substituição de consumíveis\n• 2: Solicitação de informação\n• 4: Solicitação de acesso\n\n🚫 POR QUE A OUTRA ESTÁ ERRADA:\n• 3: Substituição por erro é incidente, não requisição`
+            },
+            {
+                number: 18,
+                text: `Qual é o propósito da prática de Gerenciamento de Incidente?`,
+                options: [
+                    "Maximizar o número de mudanças em TI bem-sucedidas, pela garantia de que os riscos sejam adequadamente avaliados, e ocorra a autorização apropriada para prosseguimento da mudança",
+                    "Estabelecer e estimular as relações entre a organização e suas partes interessadas em nível estratégico e tático",
+                    "Minimizar o impacto negativo dos incidentes pela restauração do serviço à operação normal o mais breve possível",
+                    "Garantir que os serviços entreguem os níveis acordados de disponibilidade para atender às necessidades de clientes e usuários"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C\n\nPropósito: minimizar impacto de incidentes restaurando serviços rapidamente.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Propósito da Habilitação de Mudança\n• B: Propósito do Gerenciamento de Relacionamento\n• D: Propósito do Gerenciamento de Disponibilidade`
+            },
+            {
+                number: 19,
+                text: `Qual é o propósito da prática de gerenciamento de liberação?`,
+                options: [
+                    "Maximizar o número de mudanças em TI bem-sucedidas, pela garantia de que os riscos sejam adequadamente avaliados, ocorra a autorização apropriada para prosseguimento da mudança",
+                    "Reduzir a probabilidade e o impacto de incidentes, pela identificação das causas reais e potenciais dos incidentes, e manejando soluções de contorno e erros conhecidos",
+                    "Minimizar o impacto negativo dos incidentes pela restauração do serviço à operação normal o mais breve possível",
+                    "Tornar serviços e funcionalidades, novos ou modificados, disponíveis para uso"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D\n\nPropósito: tornar serviços novos ou modificados disponíveis para uso de forma controlada.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Propósito da Habilitação de Mudança\n• B: Propósito do Gerenciamento de Problema\n• C: Propósito do Gerenciamento de Incidente`
+            },
+            {
+                number: 20,
+                text: `Qual alternativa sobre requisições de serviço NÃO está correta?`,
+                options: [
+                    "As requisições de serviço podem ser formalizadas em procedimentos claros para iniciação, aprovação, cumprimento e gerenciamento",
+                    "Todas as requisições de serviço têm fluxos de trabalho bem simples",
+                    "Os passos para execução de uma requisição devem ser muito bem conhecidos e testados",
+                    "Algumas requisições de serviço exigem autorização de acordo com políticas financeiras e de segurança da informação"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B\n\nNem todas requisições têm fluxos simples - algumas podem ser complexas e exigir múltiplas aprovações.\n\n🚫 POR QUE AS OUTRAS ESTÃO CORRETAS:\n• A, C, D: São afirmações verdadeiras sobre requisições de serviço`
+            },
+            {
+                number: 21,
+                text: `Identifique as palavras que faltam na seguinte frase: O propósito da prática de gerenciamento de problema é reduzir [?], pela identificação das causas reais e potenciais dos incidentes.`,
+                options: [
+                    "a probabilidade e o impacto de incidentes",
+                    "o impacto dos problemas em mudanças",
+                    "a urgência na resolução de incidentes",
+                    "a quantidade de incidentes"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\nO propósito é reduzir tanto a probabilidade (ocorrência) quanto o impacto (efeito) dos incidentes através da identificação de causas raiz.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B, C, D: Não representam o propósito completo da prática`
+            },
+            {
+                number: 22,
+                text: `Qual prática tem como propósito "garantir que os serviços entreguem os níveis acordados de disponibilidade para atender às necessidades de clientes e usuários"?`,
+                options: [
+                    "Gerenciamento de nível de serviço",
+                    "Gerenciamento de disponibilidade",
+                    "Gerenciamento de relacionamento",
+                    "Gerenciamento de continuidade de serviço"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B (Gerenciamento de disponibilidade)\n\nEsta é a definição exata do propósito do Gerenciamento de Disponibilidade.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Gerencia acordos de nível de serviço\n• C: Gerencia relacionamentos\n• D: Foca em continuidade durante desastres`
+            },
+            {
+                number: 23,
+                text: `Qual alternativa sobre a prática de habilitação de mudança NÃO está correta?`,
+                options: [
+                    "Todas as mudanças devem ser autorizadas para implantação antes da avaliação de riscos",
+                    "Todas as mudanças devem ser avaliadas por pessoas capazes de compreender os riscos e os benefícios",
+                    "Uma pessoa ou um grupo que autoriza uma mudança é conhecido como autoridade de mudança",
+                    "Para cada tipo de mudança deve ser designada a correta autoridade"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\nA avaliação de riscos DEVE ocorrer ANTES da autorização, não depois.\n\n🚫 POR QUE AS OUTRAS ESTÃO CORRETAS:\n• B, C, D: São princípios corretos da Habilitação de Mudança`
+            },
+            {
+                number: 24,
+                text: `Qual etapa do Modelo de Melhoria Contínua tem como principal foco "reforçar os novos métodos de trabalho e capitalizar os êxitos"?`,
+                options: [
+                    "Nós chegamos lá?",
+                    "Como chegamos lá?",
+                    "Como mantemos o impulso?",
+                    "Onde estamos?"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (Como mantemos o impulso?)\n\nEsta etapa foca na sustentabilidade das melhorias, consolidando novos métodos e garantindo que os sucessos sejam reconhecidos e replicados.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Verificação de resultados\n• B: Planejamento de ações\n• D: Análise da situação atual`
+            },
+            {
+                number: 25,
+                text: `Qual é o propósito da prática de gerenciamento de requisição de serviço?`,
+                options: [
+                    "Garantir que a disponibilidade e o desempenho de um serviço sejam mantidos em nível suficiente, em caso de desastre",
+                    "Suportar a qualidade acordada de um serviço, pelo tratamento de todas as requisições, predefinidas e iniciadas pelo usuário, de forma eficaz, fácil e amigável",
+                    "Minimizar o impacto negativo dos incidentes pela restauração do serviço à operação normal o mais breve possível",
+                    "Estabelecer metas claras para o desempenho do serviço, baseadas no negócio, de forma que a entrega do serviço possa ser adequadamente avaliada e monitorada"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B\n\nPropósito: tratar requisições de usuários de forma eficiente e amigável.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Propósito do Gerenciamento de Continuidade\n• C: Propósito do Gerenciamento de Incidente\n• D: Propósito do Gerenciamento de Nível de Serviço`
+            },
+            {
+                number: 26,
+                text: `Como é chamada uma central de serviço com uma equipe física trabalhando em um único local?`,
+                options: [
+                    "virtual",
+                    "autosserviço",
+                    "automatizada",
+                    "centralizada"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (centralizada)\n\nCentral de serviço centralizada tem equipe física em um local único.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Virtual → Equipe distribuída\n• B: Autosserviço → Portal automatizado\n• C: Automatizada → Com automação intensiva`
+            },
+            {
+    number: 27,
+    text: `Qual é uma consideração importante na aplicação do princípio orientador "foco no valor"?`,
+    options: [
+        "Identificação das práticas e serviços de sucesso",
+        "Saber como os consumidores utilizam cada serviço",
+        "O ecossistema muda constantemente",
+        "Comunicação de uma forma que o público-alvo possa entender"
+    ],
+    correct: 1, // Alterado de 3 para 1 (B)
+    explanation: `✅ RESPOSTA CORRETA: B (Saber como os consumidores utilizam cada serviço)\n\nO princípio "foco no valor" requer entender como os consumidores usam os serviços para garantir que valor real seja criado e entregue. Isso inclui conhecer suas necessidades, preferências e padrões de uso.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: É importante, mas mais relacionado a identificar boas práticas\n• C: Consideração do princípio "progredir iterativamente com feedback"\n• D: Importante para comunicação, mas não é o foco principal deste princípio`
+},
+            {
+                number: 28,
+                text: `A participação ativa nas atividades de aperfeiçoamento é parte integrante do trabalho de cada um. Para garantir que isso não passe apenas de boas intenções, qual alternativa contém afirmações verdadeiras sobre os papéis e responsabilidades da prática de melhoria contínua?\n1. Para facilitar o foco e o compromisso, as atividades de melhoria contínua devem estar concentradas em um grupo pequeno de pessoas\n2. Inserir a contribuição para a melhoria contínua em todas as descrições de cargos e objetivos dos empregados\n3. Na contratação de fornecedores terceiros, deve ficar formalizado como eles devem medir, reportar e aperfeiçoar os serviços pela duração do acordo\n4. Os níveis mais altos da organização precisam assumir a responsabilidade de incorporar a melhoria contínua na maneira como as pessoas pensam e trabalham`,
+                options: [
+                    "1, 2 e 3",
+                    "1, 2 e 4",
+                    "2, 3 e 4",
+                    "1, 3 e 4"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (2, 3 e 4)\n\nAfirmações verdadeiras:\n• 2: Melhoria contínua deve fazer parte de todas as funções\n• 3: Fornecedores devem ser incluídos na cultura de melhoria\n• 4: Liderança deve promover a cultura de melhoria\n\n🚫 POR QUE A OUTRA ESTÁ ERRADA:\n• 1: Melhoria deve envolver todos, não apenas pequeno grupo`
+            },
+            {
+                number: 29,
+                text: `Qual é o um conceito importante relacionado ao princípio orientador "otimizar e automatizar"?`,
+                options: [
+                    "Nenhum serviço ou elemento de um serviço, trabalha de forma isolada",
+                    "Eliminar qualquer coisa que represente um real desperdício",
+                    "Organizar o trabalho em porções menores e gerenciáveis",
+                    "O trabalho e as consequências devem ser visíveis, sem agendas ocultas, com informações compartilhadas"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B\n\n"Eliminar desperdícios" é conceito central do princípio "Otimizar e automatizar", alinhado com filosofia Lean.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Relacionado a "Pensar holisticamente"\n• C: Relacionado a "Progredir iterativamente"\n• D: Relacionado a "Colaborar e promover visibilidade"`
+            },
+            {
+                number: 30,
+                text: `"Soluções criativas, contribuições entusiasmadas e perspectivas relevantes podem surgir de fontes inesperadas". Esta afirmação está relacionada a qual princípio orientador?`,
+                options: [
+                    "Progredir iterativamente com feedback",
+                    "Colaborar e promover visibilidade",
+                    "Começar de onde você está",
+                    "Pensar e trabalhar holisticamente"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B (Colaborar e promover visibilidade)\n\nEste princípio valoriza a diversidade de perspectivas e a colaboração aberta, reconhecendo que boas ideias podem vir de qualquer lugar.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Foca em iteração e feedback\n• C: Foca em aproveitar o existente\n• D: Foca na visão sistêmica`
+            },
+            {
+                number: 31,
+                text: `Os conceitos de "desempenho do serviço" e "adequação ao uso" estão relacionados a...?`,
+                options: [
+                    "Saída",
+                    "Utilidade",
+                    "Garantia",
+                    "Resultado"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (Garantia)\n\nGarantia abrange aspectos como:\n• Desempenho do serviço: Como o serviço funciona\n• Adequação ao uso: Atende necessidades do usuário\n• Disponibilidade, capacidade, segurança, continuidade\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Saída é o que é produzido\n• B: Utilidade é o "o que" o serviço faz\n• D: Resultado é o efeito alcançado`
+            },
+            {
+                number: 32,
+                text: `Qual atividade da cadeia de valor necessita, como entrada, os produtos e serviços em si, e todas as informações relacionadas a eles e seus componentes, tanto de fontes internas quanto externas?`,
+                options: [
+                    "Planejar",
+                    "Engajar",
+                    "Entrega e suporte",
+                    "Obtenção/construção"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (Obtenção/construção)\n\n"Obtenção/construção" usa produtos, serviços e informações sobre componentes (internos/externos) para desenvolver e construir soluções.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, C: Usam essas informações de forma diferente`
+            },
+            {
+                number: 33,
+                text: `Qual opção abaixo NÃO representa uma atividade da cadeia de valor de serviço?`,
+                options: [
+                    "Entrega e suporte",
+                    "Melhorar",
+                    "Governar",
+                    "Planejar"
+                ],
+                correct: 2,
+                explanation: `✅ RESPOSTA CORRETA: C (Governar)\n\nGovernança é parte do Sistema de Valor de Serviço (SVS), mas NÃO é uma atividade da cadeia de valor. As atividades são: Engajar, Planejar, Obtenção/construção, Entrega e suporte, Melhorar.\n\n🚫 POR QUE AS OUTRAS ESTÃO CORRETAS:\n• A, B, D: São as 5 atividades oficiais da cadeia de valor`
+            },
+            {
+                number: 34,
+                text: `Qual alternativa representa as características de uma mudança padrão?\n1. Baixo risco\n2. Frequente\n3. Pode requerer análise de impacto\n4. Totalmente documentadas`,
+                options: [
+                    "1, 2 e 3",
+                    "1, 2 e 4",
+                    "2, 3 e 4",
+                    "1, 3 e 4"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B (1, 2 e 4)\n\nCaracterísticas de mudança padrão:\n• 1: Baixo risco\n• 2: Frequente (repetitiva)\n• 4: Totalmente documentada (procedimentos claros)\n\n🚫 POR QUE A OUTRA ESTÁ ERRADA:\n• 3: Não requer análise de impacto individual (pré-aprovada)`
+            },
+            {
+                number: 35,
+                text: `Um provedor de serviço descreve um pacote que inclui o acesso a um treinamento EAD, com suporte à utilização e apoio especializado para o aprendizado. Esse pacote é um exemplo de [?].`,
+                options: [
+                    "Valor",
+                    "Resultado",
+                    "Garantia",
+                    "Oferta de serviço"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (Oferta de serviço)\n\nUma oferta de serviço é a descrição formal de um ou mais serviços, incluindo seus termos e condições. Este pacote completo representa uma oferta de serviço.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Valor é o benefício percebido\n• B: Resultado é o efeito alcançado\n• C: Garantia são aspectos de desempenho`
+            },
+            {
+                number: 36,
+                text: `Qual é o principal foco da etapa "Qual é a visão?" no modelo de melhoria contínua?`,
+                options: [
+                    "Traduzir os objetivos e metas organizacionais para o nível específico a ser tratado pela melhoria",
+                    "Mapear e avaliar a situação atual de forma abrangente",
+                    "Definir o plano de melhoria para enfrentar os desafios",
+                    "Definir metas mensuráveis, com fatores críticos de sucesso e principais indicadores de desempenho relevantes, claros e objetivos"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A\n\n"Qual é a visão?" traduz objetivos organizacionais para o contexto específico da melhoria.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B: Foco de "Onde estamos?"\n• C: Foco de "Como chegamos lá?"\n• D: Foco de "Onde desejamos estar?"`
+            },
+            {
+                number: 37,
+                text: `A situação onde "o consumidor assume a propriedade e a responsabilidade pelo uso futuro" está associada a qual componente de uma oferta de serviço?`,
+                options: [
+                    "Bens a serem fornecidos a um consumidor",
+                    "Acesso a recursos concedidos ou licenciados",
+                    "Ações de serviço",
+                    "Utilidade"
+                ],
+                correct: 0,
+                explanation: `✅ RESPOSTA CORRETA: A (Bens a serem fornecidos a um consumidor)\n\nBens são produtos físicos onde a propriedade é transferida ao consumidor, que assume responsabilidade pelo uso futuro.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• B: Acesso não transfere propriedade\n• C: Ações são atividades executadas\n• D: Utilidade é benefício percebido`
+            },
+            {
+                number: 38,
+                text: `Qual é a definição de fluxo de valor?`,
+                options: [
+                    "Grupo de atividades que utilizam recursos, processos, habilidades e competências de fornecedores externos",
+                    "Modelo operacional que descreve as principais atividades necessárias para responder à demanda e criar valor",
+                    "Práticas suportadas por recursos e técnicas especializadas",
+                    "Combinação específica de atividades e práticas designada para um determinado cenário"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D\n\nFluxo de valor é uma combinação específica de atividades e práticas projetada para um cenário particular.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A: Descreve uso de recursos, não fluxo de valor\n• B: Descreve cadeia de valor, não fluxo específico\n• C: Descreve prática, não fluxo`
+            },
+            {
+                number: 39,
+                text: `Identifique as palavras que faltam na seguinte frase: O propósito da prática de gerenciamento de configuração de serviço é garantir que [?] configuração de serviços e ICs esteja disponível quando e onde for necessária.`,
+                options: [
+                    "estrutura formalizada da",
+                    "a base de dados sobre",
+                    "a arquitetura para",
+                    "informação precisa e confiável sobre"
+                ],
+                correct: 3,
+                explanation: `✅ RESPOSTA CORRETA: D (informação precisa e confiável sobre)\n\nPropósito: garantir informações precisas e confiáveis sobre configuração para suportar decisões.\n\n🚫 POR QUE AS OUTRAS ESTÃO ERRADAS:\n• A, B, C: São elementos do SCM, não o propósito central`
+            },
+            {
+                number: 40,
+                text: `Qual alternativa NÃO representa um conceito válido dentro do Sistema de Valor do Serviço (SVS)?`,
+                options: [
+                    "Oportunidades representam opções ou possibilidades de agregar valor para as partes interessadas ou melhorar a organização",
+                    "A principal entrada do SVS é o valor percebido dos serviços",
+                    "Demanda é a necessidade ou desejo por produtos e serviços dos consumidores internos e externos",
+                    "Cadeia de valor de serviço é o conjunto de atividades interconectadas que uma organização executa para entregar um produto ou serviço"
+                ],
+                correct: 1,
+                explanation: `✅ RESPOSTA CORRETA: B\n\nA principal entrada do SVS são as oportunidades e demanda, não o valor percebido (que é uma saída).\n\n🚫 POR QUE AS OUTRAS ESTÃO CORRETAS:\n• A, C, D: São conceitos válidos do SVS`
+            }
+        ];
+
+        // Variáveis de estado
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let markedQuestions = Array(questions.length).fill(false);
+        let timeLeft = 60 * 60;
+        let timerInterval;
+        let examFinished = false;
+
+        // Elementos DOM
+        const elements = {
+            startScreen: document.getElementById('start-screen'),
+            examArea: document.getElementById('exam-area'),
+            resultsScreen: document.getElementById('results-screen'),
+            answersScreen: document.getElementById('answers-screen'),
+            questionNumber: document.getElementById('question-number'),
+            questionText: document.getElementById('question-text'),
+            optionsContainer: document.getElementById('options-container'),
+            currentQuestion: document.getElementById('current-question'),
+            totalQuestions: document.getElementById('total-questions'),
+            timer: document.getElementById('timer'),
+            questionGrid: document.getElementById('question-grid'),
+            feedback: document.getElementById('feedback'),
+            finishBtnRow: document.getElementById('finish-btn-row')
+        };
+
+        // Inicialização
+        function init() {
+            document.getElementById('start-btn').addEventListener('click', startExam);
+            document.getElementById('prev-btn').addEventListener('click', () => navigate(-1));
+            document.getElementById('next-btn').addEventListener('click', () => navigate(1));
+            document.getElementById('finish-btn').addEventListener('click', finishExam);
+            document.getElementById('reset-btn').addEventListener('click', resetExam);
+            document.getElementById('mark-btn').addEventListener('click', toggleMark);
+            document.getElementById('explanation-btn').addEventListener('click', showExplanation);
+            document.getElementById('review-btn').addEventListener('click', showAnsweredQuestions);
+            document.getElementById('restart-btn').addEventListener('click', resetExam);
+            document.getElementById('back-to-results').addEventListener('click', () => {
+                elements.answersScreen.style.display = 'none';
+                elements.resultsScreen.style.display = 'block';
+            });
+            document.getElementById('full-report-btn').addEventListener('click', showFullReport);
+
+            elements.totalQuestions.textContent = questions.length;
+            createQuestionGrid();
+        }
+
+        function startExam() {
+            elements.startScreen.style.display = 'none';
+            elements.examArea.style.display = 'block';
+            loadQuestion(0);
+            startTimer();
+        }
+
+        function createQuestionGrid() {
+            elements.questionGrid.innerHTML = '';
+            questions.forEach((_, index) => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.textContent = index + 1;
+                item.addEventListener('click', () => loadQuestion(index));
+                elements.questionGrid.appendChild(item);
+            });
+            updateNavigation();
+        }
+
+        function loadQuestion(index) {
+            if (examFinished) return;
+            
+            currentQuestion = index;
+            const question = questions[index];
+            
+            elements.questionNumber.textContent = `Questão ${question.number}`;
+            elements.questionText.textContent = question.text;
+            elements.currentQuestion.textContent = question.number;
+            
+            elements.optionsContainer.innerHTML = '';
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                const label = document.createElement('div');
+                label.className = 'option-label';
+                label.textContent = String.fromCharCode(65 + i);
+                
+                const text = document.createElement('div');
+                text.className = 'option-text';
+                text.textContent = option;
+                
+                optionElement.appendChild(label);
+                optionElement.appendChild(text);
+                
+                if (userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
+                }
+                
+                if (userAnswers[index] !== null) {
+                    optionElement.style.pointerEvents = 'none';
+                    if (i === question.correct) {
+                        optionElement.classList.add('correct');
+                    } else if (i === userAnswers[index] && userAnswers[index] !== question.correct) {
+                        optionElement.classList.add('incorrect');
+                    }
+                } else {
+                    optionElement.addEventListener('click', () => selectOption(i));
+                }
+                
+                elements.optionsContainer.appendChild(optionElement);
+            });
+            
+            updateNavigation();
+            updateMarkButton();
+            updateFinishButton();
+            
+            if (userAnswers[index] !== null) {
+                showFeedback(index);
+            } else {
+                elements.feedback.style.display = 'none';
+            }
+        }
+
+        function updateFinishButton() {
+            if (currentQuestion === questions.length - 1) {
+                elements.finishBtnRow.style.display = 'flex';
+            } else {
+                elements.finishBtnRow.style.display = 'none';
+            }
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            showFeedback(currentQuestion);
+            updateNavigation();
+            updateFinishButton();
+            
+            const options = elements.optionsContainer.querySelectorAll('.option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+
+            updateQuestionGrid();
+        }
+
+        function showFeedback(index) {
+            const question = questions[index];
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === question.correct;
+            
+            const options = elements.optionsContainer.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                option.classList.remove('correct', 'incorrect', 'selected');
+                if (i === userAnswer) {
+                    option.classList.add('selected');
+                }
+                if (i === question.correct) {
+                    option.classList.add('correct');
+                } else if (i === userAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            elements.feedback.textContent = isCorrect ? '✅ CORRETO' : '❌ INCORRETO';
+            elements.feedback.className = `feedback-container ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+            elements.feedback.style.display = 'block';
+        }
+
+        function showExplanation() {
+            const question = questions[currentQuestion];
+            const userAnswer = userAnswers[currentQuestion];
+            
+            if (userAnswer === null) {
+                alert('⚠️ Selecione uma resposta antes de ver a explicação.');
+                return;
+            }
+            
+            const isCorrect = userAnswer === question.correct;
+            let explanationMessage = `📝 EXPLICAÇÃO DA QUESTÃO ${question.number}\n\n`;
+            
+            if (isCorrect) {
+                explanationMessage += `🎉 Parabéns! Você acertou!\n\n`;
+            } else {
+                explanationMessage += `💡 Resposta correta: ${String.fromCharCode(65 + question.correct)}\n\n`;
+            }
+            
+            explanationMessage += `${question.explanation}`;
+            
+            alert(explanationMessage);
+        }
+
+        function showAnsweredQuestions() {
+            elements.resultsScreen.style.display = 'none';
+            elements.answersScreen.style.display = 'block';
+            
+            const container = document.getElementById('answers-container');
+            container.innerHTML = '';
+            
+            let answeredCount = 0;
+            
+            questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                
+                if (userAnswer !== null) {
+                    answeredCount++;
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'answer-item';
+                    item.innerHTML = `
+                        <div class="answer-question"><strong>🔍 Questão ${question.number}:</strong><br>${question.text}</div>
+                        <div class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
+                            📝 Sua resposta: ${String.fromCharCode(65 + userAnswer)} - ${question.options[userAnswer]}
+                        </div>
+                        <div class="correct-answer">
+                            ✅ Correta: ${String.fromCharCode(65 + question.correct)} - ${question.options[question.correct]}
+                        </div>
+                        <button class="explanation-btn" onclick="toggleExplanation(${index})">
+                            💡 Ver Explicação
+                        </button>
+                        <div class="answer-explanation" id="explanation-${index}">
+                            <strong>🎯 Explicação:</strong><br>${question.explanation}
+                        </div>
+                    `;
+                    container.appendChild(item);
+                }
+            });
+            
+            if (answeredCount === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #7f8c8d;">Nenhuma questão foi respondida.</p>';
+            }
+        }
+
+        function showFullReport() {
+            const BOM = '\uFEFF';
+            let report = BOM + "📊 RELATÓRIO COMPLETO DO SIMULADO ITIL 4 - PMG ACADEMY (SIMULADO 7)\n\n";
+            report += "=".repeat(60) + "\n\n";
+            
+            const score = userAnswers.reduce((acc, answer, index) => 
+                answer === questions[index].correct ? acc + 1 : acc, 0);
+            const percentage = (score / questions.length) * 100;
+            
+            report += `RESULTADO FINAL: ${score}/${questions.length} (${percentage.toFixed(1)}%)\n\n`;
+            report += "=".repeat(60) + "\n\n";
+            
+            questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.correct;
+                
+                report += `🔍 QUESTÃO ${question.number}\n`;
+                report += `${question.text}\n\n`;
+                report += `SUA RESPOSTA: ${userAnswer !== null ? 
+                    `${String.fromCharCode(65 + userAnswer)} - ${question.options[userAnswer]}` : 
+                    '❌ NÃO RESPONDIDA'}\n`;
+                report += `RESPOSTA CORRETA: ${String.fromCharCode(65 + question.correct)} - ${question.options[question.correct]}\n`;
+                report += `STATUS: ${isCorrect ? '✅ CORRETO' : '❌ INCORRETO'}\n\n`;
+                report += `💡 EXPLICAÇÃO:\n${question.explanation}\n\n`;
+                report += "=".repeat(60) + "\n\n";
+            });
+            
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `relatorio-simulado-7-itil-pmg-academy-${new Date().toLocaleDateString('pt-BR')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleMark() {
+            markedQuestions[currentQuestion] = !markedQuestions[currentQuestion];
+            updateQuestionGrid();
+            updateMarkButton();
+        }
+
+        function updateMarkButton() {
+            const btn = document.getElementById('mark-btn');
+            if (markedQuestions[currentQuestion]) {
+                btn.innerHTML = '📌 Marcada';
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-orange');
+            } else {
+                btn.innerHTML = '📌 Marcar';
+                btn.classList.remove('btn-orange');
+                btn.classList.add('btn-warning');
+            }
+        }
+
+        function updateQuestionGrid() {
+            const items = elements.questionGrid.querySelectorAll('.grid-item');
+            items.forEach((item, index) => {
+                item.classList.remove('current', 'answered', 'marked');
+                if (index === currentQuestion) item.classList.add('current');
+                if (userAnswers[index] !== null) item.classList.add('answered');
+                if (markedQuestions[index]) item.classList.add('marked');
+            });
+        }
+
+        function updateNavigation() {
+            updateQuestionGrid();
+            
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === questions.length - 1;
+            
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.innerHTML = 'Última ➡️';
+            } else {
+                nextBtn.innerHTML = 'Próxima ➡️';
+            }
+        }
+
+        function navigate(direction) {
+            const newIndex = currentQuestion + direction;
+            if (newIndex >= 0 && newIndex < questions.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        function startTimer() {
+            updateTimer();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft <= 0) finishExam();
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft < 300) {
+                elements.timer.style.color = '#e74c3c';
+                elements.timer.style.animation = 'pulse 1s infinite';
+            }
+        }
+
+        function finishExam() {
+            const unanswered = userAnswers.filter(answer => answer === null).length;
+            
+            if (unanswered > 0) {
+                if (!confirm(`⚠️ Você tem ${unanswered} questão(ões) não respondida(s). Deseja finalizar mesmo assim?`)) {
+                    return;
+                }
+            }
+            
+            examFinished = true;
+            clearInterval(timerInterval);
+            
+            const score = userAnswers.reduce((acc, answer, index) => 
+                answer === questions[index].correct ? acc + 1 : acc, 0);
+            const percentage = (score / questions.length) * 100;
+            
+            showResults(score, percentage);
+        }
+
+        function showResults(score, percentage) {
+            elements.examArea.style.display = 'none';
+            elements.resultsScreen.style.display = 'block';
+            
+            document.getElementById('score-display').textContent = `${score}/${questions.length}`;
+            
+            let message = '';
+            let color = '#3498db';
+            let emoji = '😊';
+            
+            if (percentage >= 85) {
+                message = 'Excelente! Domínio completo dos conceitos ITIL! 🎉';
+                color = '#27ae60';
+                emoji = '🏆';
+            } else if (percentage >= 70) {
+                message = 'Bom trabalho! No caminho certo para certificação! 👍';
+                emoji = '⭐';
+            } else if (percentage >= 65) {
+                message = 'Pontuação mínima atingida. Recomendamos mais estudo. 📚';
+                color = '#f39c12';
+                emoji = '📖';
+            } else {
+                message = 'Continue estudando! Reveja os conceitos ITIL. 💪';
+                color = '#e74c3c';
+                emoji = '🎯';
+            }
+            
+            document.getElementById('score-display').style.color = color;
+            document.getElementById('score-text').textContent = `${percentage.toFixed(1)}% de acertos. ${emoji} ${message}`;
+        }
+
+        function resetExam() {
+            if (confirm('🔄 Reiniciar simulado? Todo o progresso atual será perdido.')) {
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                markedQuestions = Array(questions.length).fill(false);
+                timeLeft = 60 * 60;
+                examFinished = false;
+                
+                elements.resultsScreen.style.display = 'none';
+                elements.answersScreen.style.display = 'none';
+                elements.examArea.style.display = 'none';
+                elements.startScreen.style.display = 'block';
+                
+                clearInterval(timerInterval);
+                elements.timer.textContent = '60:00';
+                elements.timer.style.color = '#e74c3c';
+                elements.timer.style.animation = 'none';
+                
+                createQuestionGrid();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        window.toggleExplanation = function(index) {
+            const explanation = document.getElementById(`explanation-${index}`);
+            explanation.classList.toggle('explanation-show');
+        };
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
