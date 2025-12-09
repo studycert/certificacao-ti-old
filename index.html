@@ -651,6 +651,7 @@
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease-out;
+            position: relative;
         }
 
         @keyframes modalSlideIn {
@@ -664,9 +665,34 @@
             }
         }
 
+        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
+        .close-auth-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-auth-modal:hover {
+            background: #f1f1f1;
+            color: #333;
+        }
+
         .auth-header {
             text-align: center;
             margin-bottom: 30px;
+            padding-right: 30px;
         }
 
         .auth-header h2 {
@@ -1034,9 +1060,12 @@
         </div>
     </header>
 
-    <!-- Modal de Login/Cadastro -->
+    <!-- Modal de Login/Cadastro COM BOTÃO X -->
     <div id="modalAuth" class="modal-auth">
         <div class="auth-container">
+            <!-- BOTÃO X PARA FECHAR MODAL -->
+            <button class="close-auth-modal" onclick="closeAuthModal()">&times;</button>
+            
             <div class="auth-header">
                 <h2>Study<span style="color: #3498db;">Cert</span></h2>
                 <p>Sua jornada começa aqui</p>
@@ -1667,7 +1696,8 @@
                         <p>Compartilhe seu próprio simulado com a comunidade.</p>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-outline" onclick="uploadSimulado()">Upload</button>
+                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
+                        <button class="btn btn-primary" onclick="uploadSimulado()">Upload</button>
                     </div>
                 </div>
             </div>
@@ -1834,38 +1864,68 @@
     </footer>
 
     <script>
-        // Configuração SIMPLIFICADA do Supabase
         const SUPABASE_URL = 'https://lkguubynwngnewucgewx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
-        let supabase;
         
-        try {
-            supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-            console.log('Supabase configurado');
-        } catch (err) {
-            console.log('Supabase não configurado - usando modo estático');
-        }
-
-        // Estado da aplicação
+        let supabase;
         let currentUser = null;
 
-        // Inicialização SIMPLIFICADA
-        document.addEventListener('DOMContentLoaded', function() {
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log('Página carregada');
+            
+            // Inicializar Supabase
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('Supabase configurado com sucesso!');
+            } catch (err) {
+                console.error('Erro ao configurar Supabase:', err);
+                // Se der erro na chave, mostra mensagem mais amigável
+                showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
+                return;
+            }
             
             // Carregar navegação
             loadNavigation();
             
-            // Verificar autenticação (simplificado)
-            checkAuthSimple();
+            // Verificar autenticação
+            await checkAuth();
             
-            // Não carrega conteúdo dinâmico - já temos conteúdo estático
+            // Configurar eventos dos modais
+            setupModalEvents();
         });
 
-        // NAVEGAÇÃO SIMPLIFICADA
-        function loadNavigation() {
-            console.log('Carregando navegação...');
+        // Função para mostrar erro global
+        function showGlobalError(message) {
+            console.error('Erro global:', message);
             
+            // Pode mostrar uma mensagem na tela se quiser
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 10000;
+                max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
+            document.body.appendChild(errorDiv);
+            
+            // Remove após 10 segundos
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 10000);
+        }
+
+        // NAVEGAÇÃO
+        function loadNavigation() {
             const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
@@ -1892,25 +1952,74 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
             });
         }
 
-        // Verificação SIMPLIFICADA de autenticação
-        function checkAuthSimple() {
-            console.log('Verificando autenticação simplificada...');
-            // Sem Supabase, mostra botões de login/cadastro
-            updateAuthUI();
+        // Verificação de autenticação
+        async function checkAuth() {
+            try {
+                if (!supabase) {
+                    console.log('Supabase não inicializado');
+                    updateAuthUI();
+                    return;
+                }
+                
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    updateAuthUI();
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                } else {
+                    currentUser = null;
+                }
+                
+                updateAuthUI();
+                if (currentUser) showUserProgress();
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                updateAuthUI();
+            }
         }
 
-        // Atualizar UI de autenticação SIMPLIFICADA
+        // Atualizar UI de autenticação
         function updateAuthUI() {
             const authButtons = document.getElementById('authButtons');
+            const uploadArea = document.getElementById('uploadArea');
             
-            // Sempre mostra botões de login/cadastro quando não tem Supabase
-            authButtons.innerHTML = `
-                <button class="btn btn-outline" onclick="openLogin()">Entrar</button>
-                <button class="btn btn-primary" onclick="openRegister()">Cadastrar</button>
-            `;
-            
-            // Esconde área de upload
-            document.getElementById('uploadArea').style.display = 'none';
+            if (currentUser) {
+                // Usuário logado
+                const displayName = currentUser.user_metadata?.full_name || currentUser.email;
+                const initials = displayName.substring(0, 2).toUpperCase();
+                
+                authButtons.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
+                        <span>${displayName}</span>
+                        <button class="btn btn-outline" onclick="logout()" style="margin-left: 10px;">Sair</button>
+                    </div>
+                `;
+                
+                // Mostra área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'block';
+                }
+                
+            } else {
+                // Usuário não logado
+                authButtons.innerHTML = `
+                    <button class="btn btn-outline" onclick="openLogin()">Entrar</button>
+                    <button class="btn btn-primary" onclick="openRegister()">Cadastrar</button>
+                `;
+                
+                // Esconde área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'none';
+                }
+            }
         }
 
         // Funções da modal de autenticação
@@ -1947,8 +2056,8 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
             document.getElementById('registerMessage').style.display = 'none';
         }
 
-        // Login SIMULADO (sem Supabase)
-        function login() {
+        // Login REAL com Supabase
+        async function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
@@ -1957,17 +2066,52 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
                 return;
             }
             
-            // Simulação de login
-            showMessage('loginMessage', 'Login simulado (Supabase não configurado)', 'success');
-            setTimeout(() => {
-                closeAuthModal();
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-            }, 1500);
+            try {
+                if (!supabase) {
+                    showMessage('loginMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                
+                showMessage('loginMessage', 'Login realizado com sucesso!', 'success');
+                currentUser = data.user;
+                
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateAuthUI();
+                    showUserProgress();
+                    // Limpar campos
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Erro no login:', error);
+                let errorMessage = 'Erro ao fazer login';
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Email ou senha incorretos';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Confirme seu email antes de fazer login';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else {
+                    errorMessage = `Erro: ${error.message}`;
+                }
+                
+                showMessage('loginMessage', errorMessage, 'error');
+            }
         }
 
-        // Cadastro SIMULADO (sem Supabase)
-        function register() {
+        // Cadastro REAL com Supabase
+        async function register() {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
@@ -1982,15 +2126,52 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
                 return;
             }
             
-            // Simulação de cadastro
-            showMessage('registerMessage', 'Cadastro simulado (Supabase não configurado)', 'success');
-            
-            setTimeout(() => {
-                document.getElementById('registerName').value = '';
-                document.getElementById('registerEmail').value = '';
-                document.getElementById('registerPassword').value = '';
-                showAuthTab('login');
-            }, 2000);
+            try {
+                if (!supabase) {
+                    showMessage('registerMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
+                
+                setTimeout(() => {
+                    // Limpar campos
+                    document.getElementById('registerName').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    // Mudar para aba de login
+                    showAuthTab('login');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Erro no cadastro:', error);
+                let errorMessage = 'Erro ao criar conta';
+                
+                if (error.message.includes('User already registered')) {
+                    errorMessage = 'Este email já está cadastrado';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else if (error.message.includes('Password should be at least')) {
+                    errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+                } else {
+                    errorMessage = `Erro: ${error.message}`;
+                }
+                
+                showMessage('registerMessage', errorMessage, 'error');
+            }
         }
 
         function showMessage(elementId, message, type) {
@@ -2000,15 +2181,59 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
             element.style.display = 'block';
         }
 
-        // Logout SIMULADO
-        function logout() {
-            currentUser = null;
-            updateAuthUI();
+        // Logout
+        async function logout() {
+            try {
+                if (supabase) {
+                    const { error } = await supabase.auth.signOut();
+                    if (error) throw error;
+                }
+                
+                currentUser = null;
+                updateAuthUI();
+                const userProgress = document.getElementById('userProgress');
+                if (userProgress) {
+                    userProgress.style.display = 'none';
+                }
+                
+                // Volta para a página inicial
+                const homeLink = document.querySelector('.nav-link[data-target="home"]');
+                if (homeLink) {
+                    homeLink.click();
+                }
+                
+            } catch (error) {
+                console.error('Erro ao fazer logout:', error);
+            }
         }
 
-        // Upload de simulado SIMULADO
+        // Upload de simulado
         function uploadSimulado() {
-            alert('Para fazer upload de simulados, configure o Supabase primeiro.');
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
+            
+            document.getElementById('fileUpload').click();
+        }
+
+        // Mostrar progresso do usuário
+        function showUserProgress() {
+            if (!currentUser) return;
+            
+            const progressElement = document.getElementById('userProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressElement && progressFill && progressText) {
+                progressElement.style.display = 'block';
+                
+                // Simulação de progresso
+                const progress = 45; // 45%
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+            }
         }
 
         // Funções da modal de simulados
@@ -2026,43 +2251,66 @@ const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
 
         // Criar novo post
         function createNewPost() {
-            alert('Para criar posts, configure o Supabase primeiro.');
+            if (!currentUser) {
+                alert('Por favor, faça login para criar posts.');
+                openLogin();
+                return;
+            }
+            alert('Funcionalidade de criação de posts em desenvolvimento.');
         }
 
         // Configurar eventos dos modais
-        document.getElementById('modalSimulados').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalSimulados();
-            }
-        });
-
-        document.getElementById('modalAuth').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeAuthModal();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModalSimulados();
-                closeAuthModal();
-            }
-        });
-
-        // Tabs de autenticação
-        document.querySelectorAll('.auth-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabName = this.getAttribute('data-tab');
-                showAuthTab(tabName);
+        function setupModalEvents() {
+            document.getElementById('modalSimulados').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModalSimulados();
+                }
             });
-        });
+
+            document.getElementById('modalAuth').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAuthModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModalSimulados();
+                    closeAuthModal();
+                }
+            });
+
+            // Tabs de autenticação
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    showAuthTab(tabName);
+                });
+            });
+        }
 
         // Redefinir senha
         function forgotPassword() {
-            alert('Para redefinir senha, configure o Supabase primeiro.');
+            alert('Funcionalidade de redefinição de senha em desenvolvimento.');
         }
 
-        console.log('Script simplificado carregado!');
+        // Upload de arquivo
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.type !== 'text/html') {
+                    alert('Por favor, selecione apenas arquivos HTML.');
+                    return;
+                }
+                
+                // Aqui você pode adicionar a lógica para fazer upload do arquivo
+                alert(`Arquivo "${file.name}" selecionado para upload.`);
+                console.log('Arquivo para upload:', file);
+                
+                // Limpar o input
+                e.target.value = '';
+            }
+        });
     </script>
 </body>
 </html>
