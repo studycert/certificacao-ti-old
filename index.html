@@ -1260,82 +1260,299 @@ function atualizarBotoesUpload() {
     if (uploadBtn) {
         uploadBtn.setAttribute('onclick', 'openUploadModal()');
     }
+// =============================
+// SISTEMA DE UPLOAD REAL
+// =============================
+
+// Modal de Upload
+function openUploadModal() {
+    if (!currentUser) {
+        alert('Por favor, faça login para fazer upload de simulados.');
+        openLogin();
+        return;
+    }
+    
+    // Criar modal dinâmico se não existir
+    if (!document.getElementById('modalUpload')) {
+        createUploadModal();
+    }
+    
+    document.getElementById('modalUpload').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-// =============================
-// ADICIONAR CSS PARA MODAL DE UPLOAD
-// =============================
-
-// Adicionar CSS dinamicamente
-const uploadCSS = `
-    /* Modal de Upload de Simulado */
-    .modal-upload {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        padding: 20px;
+// Criar modal de upload
+function createUploadModal() {
+    const modalHTML = `
+        <div id="modalUpload" class="modal-upload">
+            <div class="modal-container" style="max-width: 600px;">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cloud-upload-alt"></i> Enviar Simulado</h3>
+                    <button class="fechar-modal" onclick="closeUploadModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div id="uploadMessage" class="message"></div>
+                    
+                    <div class="form-group">
+                        <label for="simuladoNome">Nome do Simulado *</label>
+                        <input type="text" id="simuladoNome" placeholder="Ex: ITIL 4 Foundation - Simulado 1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="simuladoDescricao">Descrição</label>
+                        <textarea id="simuladoDescricao" rows="3" placeholder="Descreva seu simulado..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="simuladoCategoria">Categoria</label>
+                        <select id="simuladoCategoria">
+                            <option value="ITIL">ITIL</option>
+                            <option value="Linux">Linux (LPIC)</option>
+                            <option value="AWS">AWS</option>
+                            <option value="Azure">Azure</option>
+                            <option value="Security">Security+</option>
+                            <option value="CCNA">CCNA</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="upload-area" style="margin: 20px 0;">
+                        <i class="fas fa-file-upload"></i>
+                        <h4>Selecione o arquivo HTML</h4>
+                        <p>Arraste ou clique para selecionar um arquivo HTML</p>
+                        <input type="file" id="fileUploadInput" accept=".html,.htm" style="display: none;">
+                        <button class="btn btn-primary" onclick="document.getElementById('fileUploadInput').click()">
+                            <i class="fas fa-folder-open"></i> Selecionar Arquivo
+                        </button>
+                        <p id="fileName" style="margin-top: 10px; color: var(--gray);"></p>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>
+                            <input type="checkbox" id="termosAceitos" required>
+                            Concordo com os <a href="#" onclick="alert('Termos de uso em desenvolvimento')">termos de uso</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="closeUploadModal()">Cancelar</button>
+                    <button class="btn btn-success" onclick="enviarSimulado()" id="btnEnviarSimulado">
+                        <i class="fas fa-paper-plane"></i> Enviar Simulado
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Configurar eventos do modal
+    document.getElementById('modalUpload').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeUploadModal();
+        }
+    });
+    
+    // Evento do input de arquivo
+    const fileInput = document.getElementById('fileUploadInput');
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                document.getElementById('fileName').textContent = `Arquivo selecionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+            }
+        });
     }
+}
 
-    .modal-upload.active {
-        display: flex;
-        opacity: 1;
+// Fechar modal de upload
+function closeUploadModal() {
+    const modal = document.getElementById('modalUpload');
+    if (modal) {
+        modal.classList.remove('active');
     }
-
-    /* Estilos para textarea e select */
-    .form-group textarea,
-    .form-group select {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e1e1e1;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: border-color 0.3s;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    document.body.style.overflow = 'auto';
+    
+    // Limpar formulário
+    if (document.getElementById('simuladoNome')) {
+        document.getElementById('simuladoNome').value = '';
+        document.getElementById('simuladoDescricao').value = '';
+        document.getElementById('simuladoCategoria').value = 'ITIL';
+        document.getElementById('fileName').textContent = '';
+        document.getElementById('termosAceitos').checked = false;
+        document.getElementById('uploadMessage').style.display = 'none';
     }
+}
 
-    .form-group textarea:focus,
-    .form-group select:focus {
-        outline: none;
-        border-color: var(--secondary);
+// Enviar simulado REAL para o Supabase
+async function enviarSimulado() {
+    const nome = document.getElementById('simuladoNome').value.trim();
+    const descricao = document.getElementById('simuladoDescricao').value.trim();
+    const categoria = document.getElementById('simuladoCategoria').value;
+    const fileInput = document.getElementById('fileUploadInput');
+    const file = fileInput.files[0];
+    
+    const uploadMessage = document.getElementById('uploadMessage');
+    const btnEnviar = document.getElementById('btnEnviarSimulado');
+    
+    // Validação
+    if (!nome) {
+        showUploadMessage('Por favor, insira um nome para o simulado.', 'error');
+        return;
     }
-
-    .form-group textarea {
-        min-height: 100px;
-        resize: vertical;
+    
+    if (!file) {
+        showUploadMessage('Por favor, selecione um arquivo HTML.', 'error');
+        return;
     }
-
-    .form-group label input[type="checkbox"] {
-        margin-right: 8px;
+    
+    if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
+        showUploadMessage('Por favor, selecione apenas arquivos HTML.', 'error');
+        return;
     }
-
-    .form-group a {
-        color: var(--secondary);
-        text-decoration: none;
+    
+    if (!document.getElementById('termosAceitos').checked) {
+        showUploadMessage('Você precisa aceitar os termos de uso.', 'error');
+        return;
     }
-
-    .form-group a:hover {
-        text-decoration: underline;
+    
+    try {
+        // Mostrar loading
+        btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        btnEnviar.disabled = true;
+        
+        // 1. Fazer upload para o Storage
+        const nomeArquivo = `${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('simulados')  // Nome do bucket
+            .upload(nomeArquivo, file);
+        
+        if (uploadError) throw uploadError;
+        
+        // 2. Salvar metadados no banco de dados
+        const { error: dbError } = await supabase
+            .from('simulados')
+            .insert({
+                nome: nome,
+                descricao: descricao,
+                arquivo_url: nomeArquivo,  // Nome do arquivo no storage
+                usuario_id: currentUser.id,
+                usuario_nome: currentUser.user_metadata?.full_name || currentUser.email,
+                categoria: categoria,
+                data_upload: new Date().toISOString(),
+                visualizacoes: 0,
+                downloads: 0,
+                ativo: true
+            });
+        
+        if (dbError) throw dbError;
+        
+        showUploadMessage('✅ Simulado enviado com sucesso!', 'success');
+        
+        // Atualizar lista de simulados após 2 segundos
+        setTimeout(() => {
+            closeUploadModal();
+            alert('Simulado enviado com sucesso!');
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Erro ao enviar simulado:', error);
+        showUploadMessage(`❌ Erro ao enviar simulado: ${error.message}`, 'error');
+    } finally {
+        // Restaurar botão
+        btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
+        btnEnviar.disabled = false;
     }
-`;
+}
 
-// Injetar CSS
-const style = document.createElement('style');
-style.textContent = uploadCSS;
-document.head.appendChild(style);
+// Mostrar mensagem no modal de upload
+function showUploadMessage(message, type) {
+    const element = document.getElementById('uploadMessage');
+    if (element) {
+        element.innerHTML = message;
+        element.className = `message ${type}`;
+        element.style.display = 'block';
+    }
+}
+
+// Adicionar CSS para modal de upload
+function addUploadModalCSS() {
+    const uploadCSS = `
+        /* Modal de Upload de Simulado */
+        .modal-upload {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-upload.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Estilos para textarea e select */
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group label input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-group a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .form-group a:hover {
+            text-decoration: underline;
+        }
+    `;
+    
+    // Injetar CSS apenas se não existir
+    if (!document.getElementById('uploadModalCSS')) {
+        const style = document.createElement('style');
+        style.id = 'uploadModalCSS';
+        style.textContent = uploadCSS;
+        document.head.appendChild(style);
+    }
+}
 
 // Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
-    // Atualizar botões após 1 segundo (para garantir que o DOM está pronto)
-    setTimeout(atualizarBotoesUpload, 1000);
+    // Adicionar CSS do modal de upload
+    addUploadModalCSS();
 });
     </style>
 </head>
