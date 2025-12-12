@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        /* (MANTENHA TODO O CSS ANTERIOR - NÃO ALTERADO) */
         * {
             margin: 0;
             padding: 0;
@@ -26,8 +25,1072 @@
             --gray: #95a5a6;
         }
 
-        /* ... (TODO O RESTANTE DO CSS PERMANECE IGUAL) ... */
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
 
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - BOTÕES SEM BORDA */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 3rem 0;
+            min-height: 60vh;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Forum */
+        .forum-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .forum-categories {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .forum-categories h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-count {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .forum-posts {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .post-title:hover {
+            color: var(--secondary);
+        }
+
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .new-post-btn {
+            display: block;
+            margin: 2rem auto;
+            width: 200px;
+        }
+
+        /* Study Materials */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .material-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .material-content {
+            padding: 1.5rem;
+        }
+
+        .material-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .material-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Simulados */
+        .simulados-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .simulado-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .simulado-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .simulado-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certifications Grid */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .cert-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-level {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Modal de Login/Cadastro */
+        .modal-auth {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-auth.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
+        .close-auth-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-auth-modal:hover {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-right: 30px;
+        }
+
+        .auth-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        /* Mensagens de erro/sucesso */
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .message.success {
+            background: #efe;
+            color: #2a7;
+            border: 1px solid #cfc;
+        }
+
+        /* Progresso do usuário */
+        .user-progress {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
+        
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal overlay para lista de simulados */
+        .modal-simulados {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-simulados.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Container interno da modal */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        /* Cabeçalho da modal */
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo da modal */
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Cada item da lista */
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        /* Ícones de status */
+        .status-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .status-disponivel {
+            color: #27ae60;
+        }
+
+        .status-em-breve {
+            color: #f39c12;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Botões na modal */
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Rodapé da modal */
+        .modal-footer {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Modal de Upload */
+        .modal-upload {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-upload.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Estilos para textarea e select no modal de upload */
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group label input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-group a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .form-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .simulado-item-modal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn-sm {
+                align-self: flex-end;
+            }
+        }
     </style>
 </head>
 <body>
@@ -101,46 +1164,7 @@
                     <label for="registerPassword">Senha</label>
                     <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres">
                 </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmar Senha</label>
-                    <input type="password" id="confirmPassword" placeholder="Digite a senha novamente">
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="acceptTerms">
-                        Aceito os <a href="#" onclick="showTerms()">Termos de Uso</a> e <a href="#" onclick="showPrivacy()">Política de Privacidade</a>
-                    </label>
-                </div>
                 <button class="btn btn-success" onclick="register()" style="width: 100%;">Criar Conta</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Confirmação de Email -->
-    <div id="modalConfirmEmail" class="modal-auth" style="display: none;">
-        <div class="auth-container">
-            <button class="close-auth-modal" onclick="closeConfirmEmailModal()">&times;</button>
-            
-            <div class="auth-header">
-                <h2 style="color: #27ae60;"><i class="fas fa-envelope"></i> Confirme seu Email</h2>
-            </div>
-            
-            <div style="text-align: center; padding: 20px;">
-                <i class="fas fa-envelope-open-text" style="font-size: 4rem; color: #3498db; margin-bottom: 20px;"></i>
-                <h3>Email de Confirmação Enviado!</h3>
-                <p id="confirmEmailText" style="margin: 20px 0;">
-                    Enviamos um email de confirmação para <strong id="userEmail"></strong>.
-                    Clique no link no email para ativar sua conta.
-                </p>
-                <div class="message success" style="margin: 20px 0;">
-                    <i class="fas fa-info-circle"></i> Verifique sua caixa de spam se não encontrar o email.
-                </div>
-                <button class="btn btn-primary" onclick="closeConfirmEmailModal()" style="width: 100%;">
-                    Entendi
-                </button>
-                <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-                    Não recebeu? <a href="#" onclick="resendConfirmationEmail()">Reenviar email</a>
-                </p>
             </div>
         </div>
     </div>
@@ -275,7 +1299,7 @@
             </div>
 
             <div class="certifications-grid" id="certificacoesContent">
-                <!-- Conteúdo estático para garantir visibilidade -->
+                <!-- Conteúdo estático para teste -->
                 <div class="cert-card">
                     <div class="cert-icon">
                         <i class="fab fa-microsoft"></i>
@@ -320,6 +1344,54 @@
                         <span class="cert-level">Governança</span>
                         <h3>ITIL 4 Specialist</h3>
                         <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-1</h3>
+                        <p>Certificação Linux Professional Institute - Nível 1.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-2</h3>
+                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Rede</span>
+                        <h3>CCNA</h3>
+                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Dados</span>
+                        <h3>Data Fundamentals</h3>
+                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
@@ -452,6 +1524,28 @@
                     <div class="material-content">
                         <h3>ITIL 4</h3>
                         <p>Guias, resumos e material para certificação ITIL.</p>
+                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Security+</h3>
+                        <p>Material para preparação da certificação CompTIA Security+.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>CCNA</h3>
+                        <p>Recursos para Cisco Certified Network Associate.</p>
                         <a href="#" class="btn btn-primary">Acessar</a>
                     </div>
                 </div>
@@ -518,11 +1612,12 @@
                 <i class="fas fa-cloud-upload-alt"></i>
                 <h3>Compartilhe Seu Simulado</h3>
                 <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <button class="btn btn-primary" onclick="openUploadModal()">Upload de Arquivo</button>
+                <input type="file" id="fileUpload" accept=".html" style="display: none;">
+                <button class="btn btn-primary" onclick="uploadSimulado()">Upload de Arquivo</button>
             </div>
 
             <div id="simuladosContent" class="simulados-container">
-                <!-- Conteúdo estático -->
+                <!-- Conteúdo estático - 9 SIMULADOS -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
@@ -569,12 +1664,97 @@
 
                 <div class="simulado-card">
                     <div class="card-header">
+                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">50 questões</span>
+                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">40 questões</span>
+                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
+                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">55 questões</span>
+                        <p>Simulado para Cisco Certified Network Associate.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">35 questões</span>
+                        <p>Simulado para DP-900: Data Fundamentals.</p>
+                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">70 questões</span>
+                        <p>Simulado para Linux Professional Institute Level 2.</p>
+                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">65 questões</span>
+                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
+                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
                         <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
                     </div>
                     <div class="card-body">
                         <p>Compartilhe seu próprio simulado com a comunidade.</p>
                     </div>
                     <div class="card-footer">
+                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
                         <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
                     </div>
                 </div>
@@ -597,7 +1777,7 @@
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
                 <div class="simulado-item-modal">
@@ -605,7 +1785,7 @@
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
                 <div class="simulado-item-modal">
@@ -613,7 +1793,7 @@
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
                 <div class="simulado-item-modal">
@@ -621,7 +1801,7 @@
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
                 <div class="simulado-item-modal">
@@ -629,13 +1809,63 @@
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
+                    </div>
+                    <a href="simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
+                    </div>
+                    <a href="simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 8 - Governança</span>
+                    </div>
+                    <a href="simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
+                    </div>
+                    <a href="simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
+                    </div>
+                <a href="simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <!-- <i class="fas fa-clock status-icon status-em-breve"></i> -->
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
+                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
+                    </div>
+                    <!-- <button class="btn btn-outline btn-sm" disabled>Em Breve</button> -->
+                    <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
                 </div>
             </div>
             
             <div class="modal-footer">
-                <div><strong>5</strong> simulados disponíveis</div>
-                <div><strong>200</strong> questões no total</div>
+                <div><strong>11</strong> simulados disponíveis</div>
+                <div><strong>440</strong> questões no total</div>
             </div>
         </div>
     </div>
@@ -696,99 +1926,70 @@
     </footer>
 
     <script>
-        // ========== CONFIGURAÇÃO DO SUPABASE CORRIGIDA ==========
-        const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbm53YnJocmNrcWVnYWlwYXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwMjI1OTgsImV4cCI6MjA0OTU5ODU5OH0.4OChK34VBn-PS5eP18l9Q9FskWYWTyj6EfUQ6UBV-r0';
+        const SUPABASE_URL = 'https://lkguubynwngnewucgewx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
         
         let supabase;
         let currentUser = null;
-        let supabaseConnected = false;
 
-        // ========== INICIALIZAÇÃO ==========
+        // Inicialização
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 StudyCert - Inicializando...');
+            console.log('Página carregada');
             
+            // Inicializar Supabase
             try {
-                // Inicializar Supabase corretamente
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-                    auth: {
-                        autoRefreshToken: true,
-                        persistSession: true,
-                        detectSessionInUrl: true
-                    }
-                });
-                
-                // Verificar conexão
-                const { data, error } = await supabase.from('usuarios').select('count', { count: 'exact', head: true });
-                
-                if (error) {
-                    console.warn('⚠️ Supabase conectado, mas tabela usuarios não encontrada:', error.message);
-                    supabaseConnected = true;
-                } else {
-                    console.log('✅ Supabase conectado com sucesso!');
-                    supabaseConnected = true;
-                }
-                
-                // Verificar se há sessão ativa
-                const { data: { session } } = await supabase.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    console.log('👤 Usuário já logado:', currentUser.email);
-                }
-                
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('Supabase configurado com sucesso!');
             } catch (err) {
-                console.error('❌ Erro ao conectar com Supabase:', err.message);
-                supabaseConnected = false;
-                supabase = null;
-            }
-            
-            // Inicializar interface
-            forceShowButtons();
-            loadNavigation();
-            setupModalEvents();
-            setupSimuladosModal();
-            updateAuthUI();
-            
-            console.log('🎉 Inicialização completa!');
-        });
-
-        // ========== FUNÇÃO QUE GARANTE OS BOTÕES ==========
-        function forceShowButtons() {
-            const authButtons = document.getElementById('authButtons');
-            
-            if (!authButtons) {
-                console.error('❌ Elemento authButtons não encontrado!');
+                console.error('Erro ao configurar Supabase:', err);
+                // Se der erro na chave, mostra mensagem mais amigável
+                showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
                 return;
             }
             
-            if (currentUser) {
-                // Usuário logado
-                const displayName = currentUser.user_metadata?.full_name || currentUser.email;
-                const initials = displayName.substring(0, 2).toUpperCase();
-                
-                authButtons.innerHTML = `
-                    <div class="user-info">
-                        <div class="user-avatar">${initials}</div>
-                        <span>${displayName}</span>
-                        <button class="btn btn-outline" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i> Sair
-                        </button>
-                    </div>
-                `;
-            } else {
-                // Usuário não logado
-                authButtons.innerHTML = `
-                    <button class="btn btn-outline" onclick="openLogin()" id="btnLogin">
-                        <i class="fas fa-sign-in-alt"></i> Entrar
-                    </button>
-                    <button class="btn btn-primary" onclick="openRegister()" id="btnRegister">
-                        <i class="fas fa-user-plus"></i> Cadastrar
-                    </button>
-                `;
-            }
+            // Carregar navegação
+            loadNavigation();
+            
+            // Verificar autenticação
+            await checkAuth();
+            
+            // Configurar eventos dos modais
+            setupModalEvents();
+            
+            // Inicializar sistema de upload
+            initUploadSystem();
+        });
+
+        // Função para mostrar erro global
+        function showGlobalError(message) {
+            console.error('Erro global:', message);
+            
+            // Pode mostrar uma mensagem na tela se quiser
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 10000;
+                max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
+            document.body.appendChild(errorDiv);
+            
+            // Remove após 10 segundos
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 10000);
         }
 
-        // ========== NAVEGAÇÃO ==========
+        // NAVEGAÇÃO
         function loadNavigation() {
             const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
@@ -816,25 +2017,87 @@
             });
         }
 
-        // ========== MODAL DE AUTENTICAÇÃO ==========
+        // Verificação de autenticação
+        async function checkAuth() {
+            try {
+                if (!supabase) {
+                    console.log('Supabase não inicializado');
+                    updateAuthUI();
+                    return;
+                }
+                
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    updateAuthUI();
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                } else {
+                    currentUser = null;
+                }
+                
+                updateAuthUI();
+                if (currentUser) showUserProgress();
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                updateAuthUI();
+            }
+        }
+
+        // Atualizar UI de autenticação
+        function updateAuthUI() {
+            const authButtons = document.getElementById('authButtons');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (currentUser) {
+                // Usuário logado
+                const displayName = currentUser.user_metadata?.full_name || currentUser.email;
+                const initials = displayName.substring(0, 2).toUpperCase();
+                
+                authButtons.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
+                        <span>${displayName}</span>
+                        <button class="btn btn-outline" onclick="logout()" style="margin-left: 10px;">Sair</button>
+                    </div>
+                `;
+                
+                // Mostra área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'block';
+                }
+                
+            } else {
+                // Usuário não logado
+                authButtons.innerHTML = `
+                    <button class="btn btn-outline" onclick="openLogin()">Entrar</button>
+                    <button class="btn btn-primary" onclick="openRegister()">Cadastrar</button>
+                `;
+                
+                // Esconde área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'none';
+                }
+            }
+        }
+
+        // Funções da modal de autenticação
         function openLogin(e) {
             if (e) e.preventDefault();
-            
-            const modal = document.getElementById('modalAuth');
-            if (modal) {
-                modal.classList.add('active');
-                showAuthTab('login');
-            }
+            document.getElementById('modalAuth').classList.add('active');
+            showAuthTab('login');
         }
 
         function openRegister(e) {
             if (e) e.preventDefault();
-            
-            const modal = document.getElementById('modalAuth');
-            if (modal) {
-                modal.classList.add('active');
-                showAuthTab('register');
-            }
+            document.getElementById('modalAuth').classList.add('active');
+            showAuthTab('register');
         }
 
         function closeAuthModal() {
@@ -843,29 +2106,24 @@
         }
 
         function showAuthTab(tab) {
-            // Ativar tab
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
             
             document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
             document.getElementById(`${tab}Form`).classList.add('active');
-            
             clearAuthMessages();
         }
 
         function clearAuthMessages() {
-            ['loginMessage', 'registerMessage'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.innerHTML = '';
-                    el.style.display = 'none';
-                }
-            });
+            document.getElementById('loginMessage').innerHTML = '';
+            document.getElementById('loginMessage').style.display = 'none';
+            document.getElementById('registerMessage').innerHTML = '';
+            document.getElementById('registerMessage').style.display = 'none';
         }
 
-        // ========== FUNÇÕES DE AUTENTICAÇÃO CORRIGIDAS ==========
+        // Login REAL com Supabase
         async function login() {
-            const email = document.getElementById('loginEmail').value.trim();
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
             if (!email || !password) {
@@ -873,63 +2131,57 @@
                 return;
             }
             
-            showMessage('loginMessage', '<i class="fas fa-spinner fa-spin"></i> Entrando...', 'success');
-            
-            if (!supabaseConnected || !supabase) {
-                showMessage('loginMessage', '⚠️ Sistema temporariamente offline. Tente mais tarde.', 'error');
-                return;
-            }
-            
             try {
+                if (!supabase) {
+                    showMessage('loginMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
                 });
                 
-                if (error) {
-                    if (error.message.includes('Invalid login credentials')) {
-                        showMessage('loginMessage', '❌ Email ou senha incorretos', 'error');
-                    } else if (error.message.includes('Email not confirmed')) {
-                        showMessage('loginMessage', '⚠️ Confirme seu email antes de fazer login', 'error');
-                    } else {
-                        showMessage('loginMessage', `❌ Erro: ${error.message}`, 'error');
-                    }
-                    return;
+                if (error) throw error;
+                
+                showMessage('loginMessage', 'Login realizado com sucesso!', 'success');
+                currentUser = data.user;
+                
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateAuthUI();
+                    showUserProgress();
+                    // Limpar campos
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Erro no login:', error);
+                let errorMessage = 'Erro ao fazer login';
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Email ou senha incorretos';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Confirme seu email antes de fazer login';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else {
+                    errorMessage = `Erro: ${error.message}`;
                 }
                 
-                if (data.user) {
-                    currentUser = data.user;
-                    showMessage('loginMessage', '✅ Login realizado com sucesso!', 'success');
-                    
-                    setTimeout(() => {
-                        closeAuthModal();
-                        updateAuthUI();
-                        showToast('Login realizado com sucesso!', 'success');
-                        
-                        // Limpar campos
-                        document.getElementById('loginEmail').value = '';
-                        document.getElementById('loginPassword').value = '';
-                        
-                        // Atualizar progresso do usuário
-                        updateUserProgress();
-                    }, 1500);
-                }
-                
-            } catch (err) {
-                console.error('Erro no login:', err);
-                showMessage('loginMessage', '❌ Erro ao fazer login. Tente novamente.', 'error');
+                showMessage('loginMessage', errorMessage, 'error');
             }
         }
 
+        // Cadastro REAL com Supabase
         async function register() {
-            const name = document.getElementById('registerName').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const acceptTerms = document.getElementById('acceptTerms').checked;
             
-            // Validações
-            if (!name || !email || !password || !confirmPassword) {
+            if (!name || !email || !password) {
                 showMessage('registerMessage', 'Por favor, preencha todos os campos', 'error');
                 return;
             }
@@ -939,135 +2191,62 @@
                 return;
             }
             
-            if (password !== confirmPassword) {
-                showMessage('registerMessage', 'As senhas não coincidem', 'error');
-                return;
-            }
-            
-            if (!acceptTerms) {
-                showMessage('registerMessage', 'Você deve aceitar os Termos de Uso', 'error');
-                return;
-            }
-            
-            // Validar email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showMessage('registerMessage', 'Digite um email válido', 'error');
-                return;
-            }
-            
-            showMessage('registerMessage', '<i class="fas fa-spinner fa-spin"></i> Criando conta...', 'success');
-            
-            if (!supabaseConnected || !supabase) {
-                showMessage('registerMessage', '⚠️ Sistema temporariamente offline. Tente mais tarde.', 'error');
-                return;
-            }
-            
             try {
-                // 1. Cadastrar usuário no Auth do Supabase
+                if (!supabase) {
+                    showMessage('registerMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
                     options: {
                         data: {
-                            full_name: name,
-                            created_at: new Date().toISOString()
-                        },
-                        emailRedirectTo: window.location.origin
+                            full_name: name
+                        }
                     }
                 });
                 
-                if (error) {
-                    if (error.message.includes('User already registered')) {
-                        showMessage('registerMessage', '❌ Este email já está cadastrado', 'error');
-                    } else {
-                        showMessage('registerMessage', `❌ Erro: ${error.message}`, 'error');
-                    }
-                    return;
-                }
+                if (error) throw error;
                 
-                if (data.user) {
-                    // 2. Criar registro na tabela 'usuarios'
-                    const { error: userError } = await supabase
-                        .from('usuarios')
-                        .insert([
-                            {
-                                id: data.user.id,
-                                email: email,
-                                nome: name,
-                                created_at: new Date().toISOString(),
-                                status: 'ativo',
-                                progresso: 0
-                            }
-                        ]);
-                    
-                    if (userError) {
-                        console.warn('⚠️ Usuário criado no Auth, mas erro na tabela usuarios:', userError.message);
-                        // Continua mesmo com erro na tabela, pois o usuário já foi criado no Auth
-                    }
-                    
-                    // Mostrar mensagem de sucesso
-                    showMessage('registerMessage', 
-                        '✅ Conta criada com sucesso!<br><small>Enviamos um email de confirmação para você.</small>', 
-                        'success'
-                    );
-                    
-                    // Mostrar modal de confirmação de email
-                    setTimeout(() => {
-                        showConfirmEmailModal(email);
-                        closeAuthModal();
-                    }, 2000);
-                    
+                showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
+                
+                setTimeout(() => {
                     // Limpar campos
                     document.getElementById('registerName').value = '';
                     document.getElementById('registerEmail').value = '';
                     document.getElementById('registerPassword').value = '';
-                    document.getElementById('confirmPassword').value = '';
-                    document.getElementById('acceptTerms').checked = false;
-                }
+                    // Mudar para aba de login
+                    showAuthTab('login');
+                }, 3000);
                 
-            } catch (err) {
-                console.error('Erro no cadastro:', err);
-                showMessage('registerMessage', '❌ Erro ao criar conta. Tente novamente.', 'error');
-            }
-        }
-
-        function showConfirmEmailModal(email) {
-            document.getElementById('userEmail').textContent = email;
-            document.getElementById('modalConfirmEmail').classList.add('active');
-        }
-
-        function closeConfirmEmailModal() {
-            document.getElementById('modalConfirmEmail').classList.remove('active');
-        }
-
-        async function resendConfirmationEmail() {
-            const email = document.getElementById('registerEmail').value.trim();
-            
-            if (!email) {
-                showToast('Digite seu email para reenviar a confirmação', 'error');
-                return;
-            }
-            
-            try {
-                const { error } = await supabase.auth.resend({
-                    type: 'signup',
-                    email: email,
-                    options: {
-                        emailRedirectTo: window.location.origin
-                    }
-                });
+            } catch (error) {
+                console.error('Erro no cadastro:', error);
+                let errorMessage = 'Erro ao criar conta';
                 
-                if (error) {
-                    showToast(`Erro: ${error.message}`, 'error');
+                if (error.message.includes('User already registered')) {
+                    errorMessage = 'Este email já está cadastrado';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else if (error.message.includes('Password should be at least')) {
+                    errorMessage = 'A senha deve ter pelo menos 6 caracteres';
                 } else {
-                    showToast('✅ Email de confirmação reenviado!', 'success');
+                    errorMessage = `Erro: ${error.message}`;
                 }
-            } catch (err) {
-                showToast('Erro ao reenviar email', 'error');
+                
+                showMessage('registerMessage', errorMessage, 'error');
             }
         }
 
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Logout
         async function logout() {
             try {
                 if (supabase) {
@@ -1077,281 +2256,358 @@
                 
                 currentUser = null;
                 updateAuthUI();
-                showToast('✅ Logout realizado com sucesso!', 'success');
-                
-                // Atualizar interface
-                document.getElementById('userProgress').style.display = 'none';
-                
-            } catch (err) {
-                console.error('Erro no logout:', err);
-                showToast('❌ Erro ao fazer logout', 'error');
-            }
-        }
-
-        async function forgotPassword() {
-            const email = prompt('Digite seu email para redefinir a senha:');
-            
-            if (!email) return;
-            
-            if (!supabase) {
-                alert('⚠️ Sistema offline. Tente mais tarde.');
-                return;
-            }
-            
-            try {
-                const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/reset-password.html'
-                });
-                
-                if (error) {
-                    alert(`Erro: ${error.message}`);
-                } else {
-                    alert('✅ Email de recuperação enviado! Verifique sua caixa de entrada.');
-                }
-            } catch (err) {
-                alert('Erro ao enviar email de recuperação');
-            }
-        }
-
-        function updateAuthUI() {
-            forceShowButtons(); // Reutiliza a função que já temos
-            
-            // Mostrar/ocultar área de upload baseado no login
-            const uploadArea = document.getElementById('uploadArea');
-            if (uploadArea) {
-                uploadArea.style.display = currentUser ? 'block' : 'none';
-            }
-            
-            // Mostrar/ocultar progresso do usuário
-            const userProgress = document.getElementById('userProgress');
-            if (userProgress) {
-                if (currentUser) {
-                    userProgress.style.display = 'block';
-                    updateUserProgress();
-                } else {
+                const userProgress = document.getElementById('userProgress');
+                if (userProgress) {
                     userProgress.style.display = 'none';
                 }
-            }
-        }
-
-        async function updateUserProgress() {
-            if (!currentUser || !supabase) return;
-            
-            try {
-                const { data, error } = await supabase
-                    .from('usuarios')
-                    .select('progresso')
-                    .eq('id', currentUser.id)
-                    .single();
                 
-                if (!error && data) {
-                    const progress = data.progresso || 0;
-                    const progressFill = document.getElementById('progressFill');
-                    const progressText = document.getElementById('progressText');
-                    
-                    if (progressFill) {
-                        progressFill.style.width = `${progress}%`;
-                    }
-                    
-                    if (progressText) {
-                        progressText.textContent = `Seu progresso: ${progress}% completado`;
-                    }
+                // Volta para a página inicial
+                const homeLink = document.querySelector('.nav-link[data-target="home"]');
+                if (homeLink) {
+                    homeLink.click();
                 }
-            } catch (err) {
-                console.error('Erro ao carregar progresso:', err);
-            }
-        }
-
-        function showMessage(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.innerHTML = message;
-                element.className = `message ${type}`;
-                element.style.display = 'block';
                 
-                // Rolagem automática para a mensagem
-                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } catch (error) {
+                console.error('Erro ao fazer logout:', error);
             }
         }
 
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; top: 20px; right: 20px;
-                background: ${type === 'success' ? '#27ae60' : '#e74c3c'};
-                color: white; padding: 15px 20px;
-                border-radius: 8px; z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                display: flex; align-items: center; gap: 10px;
-                animation: slideIn 0.3s ease-out;
-                max-width: 400px;
-            `;
+        // Mostrar progresso do usuário
+        function showUserProgress() {
+            if (!currentUser) return;
             
-            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-            toast.innerHTML = `
-                <i class="fas ${icon}"></i>
-                <span>${message}</span>
-            `;
+            const progressElement = document.getElementById('userProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
             
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease-out';
-                setTimeout(() => {
-                    if (toast.parentNode) toast.remove();
-                }, 300);
-            }, 3000);
-            
-            // Adicionar animações CSS se não existirem
-            if (!document.getElementById('toast-animations')) {
-                const style = document.createElement('style');
-                style.id = 'toast-animations';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
+            if (progressElement && progressFill && progressText) {
+                progressElement.style.display = 'block';
+                
+                // Simulação de progresso
+                const progress = 45; // 45%
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
             }
         }
 
-        // ========== CONFIGURAÇÃO DE EVENTOS ==========
+        // Funções da modal de simulados
+        function abrirModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Criar novo post
+        function createNewPost() {
+            if (!currentUser) {
+                alert('Por favor, faça login para criar posts.');
+                openLogin();
+                return;
+            }
+            alert('Funcionalidade de criação de posts em desenvolvimento.');
+        }
+
+        // Configurar eventos dos modais
         function setupModalEvents() {
-            // Modal de auth
-            const modalAuth = document.getElementById('modalAuth');
-            if (modalAuth) {
-                modalAuth.addEventListener('click', function(e) {
-                    if (e.target === this) closeAuthModal();
-                });
-            }
-
-            // Modal de confirmação de email
-            const modalConfirm = document.getElementById('modalConfirmEmail');
-            if (modalConfirm) {
-                modalConfirm.addEventListener('click', function(e) {
-                    if (e.target === this) closeConfirmEmailModal();
-                });
-            }
-
-            // Tecla ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeAuthModal();
-                    closeConfirmEmailModal();
+            document.getElementById('modalSimulados').addEventListener('click', function(e) {
+                if (e.target === this) {
                     fecharModalSimulados();
                 }
             });
 
-            // Tabs
+            document.getElementById('modalAuth').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAuthModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModalSimulados();
+                    closeAuthModal();
+                }
+            });
+
+            // Tabs de autenticação
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabName = this.getAttribute('data-tab');
                     showAuthTab(tabName);
                 });
             });
+        }
+
+        // Redefinir senha
+        function forgotPassword() {
+            alert('Funcionalidade de redefinição de senha em desenvolvimento.');
+        }
+
+        // Upload de arquivo antigo (para compatibilidade)
+        function uploadSimulado() {
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
             
-            // Auto-focus no primeiro campo do modal
-            document.getElementById('modalAuth').addEventListener('animationend', function() {
-                const activeForm = this.querySelector('.auth-form.active');
-                if (activeForm) {
-                    const firstInput = activeForm.querySelector('input');
-                    if (firstInput) firstInput.focus();
+            document.getElementById('fileUpload').click();
+        }
+
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.type !== 'text/html') {
+                    alert('Por favor, selecione apenas arquivos HTML.');
+                    return;
+                }
+                
+                // Aqui você pode adicionar a lógica para fazer upload do arquivo
+                alert(`Arquivo "${file.name}" selecionado para upload.`);
+                console.log('Arquivo para upload:', file);
+                
+                // Limpar o input
+                e.target.value = '';
+            }
+        });
+
+        // =============================
+        // SISTEMA DE UPLOAD REAL
+        // =============================
+
+        // Inicializar sistema de upload
+        function initUploadSystem() {
+            console.log('Sistema de upload inicializado');
+        }
+
+        // Modal de Upload
+        function openUploadModal() {
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
+            
+            // Criar modal dinâmico se não existir
+            if (!document.getElementById('modalUpload')) {
+                createUploadModal();
+            }
+            
+            document.getElementById('modalUpload').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Criar modal de upload
+        function createUploadModal() {
+            const modalHTML = `
+                <div id="modalUpload" class="modal-upload">
+                    <div class="modal-container" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-cloud-upload-alt"></i> Enviar Simulado</h3>
+                            <button class="fechar-modal" onclick="closeUploadModal()">&times;</button>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <div id="uploadMessage" class="message"></div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoNome">Nome do Simulado *</label>
+                                <input type="text" id="simuladoNome" placeholder="Ex: ITIL 4 Foundation - Simulado 1" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoDescricao">Descrição</label>
+                                <textarea id="simuladoDescricao" rows="3" placeholder="Descreva seu simulado..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoCategoria">Categoria</label>
+                                <select id="simuladoCategoria">
+                                    <option value="ITIL">ITIL</option>
+                                    <option value="Linux">Linux (LPIC)</option>
+                                    <option value="AWS">AWS</option>
+                                    <option value="Azure">Azure</option>
+                                    <option value="Security">Security+</option>
+                                    <option value="CCNA">CCNA</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            
+                            <div class="upload-area" style="margin: 20px 0;">
+                                <i class="fas fa-file-upload"></i>
+                                <h4>Selecione o arquivo HTML</h4>
+                                <p>Arraste ou clique para selecionar um arquivo HTML</p>
+                                <input type="file" id="fileUploadInput" accept=".html,.htm" style="display: none;">
+                                <button class="btn btn-primary" onclick="document.getElementById('fileUploadInput').click()">
+                                    <i class="fas fa-folder-open"></i> Selecionar Arquivo
+                                </button>
+                                <p id="fileName" style="margin-top: 10px; color: var(--gray);"></p>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label>
+                                    <input type="checkbox" id="termosAceitos" required>
+                                    Concordo com os <a href="#" onclick="alert('Termos de uso em desenvolvimento')">termos de uso</a>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" onclick="closeUploadModal()">Cancelar</button>
+                            <button class="btn btn-success" onclick="enviarSimulado()" id="btnEnviarSimulado">
+                                <i class="fas fa-paper-plane"></i> Enviar Simulado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Configurar eventos do modal
+            document.getElementById('modalUpload').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeUploadModal();
+                }
+            });
+            
+            // Evento do input de arquivo
+            const fileInput = document.getElementById('fileUploadInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        const fileNameElement = document.getElementById('fileName');
+                        if (fileNameElement) {
+                            fileNameElement.textContent = `Arquivo selecionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                        }
+                    }
+                });
+            }
+            
+            // Adicionar evento de tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('modalUpload').classList.contains('active')) {
+                    closeUploadModal();
                 }
             });
         }
 
-        // ========== SIMULADOS ==========
-        function setupSimuladosModal() {
-            const modalSimulados = document.getElementById('modalSimulados');
-            if (modalSimulados) {
-                modalSimulados.addEventListener('click', function(e) {
-                    if (e.target === this) fecharModalSimulados();
-                });
-            }
-        }
-
-        function abrirModalSimulados() {
-            if (!currentUser) {
-                showToast('Faça login para acessar os simulados', 'error');
-                openLogin();
-                return;
-            }
-            
-            const modal = document.getElementById('modalSimulados');
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function fecharModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
+        // Fechar modal de upload
+        function closeUploadModal() {
+            const modal = document.getElementById('modalUpload');
             if (modal) {
                 modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
+            }
+            document.body.style.overflow = 'auto';
+            
+            // Limpar formulário
+            if (document.getElementById('simuladoNome')) {
+                document.getElementById('simuladoNome').value = '';
+                document.getElementById('simuladoDescricao').value = '';
+                document.getElementById('simuladoCategoria').value = 'ITIL';
+                document.getElementById('fileName').textContent = '';
+                document.getElementById('termosAceitos').checked = false;
+                document.getElementById('uploadMessage').style.display = 'none';
             }
         }
 
-        // ========== FUNÇÕES ADICIONAIS ==========
-        function openUploadModal() {
-            if (!currentUser) {
-                showToast('Faça login para fazer upload de simulados', 'error');
-                openLogin();
+        // Enviar simulado REAL para o Supabase
+        async function enviarSimulado() {
+            const nome = document.getElementById('simuladoNome').value.trim();
+            const descricao = document.getElementById('simuladoDescricao').value.trim();
+            const categoria = document.getElementById('simuladoCategoria').value;
+            const fileInput = document.getElementById('fileUploadInput');
+            const file = fileInput.files[0];
+            
+            const uploadMessage = document.getElementById('uploadMessage');
+            const btnEnviar = document.getElementById('btnEnviarSimulado');
+            
+            // Validação
+            if (!nome) {
+                showUploadMessage('Por favor, insira um nome para o simulado.', 'error');
                 return;
             }
-            showToast('📤 Funcionalidade de upload em desenvolvimento', 'info');
-        }
-
-        function createNewPost() {
-            if (!currentUser) {
-                showToast('Faça login para criar posts no fórum', 'error');
-                openLogin();
+            
+            if (!file) {
+                showUploadMessage('Por favor, selecione um arquivo HTML.', 'error');
                 return;
             }
-            showToast('📝 Funcionalidade de posts em desenvolvimento', 'info');
-        }
-
-        function showTerms() {
-            alert('📄 Termos de Uso:\n\n1. O StudyCert é uma plataforma educacional\n2. Seus dados são protegidos conforme LGPD\n3. O conteúdo é para uso educacional\n4. Proibido compartilhar materiais protegidos por direitos autorais');
-        }
-
-        function showPrivacy() {
-            alert('🔒 Política de Privacidade:\n\n1. Coletamos apenas dados necessários\n2. Seus dados não são compartilhados com terceiros\n3. Usamos cookies para melhorar a experiência\n4. Você pode solicitar exclusão de dados a qualquer momento');
-        }
-
-        // ========== VERIFICAÇÃO DO SUPABASE ==========
-        function checkSupabaseStatus() {
-            const statusDiv = document.createElement('div');
-            statusDiv.style.cssText = `
-                position: fixed; bottom: 10px; left: 10px;
-                background: ${supabaseConnected ? '#27ae60' : '#e74c3c'};
-                color: white; padding: 8px 12px; border-radius: 4px;
-                font-size: 11px; font-family: monospace; z-index: 9999;
-                opacity: 0.9; display: flex; align-items: center; gap: 8px;
-            `;
             
-            const icon = supabaseConnected ? 'fa-check-circle' : 'fa-exclamation-triangle';
-            statusDiv.innerHTML = `
-                <i class="fas ${icon}"></i>
-                <span>Supabase: ${supabaseConnected ? 'ONLINE' : 'OFFLINE'}</span>
-            `;
+            if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
+                showUploadMessage('Por favor, selecione apenas arquivos HTML.', 'error');
+                return;
+            }
             
-            document.body.appendChild(statusDiv);
+            if (!document.getElementById('termosAceitos').checked) {
+                showUploadMessage('Você precisa aceitar os termos de uso.', 'error');
+                return;
+            }
             
-            setTimeout(() => {
-                if (statusDiv.parentNode) statusDiv.remove();
-            }, 5000);
+            try {
+                // Mostrar loading
+                btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                btnEnviar.disabled = true;
+                
+                // 1. Fazer upload para o Storage
+                const nomeArquivo = `${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
+                
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('simulados')  // Nome do bucket
+                    .upload(nomeArquivo, file);
+                
+                if (uploadError) throw uploadError;
+                
+                // 2. Salvar metadados no banco de dados
+                const { error: dbError } = await supabase
+                    .from('simulados')
+                    .insert({
+                        nome: nome,
+                        descricao: descricao,
+                        arquivo_url: nomeArquivo,  // Nome do arquivo no storage
+                        usuario_id: currentUser.id,
+                        usuario_nome: currentUser.user_metadata?.full_name || currentUser.email,
+                        categoria: categoria,
+                        data_upload: new Date().toISOString(),
+                        visualizacoes: 0,
+                        downloads: 0,
+                        ativo: true
+                    });
+                
+                if (dbError) throw dbError;
+                
+                showUploadMessage('✅ Simulado enviado com sucesso!', 'success');
+                
+                // Atualizar lista de simulados após 2 segundos
+                setTimeout(() => {
+                    closeUploadModal();
+                    alert('Simulado enviado com sucesso!');
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Erro ao enviar simulado:', error);
+                showUploadMessage(`❌ Erro ao enviar simulado: ${error.message}`, 'error');
+            } finally {
+                // Restaurar botão
+                btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
+                btnEnviar.disabled = false;
+            }
         }
 
-        // Executar verificação após carregamento
-        setTimeout(checkSupabaseStatus, 2000);
-
-        console.log('🎉 Sistema StudyCert inicializado com autenticação corrigida!');
+        // Mostrar mensagem no modal de upload
+        function showUploadMessage(message, type) {
+            const element = document.getElementById('uploadMessage');
+            if (element) {
+                element.innerHTML = message;
+                element.className = `message ${type}`;
+                element.style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
