@@ -1431,7 +1431,7 @@
     <script>
         // CONFIGURAÇÃO DO SUPABASE
         const SUPABASE_URL = 'https://lkguubynwngnewucgewx.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrZ3V1Ynlud25nbmV3dWNnZXd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzNDIxNDEsImV4cCI6MjA1NzkyODE0MX0.2hUX1DXag79Pwy8uA9RacU4bqbjwJCMwZz4FXJlOGSw';
         
         let supabase;
         let currentUser = null;
@@ -1938,24 +1938,41 @@
 
         async function checkOrCreateUserProfile() {
             try {
-                const { data, error } = await supabase
+                // Usar maybeSingle para evitar erro quando não há usuário
+                const { data: existingUser, error: fetchError } = await supabase
                     .from('usuarios')
                     .select('id')
                     .eq('email', currentUser.email)
-                    .single();
+                    .maybeSingle();
                 
-                if (error && error.code === 'PGRST116') {
-                    // Usuário não existe, criar perfil
-                    const { error: insertError } = await supabase
-                        .from('usuarios')
-                        .insert({
-                            email: currentUser.email,
-                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
-                            status: 'ativo'
-                        });
-                    
-                    if (insertError) throw insertError;
-                    console.log('Perfil de usuário criado com sucesso!');
+                if (fetchError) {
+                    console.warn('Erro ao buscar usuário (não crítico):', fetchError);
+                    return;
+                }
+                
+                // Se usuário não existe, criar
+                if (!existingUser) {
+                    try {
+                        const { error: insertError } = await supabase
+                            .from('usuarios')
+                            .insert({
+                                email: currentUser.email,
+                                nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0] || 'Usuário',
+                                status: 'ativo',
+                                created_at: new Date().toISOString(),
+                                updated_at: new Date().toISOString()
+                            })
+                            .select(); // Adicionar select() pode ajudar
+                        
+                        if (insertError) {
+                            console.warn('Não foi possível criar perfil agora:', insertError);
+                            // O perfil será criado na próxima tentativa ou manualmente
+                        } else {
+                            console.log('Perfil de usuário criado com sucesso!');
+                        }
+                    } catch (insertErr) {
+                        console.warn('Erro ao criar perfil:', insertErr);
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao verificar/criar perfil:', error);
@@ -2033,13 +2050,24 @@
             document.getElementById('registerMessage').style.display = 'none';
         }
 
+        // Validação de email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
         // Login REAL com Supabase
         async function login() {
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             
             if (!email || !password) {
                 showMessage('loginMessage', 'Por favor, preencha todos os campos', 'error');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showMessage('loginMessage', 'Por favor, insira um email válido', 'error');
                 return;
             }
             
@@ -2049,6 +2077,8 @@
                     return;
                 }
                 
+                showMessage('loginMessage', '<i class="fas fa-spinner fa-spin"></i> Entrando...', 'success');
+                
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -2056,7 +2086,7 @@
                 
                 if (error) throw error;
                 
-                showMessage('loginMessage', 'Login realizado com sucesso!', 'success');
+                showMessage('loginMessage', '✅ Login realizado com sucesso! Redirecionando...', 'success');
                 currentUser = data.user;
                 
                 setTimeout(() => {
@@ -2083,17 +2113,17 @@
                     errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
                     showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
                 } else {
-                    errorMessage = `Erro: ${error.message}`;
+                    errorMessage = `Erro: ${error.message.substring(0, 100)}`;
                 }
                 
                 showMessage('loginMessage', errorMessage, 'error');
             }
         }
 
-        // Cadastro REAL com Supabase
+        // Cadastro REAL com Supabase - VERSÃO CORRIGIDA
         async function register() {
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
             const password = document.getElementById('registerPassword').value;
             
             if (!name || !email || !password) {
@@ -2106,59 +2136,111 @@
                 return;
             }
             
+            if (!validateEmail(email)) {
+                showMessage('registerMessage', 'Por favor, insira um email válido', 'error');
+                return;
+            }
+            
             try {
                 if (!supabase) {
                     showMessage('registerMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
                     return;
                 }
                 
-                const { data, error } = await supabase.auth.signUp({
+                showMessage('registerMessage', '<i class="fas fa-spinner fa-spin"></i> Criando conta...', 'success');
+                
+                // 1. Criar usuário no Auth do Supabase
+                const { data: authData, error: authError } = await supabase.auth.signUp({
                     email: email,
                     password: password,
                     options: {
                         data: {
-                            full_name: name
-                        }
+                            full_name: name,
+                            created_at: new Date().toISOString()
+                        },
+                        emailRedirectTo: window.location.origin // URL para redirecionamento após confirmação
                     }
                 });
                 
-                if (error) throw error;
+                if (authError) throw authError;
                 
-                showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
-                
-                // Criar perfil na tabela usuarios
-                if (data.user) {
-                    await supabase
-                        .from('usuarios')
-                        .insert({
-                            email: email,
-                            nome: name,
-                            status: 'ativo'
-                        });
+                // 2. Tentar criar o perfil na tabela usuarios
+                if (authData.user) {
+                    try {
+                        // Usar insert com tratamento de erro
+                        const { error: profileError } = await supabase
+                            .from('usuarios')
+                            .insert({
+                                email: email,
+                                nome: name,
+                                status: 'ativo',
+                                created_at: new Date().toISOString(),
+                                updated_at: new Date().toISOString()
+                            });
+                        
+                        if (profileError) {
+                            console.warn('Não foi possível criar perfil imediatamente:', profileError);
+                            // Não falha o cadastro - o perfil será criado no primeiro login
+                        }
+                    } catch (profileErr) {
+                        console.warn('Erro ao criar perfil (não crítico):', profileErr);
+                    }
                 }
                 
-                setTimeout(() => {
-                    // Limpar campos
-                    document.getElementById('registerName').value = '';
-                    document.getElementById('registerEmail').value = '';
-                    document.getElementById('registerPassword').value = '';
-                    // Mudar para aba de login
-                    showAuthTab('login');
-                }, 3000);
+                // Mensagem de sucesso
+                if (authData.user && authData.user.identities && authData.user.identities.length === 0) {
+                    showMessage('registerMessage', '⚠️ Este email já está cadastrado. Tente fazer login.', 'error');
+                } else if (authData.session) {
+                    // Usuário logado imediatamente (confirmação de email desativada)
+                    showMessage('registerMessage', '✅ Cadastro realizado com sucesso! Redirecionando...', 'success');
+                    
+                    currentUser = authData.user;
+                    
+                    setTimeout(() => {
+                        closeAuthModal();
+                        updateAuthUI();
+                        showUserProgress();
+                        
+                        // Limpar campos
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPassword').value = '';
+                    }, 2000);
+                } else {
+                    // Email de confirmação enviado
+                    showMessage('registerMessage', 
+                        '✅ Cadastro realizado!<br><br>' +
+                        '📧 Um email de confirmação foi enviado para sua caixa postal.<br>' +
+                        'Por favor, verifique seu email para ativar sua conta.', 
+                        'success'
+                    );
+                    
+                    setTimeout(() => {
+                        // Mudar para aba de login
+                        showAuthTab('login');
+                        // Limpar campos
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPassword').value = '';
+                    }, 5000);
+                }
                 
             } catch (error) {
                 console.error('Erro no cadastro:', error);
                 let errorMessage = 'Erro ao criar conta';
                 
                 if (error.message.includes('User already registered')) {
-                    errorMessage = 'Este email já está cadastrado';
-                } else if (error.message.includes('Invalid API key')) {
-                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
-                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                    errorMessage = 'Este email já está cadastrado. Tente fazer login.';
+                } else if (error.message.includes('Invalid email')) {
+                    errorMessage = 'Por favor, insira um email válido';
                 } else if (error.message.includes('Password should be at least')) {
                     errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+                } else if (error.message.includes('rate limit')) {
+                    errorMessage = 'Muitas tentativas. Por favor, aguarde alguns minutos.';
+                } else if (error.message.includes('network')) {
+                    errorMessage = 'Erro de conexão. Verifique sua internet.';
                 } else {
-                    errorMessage = `Erro: ${error.message}`;
+                    errorMessage = `Erro: ${error.message.substring(0, 100)}`;
                 }
                 
                 showMessage('registerMessage', errorMessage, 'error');
