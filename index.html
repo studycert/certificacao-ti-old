@@ -2187,10 +2187,8 @@
         console.error('Erro no cadastro:', error);
         showMessage('registerMessage', 'Erro: ' + error.message, 'error');
     }
-}
-                
-                if (authError) throw authError;
-                
+}           
+                             
                 // 2. Tentar criar o perfil na tabela usuarios
                 if (authData.user) {
                     try {
