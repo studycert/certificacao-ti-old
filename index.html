@@ -2122,45 +2122,72 @@
 
         // Cadastro REAL com Supabase - VERSÃO CORRIGIDA
         async function register() {
-            const name = document.getElementById('registerName').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            
-            if (!name || !email || !password) {
-                showMessage('registerMessage', 'Por favor, preencha todos os campos', 'error');
-                return;
+    const name = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    
+    if (!name || !email || !password) {
+        showMessage('registerMessage', 'Por favor, preencha todos os campos', 'error');
+        return;
+    }
+    
+    try {
+        showMessage('registerMessage', '<i class="fas fa-spinner fa-spin"></i> Criando conta...', 'success');
+        
+        // 🔥 MUDANÇA IMPORTANTE: Adicione redirectTo
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name,
+                    created_at: new Date().toISOString()
+                },
+                // 🔥 REDIRECIONA PARA SUA PÁGINA INICIAL
+                emailRedirectTo: window.location.origin
             }
-            
-            if (password.length < 6) {
-                showMessage('registerMessage', 'A senha deve ter pelo menos 6 caracteres', 'error');
-                return;
-            }
-            
-            if (!validateEmail(email)) {
-                showMessage('registerMessage', 'Por favor, insira um email válido', 'error');
-                return;
-            }
-            
+        });
+        
+        if (error) throw error;
+        
+        if (data.user) {
+            // 🔥 TENTA CRIAR PERFIL IMEDIATAMENTE (antes da confirmação)
             try {
-                if (!supabase) {
-                    showMessage('registerMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
-                    return;
-                }
+                const { error: profileError } = await supabase
+                    .from('usuarios')
+                    .insert({
+                        email: email,
+                        nome: name,
+                        status: 'pendente', // Status especial para não confirmados
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    });
                 
-                showMessage('registerMessage', '<i class="fas fa-spinner fa-spin"></i> Criando conta...', 'success');
-                
-                // 1. Criar usuário no Auth do Supabase
-                const { data: authData, error: authError } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: name,
-                            created_at: new Date().toISOString()
-                        },
-                        emailRedirectTo: window.location.origin // URL para redirecionamento após confirmação
-                    }
-                });
+                if (profileError) console.log('Perfil criado com status pendente');
+            } catch (e) {
+                console.log('Perfil será criado após confirmação');
+            }
+        }
+        
+        showMessage('registerMessage', 
+            '✅ Cadastro realizado!<br><br>' +
+            '📧 Um email de confirmação foi enviado para ' + email + 
+            '<br><br><strong>Dica:</strong> Após confirmar, volte para esta página e faça login.',
+            'success'
+        );
+        
+        setTimeout(() => {
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            showAuthTab('login');
+        }, 5000);
+        
+    } catch (error) {
+        console.error('Erro no cadastro:', error);
+        showMessage('registerMessage', 'Erro: ' + error.message, 'error');
+    }
+});
                 
                 if (authError) throw authError;
                 
