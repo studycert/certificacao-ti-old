@@ -665,7 +665,7 @@
             }
         }
 
-        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
+        /* BOTÃO DE FECHAR MODAL */
         .close-auth-modal {
             position: absolute;
             top: 15px;
@@ -812,7 +812,6 @@
 
         /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
         
-        /* Botão "Ver todos os simulados" */
         .show-simulados-btn {
             display: inline-flex;
             align-items: center;
@@ -836,7 +835,6 @@
             box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
         }
 
-        /* Modal overlay para lista de simulados */
         .modal-simulados {
             display: none;
             position: fixed;
@@ -858,7 +856,6 @@
             opacity: 1;
         }
 
-        /* Container interno da modal */
         .modal-container {
             background: white;
             border-radius: 12px;
@@ -870,7 +867,6 @@
             animation: modalSlideIn 0.3s ease-out;
         }
 
-        /* Cabeçalho da modal */
         .modal-header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
@@ -912,12 +908,10 @@
             transform: rotate(90deg);
         }
 
-        /* Corpo da modal */
         .modal-body {
             padding: 25px;
         }
 
-        /* Cada item da lista */
         .simulado-item-modal {
             display: flex;
             justify-content: space-between;
@@ -937,7 +931,6 @@
             border-bottom: none;
         }
 
-        /* Ícones de status */
         .status-icon {
             margin-right: 12px;
             font-size: 1.1rem;
@@ -962,7 +955,6 @@
             color: #2c3e50;
         }
 
-        /* Botões na modal */
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.85em;
@@ -977,7 +969,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* Rodapé da modal */
         .modal-footer {
             padding: 15px 25px;
             background: #f8f9fa;
@@ -1011,7 +1002,6 @@
             opacity: 1;
         }
 
-        /* Estilos para textarea e select no modal de upload */
         .form-group textarea,
         .form-group select {
             width: 100%;
@@ -1299,102 +1289,7 @@
             </div>
 
             <div class="certifications-grid" id="certificacoesContent">
-                <!-- Conteúdo estático para teste -->
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Administrator</h3>
-                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Solutions Architect</h3>
-                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Specialist</h3>
-                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-1</h3>
-                        <p>Certificação Linux Professional Institute - Nível 1.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-2</h3>
-                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Rede</span>
-                        <h3>CCNA</h3>
-                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Dados</span>
-                        <h3>Data Fundamentals</h3>
-                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente do Supabase -->
             </div>
         </div>
     </section>
@@ -1408,66 +1303,7 @@
             </div>
 
             <div id="forumContent">
-                <div class="forum-container">
-                    <div class="forum-categories">
-                        <h3>Categorias</h3>
-                        <ul class="category-list" id="forumCategories">
-                            <!-- Conteúdo estático -->
-                            <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                            <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                            <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                            <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                            <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                            <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                            <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
-                        </ul>
-                    </div>
-
-                    <div class="forum-posts" id="forumPosts">
-                        <!-- Conteúdo estático -->
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                                <div class="post-meta">por João Silva • 2 horas atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 7 respostas</span>
-                                <span><i class="far fa-eye"></i> 42 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                                <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 12 respostas</span>
-                                <span><i class="far fa-eye"></i> 87 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Experiência com exame Security+</a>
-                                <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 23 respostas</span>
-                                <span><i class="far fa-eye"></i> 156 visualizações</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente do Supabase -->
             </div>
             
             <button class="btn btn-primary new-post-btn" onclick="createNewPost()">Nova Discussão</button>
@@ -1483,72 +1319,7 @@
             </div>
 
             <div id="materialsContent" class="materials-grid">
-                <!-- Conteúdo estático -->
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Microsoft Azure</h3>
-                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Amazon AWS</h3>
-                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>LPIC-1 e LPIC-2</h3>
-                        <p>Recursos para certificações Linux Professional Institute.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>ITIL 4</h3>
-                        <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Security+</h3>
-                        <p>Material para preparação da certificação CompTIA Security+.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>CCNA</h3>
-                        <p>Recursos para Cisco Certified Network Associate.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente do Supabase -->
             </div>
 
             <div class="section-title" style="margin-top: 4rem;">
@@ -1557,45 +1328,7 @@
             </div>
 
             <div id="videosContent" class="cards-container">
-                <!-- Conteúdo estático -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
-                        <p><strong>Duração:</strong> 6 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
-                        <p><strong>Duração:</strong> 5 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Preparação completa para o exame CompTIA Security+.</p>
-                        <p><strong>Duração:</strong> 12 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente do Supabase -->
             </div>
         </div>
     </section>
@@ -1612,152 +1345,11 @@
                 <i class="fas fa-cloud-upload-alt"></i>
                 <h3>Compartilhe Seu Simulado</h3>
                 <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <input type="file" id="fileUpload" accept=".html" style="display: none;">
-                <button class="btn btn-primary" onclick="uploadSimulado()">Upload de Arquivo</button>
+                <button class="btn btn-primary" onclick="openUploadModal()">Upload de Arquivo</button>
             </div>
 
             <div id="simuladosContent" class="simulados-container">
-                <!-- Conteúdo estático - 9 SIMULADOS -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
-                            <i class="fas fa-list"></i> Ver 11 Simulados
-                        </button>
-                    </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
-                    </div>
-                </div>
-                
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">60 questões</span>
-                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">45 questões</span>
-                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">50 questões</span>
-                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">40 questões</span>
-                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">55 questões</span>
-                        <p>Simulado para Cisco Certified Network Associate.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">35 questões</span>
-                        <p>Simulado para DP-900: Data Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">70 questões</span>
-                        <p>Simulado para Linux Professional Institute Level 2.</p>
-                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">65 questões</span>
-                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
-                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
-                    </div>
-                    <div class="card-footer">
-                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
-                        <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente do Supabase -->
             </div>
         </div>
     </section>
@@ -1771,101 +1363,12 @@
             </div>
             
             <div class="modal-body" id="simuladosList">
-                <!-- Lista estática de simulados -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
-                    </div>
-                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
-                    </div>
-                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
-                    </div>
-                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
-                    </div>
-                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
-                    </div>
-                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
-                    </div>
-                    <a href="simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
-                    </div>
-                    <a href="simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 8 - Governança</span>
-                    </div>
-                    <a href="simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
-                    </div>
-                    <a href="simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
-                    </div>
-                <a href="simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <!-- <i class="fas fa-clock status-icon status-em-breve"></i> -->
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
-                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
-                    </div>
-                    <!-- <button class="btn btn-outline btn-sm" disabled>Em Breve</button> -->
-                    <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
-                </div>
+                <!-- Lista será carregada dinamicamente -->
             </div>
             
             <div class="modal-footer">
-                <div><strong>11</strong> simulados disponíveis</div>
-                <div><strong>440</strong> questões no total</div>
+                <div id="totalSimulados">0 simulados disponíveis</div>
+                <div id="totalQuestoes">0 questões no total</div>
             </div>
         </div>
     </div>
@@ -1926,23 +1429,24 @@
     </footer>
 
     <script>
+        // CONFIGURAÇÃO DO SUPABASE
         const SUPABASE_URL = 'https://lkguubynwngnewucgewx.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
         
         let supabase;
         let currentUser = null;
+        let simuladosCache = [];
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Página carregada');
+            console.log('StudyCert - Inicializando...');
             
             // Inicializar Supabase
             try {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('Supabase configurado com sucesso!');
+                console.log('✅ Supabase configurado com sucesso!');
             } catch (err) {
-                console.error('Erro ao configurar Supabase:', err);
-                // Se der erro na chave, mostra mensagem mais amigável
+                console.error('❌ Erro ao configurar Supabase:', err);
                 showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
                 return;
             }
@@ -1956,15 +1460,14 @@
             // Configurar eventos dos modais
             setupModalEvents();
             
-            // Inicializar sistema de upload
-            initUploadSystem();
+            // Carregar dados iniciais
+            loadInitialData();
         });
 
         // Função para mostrar erro global
         function showGlobalError(message) {
             console.error('Erro global:', message);
             
-            // Pode mostrar uma mensagem na tela se quiser
             const errorDiv = document.createElement('div');
             errorDiv.style.cssText = `
                 position: fixed;
@@ -1981,7 +1484,6 @@
             errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
             document.body.appendChild(errorDiv);
             
-            // Remove após 10 segundos
             setTimeout(() => {
                 if (errorDiv.parentNode) {
                     errorDiv.parentNode.removeChild(errorDiv);
@@ -2012,16 +1514,397 @@
                     if (targetSection) {
                         targetSection.classList.add('active');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                        
+                        // Carregar dados específicos da seção
+                        switch(targetId) {
+                            case 'certificacoes':
+                                loadCertificacoes();
+                                break;
+                            case 'forum':
+                                loadForumData();
+                                break;
+                            case 'materiais':
+                                loadMateriais();
+                                break;
+                            case 'simulados':
+                                loadSimulados();
+                                break;
+                        }
                     }
                 });
             });
         }
 
-        // Verificação de autenticação
+        // Carregar dados iniciais
+        async function loadInitialData() {
+            try {
+                await loadCertificacoes();
+                await loadForumData();
+                await loadMateriais();
+                await loadSimulados();
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+            }
+        }
+
+        // ========== CARREGAR CERTIFICAÇÕES DO SUPABASE ==========
+        async function loadCertificacoes() {
+            try {
+                const { data, error } = await supabase
+                    .from('certificacoes')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('popularidade', { ascending: false });
+                
+                if (error) throw error;
+                
+                const container = document.getElementById('certificacoesContent');
+                if (!container) return;
+                
+                if (data && data.length > 0) {
+                    let html = '';
+                    
+                    data.forEach(cert => {
+                        const icon = getCertIcon(cert.fornecedor);
+                        const nivel = cert.nivel ? cert.nivel.charAt(0).toUpperCase() + cert.nivel.slice(1) : 'Geral';
+                        
+                        html += `
+                            <div class="cert-card">
+                                <div class="cert-icon">
+                                    ${icon}
+                                </div>
+                                <div class="cert-content">
+                                    <span class="cert-level">${cert.categoria || 'TI'}</span>
+                                    <h3>${cert.nome}</h3>
+                                    <p>${cert.descricao || 'Certificação em Tecnologia da Informação'}</p>
+                                    <button class="btn btn-primary" onclick="showCertDetails('${cert.id}')">Estudar</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                            <i class="fas fa-certificate" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                            <h3>Nenhuma certificação encontrada</h3>
+                            <p>As certificações serão carregadas em breve.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar certificações:', error);
+                document.getElementById('certificacoesContent').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--accent);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>Erro ao carregar certificações</h3>
+                        <p>Tente novamente mais tarde.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function getCertIcon(fornecedor) {
+            const icons = {
+                'Microsoft': '<i class="fab fa-microsoft"></i>',
+                'AWS': '<i class="fab fa-aws"></i>',
+                'CompTIA': '<i class="fas fa-shield-alt"></i>',
+                'AXELOS': '<i class="fas fa-cube"></i>',
+                'Linux Professional Institute': '<i class="fas fa-server"></i>',
+                'Cisco': '<i class="fas fa-network-wired"></i>'
+            };
+            
+            return icons[fornecedor] || '<i class="fas fa-certificate"></i>';
+        }
+
+        function showCertDetails(certId) {
+            alert(`Detalhes da certificação ID: ${certId}\n\nEm desenvolvimento: Página de detalhes com materiais específicos.`);
+        }
+
+        // ========== CARREGAR FÓRUM DO SUPABASE ==========
+        async function loadForumData() {
+            try {
+                // Carregar categorias
+                const { data: categorias, error: errorCats } = await supabase
+                    .from('forum_categorias')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('ordem');
+                
+                // Carregar posts
+                const { data: posts, error: errorPosts } = await supabase
+                    .from('forum_posts')
+                    .select(`
+                        *,
+                        usuarios:nome
+                    `)
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (errorCats) throw errorCats;
+                if (errorPosts) throw errorPosts;
+                
+                updateForumUI(categorias, posts);
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados do fórum:', error);
+                document.getElementById('forumContent').innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning); margin-bottom: 1rem;"></i>
+                        <h3>Erro ao carregar fórum</h3>
+                        <p>Por favor, tente novamente mais tarde.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function updateForumUI(categorias, posts) {
+            const forumContent = document.getElementById('forumContent');
+            if (!forumContent) return;
+            
+            // HTML para categorias
+            let categoriesHtml = '';
+            if (categorias && categorias.length > 0) {
+                categoriesHtml = '<ul class="category-list" id="forumCategories">';
+                categorias.forEach(cat => {
+                    categoriesHtml += `
+                        <li>
+                            <a href="#" onclick="filterForumPosts('${cat.id}')">
+                                ${cat.nome} 
+                                <span class="category-count">${cat.total_posts || 0}</span>
+                            </a>
+                        </li>
+                    `;
+                });
+                categoriesHtml += '</ul>';
+            }
+            
+            // HTML para posts
+            let postsHtml = '';
+            if (posts && posts.length > 0) {
+                posts.forEach(post => {
+                    const timeAgo = getTimeAgo(post.created_at);
+                    postsHtml += `
+                        <div class="post">
+                            <div class="post-header">
+                                <a href="#" class="post-title" onclick="viewPost('${post.id}')">${post.titulo}</a>
+                                <div class="post-meta">por ${post.usuarios || 'Usuário'} • ${timeAgo}</div>
+                            </div>
+                            <div class="post-excerpt">
+                                <p>${post.conteudo.substring(0, 150)}...</p>
+                            </div>
+                            <div class="post-footer">
+                                <span><i class="far fa-comment"></i> ${post.respostas || 0} respostas</span>
+                                <span><i class="far fa-eye"></i> ${post.visualizacoes || 0} visualizações</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                postsHtml = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-comments" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                        <h3>Nenhum post ainda</h3>
+                        <p>Seja o primeiro a criar uma discussão!</p>
+                    </div>
+                `;
+            }
+            
+            forumContent.innerHTML = `
+                <div class="forum-container">
+                    <div class="forum-categories">
+                        <h3>Categorias</h3>
+                        ${categoriesHtml}
+                    </div>
+                    <div class="forum-posts" id="forumPosts">
+                        ${postsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 60) return `${diffMins} minutos atrás`;
+            if (diffHours < 24) return `${diffHours} horas atrás`;
+            if (diffDays < 30) return `${diffDays} dias atrás`;
+            return `${Math.floor(diffDays / 30)} meses atrás`;
+        }
+
+        function filterForumPosts(categoryId) {
+            alert(`Filtrando posts da categoria ID: ${categoryId}\n\nEm desenvolvimento: Filtro por categoria.`);
+        }
+
+        function viewPost(postId) {
+            alert(`Visualizando post ID: ${postId}\n\nEm desenvolvimento: Página de detalhes do post.`);
+        }
+
+        // ========== CARREGAR MATERIAIS DO SUPABASE ==========
+        async function loadMateriais() {
+            try {
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .select('*')
+                    .in('status', ['aprovado', 'ativo'])
+                    .order('curtidas', { ascending: false })
+                    .limit(12);
+                
+                if (error) throw error;
+                
+                updateMateriaisUI(data);
+                
+            } catch (error) {
+                console.error('Erro ao carregar materiais:', error);
+            }
+        }
+
+        function updateMateriaisUI(materiais) {
+            const container = document.getElementById('materialsContent');
+            if (!container) return;
+            
+            if (materiais && materiais.length > 0) {
+                let html = '';
+                
+                materiais.forEach(mat => {
+                    const icon = getMaterialIcon(mat.tipo);
+                    const category = mat.categoria || 'Geral';
+                    
+                    html += `
+                        <div class="material-card">
+                            <div class="material-icon">
+                                ${icon}
+                            </div>
+                            <div class="material-content">
+                                <h3>${mat.titulo}</h3>
+                                <p>${mat.descricao?.substring(0, 100) || 'Material de estudo para certificações de TI'}...</p>
+                                <button class="btn btn-primary" onclick="viewMaterial('${mat.id}')">Acessar</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <i class="fas fa-book" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                        <h3>Nenhum material disponível</h3>
+                        <p>Os materiais serão carregados em breve.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function getMaterialIcon(tipo) {
+            const icons = {
+                'pdf': '<i class="fas fa-file-pdf"></i>',
+                'ppt': '<i class="fas fa-file-powerpoint"></i>',
+                'doc': '<i class="fas fa-file-word"></i>',
+                'video': '<i class="fas fa-file-video"></i>',
+                'zip': '<i class="fas fa-file-archive"></i>',
+                'link': '<i class="fas fa-link"></i>'
+            };
+            
+            return icons[tipo] || '<i class="fas fa-file"></i>';
+        }
+
+        function viewMaterial(materialId) {
+            alert(`Visualizando material ID: ${materialId}\n\nEm desenvolvimento: Visualizador de materiais.`);
+        }
+
+        // ========== CARREGAR SIMULADOS DO SUPABASE ==========
+        async function loadSimulados() {
+            try {
+                const { data, error } = await supabase
+                    .from('simulados')
+                    .select(`
+                        *,
+                        certificacoes:nome
+                    `)
+                    .in('status', ['aprovado', 'ativo'])
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                simuladosCache = data || [];
+                updateSimuladosUI(simuladosCache);
+                
+            } catch (error) {
+                console.error('Erro ao carregar simulados:', error);
+            }
+        }
+
+        function updateSimuladosUI(simulados) {
+            const container = document.getElementById('simuladosContent');
+            if (!container) return;
+            
+            if (simulados && simulados.length > 0) {
+                let html = '';
+                
+                simulados.forEach(sim => {
+                    const badgeText = sim.total_questoes ? `${sim.total_questoes} questões` : 'Simulado';
+                    const certName = sim.certificacoes?.nome || 'Certificação';
+                    
+                    html += `
+                        <div class="simulado-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-file-alt"></i> ${certName}</h3>
+                            </div>
+                            <div class="card-body">
+                                <span class="simulado-badge">${badgeText}</span>
+                                <p>${sim.descricao || 'Teste seus conhecimentos com este simulado.'}</p>
+                                <p><strong>Tempo estimado:</strong> ${sim.tempo_estimado_minutos || 60} minutos</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" onclick="iniciarSimulado('${sim.id}')">Iniciar Simulado</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Adicionar card de upload
+                html += `
+                    <div class="simulado-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Compartilhe seu próprio simulado com a comunidade.</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                        <h3>Nenhum simulado disponível</h3>
+                        <p>Os simulados serão carregados em breve.</p>
+                        <button class="btn btn-primary" onclick="openUploadModal()">Seja o primeiro a enviar!</button>
+                    </div>
+                `;
+            }
+        }
+
+        function iniciarSimulado(simuladoId) {
+            alert(`Iniciando simulado ID: ${simuladoId}\n\nEm desenvolvimento: Sistema de simulados interativo.`);
+        }
+
+        // ========== VERIFICAÇÃO DE AUTENTICAÇÃO ==========
         async function checkAuth() {
             try {
                 if (!supabase) {
-                    console.log('Supabase não inicializado');
                     updateAuthUI();
                     return;
                 }
@@ -2037,6 +1920,9 @@
                 if (data.session) {
                     currentUser = data.session.user;
                     console.log('Usuário logado:', currentUser.email);
+                    
+                    // Verificar se o usuário existe na tabela usuarios
+                    await checkOrCreateUserProfile();
                 } else {
                     currentUser = null;
                 }
@@ -2047,6 +1933,32 @@
             } catch (err) {
                 console.error('Erro ao verificar autenticação:', err);
                 updateAuthUI();
+            }
+        }
+
+        async function checkOrCreateUserProfile() {
+            try {
+                const { data, error } = await supabase
+                    .from('usuarios')
+                    .select('id')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (error && error.code === 'PGRST116') {
+                    // Usuário não existe, criar perfil
+                    const { error: insertError } = await supabase
+                        .from('usuarios')
+                        .insert({
+                            email: currentUser.email,
+                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
+                            status: 'ativo'
+                        });
+                    
+                    if (insertError) throw insertError;
+                    console.log('Perfil de usuário criado com sucesso!');
+                }
+            } catch (error) {
+                console.error('Erro ao verificar/criar perfil:', error);
             }
         }
 
@@ -2087,7 +1999,7 @@
             }
         }
 
-        // Funções da modal de autenticação
+        // ========== FUNÇÕES DA MODAL DE AUTENTICAÇÃO ==========
         function openLogin(e) {
             if (e) e.preventDefault();
             document.getElementById('modalAuth').classList.add('active');
@@ -2154,6 +2066,9 @@
                     // Limpar campos
                     document.getElementById('loginEmail').value = '';
                     document.getElementById('loginPassword').value = '';
+                    
+                    // Recarregar dados que dependem do usuário
+                    loadSimulados();
                 }, 1500);
                 
             } catch (error) {
@@ -2210,6 +2125,17 @@
                 if (error) throw error;
                 
                 showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
+                
+                // Criar perfil na tabela usuarios
+                if (data.user) {
+                    await supabase
+                        .from('usuarios')
+                        .insert({
+                            email: email,
+                            nome: name,
+                            status: 'ativo'
+                        });
+                }
                 
                 setTimeout(() => {
                     // Limpar campos
@@ -2283,18 +2209,21 @@
             if (progressElement && progressFill && progressText) {
                 progressElement.style.display = 'block';
                 
-                // Simulação de progresso
+                // Simulação de progresso (em um sistema real, buscar do banco)
                 const progress = 45; // 45%
                 progressFill.style.width = `${progress}%`;
                 progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
             }
         }
 
-        // Funções da modal de simulados
+        // ========== FUNÇÕES DA MODAL DE SIMULADOS ==========
         function abrirModalSimulados() {
             const modal = document.getElementById('modalSimulados');
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Carregar simulados específicos (ITIL 4 por exemplo)
+            loadSimuladosForModal();
         }
 
         function fecharModalSimulados() {
@@ -2303,34 +2232,113 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Criar novo post
+        async function loadSimuladosForModal() {
+            try {
+                const { data, error } = await supabase
+                    .from('simulados')
+                    .select('*')
+                    .eq('categoria', 'ITIL')
+                    .in('status', ['aprovado', 'ativo'])
+                    .order('created_at');
+                
+                if (error) throw error;
+                
+                updateModalSimuladosUI(data);
+                
+            } catch (error) {
+                console.error('Erro ao carregar simulados para modal:', error);
+                document.getElementById('simuladosList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--accent);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Erro ao carregar simulados.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function updateModalSimuladosUI(simulados) {
+            const container = document.getElementById('simuladosList');
+            const totalSimulados = document.getElementById('totalSimulados');
+            const totalQuestoes = document.getElementById('totalQuestoes');
+            
+            if (!container) return;
+            
+            if (simulados && simulados.length > 0) {
+                let html = '';
+                let totalQuestions = 0;
+                
+                simulados.forEach((sim, index) => {
+                    totalQuestions += sim.total_questoes || 0;
+                    const simuladoNum = index + 1;
+                    
+                    html += `
+                        <div class="simulado-item-modal">
+                            <div class="simulado-info">
+                                <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                                <span class="simulado-nome">Simulado ${simuladoNum} - ${sim.nome}</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="iniciarSimulado('${sim.id}')">Iniciar</button>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                totalSimulados.innerHTML = `<strong>${simulados.length}</strong> simulados disponíveis`;
+                totalQuestoes.innerHTML = `<strong>${totalQuestions}</strong> questões no total`;
+                
+            } else {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-file-alt" style="font-size: 2rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                        <h4>Nenhum simulado disponível</h4>
+                        <p>Os simulados serão adicionados em breve.</p>
+                    </div>
+                `;
+                totalSimulados.innerHTML = `<strong>0</strong> simulados disponíveis`;
+                totalQuestoes.innerHTML = `<strong>0</strong> questões no total`;
+            }
+        }
+
+        // ========== CRIAR NOVO POST ==========
         function createNewPost() {
             if (!currentUser) {
                 alert('Por favor, faça login para criar posts.');
                 openLogin();
                 return;
             }
-            alert('Funcionalidade de criação de posts em desenvolvimento.');
+            
+            // Abrir modal para criar novo post
+            alert('Funcionalidade de criação de posts em desenvolvimento.\n\nEm breve: Interface para criar posts no fórum.');
         }
 
-        // Configurar eventos dos modais
+        // ========== CONFIGURAR EVENTOS DOS MODAIS ==========
         function setupModalEvents() {
-            document.getElementById('modalSimulados').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharModalSimulados();
-                }
-            });
+            // Modal de simulados
+            const modalSimulados = document.getElementById('modalSimulados');
+            if (modalSimulados) {
+                modalSimulados.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        fecharModalSimulados();
+                    }
+                });
+            }
 
-            document.getElementById('modalAuth').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeAuthModal();
-                }
-            });
+            // Modal de autenticação
+            const modalAuth = document.getElementById('modalAuth');
+            if (modalAuth) {
+                modalAuth.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeAuthModal();
+                    }
+                });
+            }
 
+            // Tecla ESC para fechar modais
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     fecharModalSimulados();
                     closeAuthModal();
+                    closeUploadModal();
                 }
             });
 
@@ -2343,49 +2351,7 @@
             });
         }
 
-        // Redefinir senha
-        function forgotPassword() {
-            alert('Funcionalidade de redefinição de senha em desenvolvimento.');
-        }
-
-        // Upload de arquivo antigo (para compatibilidade)
-        function uploadSimulado() {
-            if (!currentUser) {
-                alert('Por favor, faça login para fazer upload de simulados.');
-                openLogin();
-                return;
-            }
-            
-            document.getElementById('fileUpload').click();
-        }
-
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const file = e.target.files[0];
-                if (file.type !== 'text/html') {
-                    alert('Por favor, selecione apenas arquivos HTML.');
-                    return;
-                }
-                
-                // Aqui você pode adicionar a lógica para fazer upload do arquivo
-                alert(`Arquivo "${file.name}" selecionado para upload.`);
-                console.log('Arquivo para upload:', file);
-                
-                // Limpar o input
-                e.target.value = '';
-            }
-        });
-
-        // =============================
-        // SISTEMA DE UPLOAD REAL
-        // =============================
-
-        // Inicializar sistema de upload
-        function initUploadSystem() {
-            console.log('Sistema de upload inicializado');
-        }
-
-        // Modal de Upload
+        // ========== SISTEMA DE UPLOAD ==========
         function openUploadModal() {
             if (!currentUser) {
                 alert('Por favor, faça login para fazer upload de simulados.');
@@ -2436,6 +2402,11 @@
                                     <option value="CCNA">CCNA</option>
                                     <option value="Outros">Outros</option>
                                 </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="totalQuestoes">Total de Questões</label>
+                                <input type="number" id="totalQuestoes" min="1" max="200" value="20" placeholder="20">
                             </div>
                             
                             <div class="upload-area" style="margin: 20px 0;">
@@ -2489,13 +2460,6 @@
                     }
                 });
             }
-            
-            // Adicionar evento de tecla ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && document.getElementById('modalUpload').classList.contains('active')) {
-                    closeUploadModal();
-                }
-            });
         }
 
         // Fechar modal de upload
@@ -2511,6 +2475,7 @@
                 document.getElementById('simuladoNome').value = '';
                 document.getElementById('simuladoDescricao').value = '';
                 document.getElementById('simuladoCategoria').value = 'ITIL';
+                document.getElementById('totalQuestoes').value = '20';
                 document.getElementById('fileName').textContent = '';
                 document.getElementById('termosAceitos').checked = false;
                 document.getElementById('uploadMessage').style.display = 'none';
@@ -2522,6 +2487,7 @@
             const nome = document.getElementById('simuladoNome').value.trim();
             const descricao = document.getElementById('simuladoDescricao').value.trim();
             const categoria = document.getElementById('simuladoCategoria').value;
+            const totalQuestoes = document.getElementById('totalQuestoes').value;
             const fileInput = document.getElementById('fileUploadInput');
             const file = fileInput.files[0];
             
@@ -2558,7 +2524,7 @@
                 const nomeArquivo = `${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
                 
                 const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('simulados')  // Nome do bucket
+                    .from('simulados')
                     .upload(nomeArquivo, file);
                 
                 if (uploadError) throw uploadError;
@@ -2569,24 +2535,22 @@
                     .insert({
                         nome: nome,
                         descricao: descricao,
-                        arquivo_url: nomeArquivo,  // Nome do arquivo no storage
+                        total_questoes: parseInt(totalQuestoes),
+                        arquivo_url: nomeArquivo,
                         usuario_id: currentUser.id,
-                        usuario_nome: currentUser.user_metadata?.full_name || currentUser.email,
                         categoria: categoria,
-                        data_upload: new Date().toISOString(),
-                        visualizacoes: 0,
-                        downloads: 0,
-                        ativo: true
+                        status: 'pendente',
+                        data_publicacao: new Date().toISOString()
                     });
                 
                 if (dbError) throw dbError;
                 
-                showUploadMessage('✅ Simulado enviado com sucesso!', 'success');
+                showUploadMessage('✅ Simulado enviado com sucesso! Aguarde aprovação.', 'success');
                 
-                // Atualizar lista de simulados após 2 segundos
+                // Fechar modal e recarregar lista após 2 segundos
                 setTimeout(() => {
                     closeUploadModal();
-                    alert('Simulado enviado com sucesso!');
+                    loadSimulados(); // Recarregar lista de simulados
                 }, 2000);
                 
             } catch (error) {
@@ -2608,6 +2572,30 @@
                 element.style.display = 'block';
             }
         }
+
+        // ========== FUNÇÕES ADICIONAIS ==========
+        function forgotPassword() {
+            alert('Funcionalidade de redefinição de senha em desenvolvimento.\n\nEm breve: Sistema de recuperação de senha.');
+        }
+
+        // Monitorar mudanças na autenticação
+        supabase?.auth.onAuthStateChange((event, session) => {
+            console.log('Auth state changed:', event);
+            if (event === 'SIGNED_IN') {
+                currentUser = session.user;
+                updateAuthUI();
+                showUserProgress();
+                loadSimulados();
+            } else if (event === 'SIGNED_OUT') {
+                currentUser = null;
+                updateAuthUI();
+                const userProgress = document.getElementById('userProgress');
+                if (userProgress) {
+                    userProgress.style.display = 'none';
+                }
+            }
+        });
+
     </script>
 </body>
 </html>
