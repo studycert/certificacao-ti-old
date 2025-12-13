@@ -1926,8 +1926,11 @@
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://lkguubynwngnewucgewx.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_XIFYyZ49NHXHuDVbFSpWOA_Ovd1CEd3';
+        // =============================
+        // CONFIGURAÇÃO DO SUPABASE
+        // =============================
+        const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_BRAGtPaTnBQAys82wQlwDA_ZorIxDD';
         
         let supabase;
         let currentUser = null;
@@ -1940,9 +1943,9 @@
             try {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('Supabase configurado com sucesso!');
+                console.log('URL:', SUPABASE_URL);
             } catch (err) {
                 console.error('Erro ao configurar Supabase:', err);
-                // Se der erro na chave, mostra mensagem mais amigável
                 showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
                 return;
             }
@@ -1958,13 +1961,285 @@
             
             // Inicializar sistema de upload
             initUploadSystem();
+            
+            // Carregar dados do banco de dados
+            loadInitialData();
         });
+
+        // Função para carregar dados iniciais do banco
+        async function loadInitialData() {
+            try {
+                // Carregar certificações do banco
+                await loadCertificacoes();
+                
+                // Carregar materiais de estudo
+                await loadMateriais();
+                
+                // Carregar simulados
+                await loadSimulados();
+                
+                // Carregar categorias do fórum
+                await loadForumCategorias();
+                
+                // Carregar posts do fórum
+                await loadForumPosts();
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+            }
+        }
+
+        // Função para carregar certificações
+        async function loadCertificacoes() {
+            try {
+                const { data, error } = await supabase
+                    .from('certificacoes')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('nome');
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    // Atualizar a seção de certificações
+                    const certificacoesContent = document.getElementById('certificacoesContent');
+                    if (certificacoesContent) {
+                        certificacoesContent.innerHTML = '';
+                        
+                        data.forEach(cert => {
+                            const iconClass = getIconClass(cert.icon_name || cert.fornecedor);
+                            const certCard = `
+                                <div class="cert-card">
+                                    <div class="cert-icon">
+                                        <i class="${iconClass}"></i>
+                                    </div>
+                                    <div class="cert-content">
+                                        <span class="cert-level">${cert.categoria || 'Geral'}</span>
+                                        <h3>${cert.nome}</h3>
+                                        <p>${cert.descricao || 'Certificação de TI'}</p>
+                                        <button class="btn btn-primary" onclick="estudarCertificacao('${cert.id}')">Estudar</button>
+                                    </div>
+                                </div>
+                            `;
+                            certificacoesContent.insertAdjacentHTML('beforeend', certCard);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar certificações:', error);
+            }
+        }
+
+        // Função para carregar materiais
+        async function loadMateriais() {
+            try {
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .select('*')
+                    .eq('status', 'aprovado')
+                    .order('created_at', { ascending: false })
+                    .limit(6);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const materialsContent = document.getElementById('materialsContent');
+                    if (materialsContent) {
+                        materialsContent.innerHTML = '';
+                        
+                        data.forEach(material => {
+                            const iconClass = getIconClass(material.tipo || 'pdf');
+                            const materialCard = `
+                                <div class="material-card">
+                                    <div class="material-icon">
+                                        <i class="${iconClass}"></i>
+                                    </div>
+                                    <div class="material-content">
+                                        <h3>${material.titulo}</h3>
+                                        <p>${material.descricao || 'Material de estudo'}</p>
+                                        <button class="btn btn-primary" onclick="acessarMaterial('${material.id}')">Acessar</button>
+                                    </div>
+                                </div>
+                            `;
+                            materialsContent.insertAdjacentHTML('beforeend', materialCard);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar materiais:', error);
+            }
+        }
+
+        // Função para carregar simulados
+        async function loadSimulados() {
+            try {
+                const { data, error } = await supabase
+                    .from('simulados')
+                    .select('*, certificacoes(nome)')
+                    .eq('status', 'aprovado')
+                    .order('created_at', { ascending: false })
+                    .limit(9);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const simuladosContent = document.getElementById('simuladosContent');
+                    if (simuladosContent) {
+                        // Manter o card de upload no final
+                        const uploadCard = simuladosContent.querySelector('.simulado-card:last-child');
+                        simuladosContent.innerHTML = '';
+                        
+                        data.forEach(simulado => {
+                            const iconClass = getIconClass(simulado.certificacoes?.nome || 'file-alt');
+                            const simuladoCard = `
+                                <div class="simulado-card">
+                                    <div class="card-header">
+                                        <h3><i class="${iconClass}"></i> ${simulado.nome}</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="simulado-badge">${simulado.total_questoes || 0} questões</span>
+                                        <p>${simulado.descricao || 'Simulado de certificação'}</p>
+                                        <p><strong>Tempo estimado:</strong> ${simulado.tempo_estimado_minutos || 60} minutos</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary" onclick="iniciarSimulado('${simulado.id}')">Iniciar Simulado</button>
+                                    </div>
+                                </div>
+                            `;
+                            simuladosContent.insertAdjacentHTML('beforeend', simuladoCard);
+                        });
+                        
+                        // Adicionar card de upload de volta
+                        if (uploadCard) {
+                            simuladosContent.appendChild(uploadCard);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar simulados:', error);
+            }
+        }
+
+        // Função para carregar categorias do fórum
+        async function loadForumCategorias() {
+            try {
+                const { data, error } = await supabase
+                    .from('forum_categorias')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('ordem');
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const forumCategories = document.getElementById('forumCategories');
+                    if (forumCategories) {
+                        forumCategories.innerHTML = '';
+                        
+                        data.forEach(categoria => {
+                            const categoryItem = `
+                                <li><a href="#" onclick="filtrarForum('${categoria.id}')">
+                                    ${categoria.nome} 
+                                    <span class="category-count">${categoria.total_posts || 0}</span>
+                                </a></li>
+                            `;
+                            forumCategories.insertAdjacentHTML('beforeend', categoryItem);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar categorias do fórum:', error);
+            }
+        }
+
+        // Função para carregar posts do fórum
+        async function loadForumPosts() {
+            try {
+                const { data, error } = await supabase
+                    .from('forum_posts')
+                    .select('*, usuarios(nome), forum_categorias(nome)')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const forumPosts = document.getElementById('forumPosts');
+                    if (forumPosts) {
+                        forumPosts.innerHTML = '';
+                        
+                        data.forEach(post => {
+                            const timeAgo = getTimeAgo(new Date(post.created_at));
+                            const postElement = `
+                                <div class="post">
+                                    <div class="post-header">
+                                        <a href="#" class="post-title" onclick="verPost('${post.id}')">${post.titulo}</a>
+                                        <div class="post-meta">por ${post.usuarios?.nome || 'Usuário'} • ${timeAgo}</div>
+                                    </div>
+                                    <div class="post-excerpt">
+                                        <p>${post.conteudo.substring(0, 150)}${post.conteudo.length > 150 ? '...' : ''}</p>
+                                    </div>
+                                    <div class="post-footer">
+                                        <span><i class="far fa-comment"></i> ${post.respostas || 0} respostas</span>
+                                        <span><i class="far fa-eye"></i> ${post.visualizacoes || 0} visualizações</span>
+                                    </div>
+                                </div>
+                            `;
+                            forumPosts.insertAdjacentHTML('beforeend', postElement);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar posts do fórum:', error);
+            }
+        }
+
+        // Função auxiliar para obter classe de ícone
+        function getIconClass(name) {
+            const iconMap = {
+                'microsoft': 'fab fa-microsoft',
+                'aws': 'fab fa-aws',
+                'server': 'fas fa-server',
+                'shield-alt': 'fas fa-shield-alt',
+                'cube': 'fas fa-cube',
+                'network-wired': 'fas fa-network-wired',
+                'database': 'fas fa-database',
+                'code': 'fas fa-code',
+                'cloud': 'fas fa-cloud',
+                'pdf': 'fas fa-file-pdf',
+                'video': 'fas fa-video',
+                'ppt': 'fas fa-file-powerpoint',
+                'doc': 'fas fa-file-word',
+                'zip': 'fas fa-file-archive',
+                'link': 'fas fa-link',
+                'file-alt': 'fas fa-file-alt',
+                'graduation-cap': 'fas fa-graduation-cap'
+            };
+            
+            return iconMap[name.toLowerCase()] || 'fas fa-file-alt';
+        }
+
+        // Função para calcular tempo relativo
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) {
+                return `${minutes} minuto${minutes !== 1 ? 's' : ''} atrás`;
+            } else if (hours < 24) {
+                return `${hours} hora${hours !== 1 ? 's' : ''} atrás`;
+            } else {
+                return `${days} dia${days !== 1 ? 's' : ''} atrás`;
+            }
+        }
 
         // Função para mostrar erro global
         function showGlobalError(message) {
             console.error('Erro global:', message);
             
-            // Pode mostrar uma mensagem na tela se quiser
             const errorDiv = document.createElement('div');
             errorDiv.style.cssText = `
                 position: fixed;
@@ -1981,7 +2256,6 @@
             errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
             document.body.appendChild(errorDiv);
             
-            // Remove após 10 segundos
             setTimeout(() => {
                 if (errorDiv.parentNode) {
                     errorDiv.parentNode.removeChild(errorDiv);
@@ -2037,6 +2311,9 @@
                 if (data.session) {
                     currentUser = data.session.user;
                     console.log('Usuário logado:', currentUser.email);
+                    
+                    // Sincronizar usuário com a tabela usuarios
+                    await syncUserProfile();
                 } else {
                     currentUser = null;
                 }
@@ -2047,6 +2324,54 @@
             } catch (err) {
                 console.error('Erro ao verificar autenticação:', err);
                 updateAuthUI();
+            }
+        }
+
+        // Sincronizar perfil do usuário com a tabela usuarios
+        async function syncUserProfile() {
+            try {
+                if (!currentUser) return;
+                
+                const { data: existingUser, error: fetchError } = await supabase
+                    .from('usuarios')
+                    .select('id')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (fetchError && fetchError.code !== 'PGRST116') {
+                    console.error('Erro ao buscar usuário:', fetchError);
+                    return;
+                }
+                
+                if (!existingUser) {
+                    // Criar usuário na tabela usuarios
+                    const { error: insertError } = await supabase
+                        .from('usuarios')
+                        .insert({
+                            email: currentUser.email,
+                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
+                            status: 'ativo',
+                            last_login: new Date().toISOString()
+                        });
+                    
+                    if (insertError) {
+                        console.error('Erro ao criar usuário:', insertError);
+                    } else {
+                        console.log('Perfil de usuário criado com sucesso');
+                    }
+                } else {
+                    // Atualizar último login
+                    const { error: updateError } = await supabase
+                        .from('usuarios')
+                        .update({ last_login: new Date().toISOString() })
+                        .eq('id', existingUser.id);
+                    
+                    if (updateError) {
+                        console.error('Erro ao atualizar último login:', updateError);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao sincronizar perfil:', error);
             }
         }
 
@@ -2273,7 +2598,7 @@
         }
 
         // Mostrar progresso do usuário
-        function showUserProgress() {
+        async function showUserProgress() {
             if (!currentUser) return;
             
             const progressElement = document.getElementById('userProgress');
@@ -2283,10 +2608,32 @@
             if (progressElement && progressFill && progressText) {
                 progressElement.style.display = 'block';
                 
-                // Simulação de progresso
-                const progress = 45; // 45%
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+                try {
+                    // Buscar progresso do usuário no banco
+                    const { data: progressData, error } = await supabase
+                        .from('progresso_usuario')
+                        .select('progresso_percentual')
+                        .eq('usuario_id', currentUser.id);
+                    
+                    if (error) throw error;
+                    
+                    let progress = 0;
+                    if (progressData && progressData.length > 0) {
+                        // Calcular progresso médio
+                        const totalProgress = progressData.reduce((sum, item) => sum + (item.progresso_percentual || 0), 0);
+                        progress = Math.round(totalProgress / progressData.length);
+                    }
+                    
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+                    
+                } catch (error) {
+                    console.error('Erro ao carregar progresso:', error);
+                    // Progresso padrão
+                    const progress = 45;
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+                }
             }
         }
 
@@ -2304,13 +2651,48 @@
         }
 
         // Criar novo post
-        function createNewPost() {
+        async function createNewPost() {
             if (!currentUser) {
                 alert('Por favor, faça login para criar posts.');
                 openLogin();
                 return;
             }
-            alert('Funcionalidade de criação de posts em desenvolvimento.');
+            
+            const titulo = prompt('Título do post:');
+            if (!titulo) return;
+            
+            const conteudo = prompt('Conteúdo do post:');
+            if (!conteudo) return;
+            
+            try {
+                // Buscar ID do usuário na tabela usuarios
+                const { data: usuarioData, error: usuarioError } = await supabase
+                    .from('usuarios')
+                    .select('id')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (usuarioError) throw usuarioError;
+                
+                // Criar post
+                const { error } = await supabase
+                    .from('forum_posts')
+                    .insert({
+                        titulo: titulo,
+                        conteudo: conteudo,
+                        usuario_id: usuarioData.id,
+                        categoria_id: null // Pode adicionar seletor de categoria depois
+                    });
+                
+                if (error) throw error;
+                
+                alert('Post criado com sucesso!');
+                loadForumPosts(); // Recarregar posts
+                
+            } catch (error) {
+                console.error('Erro ao criar post:', error);
+                alert('Erro ao criar post. Tente novamente.');
+            }
         }
 
         // Configurar eventos dos modais
@@ -2345,36 +2727,18 @@
 
         // Redefinir senha
         function forgotPassword() {
-            alert('Funcionalidade de redefinição de senha em desenvolvimento.');
-        }
-
-        // Upload de arquivo antigo (para compatibilidade)
-        function uploadSimulado() {
-            if (!currentUser) {
-                alert('Por favor, faça login para fazer upload de simulados.');
-                openLogin();
-                return;
-            }
+            const email = prompt('Digite seu email para redefinir a senha:');
+            if (!email) return;
             
-            document.getElementById('fileUpload').click();
+            supabase.auth.resetPasswordForEmail(email)
+                .then(({ error }) => {
+                    if (error) {
+                        alert('Erro ao enviar email de redefinição: ' + error.message);
+                    } else {
+                        alert('Email de redefinição enviado! Verifique sua caixa de entrada.');
+                    }
+                });
         }
-
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const file = e.target.files[0];
-                if (file.type !== 'text/html') {
-                    alert('Por favor, selecione apenas arquivos HTML.');
-                    return;
-                }
-                
-                // Aqui você pode adicionar a lógica para fazer upload do arquivo
-                alert(`Arquivo "${file.name}" selecionado para upload.`);
-                console.log('Arquivo para upload:', file);
-                
-                // Limpar o input
-                e.target.value = '';
-            }
-        });
 
         // =============================
         // SISTEMA DE UPLOAD REAL
@@ -2426,16 +2790,20 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="simuladoCategoria">Categoria</label>
-                                <select id="simuladoCategoria">
-                                    <option value="ITIL">ITIL</option>
-                                    <option value="Linux">Linux (LPIC)</option>
-                                    <option value="AWS">AWS</option>
-                                    <option value="Azure">Azure</option>
-                                    <option value="Security">Security+</option>
-                                    <option value="CCNA">CCNA</option>
-                                    <option value="Outros">Outros</option>
+                                <label for="simuladoCertificacao">Certificação</label>
+                                <select id="simuladoCertificacao">
+                                    <option value="">Selecione uma certificação</option>
                                 </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="totalQuestoes">Total de Questões</label>
+                                <input type="number" id="totalQuestoes" placeholder="Ex: 40" min="1" max="200">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tempoEstimado">Tempo Estimado (minutos)</label>
+                                <input type="number" id="tempoEstimado" placeholder="Ex: 60" min="1" max="300">
                             </div>
                             
                             <div class="upload-area" style="margin: 20px 0;">
@@ -2496,6 +2864,34 @@
                     closeUploadModal();
                 }
             });
+            
+            // Carregar certificações no select
+            loadCertificacoesForUpload();
+        }
+
+        // Carregar certificações para o select de upload
+        async function loadCertificacoesForUpload() {
+            try {
+                const { data, error } = await supabase
+                    .from('certificacoes')
+                    .select('id, nome')
+                    .eq('ativo', true)
+                    .order('nome');
+                
+                if (error) throw error;
+                
+                const select = document.getElementById('simuladoCertificacao');
+                if (select && data) {
+                    data.forEach(cert => {
+                        const option = document.createElement('option');
+                        option.value = cert.id;
+                        option.textContent = cert.nome;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar certificações:', error);
+            }
         }
 
         // Fechar modal de upload
@@ -2510,7 +2906,9 @@
             if (document.getElementById('simuladoNome')) {
                 document.getElementById('simuladoNome').value = '';
                 document.getElementById('simuladoDescricao').value = '';
-                document.getElementById('simuladoCategoria').value = 'ITIL';
+                document.getElementById('simuladoCertificacao').value = '';
+                document.getElementById('totalQuestoes').value = '';
+                document.getElementById('tempoEstimado').value = '';
                 document.getElementById('fileName').textContent = '';
                 document.getElementById('termosAceitos').checked = false;
                 document.getElementById('uploadMessage').style.display = 'none';
@@ -2521,7 +2919,9 @@
         async function enviarSimulado() {
             const nome = document.getElementById('simuladoNome').value.trim();
             const descricao = document.getElementById('simuladoDescricao').value.trim();
-            const categoria = document.getElementById('simuladoCategoria').value;
+            const certificacaoId = document.getElementById('simuladoCertificacao').value;
+            const totalQuestoes = parseInt(document.getElementById('totalQuestoes').value) || 0;
+            const tempoEstimado = parseInt(document.getElementById('tempoEstimado').value) || 0;
             const fileInput = document.getElementById('fileUploadInput');
             const file = fileInput.files[0];
             
@@ -2554,11 +2954,20 @@
                 btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 btnEnviar.disabled = true;
                 
+                // Buscar ID do usuário na tabela usuarios
+                const { data: usuarioData, error: usuarioError } = await supabase
+                    .from('usuarios')
+                    .select('id, nome')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (usuarioError) throw usuarioError;
+                
                 // 1. Fazer upload para o Storage
-                const nomeArquivo = `${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
+                const nomeArquivo = `simulados/${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
                 
                 const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('simulados')  // Nome do bucket
+                    .from('studycert-files')  // Nome do bucket
                     .upload(nomeArquivo, file);
                 
                 if (uploadError) throw uploadError;
@@ -2569,25 +2978,25 @@
                     .insert({
                         nome: nome,
                         descricao: descricao,
-                        arquivo_url: nomeArquivo,  // Nome do arquivo no storage
-                        usuario_id: currentUser.id,
-                        usuario_nome: currentUser.user_metadata?.full_name || currentUser.email,
-                        categoria: categoria,
-                        data_upload: new Date().toISOString(),
-                        visualizacoes: 0,
-                        downloads: 0,
-                        ativo: true
+                        certificacao_id: certificacaoId || null,
+                        total_questoes: totalQuestoes,
+                        tempo_estimado_minutos: tempoEstimado,
+                        arquivo_url: nomeArquivo,
+                        usuario_id: usuarioData.id,
+                        status: 'pendente',
+                        nivel_dificuldade: 'intermediario'
                     });
                 
                 if (dbError) throw dbError;
                 
-                showUploadMessage('✅ Simulado enviado com sucesso!', 'success');
+                showUploadMessage('✅ Simulado enviado com sucesso! Aguarde aprovação do administrador.', 'success');
                 
-                // Atualizar lista de simulados após 2 segundos
+                // Atualizar lista de simulados após 3 segundos
                 setTimeout(() => {
                     closeUploadModal();
-                    alert('Simulado enviado com sucesso!');
-                }, 2000);
+                    alert('Simulado enviado com sucesso! Aguarde aprovação.');
+                    loadSimulados(); // Recarregar lista
+                }, 3000);
                 
             } catch (error) {
                 console.error('Erro ao enviar simulado:', error);
@@ -2608,6 +3017,59 @@
                 element.style.display = 'block';
             }
         }
+
+        // Funções para ações
+        function estudarCertificacao(certId) {
+            alert(`Iniciando estudos para certificação ID: ${certId}`);
+            // Implementar navegação para página de estudos
+        }
+
+        function acessarMaterial(materialId) {
+            alert(`Acessando material ID: ${materialId}`);
+            // Implementar visualização do material
+        }
+
+        function iniciarSimulado(simuladoId) {
+            alert(`Iniciando simulado ID: ${simuladoId}`);
+            // Implementar navegação para o simulado
+        }
+
+        function verPost(postId) {
+            alert(`Visualizando post ID: ${postId}`);
+            // Implementar visualização completa do post
+        }
+
+        function filtrarForum(categoriaId) {
+            alert(`Filtrando fórum por categoria ID: ${categoriaId}`);
+            // Implementar filtro de fórum
+        }
+
+        // Upload de arquivo antigo (para compatibilidade)
+        function uploadSimulado() {
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
+            
+            document.getElementById('fileUpload').click();
+        }
+
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.type !== 'text/html') {
+                    alert('Por favor, selecione apenas arquivos HTML.');
+                    return;
+                }
+                
+                alert(`Arquivo "${file.name}" selecionado para upload.`);
+                console.log('Arquivo para upload:', file);
+                
+                // Limpar o input
+                e.target.value = '';
+            }
+        });
     </script>
 </body>
 </html>
