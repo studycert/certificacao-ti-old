@@ -636,6 +636,7 @@
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            padding: 20px;
         }
 
         .modal-auth.active {
@@ -665,7 +666,6 @@
             }
         }
 
-        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
         .close-auth-modal {
             position: absolute;
             top: 15px;
@@ -785,6 +785,12 @@
             border: 1px solid #cfc;
         }
 
+        .message.info {
+            background: #eef;
+            color: #339;
+            border: 1px solid #ccf;
+        }
+
         /* Progresso do usuário */
         .user-progress {
             background: white;
@@ -810,9 +816,7 @@
             transition: width 1s ease;
         }
 
-        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
-        
-        /* Botão "Ver todos os simulados" */
+        /* Modal da Lista de Simulados */
         .show-simulados-btn {
             display: inline-flex;
             align-items: center;
@@ -836,7 +840,6 @@
             box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
         }
 
-        /* Modal overlay para lista de simulados */
         .modal-simulados {
             display: none;
             position: fixed;
@@ -858,7 +861,6 @@
             opacity: 1;
         }
 
-        /* Container interno da modal */
         .modal-container {
             background: white;
             border-radius: 12px;
@@ -870,7 +872,6 @@
             animation: modalSlideIn 0.3s ease-out;
         }
 
-        /* Cabeçalho da modal */
         .modal-header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
@@ -912,12 +913,10 @@
             transform: rotate(90deg);
         }
 
-        /* Corpo da modal */
         .modal-body {
             padding: 25px;
         }
 
-        /* Cada item da lista */
         .simulado-item-modal {
             display: flex;
             justify-content: space-between;
@@ -937,7 +936,6 @@
             border-bottom: none;
         }
 
-        /* Ícones de status */
         .status-icon {
             margin-right: 12px;
             font-size: 1.1rem;
@@ -962,7 +960,6 @@
             color: #2c3e50;
         }
 
-        /* Botões na modal */
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.85em;
@@ -977,7 +974,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* Rodapé da modal */
         .modal-footer {
             padding: 15px 25px;
             background: #f8f9fa;
@@ -1011,7 +1007,6 @@
             opacity: 1;
         }
 
-        /* Estilos para textarea e select no modal de upload */
         .form-group textarea,
         .form-group select {
             width: 100%;
@@ -1045,6 +1040,62 @@
 
         .form-group a:hover {
             text-decoration: underline;
+        }
+
+        /* Indicador de carregamento */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Alertas */
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10000;
+            max-width: 300px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .alert-error {
+            background: var(--accent);
+            color: white;
+        }
+
+        .alert-warning {
+            background: var(--warning);
+            color: white;
         }
 
         /* Responsividade */
@@ -1094,7 +1145,7 @@
     </style>
 </head>
 <body>
-    <!-- Header com botões SEM BORDA -->
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1118,10 +1169,9 @@
         </div>
     </header>
 
-    <!-- Modal de Login/Cadastro COM BOTÃO X -->
+    <!-- Modal de Login/Cadastro -->
     <div id="modalAuth" class="modal-auth">
         <div class="auth-container">
-            <!-- BOTÃO X PARA FECHAR MODAL -->
             <button class="close-auth-modal" onclick="closeAuthModal()">&times;</button>
             
             <div class="auth-header">
@@ -1186,7 +1236,7 @@
                 <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação</p>
             </div>
 
-            <!-- Progresso do Usuário (visível apenas quando logado) -->
+            <!-- Progresso do Usuário -->
             <div id="userProgress" class="user-progress" style="display: none;">
                 <h3>Seu Progresso</h3>
                 <div class="progress-bar">
@@ -1299,102 +1349,7 @@
             </div>
 
             <div class="certifications-grid" id="certificacoesContent">
-                <!-- Conteúdo estático para teste -->
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Administrator</h3>
-                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Solutions Architect</h3>
-                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Specialist</h3>
-                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-1</h3>
-                        <p>Certificação Linux Professional Institute - Nível 1.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-2</h3>
-                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Rede</span>
-                        <h3>CCNA</h3>
-                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Dados</span>
-                        <h3>Data Fundamentals</h3>
-                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
+                <!-- Carregado dinamicamente -->
             </div>
         </div>
     </section>
@@ -1412,60 +1367,12 @@
                     <div class="forum-categories">
                         <h3>Categorias</h3>
                         <ul class="category-list" id="forumCategories">
-                            <!-- Conteúdo estático -->
-                            <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                            <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                            <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                            <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                            <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                            <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                            <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                            <!-- Carregado dinamicamente -->
                         </ul>
                     </div>
 
                     <div class="forum-posts" id="forumPosts">
-                        <!-- Conteúdo estático -->
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                                <div class="post-meta">por João Silva • 2 horas atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 7 respostas</span>
-                                <span><i class="far fa-eye"></i> 42 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                                <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 12 respostas</span>
-                                <span><i class="far fa-eye"></i> 87 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Experiência com exame Security+</a>
-                                <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 23 respostas</span>
-                                <span><i class="far fa-eye"></i> 156 visualizações</span>
-                            </div>
-                        </div>
+                        <!-- Carregado dinamicamente -->
                     </div>
                 </div>
             </div>
@@ -1483,72 +1390,7 @@
             </div>
 
             <div id="materialsContent" class="materials-grid">
-                <!-- Conteúdo estático -->
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Microsoft Azure</h3>
-                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Amazon AWS</h3>
-                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>LPIC-1 e LPIC-2</h3>
-                        <p>Recursos para certificações Linux Professional Institute.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>ITIL 4</h3>
-                        <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Security+</h3>
-                        <p>Material para preparação da certificação CompTIA Security+.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>CCNA</h3>
-                        <p>Recursos para Cisco Certified Network Associate.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
+                <!-- Carregado dinamicamente -->
             </div>
 
             <div class="section-title" style="margin-top: 4rem;">
@@ -1557,45 +1399,7 @@
             </div>
 
             <div id="videosContent" class="cards-container">
-                <!-- Conteúdo estático -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
-                        <p><strong>Duração:</strong> 6 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
-                        <p><strong>Duração:</strong> 5 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Preparação completa para o exame CompTIA Security+.</p>
-                        <p><strong>Duração:</strong> 12 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
+                <!-- Carregado dinamicamente -->
             </div>
         </div>
     </section>
@@ -1617,135 +1421,9 @@
             </div>
 
             <div id="simuladosContent" class="simulados-container">
-                <!-- Conteúdo estático - 9 SIMULADOS -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
-                            <i class="fas fa-list"></i> Ver 11 Simulados
-                        </button>
-                    </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
-                    </div>
-                </div>
+                <!-- Carregado dinamicamente -->
                 
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">60 questões</span>
-                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">45 questões</span>
-                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">50 questões</span>
-                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">40 questões</span>
-                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">55 questões</span>
-                        <p>Simulado para Cisco Certified Network Associate.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">35 questões</span>
-                        <p>Simulado para DP-900: Data Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">70 questões</span>
-                        <p>Simulado para Linux Professional Institute Level 2.</p>
-                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">65 questões</span>
-                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
-                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
+                <!-- Card de upload (sempre no final) -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
@@ -1754,7 +1432,6 @@
                         <p>Compartilhe seu próprio simulado com a comunidade.</p>
                     </div>
                     <div class="card-footer">
-                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
                         <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
                     </div>
                 </div>
@@ -1854,11 +1531,9 @@
                 
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <!-- <i class="fas fa-clock status-icon status-em-breve"></i> -->
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
                         <span class="simulado-nome">Simulado 11 - Final Completo</span>
                     </div>
-                    <!-- <button class="btn btn-outline btn-sm" disabled>Em Breve</button> -->
                     <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
                 </div>
             </div>
@@ -1880,7 +1555,8 @@
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/study.cert?igsh=MXZmeHRwM255aXMwZg==" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-instagram"></i>
+                            <i class="fab fa-instagram"></i>
+                        </a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
@@ -1930,7 +1606,7 @@
         // CONFIGURAÇÃO DO SUPABASE
         // =============================
         const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_HGgcbNNjAvfdWUbYOPFBKQ_5uOEkY7s';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbm53YnJocmNrcWVnYWlwYXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMxNzA5ODUsImV4cCI6MjA1ODc0Njk4NX0.qRerfsgeT9TYr6_Et0m7ZxTknZ_0NpDfyKxL1s6fIRM';
         
         let supabase;
         let currentUser = null;
@@ -1943,10 +1619,9 @@
             try {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('Supabase configurado com sucesso!');
-                console.log('URL:', SUPABASE_URL);
             } catch (err) {
                 console.error('Erro ao configurar Supabase:', err);
-                showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
+                showAlert('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.', 'error');
                 return;
             }
             
@@ -1959,15 +1634,59 @@
             // Configurar eventos dos modais
             setupModalEvents();
             
-            // Inicializar sistema de upload
-            initUploadSystem();
-            
             // Carregar dados do banco de dados
             loadInitialData();
+            
+            // Adicionar indicador de carregamento
+            addLoadingIndicator();
         });
+
+        // Função para adicionar indicador de carregamento
+        function addLoadingIndicator() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .loading-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(255, 255, 255, 0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10001;
+                    display: none;
+                }
+                .loading-spinner {
+                    width: 50px;
+                    height: 50px;
+                    border: 5px solid #f3f3f3;
+                    border-top: 5px solid #3498db;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'loading-overlay';
+            overlay.id = 'loadingOverlay';
+            overlay.innerHTML = '<div class="loading-spinner"></div>';
+            document.body.appendChild(overlay);
+        }
+
+        // Função para mostrar/ocultar carregamento
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.style.display = show ? 'flex' : 'none';
+            }
+        }
 
         // Função para carregar dados iniciais do banco
         async function loadInitialData() {
+            showLoading(true);
             try {
                 // Carregar certificações do banco
                 await loadCertificacoes();
@@ -1984,8 +1703,13 @@
                 // Carregar posts do fórum
                 await loadForumPosts();
                 
+                console.log('Dados iniciais carregados com sucesso');
+                
             } catch (error) {
                 console.error('Erro ao carregar dados iniciais:', error);
+                showAlert('Erro ao carregar dados. Por favor, recarregue a página.', 'error');
+            } finally {
+                showLoading(false);
             }
         }
 
@@ -2000,10 +1724,9 @@
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    // Atualizar a seção de certificações
-                    const certificacoesContent = document.getElementById('certificacoesContent');
-                    if (certificacoesContent) {
+                const certificacoesContent = document.getElementById('certificacoesContent');
+                if (certificacoesContent) {
+                    if (data && data.length > 0) {
                         certificacoesContent.innerHTML = '';
                         
                         data.forEach(cert => {
@@ -2023,10 +1746,19 @@
                             `;
                             certificacoesContent.insertAdjacentHTML('beforeend', certCard);
                         });
+                    } else {
+                        certificacoesContent.innerHTML = `
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                                <i class="fas fa-certificate" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+                                <h3>Nenhuma certificação encontrada</h3>
+                                <p>As certificações serão carregadas em breve.</p>
+                            </div>
+                        `;
                     }
                 }
             } catch (error) {
                 console.error('Erro ao carregar certificações:', error);
+                showAlert('Erro ao carregar certificações.', 'error');
             }
         }
 
@@ -2042,9 +1774,9 @@
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    const materialsContent = document.getElementById('materialsContent');
-                    if (materialsContent) {
+                const materialsContent = document.getElementById('materialsContent');
+                if (materialsContent) {
+                    if (data && data.length > 0) {
                         materialsContent.innerHTML = '';
                         
                         data.forEach(material => {
@@ -2078,17 +1810,17 @@
                     .select('*, certificacoes(nome)')
                     .eq('status', 'aprovado')
                     .order('created_at', { ascending: false })
-                    .limit(9);
+                    .limit(8);
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    const simuladosContent = document.getElementById('simuladosContent');
-                    if (simuladosContent) {
-                        // Manter o card de upload no final
-                        const uploadCard = simuladosContent.querySelector('.simulado-card:last-child');
-                        simuladosContent.innerHTML = '';
-                        
+                const simuladosContent = document.getElementById('simuladosContent');
+                if (simuladosContent) {
+                    // Manter apenas o card de upload
+                    const uploadCard = simuladosContent.querySelector('.simulado-card:last-child');
+                    simuladosContent.innerHTML = '';
+                    
+                    if (data && data.length > 0) {
                         data.forEach(simulado => {
                             const iconClass = getIconClass(simulado.certificacoes?.nome || 'file-alt');
                             const simuladoCard = `
@@ -2108,11 +1840,11 @@
                             `;
                             simuladosContent.insertAdjacentHTML('beforeend', simuladoCard);
                         });
-                        
-                        // Adicionar card de upload de volta
-                        if (uploadCard) {
-                            simuladosContent.appendChild(uploadCard);
-                        }
+                    }
+                    
+                    // Adicionar card de upload de volta
+                    if (uploadCard) {
+                        simuladosContent.appendChild(uploadCard);
                     }
                 }
             } catch (error) {
@@ -2131,9 +1863,9 @@
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    const forumCategories = document.getElementById('forumCategories');
-                    if (forumCategories) {
+                const forumCategories = document.getElementById('forumCategories');
+                if (forumCategories) {
+                    if (data && data.length > 0) {
                         forumCategories.innerHTML = '';
                         
                         data.forEach(categoria => {
@@ -2163,9 +1895,9 @@
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    const forumPosts = document.getElementById('forumPosts');
-                    if (forumPosts) {
+                const forumPosts = document.getElementById('forumPosts');
+                if (forumPosts) {
+                    if (data && data.length > 0) {
                         forumPosts.innerHTML = '';
                         
                         data.forEach(post => {
@@ -2187,6 +1919,14 @@
                             `;
                             forumPosts.insertAdjacentHTML('beforeend', postElement);
                         });
+                    } else {
+                        forumPosts.innerHTML = `
+                            <div style="text-align: center; padding: 40px;">
+                                <i class="far fa-comments" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+                                <h3>Nenhuma discussão encontrada</h3>
+                                <p>Seja o primeiro a iniciar uma discussão!</p>
+                            </div>
+                        `;
                     }
                 }
             } catch (error) {
@@ -2213,10 +1953,25 @@
                 'zip': 'fas fa-file-archive',
                 'link': 'fas fa-link',
                 'file-alt': 'fas fa-file-alt',
-                'graduation-cap': 'fas fa-graduation-cap'
+                'graduation-cap': 'fas fa-graduation-cap',
+                'azure': 'fab fa-microsoft',
+                'amazon': 'fab fa-aws',
+                'linux': 'fas fa-server',
+                'security': 'fas fa-shield-alt',
+                'itil': 'fas fa-cube',
+                'cisco': 'fas fa-network-wired',
+                'data': 'fas fa-database'
             };
             
-            return iconMap[name.toLowerCase()] || 'fas fa-file-alt';
+            // Tentar encontrar correspondência
+            const lowerName = name.toLowerCase();
+            for (const [key, value] of Object.entries(iconMap)) {
+                if (lowerName.includes(key)) {
+                    return value;
+                }
+            }
+            
+            return 'fas fa-certificate';
         }
 
         // Função para calcular tempo relativo
@@ -2227,40 +1982,32 @@
             const hours = Math.floor(diff / 3600000);
             const days = Math.floor(diff / 86400000);
             
-            if (minutes < 60) {
-                return `${minutes} minuto${minutes !== 1 ? 's' : ''} atrás`;
-            } else if (hours < 24) {
-                return `${hours} hora${hours !== 1 ? 's' : ''} atrás`;
-            } else {
-                return `${days} dia${days !== 1 ? 's' : ''} atrás`;
-            }
+            if (minutes < 1) return 'agora';
+            if (minutes < 60) return `${minutes} minuto${minutes !== 1 ? 's' : ''} atrás`;
+            if (hours < 24) return `${hours} hora${hours !== 1 ? 's' : ''} atrás`;
+            if (days < 7) return `${days} dia${days !== 1 ? 's' : ''} atrás`;
+            
+            return date.toLocaleDateString('pt-BR');
         }
 
-        // Função para mostrar erro global
-        function showGlobalError(message) {
-            console.error('Erro global:', message);
-            
-            const errorDiv = document.createElement('div');
-            errorDiv.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #e74c3c;
-                color: white;
-                padding: 15px;
-                border-radius: 5px;
-                z-index: 10000;
-                max-width: 300px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        // Função para mostrar alertas
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
             `;
-            errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
-            document.body.appendChild(errorDiv);
+            
+            document.body.appendChild(alertDiv);
             
             setTimeout(() => {
-                if (errorDiv.parentNode) {
-                    errorDiv.parentNode.removeChild(errorDiv);
-                }
-            }, 10000);
+                alertDiv.remove();
+            }, 5000);
+            
+            return alertDiv;
         }
 
         // NAVEGAÇÃO
@@ -2327,7 +2074,7 @@
             }
         }
 
-        // Sincronizar perfil do usuário com a tabela usuarios
+        // Sincronizar perfil do usuário
         async function syncUserProfile() {
             try {
                 if (!currentUser) return;
@@ -2344,7 +2091,6 @@
                 }
                 
                 if (!existingUser) {
-                    // Criar usuário na tabela usuarios
                     const { error: insertError } = await supabase
                         .from('usuarios')
                         .insert({
@@ -2356,11 +2102,8 @@
                     
                     if (insertError) {
                         console.error('Erro ao criar usuário:', insertError);
-                    } else {
-                        console.log('Perfil de usuário criado com sucesso');
                     }
                 } else {
-                    // Atualizar último login
                     const { error: updateError } = await supabase
                         .from('usuarios')
                         .update({ last_login: new Date().toISOString() })
@@ -2381,7 +2124,6 @@
             const uploadArea = document.getElementById('uploadArea');
             
             if (currentUser) {
-                // Usuário logado
                 const displayName = currentUser.user_metadata?.full_name || currentUser.email;
                 const initials = displayName.substring(0, 2).toUpperCase();
                 
@@ -2393,19 +2135,16 @@
                     </div>
                 `;
                 
-                // Mostra área de upload
                 if (uploadArea) {
                     uploadArea.style.display = 'block';
                 }
                 
             } else {
-                // Usuário não logado
                 authButtons.innerHTML = `
                     <button class="btn btn-outline" onclick="openLogin()">Entrar</button>
                     <button class="btn btn-primary" onclick="openRegister()">Cadastrar</button>
                 `;
                 
-                // Esconde área de upload
                 if (uploadArea) {
                     uploadArea.style.display = 'none';
                 }
@@ -2446,7 +2185,7 @@
             document.getElementById('registerMessage').style.display = 'none';
         }
 
-        // Login REAL com Supabase
+        // Login com Supabase
         async function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -2476,7 +2215,7 @@
                     closeAuthModal();
                     updateAuthUI();
                     showUserProgress();
-                    // Limpar campos
+                    showAlert('Login realizado com sucesso!', 'success');
                     document.getElementById('loginEmail').value = '';
                     document.getElementById('loginPassword').value = '';
                 }, 1500);
@@ -2491,7 +2230,6 @@
                     errorMessage = 'Confirme seu email antes de fazer login';
                 } else if (error.message.includes('Invalid API key')) {
                     errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
-                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
                 } else {
                     errorMessage = `Erro: ${error.message}`;
                 }
@@ -2500,7 +2238,7 @@
             }
         }
 
-        // Cadastro REAL com Supabase
+        // Cadastro com Supabase
         async function register() {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
@@ -2537,11 +2275,9 @@
                 showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
                 
                 setTimeout(() => {
-                    // Limpar campos
                     document.getElementById('registerName').value = '';
                     document.getElementById('registerEmail').value = '';
                     document.getElementById('registerPassword').value = '';
-                    // Mudar para aba de login
                     showAuthTab('login');
                 }, 3000);
                 
@@ -2553,7 +2289,6 @@
                     errorMessage = 'Este email já está cadastrado';
                 } else if (error.message.includes('Invalid API key')) {
                     errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
-                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
                 } else if (error.message.includes('Password should be at least')) {
                     errorMessage = 'A senha deve ter pelo menos 6 caracteres';
                 } else {
@@ -2586,14 +2321,16 @@
                     userProgress.style.display = 'none';
                 }
                 
-                // Volta para a página inicial
                 const homeLink = document.querySelector('.nav-link[data-target="home"]');
                 if (homeLink) {
                     homeLink.click();
                 }
                 
+                showAlert('Logout realizado com sucesso!', 'success');
+                
             } catch (error) {
                 console.error('Erro ao fazer logout:', error);
+                showAlert('Erro ao fazer logout. Tente novamente.', 'error');
             }
         }
 
@@ -2609,7 +2346,6 @@
                 progressElement.style.display = 'block';
                 
                 try {
-                    // Buscar progresso do usuário no banco
                     const { data: progressData, error } = await supabase
                         .from('progresso_usuario')
                         .select('progresso_percentual')
@@ -2619,7 +2355,6 @@
                     
                     let progress = 0;
                     if (progressData && progressData.length > 0) {
-                        // Calcular progresso médio
                         const totalProgress = progressData.reduce((sum, item) => sum + (item.progresso_percentual || 0), 0);
                         progress = Math.round(totalProgress / progressData.length);
                     }
@@ -2629,7 +2364,6 @@
                     
                 } catch (error) {
                     console.error('Erro ao carregar progresso:', error);
-                    // Progresso padrão
                     const progress = 45;
                     progressFill.style.width = `${progress}%`;
                     progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
@@ -2653,7 +2387,7 @@
         // Criar novo post
         async function createNewPost() {
             if (!currentUser) {
-                alert('Por favor, faça login para criar posts.');
+                showAlert('Por favor, faça login para criar posts.', 'warning');
                 openLogin();
                 return;
             }
@@ -2665,7 +2399,6 @@
             if (!conteudo) return;
             
             try {
-                // Buscar ID do usuário na tabela usuarios
                 const { data: usuarioData, error: usuarioError } = await supabase
                     .from('usuarios')
                     .select('id')
@@ -2674,24 +2407,22 @@
                 
                 if (usuarioError) throw usuarioError;
                 
-                // Criar post
                 const { error } = await supabase
                     .from('forum_posts')
                     .insert({
                         titulo: titulo,
                         conteudo: conteudo,
-                        usuario_id: usuarioData.id,
-                        categoria_id: null // Pode adicionar seletor de categoria depois
+                        usuario_id: usuarioData.id
                     });
                 
                 if (error) throw error;
                 
-                alert('Post criado com sucesso!');
-                loadForumPosts(); // Recarregar posts
+                showAlert('Post criado com sucesso!', 'success');
+                loadForumPosts();
                 
             } catch (error) {
                 console.error('Erro ao criar post:', error);
-                alert('Erro ao criar post. Tente novamente.');
+                showAlert('Erro ao criar post. Tente novamente.', 'error');
             }
         }
 
@@ -2713,10 +2444,10 @@
                 if (e.key === 'Escape') {
                     fecharModalSimulados();
                     closeAuthModal();
+                    closeUploadModal();
                 }
             });
 
-            // Tabs de autenticação
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabName = this.getAttribute('data-tab');
@@ -2733,33 +2464,29 @@
             supabase.auth.resetPasswordForEmail(email)
                 .then(({ error }) => {
                     if (error) {
-                        alert('Erro ao enviar email de redefinição: ' + error.message);
+                        showAlert('Erro ao enviar email de redefinição: ' + error.message, 'error');
                     } else {
-                        alert('Email de redefinição enviado! Verifique sua caixa de entrada.');
+                        showAlert('Email de redefinição enviado! Verifique sua caixa de entrada.', 'success');
                     }
                 });
         }
 
         // =============================
-        // SISTEMA DE UPLOAD REAL - CORRIGIDO
+        // SISTEMA DE UPLOAD - MELHORADO
         // =============================
-
-        // Inicializar sistema de upload
-        function initUploadSystem() {
-            console.log('Sistema de upload inicializado');
-        }
 
         // Modal de Upload
         function openUploadModal() {
             if (!currentUser) {
-                alert('Por favor, faça login para fazer upload de simulados.');
+                showAlert('Por favor, faça login para fazer upload de simulados.', 'warning');
                 openLogin();
                 return;
             }
             
-            // Criar modal dinâmico se não existir
             if (!document.getElementById('modalUpload')) {
                 createUploadModal();
+            } else {
+                loadCertificacoesForUpload();
             }
             
             document.getElementById('modalUpload').classList.add('active');
@@ -2777,7 +2504,7 @@
                         </div>
                         
                         <div class="modal-body">
-                            <div id="uploadMessage" class="message"></div>
+                            <div id="uploadMessage" class="message" style="display: none;"></div>
                             
                             <div class="form-group">
                                 <label for="simuladoNome">Nome do Simulado *</label>
@@ -2790,28 +2517,28 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="simuladoCertificacao">Certificação</label>
+                                <label for="simuladoCertificacao">Certificação (Opcional)</label>
                                 <select id="simuladoCertificacao">
-                                    <option value="">Selecione uma certificação</option>
+                                    <option value="">Selecione uma certificação (opcional)</option>
                                 </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="totalQuestoes">Total de Questões</label>
-                                <input type="number" id="totalQuestoes" placeholder="Ex: 40" min="1" max="200">
+                                <label for="totalQuestoes">Total de Questões *</label>
+                                <input type="number" id="totalQuestoes" placeholder="Ex: 40" min="1" max="200" required>
                             </div>
                             
                             <div class="form-group">
-                                <label for="tempoEstimado">Tempo Estimado (minutos)</label>
-                                <input type="number" id="tempoEstimado" placeholder="Ex: 60" min="1" max="300">
+                                <label for="tempoEstimado">Tempo Estimado (minutos) *</label>
+                                <input type="number" id="tempoEstimado" placeholder="Ex: 60" min="1" max="300" required>
                             </div>
                             
                             <div class="upload-area" style="margin: 20px 0;">
                                 <i class="fas fa-file-upload"></i>
-                                <h4>Selecione o arquivo HTML</h4>
+                                <h4>Selecione o arquivo HTML *</h4>
                                 <p>Arraste ou clique para selecionar um arquivo HTML</p>
                                 <input type="file" id="fileUploadInput" accept=".html,.htm" style="display: none;">
-                                <button class="btn btn-primary" onclick="document.getElementById('fileUploadInput').click()">
+                                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileUploadInput').click()">
                                     <i class="fas fa-folder-open"></i> Selecionar Arquivo
                                 </button>
                                 <p id="fileName" style="margin-top: 10px; color: var(--gray);"></p>
@@ -2820,14 +2547,14 @@
                             <div class="form-group" style="margin-top: 20px;">
                                 <label>
                                     <input type="checkbox" id="termosAceitos" required>
-                                    Concordo com os <a href="#" onclick="alert('Termos de uso em desenvolvimento')">termos de uso</a>
+                                    Concordo com os <a href="#" onclick="alert('Termos de uso em desenvolvimento')">termos de uso</a> *
                                 </label>
                             </div>
                         </div>
                         
                         <div class="modal-footer">
-                            <button class="btn btn-outline" onclick="closeUploadModal()">Cancelar</button>
-                            <button class="btn btn-success" onclick="enviarSimulado()" id="btnEnviarSimulado">
+                            <button type="button" class="btn btn-outline" onclick="closeUploadModal()">Cancelar</button>
+                            <button type="button" class="btn btn-success" onclick="enviarSimulado()" id="btnEnviarSimulado">
                                 <i class="fas fa-paper-plane"></i> Enviar Simulado
                             </button>
                         </div>
@@ -2837,14 +2564,12 @@
             
             document.body.insertAdjacentHTML('beforeend', modalHTML);
             
-            // Configurar eventos do modal
             document.getElementById('modalUpload').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeUploadModal();
                 }
             });
             
-            // Evento do input de arquivo
             const fileInput = document.getElementById('fileUploadInput');
             if (fileInput) {
                 fileInput.addEventListener('change', function(e) {
@@ -2853,19 +2578,12 @@
                         const fileNameElement = document.getElementById('fileName');
                         if (fileNameElement) {
                             fileNameElement.textContent = `Arquivo selecionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                            fileNameElement.style.color = '#27ae60';
                         }
                     }
                 });
             }
             
-            // Adicionar evento de tecla ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && document.getElementById('modalUpload').classList.contains('active')) {
-                    closeUploadModal();
-                }
-            });
-            
-            // Carregar certificações no select
             loadCertificacoesForUpload();
         }
 
@@ -2878,16 +2596,23 @@
                     .eq('ativo', true)
                     .order('nome');
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Erro ao carregar certificações:', error);
+                    return;
+                }
                 
                 const select = document.getElementById('simuladoCertificacao');
-                if (select && data) {
-                    data.forEach(cert => {
-                        const option = document.createElement('option');
-                        option.value = cert.id;
-                        option.textContent = cert.nome;
-                        select.appendChild(option);
-                    });
+                if (select) {
+                    select.innerHTML = '<option value="">Selecione uma certificação (opcional)</option>';
+                    
+                    if (data && data.length > 0) {
+                        data.forEach(cert => {
+                            const option = document.createElement('option');
+                            option.value = cert.id;
+                            option.textContent = cert.nome;
+                            select.appendChild(option);
+                        });
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao carregar certificações:', error);
@@ -2902,7 +2627,6 @@
             }
             document.body.style.overflow = 'auto';
             
-            // Limpar formulário
             if (document.getElementById('simuladoNome')) {
                 document.getElementById('simuladoNome').value = '';
                 document.getElementById('simuladoDescricao').value = '';
@@ -2911,11 +2635,16 @@
                 document.getElementById('tempoEstimado').value = '';
                 document.getElementById('fileName').textContent = '';
                 document.getElementById('termosAceitos').checked = false;
-                document.getElementById('uploadMessage').style.display = 'none';
+                
+                const uploadMessage = document.getElementById('uploadMessage');
+                if (uploadMessage) {
+                    uploadMessage.innerHTML = '';
+                    uploadMessage.style.display = 'none';
+                }
             }
         }
 
-        // Enviar simulado REAL para o Supabase - VERSÃO CORRIGIDA
+        // Enviar simulado
         async function enviarSimulado() {
             const nome = document.getElementById('simuladoNome').value.trim();
             const descricao = document.getElementById('simuladoDescricao').value.trim();
@@ -2924,28 +2653,39 @@
             const tempoEstimado = parseInt(document.getElementById('tempoEstimado').value) || 0;
             const fileInput = document.getElementById('fileUploadInput');
             const file = fileInput.files[0];
+            const termosAceitos = document.getElementById('termosAceitos').checked;
             
             const uploadMessage = document.getElementById('uploadMessage');
             const btnEnviar = document.getElementById('btnEnviarSimulado');
             
             // Validação
             if (!nome) {
-                showUploadMessage('Por favor, insira um nome para o simulado.', 'error');
+                showUploadMessage('❌ Por favor, insira um nome para o simulado.', 'error');
                 return;
             }
             
             if (!file) {
-                showUploadMessage('Por favor, selecione um arquivo HTML.', 'error');
+                showUploadMessage('❌ Por favor, selecione um arquivo HTML.', 'error');
                 return;
             }
             
             if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
-                showUploadMessage('Por favor, selecione apenas arquivos HTML.', 'error');
+                showUploadMessage('❌ Por favor, selecione apenas arquivos HTML.', 'error');
                 return;
             }
             
-            if (!document.getElementById('termosAceitos').checked) {
-                showUploadMessage('Você precisa aceitar os termos de uso.', 'error');
+            if (!termosAceitos) {
+                showUploadMessage('❌ Você precisa aceitar os termos de uso.', 'error');
+                return;
+            }
+            
+            if (totalQuestoes <= 0) {
+                showUploadMessage('❌ Por favor, insira um número válido de questões (mínimo 1).', 'error');
+                return;
+            }
+            
+            if (tempoEstimado <= 0) {
+                showUploadMessage('❌ Por favor, insira um tempo estimado válido (mínimo 1 minuto).', 'error');
                 return;
             }
             
@@ -2953,127 +2693,84 @@
                 // Mostrar loading
                 btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 btnEnviar.disabled = true;
+                showUploadMessage('📤 Enviando arquivo para o servidor...', 'info');
                 
-                // DEBUG: Log dos dados
-                console.log('=== DEBUG UPLOAD ===');
-                console.log('Nome:', nome);
-                console.log('Arquivo:', file.name, file.size, file.type);
-                console.log('Usuário ID:', currentUser?.id);
-                
-                // Buscar ID do usuário na tabela usuarios
-                let usuarioData;
-                const { data: usuarioQuery, error: usuarioError } = await supabase
+                // Buscar usuário
+                const { data: usuarioData, error: usuarioError } = await supabase
                     .from('usuarios')
                     .select('id, nome')
                     .eq('email', currentUser.email)
                     .single();
                 
                 if (usuarioError) {
-                    console.log('Usuário não encontrado, criando novo...');
-                    // Criar usuário se não existir
-                    const { data: novoUsuario, error: criarError } = await supabase
-                        .from('usuarios')
-                        .insert({
-                            email: currentUser.email,
-                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
-                            status: 'ativo'
-                        })
-                        .select()
-                        .single();
-                    
-                    if (criarError) {
-                        console.error('Erro ao criar usuário:', criarError);
-                        throw criarError;
-                    }
-                    usuarioData = novoUsuario;
-                } else {
-                    usuarioData = usuarioQuery;
+                    console.error('Erro ao buscar usuário:', usuarioError);
+                    showUploadMessage('❌ Erro ao identificar seu usuário. Faça login novamente.', 'error');
+                    return;
                 }
                 
-                console.log('Usuário ID para upload:', usuarioData.id);
-                
-                // 1. Fazer upload para o Storage - FORMA CORRETA v2
+                // Fazer upload para o Storage
                 const nomeArquivo = `simulados/${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
                 
-                console.log('Uploading to:', nomeArquivo);
-                
-                // FORMA CORRETA: supabase.storage.from().upload()
-                const { data: uploadData, error: uploadError } = await supabase
-                    .storage
+                const { data: uploadData, error: uploadError } = await supabase.storage
                     .from('studycert-files')
-                    .upload(nomeArquivo, file, {
-                        cacheControl: '3600',
-                        upsert: false,
-                        contentType: 'text/html'
-                    });
+                    .upload(nomeArquivo, file);
                 
                 if (uploadError) {
-                    console.error('Erro no upload:', uploadError);
-                    throw uploadError;
+                    console.error('Erro no upload do arquivo:', uploadError);
+                    throw new Error(`Erro no upload: ${uploadError.message}`);
                 }
                 
-                console.log('Upload realizado:', uploadData);
+                showUploadMessage('✅ Arquivo enviado! Salvando informações...', 'success');
                 
-                // 2. Salvar metadados no banco de dados
+                // Salvar metadados no banco
                 const { error: dbError } = await supabase
                     .from('simulados')
                     .insert({
                         nome: nome,
-                        descricao: descricao,
+                        descricao: descricao || null,
                         certificacao_id: certificacaoId || null,
                         total_questoes: totalQuestoes,
                         tempo_estimado_minutos: tempoEstimado,
                         arquivo_url: nomeArquivo,
                         usuario_id: usuarioData.id,
+                        usuario_nome: usuarioData.nome,
                         status: 'pendente',
                         nivel_dificuldade: 'intermediario'
                     });
                 
                 if (dbError) {
                     console.error('Erro ao salvar no banco:', dbError);
-                    throw dbError;
+                    throw new Error(`Erro ao salvar: ${dbError.message}`);
                 }
-                
-                console.log('Simulado salvo no banco');
                 
                 showUploadMessage('✅ Simulado enviado com sucesso! Aguarde aprovação do administrador.', 'success');
                 
-                // Atualizar lista de simulados após 3 segundos
+                // Fechar modal e recarregar dados
                 setTimeout(() => {
                     closeUploadModal();
-                    alert('Simulado enviado com sucesso! Aguarde aprovação.');
-                    loadSimulados(); // Recarregar lista
-                    
-                    // Limpar formulário
-                    document.getElementById('simuladoNome').value = '';
-                    document.getElementById('simuladoDescricao').value = '';
-                    document.getElementById('simuladoCertificacao').value = '';
-                    document.getElementById('totalQuestoes').value = '';
-                    document.getElementById('tempoEstimado').value = '';
-                    document.getElementById('fileName').textContent = '';
-                    document.getElementById('termosAceitos').checked = false;
-                    fileInput.value = '';
+                    showAlert('🎉 Simulado enviado com sucesso! Agora ele será revisado por nossa equipe.', 'success');
+                    loadSimulados();
                 }, 3000);
                 
             } catch (error) {
-                console.error('Erro completo ao enviar simulado:', error);
+                console.error('Erro ao enviar simulado:', error);
+                showUploadMessage(`❌ Erro ao enviar simulado: ${error.message}`, 'error');
                 
-                let errorMsg = 'Erro ao enviar simulado.';
-                if (error.message.includes('storage')) {
-                    errorMsg = 'Erro no armazenamento. Verifique as permissões do bucket.';
-                } else if (error.message.includes('permission denied')) {
-                    errorMsg = 'Permissão negada. Você precisa estar logado e ter permissão para upload.';
-                } else if (error.message.includes('JWT')) {
-                    errorMsg = 'Problema de autenticação. Faça login novamente.';
-                } else if (error.message.includes('bucket')) {
-                    errorMsg = 'Bucket não encontrado. Verifique se o bucket "studycert-files" existe.';
+                // Limpar arquivo do storage em caso de erro
+                if (nomeArquivo) {
+                    try {
+                        await supabase.storage
+                            .from('studycert-files')
+                            .remove([nomeArquivo]);
+                    } catch (cleanupError) {
+                        console.error('Erro ao limpar arquivo:', cleanupError);
+                    }
                 }
-                
-                showUploadMessage(`❌ ${errorMsg} Detalhes: ${error.message}`, 'error');
             } finally {
-                // Restaurar botão
-                btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
-                btnEnviar.disabled = false;
+                setTimeout(() => {
+                    btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
+                    btnEnviar.disabled = false;
+                }, 2000);
             }
         }
 
@@ -3084,39 +2781,41 @@
                 element.innerHTML = message;
                 element.className = `message ${type}`;
                 element.style.display = 'block';
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                if (type === 'info') {
+                    setTimeout(() => {
+                        element.style.display = 'none';
+                    }, 5000);
+                }
             }
         }
 
         // Funções para ações
         function estudarCertificacao(certId) {
-            alert(`Iniciando estudos para certificação ID: ${certId}`);
-            // Implementar navegação para página de estudos
+            showAlert(`Iniciando estudos para certificação ID: ${certId}`, 'info');
         }
 
         function acessarMaterial(materialId) {
-            alert(`Acessando material ID: ${materialId}`);
-            // Implementar visualização do material
+            showAlert(`Acessando material ID: ${materialId}`, 'info');
         }
 
         function iniciarSimulado(simuladoId) {
-            alert(`Iniciando simulado ID: ${simuladoId}`);
-            // Implementar navegação para o simulado
+            showAlert(`Iniciando simulado ID: ${simuladoId}`, 'info');
         }
 
         function verPost(postId) {
-            alert(`Visualizando post ID: ${postId}`);
-            // Implementar visualização completa do post
+            showAlert(`Visualizando post ID: ${postId}`, 'info');
         }
 
         function filtrarForum(categoriaId) {
-            alert(`Filtrando fórum por categoria ID: ${categoriaId}`);
-            // Implementar filtro de fórum
+            showAlert(`Filtrando fórum por categoria ID: ${categoriaId}`, 'info');
         }
 
         // Upload de arquivo antigo (para compatibilidade)
         function uploadSimulado() {
             if (!currentUser) {
-                alert('Por favor, faça login para fazer upload de simulados.');
+                showAlert('Por favor, faça login para fazer upload de simulados.', 'warning');
                 openLogin();
                 return;
             }
@@ -3128,14 +2827,13 @@
             if (e.target.files.length > 0) {
                 const file = e.target.files[0];
                 if (file.type !== 'text/html') {
-                    alert('Por favor, selecione apenas arquivos HTML.');
+                    showAlert('Por favor, selecione apenas arquivos HTML.', 'error');
                     return;
                 }
                 
-                alert(`Arquivo "${file.name}" selecionado para upload.`);
+                showAlert(`Arquivo "${file.name}" selecionado para upload.`, 'info');
                 console.log('Arquivo para upload:', file);
                 
-                // Limpar o input
                 e.target.value = '';
             }
         });
