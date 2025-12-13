@@ -2741,7 +2741,7 @@
         }
 
         // =============================
-        // SISTEMA DE UPLOAD REAL
+        // SISTEMA DE UPLOAD REAL - CORRIGIDO
         // =============================
 
         // Inicializar sistema de upload
@@ -2915,7 +2915,7 @@
             }
         }
 
-        // Enviar simulado REAL para o Supabase
+        // Enviar simulado REAL para o Supabase - VERSÃO CORRIGIDA
         async function enviarSimulado() {
             const nome = document.getElementById('simuladoNome').value.trim();
             const descricao = document.getElementById('simuladoDescricao').value.trim();
@@ -2954,23 +2954,65 @@
                 btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 btnEnviar.disabled = true;
                 
+                // DEBUG: Log dos dados
+                console.log('=== DEBUG UPLOAD ===');
+                console.log('Nome:', nome);
+                console.log('Arquivo:', file.name, file.size, file.type);
+                console.log('Usuário ID:', currentUser?.id);
+                
                 // Buscar ID do usuário na tabela usuarios
-                const { data: usuarioData, error: usuarioError } = await supabase
+                let usuarioData;
+                const { data: usuarioQuery, error: usuarioError } = await supabase
                     .from('usuarios')
                     .select('id, nome')
                     .eq('email', currentUser.email)
                     .single();
                 
-                if (usuarioError) throw usuarioError;
+                if (usuarioError) {
+                    console.log('Usuário não encontrado, criando novo...');
+                    // Criar usuário se não existir
+                    const { data: novoUsuario, error: criarError } = await supabase
+                        .from('usuarios')
+                        .insert({
+                            email: currentUser.email,
+                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
+                            status: 'ativo'
+                        })
+                        .select()
+                        .single();
+                    
+                    if (criarError) {
+                        console.error('Erro ao criar usuário:', criarError);
+                        throw criarError;
+                    }
+                    usuarioData = novoUsuario;
+                } else {
+                    usuarioData = usuarioQuery;
+                }
                 
-                // 1. Fazer upload para o Storage
+                console.log('Usuário ID para upload:', usuarioData.id);
+                
+                // 1. Fazer upload para o Storage - FORMA CORRETA v2
                 const nomeArquivo = `simulados/${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
                 
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('studycert-files')  // Nome do bucket
-                    .upload(nomeArquivo, file);
+                console.log('Uploading to:', nomeArquivo);
                 
-                if (uploadError) throw uploadError;
+                // FORMA CORRETA: supabase.storage.from().upload()
+                const { data: uploadData, error: uploadError } = await supabase
+                    .storage
+                    .from('studycert-files')
+                    .upload(nomeArquivo, file, {
+                        cacheControl: '3600',
+                        upsert: false,
+                        contentType: 'text/html'
+                    });
+                
+                if (uploadError) {
+                    console.error('Erro no upload:', uploadError);
+                    throw uploadError;
+                }
+                
+                console.log('Upload realizado:', uploadData);
                 
                 // 2. Salvar metadados no banco de dados
                 const { error: dbError } = await supabase
@@ -2987,7 +3029,12 @@
                         nivel_dificuldade: 'intermediario'
                     });
                 
-                if (dbError) throw dbError;
+                if (dbError) {
+                    console.error('Erro ao salvar no banco:', dbError);
+                    throw dbError;
+                }
+                
+                console.log('Simulado salvo no banco');
                 
                 showUploadMessage('✅ Simulado enviado com sucesso! Aguarde aprovação do administrador.', 'success');
                 
@@ -2996,11 +3043,33 @@
                     closeUploadModal();
                     alert('Simulado enviado com sucesso! Aguarde aprovação.');
                     loadSimulados(); // Recarregar lista
+                    
+                    // Limpar formulário
+                    document.getElementById('simuladoNome').value = '';
+                    document.getElementById('simuladoDescricao').value = '';
+                    document.getElementById('simuladoCertificacao').value = '';
+                    document.getElementById('totalQuestoes').value = '';
+                    document.getElementById('tempoEstimado').value = '';
+                    document.getElementById('fileName').textContent = '';
+                    document.getElementById('termosAceitos').checked = false;
+                    fileInput.value = '';
                 }, 3000);
                 
             } catch (error) {
-                console.error('Erro ao enviar simulado:', error);
-                showUploadMessage(`❌ Erro ao enviar simulado: ${error.message}`, 'error');
+                console.error('Erro completo ao enviar simulado:', error);
+                
+                let errorMsg = 'Erro ao enviar simulado.';
+                if (error.message.includes('storage')) {
+                    errorMsg = 'Erro no armazenamento. Verifique as permissões do bucket.';
+                } else if (error.message.includes('permission denied')) {
+                    errorMsg = 'Permissão negada. Você precisa estar logado e ter permissão para upload.';
+                } else if (error.message.includes('JWT')) {
+                    errorMsg = 'Problema de autenticação. Faça login novamente.';
+                } else if (error.message.includes('bucket')) {
+                    errorMsg = 'Bucket não encontrado. Verifique se o bucket "studycert-files" existe.';
+                }
+                
+                showUploadMessage(`❌ ${errorMsg} Detalhes: ${error.message}`, 'error');
             } finally {
                 // Restaurar botão
                 btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
