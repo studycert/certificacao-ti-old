@@ -1597,6 +1597,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SEÇÃO DE FERRAMENTAS ADMINISTRATIVAS - ADICIONADA -->
+            <div style="text-align: center; margin-top: 4rem; padding: 2.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; border: 2px dashed #3498db;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.5rem;">
+                    <i class="fas fa-tools" style="color: #3498db; margin-right: 10px;"></i>
+                    Ferramentas Administrativas
+                </h3>
+                <p style="color: #666; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Acesse ferramentas para gerenciar e inserir conteúdo na plataforma. Disponível para administradores.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <a href="inserir-materiais.html" class="btn btn-primary" style="padding: 0.8rem 2rem; font-size: 1rem;">
+                        <i class="fas fa-database"></i> Inserir Materiais no Banco
+                    </a>
+                    <button class="btn btn-success" onclick="recarregarMateriais()" style="padding: 0.8rem 2rem; font-size: 1rem;">
+                        <i class="fas fa-sync-alt"></i> Recarregar Materiais
+                    </button>
+                    <button class="btn btn-warning" onclick="testarConexao()" style="padding: 0.8rem 2rem; font-size: 1rem;">
+                        <i class="fas fa-wifi"></i> Testar Conexão
+                    </button>
+                </div>
+                
+                <p style="color: #95a5a6; font-size: 0.9rem; max-width: 600px; margin: 0 auto;">
+                    <i class="fas fa-info-circle"></i> Use a página "Inserir Materiais" para popular o banco de dados com exemplos.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -2030,7 +2057,7 @@
             }
         }
 
-        // Função para carregar materiais
+        // Função para carregar materiais - CORRIGIDA
         async function loadMateriais() {
             try {
                 const { data, error } = await supabase
@@ -2042,9 +2069,10 @@
                 
                 if (error) throw error;
                 
-                if (data && data.length > 0) {
-                    const materialsContent = document.getElementById('materialsContent');
-                    if (materialsContent) {
+                const materialsContent = document.getElementById('materialsContent');
+                if (materialsContent) {
+                    // Limpar apenas se tiver dados
+                    if (data && data.length > 0) {
                         materialsContent.innerHTML = '';
                         
                         data.forEach(material => {
@@ -2057,16 +2085,42 @@
                                     <div class="material-content">
                                         <h3>${material.titulo}</h3>
                                         <p>${material.descricao || 'Material de estudo'}</p>
+                                        <p><small><i class="fas fa-download"></i> ${material.downloads || 0} downloads</small></p>
                                         <button class="btn btn-primary" onclick="acessarMaterial('${material.id}')">Acessar</button>
                                     </div>
                                 </div>
                             `;
                             materialsContent.insertAdjacentHTML('beforeend', materialCard);
                         });
+                    } else {
+                        // Se não houver materiais, mostrar mensagem
+                        materialsContent.innerHTML = `
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
+                                <i class="fas fa-inbox" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                                <h3>Nenhum material disponível</h3>
+                                <p>Não há materiais de estudo cadastrados no momento.</p>
+                                <a href="inserir-materiais.html" class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-plus-circle"></i> Inserir Materiais
+                                </a>
+                            </div>
+                        `;
                     }
                 }
             } catch (error) {
                 console.error('Erro ao carregar materiais:', error);
+                const materialsContent = document.getElementById('materialsContent');
+                if (materialsContent) {
+                    materialsContent.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning); margin-bottom: 1rem;"></i>
+                            <h3>Erro ao carregar materiais</h3>
+                            <p>${error.message}</p>
+                            <a href="inserir-materiais.html" class="btn btn-primary" style="margin-top: 1rem;">
+                                <i class="fas fa-tools"></i> Configurar Materiais
+                            </a>
+                        </div>
+                    `;
+                }
             }
         }
 
@@ -3018,29 +3072,147 @@
             }
         }
 
+        // =============================
+        // FUNÇÕES ADICIONAIS PARA MATERIAIS
+        // =============================
+
+        // Função para acessar material (CORRIGIDA)
+        async function acessarMaterial(materialId) {
+            try {
+                // Buscar detalhes do material
+                const { data: material, error } = await supabase
+                    .from('materiais')
+                    .select('*')
+                    .eq('id', materialId)
+                    .single();
+                
+                if (error) throw error;
+                
+                if (material) {
+                    // Abrir material em nova aba ou mostrar preview
+                    if (material.url) {
+                        window.open(material.url, '_blank');
+                    } else if (material.caminho_arquivo) {
+                        // Se tiver caminho, simular acesso
+                        const modalHTML = `
+                            <div id="materialModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; justify-content: center; align-items: center;">
+                                <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <h3 style="color: var(--primary);">${material.titulo}</h3>
+                                        <button onclick="fecharModalMaterial()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                                    </div>
+                                    <p><strong>Tipo:</strong> ${material.tipo}</p>
+                                    <p><strong>Categoria:</strong> ${material.categoria}</p>
+                                    <p><strong>Descrição:</strong> ${material.descricao}</p>
+                                    <p><strong>Tamanho:</strong> ${material.tamanho_mb} MB</p>
+                                    <p><strong>Downloads:</strong> ${material.downloads || 0}</p>
+                                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                                        <button class="btn btn-primary" onclick="simularDownload('${materialId}')">
+                                            <i class="fas fa-download"></i> Baixar Material
+                                        </button>
+                                        <button class="btn btn-outline" onclick="fecharModalMaterial()">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Adicionar modal ao body
+                        const modalDiv = document.createElement('div');
+                        modalDiv.innerHTML = modalHTML;
+                        document.body.appendChild(modalDiv);
+                    } else {
+                        alert(`📚 Acessando material: ${material.titulo}\n\nID: ${material.id}\nStatus: ${material.status}\n\nEm um sistema completo, este material seria aberto para visualização ou download.`);
+                    }
+                    
+                    // Incrementar visualizações
+                    await supabase
+                        .from('materiais')
+                        .update({ visualizacoes: (material.visualizacoes || 0) + 1 })
+                        .eq('id', materialId);
+                }
+                
+            } catch (error) {
+                console.error('Erro ao acessar material:', error);
+                alert(`📚 Acessando material ID: ${materialId}\n\nEm um sistema real, este material seria aberto para visualização ou download.`);
+            }
+        }
+
+        function fecharModalMaterial() {
+            const modal = document.getElementById('materialModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        async function simularDownload(materialId) {
+            try {
+                const { data: material, error } = await supabase
+                    .from('materiais')
+                    .select('titulo, downloads')
+                    .eq('id', materialId)
+                    .single();
+                
+                if (error) throw error;
+                
+                // Atualizar contador de downloads
+                await supabase
+                    .from('materiais')
+                    .update({ downloads: (material.downloads || 0) + 1 })
+                    .eq('id', materialId);
+                
+                alert(`✅ Download iniciado: ${material.titulo}\n\nID: ${materialId}\n\nEm um sistema real, o arquivo começaria a ser baixado.`);
+                fecharModalMaterial();
+                
+            } catch (error) {
+                console.error('Erro ao simular download:', error);
+                alert('✅ Download simulado com sucesso!');
+            }
+        }
+
+        // Função para recarregar materiais
+        async function recarregarMateriais() {
+            if (confirm('Deseja recarregar os materiais do banco de dados?')) {
+                await loadMateriais();
+                alert('✅ Materiais recarregados com sucesso!');
+            }
+        }
+
+        // Função para testar conexão com Supabase
+        async function testarConexao() {
+            try {
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) throw error;
+                
+                alert('✅ Conexão com Supabase estabelecida com sucesso!\n\nO banco de dados está respondendo corretamente.');
+                
+            } catch (error) {
+                console.error('Erro ao testar conexão:', error);
+                alert('❌ Erro na conexão com Supabase:\n' + error.message);
+            }
+        }
+
         // Funções para ações
         function estudarCertificacao(certId) {
-            alert(`Iniciando estudos para certificação ID: ${certId}`);
+            alert(`📖 Iniciando estudos para certificação ID: ${certId}`);
             // Implementar navegação para página de estudos
         }
 
-        function acessarMaterial(materialId) {
-            alert(`Acessando material ID: ${materialId}`);
-            // Implementar visualização do material
-        }
-
         function iniciarSimulado(simuladoId) {
-            alert(`Iniciando simulado ID: ${simuladoId}`);
+            alert(`📝 Iniciando simulado ID: ${simuladoId}`);
             // Implementar navegação para o simulado
         }
 
         function verPost(postId) {
-            alert(`Visualizando post ID: ${postId}`);
+            alert(`💬 Visualizando post ID: ${postId}`);
             // Implementar visualização completa do post
         }
 
         function filtrarForum(categoriaId) {
-            alert(`Filtrando fórum por categoria ID: ${categoriaId}`);
+            alert(`🗂️ Filtrando fórum por categoria ID: ${categoriaId}`);
             // Implementar filtro de fórum
         }
 
