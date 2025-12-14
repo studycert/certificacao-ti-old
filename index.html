@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyCert - Meus Materiais</title>
+    <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        /* Estilos similares ao index.html, com adaptações */
         * {
             margin: 0;
             padding: 0;
@@ -39,7 +38,7 @@
             padding: 0 20px;
         }
 
-        /* Header (igual ao index) */
+        /* Header - BOTÕES SEM BORDA */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -76,6 +75,69 @@
             color: var(--secondary);
         }
 
+        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         .btn {
             padding: 0.5rem 1.5rem;
             border-radius: 4px;
@@ -88,14 +150,15 @@
             text-align: center;
         }
 
-        .btn-primary {
-            background: var(--secondary);
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
             color: white;
         }
 
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
         }
 
         .btn-success {
@@ -108,74 +171,226 @@
             color: white;
         }
 
-        .btn-danger {
-            background: var(--accent);
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 3rem 0;
+            min-height: 60vh;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--primary);
             color: white;
         }
 
-        /* Breadcrumb */
-        .breadcrumb {
-            background: #e9ecef;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
+        .card-body {
+            padding: 1.5rem;
         }
 
-        .breadcrumb a {
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Forum */
+        .forum-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .forum-categories {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .forum-categories h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-count {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .forum-posts {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
             color: var(--primary);
             text-decoration: none;
         }
 
-        .breadcrumb a:hover {
+        .post-title:hover {
             color: var(--secondary);
         }
 
-        /* Page Header */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--light);
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
         }
 
-        .page-header h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
         }
 
-        /* Filters */
-        .filters {
+        .post-footer {
             display: flex;
             gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
-        .filter-btn {
-            padding: 0.5rem 1.5rem;
-            background: #e9ecef;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .new-post-btn {
+            display: block;
+            margin: 2rem auto;
+            width: 200px;
         }
 
-        .filter-btn.active {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .filter-btn:hover:not(.active) {
-            background: #ddd;
-        }
-
-        /* Materials Grid */
+        /* Study Materials */
         .materials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
         }
 
         .material-card {
@@ -190,210 +405,696 @@
             transform: translateY(-5px);
         }
 
-        /* Status Badge */
-        .status-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .status-pendente { background: #fef3c7; color: #92400e; }
-        .status-aprovado { background: #d1fae5; color: #065f46; }
-        .status-rejeitado { background: #fee2e2; color: #991b1b; }
-        .status-ativo { background: #dbeafe; color: #1e40af; }
-
-        .card-header {
-            background: #f8f9fa;
+        .material-icon {
+            background: var(--primary);
+            color: white;
             padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .file-icon {
+            text-align: center;
             font-size: 2rem;
         }
 
-        .pdf { color: #e74c3c; }
-        .ppt { color: #e67e22; }
-        .doc { color: #3498db; }
-        .zip { color: #9b59b6; }
-        .video { color: #27ae60; }
-        .link { color: #34495e; }
-
-        .card-body {
+        .material-content {
             padding: 1.5rem;
         }
 
-        .card-body h3 {
-            color: var(--primary);
+        .material-content h3 {
             margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            color: var(--primary);
         }
 
-        .card-body p {
+        .material-content p {
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            line-height: 1.5;
         }
 
-        .file-info {
-            display: flex;
-            justify-content: space-between;
-            color: #95a5a6;
-            font-size: 0.8rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
+        /* Simulados */
+        .simulados-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        /* Card Actions */
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .btn-sm {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            flex: 1;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
+        .simulado-card {
             background: white;
             border-radius: 8px;
+            overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
         }
 
-        .empty-state i {
-            font-size: 4rem;
-            color: #ddd;
+        .simulado-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .simulado-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
             margin-bottom: 1rem;
         }
 
-        .empty-state h3 {
+        .upload-area {
+            background: white;
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certifications Grid */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .cert-content p {
             color: #666;
+            font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
-        /* Modal de Detalhes */
-        .modal {
+        .cert-level {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Modal de Login/Cadastro */
+        .modal-auth {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .modal.active {
+        .modal-auth.active {
             display: flex;
+            opacity: 1;
         }
 
-        .modal-content {
+        .auth-container {
             background: white;
             border-radius: 12px;
             width: 100%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+            position: relative;
         }
 
-        .modal-header {
-            background: var(--primary);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px 12px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            background: #f8f9fa;
-            border-top: 1px solid #eee;
-            border-radius: 0 0 12px 12px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        .close-modal {
+        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
+        .close-auth-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
-            color: white;
             font-size: 1.5rem;
+            color: #666;
             cursor: pointer;
-            padding: 0;
             width: 30px;
             height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
         }
 
-        /* Responsive */
+        .close-auth-modal:hover {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-right: 30px;
+        }
+
+        .auth-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        /* Mensagens de erro/sucesso */
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .message.success {
+            background: #efe;
+            color: #2a7;
+            border: 1px solid #cfc;
+        }
+
+        /* Progresso do usuário */
+        .user-progress {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
+        
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal overlay para lista de simulados */
+        .modal-simulados {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-simulados.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Container interno da modal */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        /* Cabeçalho da modal */
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo da modal */
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Cada item da lista */
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        /* Ícones de status */
+        .status-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .status-disponivel {
+            color: #27ae60;
+        }
+
+        .status-em-breve {
+            color: #f39c12;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Botões na modal */
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Rodapé da modal */
+        .modal-footer {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Modal de Upload */
+        .modal-upload {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-upload.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Estilos para textarea e select no modal de upload */
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group label input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-group a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .form-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
         @media (max-width: 768px) {
-            .materials-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
-            .page-header {
-                flex-direction: column;
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
                 gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .simulado-item-modal {
+                flex-direction: column;
                 align-items: flex-start;
+                gap: 10px;
             }
             
-            .filters {
-                flex-direction: column;
-            }
-            
-            .card-actions {
-                flex-direction: column;
+            .btn-sm {
+                align-self: flex-end;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header com botões SEM BORDA -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -402,454 +1103,1971 @@
                     <h1>Study<span>Cert</span></h1>
                 </div>
                 <nav>
-                    <ul style="display: flex; list-style: none; gap: 1.5rem;">
-                        <li><a href="index.html" class="btn btn-primary">Voltar para Home</a></li>
-                        <li><a href="upload-material.html" class="btn btn-success">Enviar Novo Material</a></li>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-target="home">Início</a></li>
+                        <li><a href="#" class="nav-link" data-target="certificacoes">Certificações</a></li>
+                        <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
+                        <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
                     </ul>
                 </nav>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- Será preenchido dinamicamente via JavaScript -->
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Breadcrumb -->
-    <section class="breadcrumb">
-        <div class="container">
-            <a href="index.html">Home</a> > 
-            <a href="index.html#materiais">Material de Estudo</a> > 
-            <span>Meus Materiais</span>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="container">
-        <div class="page-header">
-            <h2><i class="fas fa-book"></i> Meus Materiais Enviados</h2>
-            <div class="stats-summary">
-                <span id="totalMateriais">0 materiais</span>
+    <!-- Modal de Login/Cadastro COM BOTÃO X -->
+    <div id="modalAuth" class="modal-auth">
+        <div class="auth-container">
+            <!-- BOTÃO X PARA FECHAR MODAL -->
+            <button class="close-auth-modal" onclick="closeAuthModal()">&times;</button>
+            
+            <div class="auth-header">
+                <h2>Study<span style="color: #3498db;">Cert</span></h2>
+                <p>Sua jornada começa aqui</p>
             </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="filters">
-            <button class="filter-btn active" data-status="all">Todos</button>
-            <button class="filter-btn" data-status="pendente">Pendentes</button>
-            <button class="filter-btn" data-status="aprovado">Aprovados</button>
-            <button class="filter-btn" data-status="rejeitado">Rejeitados</button>
-        </div>
-
-        <!-- Materials Grid -->
-        <div class="materials-grid" id="materialsContainer">
-            <!-- Os materiais serão carregados via JavaScript -->
-        </div>
-
-        <!-- Empty State -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <i class="fas fa-inbox"></i>
-            <h3>Nenhum material encontrado</h3>
-            <p>Você ainda não enviou nenhum material ou não há materiais com o filtro selecionado.</p>
-            <a href="upload-material.html" class="btn btn-primary" style="margin-top: 1rem;">
-                <i class="fas fa-upload"></i> Enviar Primeiro Material
-            </a>
-        </div>
-    </main>
-
-    <!-- Modal de Detalhes -->
-    <div class="modal" id="detailModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Detalhes do Material</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Entrar</div>
+                <div class="auth-tab" data-tab="register">Cadastrar</div>
             </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Conteúdo será preenchido via JavaScript -->
+            
+            <div id="loginForm" class="auth-form active">
+                <div id="loginMessage" class="message"></div>
+                <div class="form-group">
+                    <label for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" id="loginPassword" placeholder="Sua senha">
+                </div>
+                <button class="btn btn-primary" onclick="login()" style="width: 100%;">Entrar</button>
+                <div class="auth-footer">
+                    <p>Esqueceu sua senha? <a href="#" onclick="forgotPassword()">Redefinir senha</a></p>
+                </div>
             </div>
-            <div class="modal-footer" id="modalFooter">
-                <!-- Ações serão preenchidas via JavaScript -->
+            
+            <div id="registerForm" class="auth-form">
+                <div id="registerMessage" class="message"></div>
+                <div class="form-group">
+                    <label for="registerName">Nome Completo</label>
+                    <input type="text" id="registerName" placeholder="Seu nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">E-mail</label>
+                    <input type="email" id="registerEmail" placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha</label>
+                    <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres">
+                </div>
+                <button class="btn btn-success" onclick="register()" style="width: 100%;">Criar Conta</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // Configuração do Supabase
-        const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbm53YnJocmNrcWVnYWlwYXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI0NDgzMzMsImV4cCI6MjA1ODAyNDMzM30.K0VcgeJp7g9K4k5g6y5WdpHNYnWArIaeNkM86WchbPw';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let currentUser = null;
-        let currentFilter = 'all';
-        let materials = [];
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Prepare-se para suas Certificações de TI</h2>
+            <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
+            <a href="#" class="btn btn-primary" onclick="openRegister()">Começar Agora</a>
+        </div>
+    </section>
 
-        // Elementos DOM
-        const materialsContainer = document.getElementById('materialsContainer');
-        const emptyState = document.getElementById('emptyState');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const detailModal = document.getElementById('detailModal');
-        const totalMateriaisSpan = document.getElementById('totalMateriais');
+    <!-- Home Content -->
+    <section id="home" class="main-content active">
+        <div class="container">
+            <div class="section-title">
+                <h2>Bem-vindo ao StudyCert</h2>
+                <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação</p>
+            </div>
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', async () => {
-            await checkAuth();
-            await loadMaterials();
-            setupFilters();
-        });
+            <!-- Progresso do Usuário (visível apenas quando logado) -->
+            <div id="userProgress" class="user-progress" style="display: none;">
+                <h3>Seu Progresso</h3>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p id="progressText">Carregando progresso...</p>
+            </div>
 
-        // Verificar autenticação
-        async function checkAuth() {
-            const { data: { session } } = await supabase.auth.getSession();
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comments"></i> Fórum de Discussão</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Participe de discussões, tire dúvidas e compartilhe conhecimento com outros profissionais de TI.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="forum">Acessar Fórum</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-book"></i> Material de Estudo</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Acesse guias, resumos, videoaulas e outros recursos para sua preparação.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="materiais">Ver Materiais</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Simulados</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Teste seus conhecimentos com nossos simulados e acompanhe seu progresso.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="simulados">Ver Simulados</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>Certificações em Destaque</h2>
+                <p>As certificações mais relevantes do mercado de TI</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Fundamentals</h3>
+                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Cloud Practitioner</h3>
+                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Security+</h3>
+                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Foundation</h3>
+                        <p>Framework de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificações Content -->
+    <section id="certificacoes" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossas Certificações</h2>
+                <p>Prepare-se para as certificações mais demandadas do mercado</p>
+            </div>
+
+            <div class="certifications-grid" id="certificacoesContent">
+                <!-- Conteúdo estático para teste -->
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Administrator</h3>
+                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Solutions Architect</h3>
+                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Cybersecurity Analyst</h3>
+                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Specialist</h3>
+                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-1</h3>
+                        <p>Certificação Linux Professional Institute - Nível 1.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-2</h3>
+                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Rede</span>
+                        <h3>CCNA</h3>
+                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Dados</span>
+                        <h3>Data Fundamentals</h3>
+                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum Content -->
+    <section id="forum" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fórum de Discussão</h2>
+                <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
+            </div>
+
+            <div id="forumContent">
+                <div class="forum-container">
+                    <div class="forum-categories">
+                        <h3>Categorias</h3>
+                        <ul class="category-list" id="forumCategories">
+                            <!-- Conteúdo estático -->
+                            <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
+                            <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
+                            <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
+                            <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
+                            <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
+                            <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
+                            <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="forum-posts" id="forumPosts">
+                        <!-- Conteúdo estático -->
+                        <div class="post">
+                            <div class="post-header">
+                                <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
+                                <div class="post-meta">por João Silva • 2 horas atrás</div>
+                            </div>
+                            <div class="post-excerpt">
+                                <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
+                            </div>
+                            <div class="post-footer">
+                                <span><i class="far fa-comment"></i> 7 respostas</span>
+                                <span><i class="far fa-eye"></i> 42 visualizações</span>
+                            </div>
+                        </div>
+
+                        <div class="post">
+                            <div class="post-header">
+                                <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
+                                <div class="post-meta">por Maria Santos • 1 dia atrás</div>
+                            </div>
+                            <div class="post-excerpt">
+                                <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
+                            </div>
+                            <div class="post-footer">
+                                <span><i class="far fa-comment"></i> 12 respostas</span>
+                                <span><i class="far fa-eye"></i> 87 visualizações</span>
+                            </div>
+                        </div>
+
+                        <div class="post">
+                            <div class="post-header">
+                                <a href="#" class="post-title">Experiência com exame Security+</a>
+                                <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
+                            </div>
+                            <div class="post-excerpt">
+                                <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
+                            </div>
+                            <div class="post-footer">
+                                <span><i class="far fa-comment"></i> 23 respostas</span>
+                                <span><i class="far fa-eye"></i> 156 visualizações</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            if (!session) {
-                // Redirecionar para login
-                alert('Faça login para ver seus materiais');
-                window.location.href = 'index.html';
+            <button class="btn btn-primary new-post-btn" onclick="createNewPost()">Nova Discussão</button>
+        </div>
+    </section>
+
+    <!-- Study Materials Content -->
+    <section id="materiais" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Material de Estudo</h2>
+                <p>Recursos selecionados para sua preparação</p>
+            </div>
+
+            <div id="materialsContent" class="materials-grid">
+                <!-- Conteúdo estático -->
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Microsoft Azure</h3>
+                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Amazon AWS</h3>
+                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>LPIC-1 e LPIC-2</h3>
+                        <p>Recursos para certificações Linux Professional Institute.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>ITIL 4</h3>
+                        <p>Guias, resumos e material para certificação ITIL.</p>
+                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Security+</h3>
+                        <p>Material para preparação da certificação CompTIA Security+.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>CCNA</h3>
+                        <p>Recursos para Cisco Certified Network Associate.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 4rem;">
+                <h2>Videoaulas</h2>
+                <p>Aprenda com instrutores especializados</p>
+            </div>
+
+            <div id="videosContent" class="cards-container">
+                <!-- Conteúdo estático -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
+                        <p><strong>Duração:</strong> 6 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
+                        <p><strong>Duração:</strong> 5 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Preparação completa para o exame CompTIA Security+.</p>
+                        <p><strong>Duração:</strong> 12 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulados Content -->
+    <section id="simulados" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simulados</h2>
+                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea" style="display: none;">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Compartilhe Seu Simulado</h3>
+                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+                <input type="file" id="fileUpload" accept=".html" style="display: none;">
+                <button class="btn btn-primary" onclick="uploadSimulado()">Upload de Arquivo</button>
+            </div>
+
+            <div id="simuladosContent" class="simulados-container">
+                <!-- Conteúdo estático - 9 SIMULADOS -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">11 Simulados Disponíveis</span>
+                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
+                            <i class="fas fa-list"></i> Ver 11 Simulados
+                        </button>
+                    </div>
+                    <div class="card-footer">
+                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
+                    </div>
+                </div>
+                
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">60 questões</span>
+                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">45 questões</span>
+                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">50 questões</span>
+                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">40 questões</span>
+                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
+                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">55 questões</span>
+                        <p>Simulado para Cisco Certified Network Associate.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">35 questões</span>
+                        <p>Simulado para DP-900: Data Fundamentals.</p>
+                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">70 questões</span>
+                        <p>Simulado para Linux Professional Institute Level 2.</p>
+                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">65 questões</span>
+                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
+                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
+                    </div>
+                    <div class="card-footer">
+                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
+                        <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal da Lista de Simulados -->
+    <div id="modalSimulados" class="modal-simulados">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> Simulados ITIL 4 Foundation</h3>
+                <button class="fechar-modal" onclick="fecharModalSimulados()">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="simuladosList">
+                <!-- Lista estática de simulados -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
+                    </div>
+                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
+                    </div>
+                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
+                    </div>
+                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
+                    </div>
+                    <a href="simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
+                    </div>
+                    <a href="simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 8 - Governança</span>
+                    </div>
+                    <a href="simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
+                    </div>
+                    <a href="simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
+                    </div>
+                <a href="simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <!-- <i class="fas fa-clock status-icon status-em-breve"></i> -->
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
+                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
+                    </div>
+                    <!-- <button class="btn btn-outline btn-sm" disabled>Em Breve</button> -->
+                    <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <div><strong>11</strong> simulados disponíveis</div>
+                <div><strong>440</strong> questões no total</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>StudyCert</h3>
+                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/study.cert?igsh=MXZmeHRwM255aXMwZg==" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-target="home">Início</a></li>
+                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
+                        <li><a href="#" data-target="forum">Fórum</a></li>
+                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Certificações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Microsoft Azure</a></li>
+                        <li><a href="#">AWS</a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
+                        <li><a href="#">ITIL 4</a></li>
+                        <li><a href="#">Security+</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 StudyCert. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =============================
+        // CONFIGURAÇÃO DO SUPABASE
+        // =============================
+        const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_HGgcbNNjAvfdWUbYOPFBKQ_5uOEkY7s';
+        
+        let supabase;
+        let currentUser = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Página carregada');
+            
+            // Inicializar Supabase
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('Supabase configurado com sucesso!');
+                console.log('URL:', SUPABASE_URL);
+            } catch (err) {
+                console.error('Erro ao configurar Supabase:', err);
+                showGlobalError('Configuração do banco de dados incompleta. Por favor, verifique as chaves de API.');
                 return;
             }
             
-            currentUser = session.user;
+            // Carregar navegação
+            loadNavigation();
+            
+            // Verificar autenticação
+            await checkAuth();
+            
+            // Configurar eventos dos modais
+            setupModalEvents();
+            
+            // Inicializar sistema de upload
+            initUploadSystem();
+            
+            // Carregar dados do banco de dados
+            loadInitialData();
+        });
+
+        // Função para carregar dados iniciais do banco
+        async function loadInitialData() {
+            try {
+                // Carregar certificações do banco
+                await loadCertificacoes();
+                
+                // Carregar materiais de estudo
+                await loadMateriais();
+                
+                // Carregar simulados
+                await loadSimulados();
+                
+                // Carregar categorias do fórum
+                await loadForumCategorias();
+                
+                // Carregar posts do fórum
+                await loadForumPosts();
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+            }
         }
 
-        // Carregar materiais
-        async function loadMaterials() {
+        // Função para carregar certificações
+        async function loadCertificacoes() {
+            try {
+                const { data, error } = await supabase
+                    .from('certificacoes')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('nome');
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    // Atualizar a seção de certificações
+                    const certificacoesContent = document.getElementById('certificacoesContent');
+                    if (certificacoesContent) {
+                        certificacoesContent.innerHTML = '';
+                        
+                        data.forEach(cert => {
+                            const iconClass = getIconClass(cert.icon_name || cert.fornecedor);
+                            const certCard = `
+                                <div class="cert-card">
+                                    <div class="cert-icon">
+                                        <i class="${iconClass}"></i>
+                                    </div>
+                                    <div class="cert-content">
+                                        <span class="cert-level">${cert.categoria || 'Geral'}</span>
+                                        <h3>${cert.nome}</h3>
+                                        <p>${cert.descricao || 'Certificação de TI'}</p>
+                                        <button class="btn btn-primary" onclick="estudarCertificacao('${cert.id}')">Estudar</button>
+                                    </div>
+                                </div>
+                            `;
+                            certificacoesContent.insertAdjacentHTML('beforeend', certCard);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar certificações:', error);
+            }
+        }
+
+        // Função para carregar materiais
+        async function loadMateriais() {
             try {
                 const { data, error } = await supabase
                     .from('materiais')
                     .select('*')
-                    .eq('usuario_id', currentUser.id)
-                    .order('created_at', { ascending: false });
-
+                    .eq('status', 'aprovado')
+                    .order('created_at', { ascending: false })
+                    .limit(6);
+                
                 if (error) throw error;
-
-                materials = data || [];
-                updateMaterialsList();
-                updateStats();
-
+                
+                if (data && data.length > 0) {
+                    const materialsContent = document.getElementById('materialsContent');
+                    if (materialsContent) {
+                        materialsContent.innerHTML = '';
+                        
+                        data.forEach(material => {
+                            const iconClass = getIconClass(material.tipo || 'pdf');
+                            const materialCard = `
+                                <div class="material-card">
+                                    <div class="material-icon">
+                                        <i class="${iconClass}"></i>
+                                    </div>
+                                    <div class="material-content">
+                                        <h3>${material.titulo}</h3>
+                                        <p>${material.descricao || 'Material de estudo'}</p>
+                                        <button class="btn btn-primary" onclick="acessarMaterial('${material.id}')">Acessar</button>
+                                    </div>
+                                </div>
+                            `;
+                            materialsContent.insertAdjacentHTML('beforeend', materialCard);
+                        });
+                    }
+                }
             } catch (error) {
                 console.error('Erro ao carregar materiais:', error);
-                showError('Erro ao carregar materiais. Tente novamente.');
             }
         }
 
-        // Atualizar lista de materiais
-        function updateMaterialsList() {
-            materialsContainer.innerHTML = '';
-            
-            const filteredMaterials = materials.filter(material => {
-                if (currentFilter === 'all') return true;
-                return material.status === currentFilter;
-            });
-
-            if (filteredMaterials.length === 0) {
-                emptyState.style.display = 'block';
-                materialsContainer.style.display = 'none';
-                return;
+        // Função para carregar simulados
+        async function loadSimulados() {
+            try {
+                const { data, error } = await supabase
+                    .from('simulados')
+                    .select('*, certificacoes(nome)')
+                    .eq('status', 'aprovado')
+                    .order('created_at', { ascending: false })
+                    .limit(9);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const simuladosContent = document.getElementById('simuladosContent');
+                    if (simuladosContent) {
+                        // Manter o card de upload no final
+                        const uploadCard = simuladosContent.querySelector('.simulado-card:last-child');
+                        simuladosContent.innerHTML = '';
+                        
+                        data.forEach(simulado => {
+                            const iconClass = getIconClass(simulado.certificacoes?.nome || 'file-alt');
+                            const simuladoCard = `
+                                <div class="simulado-card">
+                                    <div class="card-header">
+                                        <h3><i class="${iconClass}"></i> ${simulado.nome}</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="simulado-badge">${simulado.total_questoes || 0} questões</span>
+                                        <p>${simulado.descricao || 'Simulado de certificação'}</p>
+                                        <p><strong>Tempo estimado:</strong> ${simulado.tempo_estimado_minutos || 60} minutos</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary" onclick="iniciarSimulado('${simulado.id}')">Iniciar Simulado</button>
+                                    </div>
+                                </div>
+                            `;
+                            simuladosContent.insertAdjacentHTML('beforeend', simuladoCard);
+                        });
+                        
+                        // Adicionar card de upload de volta
+                        if (uploadCard) {
+                            simuladosContent.appendChild(uploadCard);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar simulados:', error);
             }
-
-            emptyState.style.display = 'none';
-            materialsContainer.style.display = 'grid';
-
-            filteredMaterials.forEach(material => {
-                const materialCard = createMaterialCard(material);
-                materialsContainer.appendChild(materialCard);
-            });
         }
 
-        // Criar card de material
-        function createMaterialCard(material) {
-            const card = document.createElement('div');
-            card.className = 'material-card';
-            card.dataset.id = material.id;
+        // Função para carregar categorias do fórum
+        async function loadForumCategorias() {
+            try {
+                const { data, error } = await supabase
+                    .from('forum_categorias')
+                    .select('*')
+                    .eq('ativo', true)
+                    .order('ordem');
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const forumCategories = document.getElementById('forumCategories');
+                    if (forumCategories) {
+                        forumCategories.innerHTML = '';
+                        
+                        data.forEach(categoria => {
+                            const categoryItem = `
+                                <li><a href="#" onclick="filtrarForum('${categoria.id}')">
+                                    ${categoria.nome} 
+                                    <span class="category-count">${categoria.total_posts || 0}</span>
+                                </a></li>
+                            `;
+                            forumCategories.insertAdjacentHTML('beforeend', categoryItem);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar categorias do fórum:', error);
+            }
+        }
 
-            // Ícone baseado no tipo
-            const iconClass = getIconClass(material.tipo);
+        // Função para carregar posts do fórum
+        async function loadForumPosts() {
+            try {
+                const { data, error } = await supabase
+                    .from('forum_posts')
+                    .select('*, usuarios(nome), forum_categorias(nome)')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const forumPosts = document.getElementById('forumPosts');
+                    if (forumPosts) {
+                        forumPosts.innerHTML = '';
+                        
+                        data.forEach(post => {
+                            const timeAgo = getTimeAgo(new Date(post.created_at));
+                            const postElement = `
+                                <div class="post">
+                                    <div class="post-header">
+                                        <a href="#" class="post-title" onclick="verPost('${post.id}')">${post.titulo}</a>
+                                        <div class="post-meta">por ${post.usuarios?.nome || 'Usuário'} • ${timeAgo}</div>
+                                    </div>
+                                    <div class="post-excerpt">
+                                        <p>${post.conteudo.substring(0, 150)}${post.conteudo.length > 150 ? '...' : ''}</p>
+                                    </div>
+                                    <div class="post-footer">
+                                        <span><i class="far fa-comment"></i> ${post.respostas || 0} respostas</span>
+                                        <span><i class="far fa-eye"></i> ${post.visualizacoes || 0} visualizações</span>
+                                    </div>
+                                </div>
+                            `;
+                            forumPosts.insertAdjacentHTML('beforeend', postElement);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar posts do fórum:', error);
+            }
+        }
+
+        // Função auxiliar para obter classe de ícone
+        function getIconClass(name) {
+            const iconMap = {
+                'microsoft': 'fab fa-microsoft',
+                'aws': 'fab fa-aws',
+                'server': 'fas fa-server',
+                'shield-alt': 'fas fa-shield-alt',
+                'cube': 'fas fa-cube',
+                'network-wired': 'fas fa-network-wired',
+                'database': 'fas fa-database',
+                'code': 'fas fa-code',
+                'cloud': 'fas fa-cloud',
+                'pdf': 'fas fa-file-pdf',
+                'video': 'fas fa-video',
+                'ppt': 'fas fa-file-powerpoint',
+                'doc': 'fas fa-file-word',
+                'zip': 'fas fa-file-archive',
+                'link': 'fas fa-link',
+                'file-alt': 'fas fa-file-alt',
+                'graduation-cap': 'fas fa-graduation-cap'
+            };
             
-            // Status badge
-            const statusText = getStatusText(material.status);
-            const statusClass = `status-${material.status}`;
+            return iconMap[name.toLowerCase()] || 'fas fa-file-alt';
+        }
 
-            card.innerHTML = `
-                <div class="card-header">
-                    <i class="fas ${iconClass} file-icon ${material.tipo}"></i>
-                    <div>
-                        <h3>${material.titulo}</h3>
-                        <small>${material.categoria} • ${material.tipo.toUpperCase()}</small>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <span class="status-badge ${statusClass}">${statusText}</span>
-                    <p>${material.descricao || 'Sem descrição'}</p>
-                    
-                    <div class="stats">
-                        <div class="stat">
-                            <i class="far fa-eye"></i>
-                            <span>${material.visualizacoes || 0}</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-download"></i>
-                            <span>${material.downloads || 0}</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-heart"></i>
-                            <span>${material.curtidas || 0}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="file-info">
-                        <span><i class="far fa-calendar"></i> ${formatDate(material.created_at)}</span>
-                        ${material.tamanho_mb ? `<span><i class="fas fa-hdd"></i> ${material.tamanho_mb} MB</span>` : ''}
-                    </div>
-                    
-                    <div class="card-actions">
-                        <button class="btn btn-primary btn-sm" onclick="viewMaterial('${material.id}')">
-                            <i class="fas fa-eye"></i> Ver Detalhes
-                        </button>
-                        ${material.status === 'pendente' ? `
-                            <button class="btn btn-warning btn-sm" onclick="editMaterial('${material.id}')" disabled>
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
-                        ` : ''}
-                        ${material.status === 'pendente' ? `
-                            <button class="btn btn-danger btn-sm" onclick="deleteMaterial('${material.id}')">
-                                <i class="fas fa-trash"></i> Excluir
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
+        // Função para calcular tempo relativo
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) {
+                return `${minutes} minuto${minutes !== 1 ? 's' : ''} atrás`;
+            } else if (hours < 24) {
+                return `${hours} hora${hours !== 1 ? 's' : ''} atrás`;
+            } else {
+                return `${days} dia${days !== 1 ? 's' : ''} atrás`;
+            }
+        }
+
+        // Função para mostrar erro global
+        function showGlobalError(message) {
+            console.error('Erro global:', message);
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 10000;
+                max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             `;
-
-            return card;
+            errorDiv.innerHTML = `<strong>Erro de Configuração:</strong><br>${message}`;
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 10000);
         }
 
-        // Configurar filtros
-        function setupFilters() {
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.status;
-                    updateMaterialsList();
+        // NAVEGAÇÃO
+        function loadNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
+            const mainContents = document.querySelectorAll('.main-content');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Remover active de todos
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    mainContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Adicionar active ao clicado
+                    this.classList.add('active');
+                    
+                    // Mostrar seção correspondente
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 });
             });
         }
 
-        // Ver material detalhado
-        async function viewMaterial(materialId) {
+        // Verificação de autenticação
+        async function checkAuth() {
             try {
-                const { data: material, error } = await supabase
-                    .from('materiais')
-                    .select('*')
-                    .eq('id', materialId)
-                    .single();
-
-                if (error) throw error;
-
-                // Preencher modal
-                document.getElementById('modalTitle').textContent = material.titulo;
-                
-                const modalBody = document.getElementById('modalBody');
-                modalBody.innerHTML = `
-                    <div style="margin-bottom: 1rem;">
-                        <span class="status-badge status-${material.status}">
-                            ${getStatusText(material.status)}
-                        </span>
-                        ${material.motivo_rejeicao ? `
-                            <div style="margin-top: 0.5rem; padding: 0.5rem; background: #fee2e2; border-radius: 4px; color: #991b1b;">
-                                <strong>Motivo da rejeição:</strong> ${material.motivo_rejeicao}
-                            </div>
-                        ` : ''}
-                    </div>
-                    
-                    <p><strong>Descrição:</strong> ${material.descricao || 'Não informada'}</p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-                        <div>
-                            <strong>Categoria:</strong>
-                            <div>${material.categoria}</div>
-                        </div>
-                        <div>
-                            <strong>Tipo:</strong>
-                            <div>${material.tipo.toUpperCase()}</div>
-                        </div>
-                        <div>
-                            <strong>Nível:</strong>
-                            <div>${material.nivel_dificuldade}</div>
-                        </div>
-                        <div>
-                            <strong>Idioma:</strong>
-                            <div>${material.idioma}</div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin: 1rem 0;">
-                        <strong>Tags:</strong>
-                        <div>${material.tags ? material.tags.join(', ') : 'Nenhuma tag'}</div>
-                    </div>
-                    
-                    <div style="margin: 1rem 0;">
-                        <strong>Estatísticas:</strong>
-                        <div style="display: flex; gap: 2rem; margin-top: 0.5rem;">
-                            <div><i class="far fa-eye"></i> ${material.visualizacoes || 0} visualizações</div>
-                            <div><i class="fas fa-download"></i> ${material.downloads || 0} downloads</div>
-                            <div><i class="fas fa-heart"></i> ${material.curtidas || 0} curtidas</div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin: 1rem 0;">
-                        <strong>Data de envio:</strong>
-                        <div>${formatDate(material.created_at)}</div>
-                    </div>
-                `;
-
-                const modalFooter = document.getElementById('modalFooter');
-                modalFooter.innerHTML = `
-                    <button class="btn btn-secondary" onclick="closeModal()">
-                        Fechar
-                    </button>
-                    ${material.caminho_arquivo || material.url_externa ? `
-                        <button class="btn btn-primary" onclick="downloadMaterial('${material.id}')">
-                            <i class="fas fa-download"></i> ${material.tipo === 'link' ? 'Acessar Link' : 'Baixar Arquivo'}
-                        </button>
-                    ` : ''}
-                `;
-
-                detailModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-
-            } catch (error) {
-                console.error('Erro ao carregar material:', error);
-                showError('Erro ao carregar detalhes do material.');
-            }
-        }
-
-        // Download/Acessar material
-        async function downloadMaterial(materialId) {
-            try {
-                const { data: material, error } = await supabase
-                    .from('materiais')
-                    .select('caminho_arquivo, url_externa, tipo, nome_arquivo')
-                    .eq('id', materialId)
-                    .single();
-
-                if (error) throw error;
-
-                if (material.tipo === 'link' && material.url_externa) {
-                    // Abrir link em nova aba
-                    window.open(material.url_externa, '_blank');
-                    
-                    // Incrementar visualizações
-                    await supabase.rpc('increment_downloads', { material_id: materialId });
-                    
-                } else if (material.caminho_arquivo) {
-                    // Baixar arquivo
-                    const link = document.createElement('a');
-                    link.href = material.caminho_arquivo;
-                    link.download = material.nome_arquivo || 'material';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    // Incrementar downloads
-                    await supabase.rpc('increment_downloads', { material_id: materialId });
-                    
-                    // Recarregar lista para atualizar estatísticas
-                    setTimeout(() => loadMaterials(), 1000);
+                if (!supabase) {
+                    console.log('Supabase não inicializado');
+                    updateAuthUI();
+                    return;
                 }
-
-            } catch (error) {
-                console.error('Erro ao baixar material:', error);
-                showError('Erro ao baixar material.');
+                
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    updateAuthUI();
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                    
+                    // Sincronizar usuário com a tabela usuarios
+                    await syncUserProfile();
+                } else {
+                    currentUser = null;
+                }
+                
+                updateAuthUI();
+                if (currentUser) showUserProgress();
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                updateAuthUI();
             }
         }
 
-        // Excluir material (apenas se pendente)
-        async function deleteMaterial(materialId) {
-            if (!confirm('Tem certeza que deseja excluir este material? Esta ação não pode ser desfeita.')) {
+        // Sincronizar perfil do usuário com a tabela usuarios
+        async function syncUserProfile() {
+            try {
+                if (!currentUser) return;
+                
+                const { data: existingUser, error: fetchError } = await supabase
+                    .from('usuarios')
+                    .select('id')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (fetchError && fetchError.code !== 'PGRST116') {
+                    console.error('Erro ao buscar usuário:', fetchError);
+                    return;
+                }
+                
+                if (!existingUser) {
+                    // Criar usuário na tabela usuarios
+                    const { error: insertError } = await supabase
+                        .from('usuarios')
+                        .insert({
+                            email: currentUser.email,
+                            nome: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
+                            status: 'ativo',
+                            last_login: new Date().toISOString()
+                        });
+                    
+                    if (insertError) {
+                        console.error('Erro ao criar usuário:', insertError);
+                    } else {
+                        console.log('Perfil de usuário criado com sucesso');
+                    }
+                } else {
+                    // Atualizar último login
+                    const { error: updateError } = await supabase
+                        .from('usuarios')
+                        .update({ last_login: new Date().toISOString() })
+                        .eq('id', existingUser.id);
+                    
+                    if (updateError) {
+                        console.error('Erro ao atualizar último login:', updateError);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao sincronizar perfil:', error);
+            }
+        }
+
+        // Atualizar UI de autenticação
+        function updateAuthUI() {
+            const authButtons = document.getElementById('authButtons');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (currentUser) {
+                // Usuário logado
+                const displayName = currentUser.user_metadata?.full_name || currentUser.email;
+                const initials = displayName.substring(0, 2).toUpperCase();
+                
+                authButtons.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
+                        <span>${displayName}</span>
+                        <button class="btn btn-outline" onclick="logout()" style="margin-left: 10px;">Sair</button>
+                    </div>
+                `;
+                
+                // Mostra área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'block';
+                }
+                
+            } else {
+                // Usuário não logado
+                authButtons.innerHTML = `
+                    <button class="btn btn-outline" onclick="openLogin()">Entrar</button>
+                    <button class="btn btn-primary" onclick="openRegister()">Cadastrar</button>
+                `;
+                
+                // Esconde área de upload
+                if (uploadArea) {
+                    uploadArea.style.display = 'none';
+                }
+            }
+        }
+
+        // Funções da modal de autenticação
+        function openLogin(e) {
+            if (e) e.preventDefault();
+            document.getElementById('modalAuth').classList.add('active');
+            showAuthTab('login');
+        }
+
+        function openRegister(e) {
+            if (e) e.preventDefault();
+            document.getElementById('modalAuth').classList.add('active');
+            showAuthTab('register');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('modalAuth').classList.remove('active');
+            clearAuthMessages();
+        }
+
+        function showAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}Form`).classList.add('active');
+            clearAuthMessages();
+        }
+
+        function clearAuthMessages() {
+            document.getElementById('loginMessage').innerHTML = '';
+            document.getElementById('loginMessage').style.display = 'none';
+            document.getElementById('registerMessage').innerHTML = '';
+            document.getElementById('registerMessage').style.display = 'none';
+        }
+
+        // Login REAL com Supabase
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showMessage('loginMessage', 'Por favor, preencha todos os campos', 'error');
                 return;
             }
-
+            
             try {
-                const { error } = await supabase
-                    .from('materiais')
-                    .delete()
-                    .eq('id', materialId)
-                    .eq('status', 'pendente')
-                    .eq('usuario_id', currentUser.id);
-
-                if (error) throw error;
-
-                // Remover da lista local
-                materials = materials.filter(m => m.id !== materialId);
-                updateMaterialsList();
-                updateStats();
+                if (!supabase) {
+                    showMessage('loginMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
                 
-                showSuccess('Material excluído com sucesso!');
-
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                
+                showMessage('loginMessage', 'Login realizado com sucesso!', 'success');
+                currentUser = data.user;
+                
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateAuthUI();
+                    showUserProgress();
+                    // Limpar campos
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                }, 1500);
+                
             } catch (error) {
-                console.error('Erro ao excluir material:', error);
-                showError('Erro ao excluir material. Apenas materiais pendentes podem ser excluídos.');
+                console.error('Erro no login:', error);
+                let errorMessage = 'Erro ao fazer login';
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Email ou senha incorretos';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Confirme seu email antes de fazer login';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else {
+                    errorMessage = `Erro: ${error.message}`;
+                }
+                
+                showMessage('loginMessage', errorMessage, 'error');
             }
         }
 
-        // Fechar modal
-        function closeModal() {
-            detailModal.classList.remove('active');
+        // Cadastro REAL com Supabase
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            if (!name || !email || !password) {
+                showMessage('registerMessage', 'Por favor, preencha todos os campos', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('registerMessage', 'A senha deve ter pelo menos 6 caracteres', 'error');
+                return;
+            }
+            
+            try {
+                if (!supabase) {
+                    showMessage('registerMessage', 'Sistema não configurado corretamente. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                showMessage('registerMessage', 'Cadastro realizado com sucesso! Verifique seu email para confirmação.', 'success');
+                
+                setTimeout(() => {
+                    // Limpar campos
+                    document.getElementById('registerName').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    // Mudar para aba de login
+                    showAuthTab('login');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Erro no cadastro:', error);
+                let errorMessage = 'Erro ao criar conta';
+                
+                if (error.message.includes('User already registered')) {
+                    errorMessage = 'Este email já está cadastrado';
+                } else if (error.message.includes('Invalid API key')) {
+                    errorMessage = 'Problema de configuração do sistema. Contate o administrador.';
+                    showGlobalError('Chave de API inválida. Verifique a configuração do Supabase.');
+                } else if (error.message.includes('Password should be at least')) {
+                    errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+                } else {
+                    errorMessage = `Erro: ${error.message}`;
+                }
+                
+                showMessage('registerMessage', errorMessage, 'error');
+            }
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Logout
+        async function logout() {
+            try {
+                if (supabase) {
+                    const { error } = await supabase.auth.signOut();
+                    if (error) throw error;
+                }
+                
+                currentUser = null;
+                updateAuthUI();
+                const userProgress = document.getElementById('userProgress');
+                if (userProgress) {
+                    userProgress.style.display = 'none';
+                }
+                
+                // Volta para a página inicial
+                const homeLink = document.querySelector('.nav-link[data-target="home"]');
+                if (homeLink) {
+                    homeLink.click();
+                }
+                
+            } catch (error) {
+                console.error('Erro ao fazer logout:', error);
+            }
+        }
+
+        // Mostrar progresso do usuário
+        async function showUserProgress() {
+            if (!currentUser) return;
+            
+            const progressElement = document.getElementById('userProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressElement && progressFill && progressText) {
+                progressElement.style.display = 'block';
+                
+                try {
+                    // Buscar progresso do usuário no banco
+                    const { data: progressData, error } = await supabase
+                        .from('progresso_usuario')
+                        .select('progresso_percentual')
+                        .eq('usuario_id', currentUser.id);
+                    
+                    if (error) throw error;
+                    
+                    let progress = 0;
+                    if (progressData && progressData.length > 0) {
+                        // Calcular progresso médio
+                        const totalProgress = progressData.reduce((sum, item) => sum + (item.progresso_percentual || 0), 0);
+                        progress = Math.round(totalProgress / progressData.length);
+                    }
+                    
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+                    
+                } catch (error) {
+                    console.error('Erro ao carregar progresso:', error);
+                    // Progresso padrão
+                    const progress = 45;
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Você completou ${progress}% da sua jornada de certificação`;
+                }
+            }
+        }
+
+        // Funções da modal de simulados
+        function abrirModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        // Atualizar estatísticas
-        function updateStats() {
-            const total = materials.length;
-            const aprovados = materials.filter(m => m.status === 'aprovado').length;
-            const pendentes = materials.filter(m => m.status === 'pendente').length;
-            
-            totalMateriaisSpan.textContent = `${total} materiais (${aprovados} aprovados, ${pendentes} pendentes)`;
-        }
-
-        // Funções auxiliares
-        function getIconClass(tipo) {
-            const icons = {
-                'pdf': 'fa-file-pdf',
-                'ppt': 'fa-file-powerpoint',
-                'doc': 'fa-file-word',
-                'video': 'fa-file-video',
-                'zip': 'fa-file-archive',
-                'link': 'fa-link'
-            };
-            return icons[tipo] || 'fa-file';
-        }
-
-        function getStatusText(status) {
-            const texts = {
-                'pendente': 'Pendente',
-                'aprovado': 'Aprovado',
-                'rejeitado': 'Rejeitado',
-                'ativo': 'Ativo'
-            };
-            return texts[status] || status;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR').substring(0, 5);
-        }
-
-        function showError(message) {
-            alert('Erro: ' + message);
-        }
-
-        function showSuccess(message) {
-            alert('Sucesso: ' + message);
-        }
-
-        // Fechar modal ao clicar fora
-        detailModal.addEventListener('click', (e) => {
-            if (e.target === detailModal) {
-                closeModal();
+        // Criar novo post
+        async function createNewPost() {
+            if (!currentUser) {
+                alert('Por favor, faça login para criar posts.');
+                openLogin();
+                return;
             }
-        });
+            
+            const titulo = prompt('Título do post:');
+            if (!titulo) return;
+            
+            const conteudo = prompt('Conteúdo do post:');
+            if (!conteudo) return;
+            
+            try {
+                // Buscar ID do usuário na tabela usuarios
+                const { data: usuarioData, error: usuarioError } = await supabase
+                    .from('usuarios')
+                    .select('id')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (usuarioError) throw usuarioError;
+                
+                // Criar post
+                const { error } = await supabase
+                    .from('forum_posts')
+                    .insert({
+                        titulo: titulo,
+                        conteudo: conteudo,
+                        usuario_id: usuarioData.id,
+                        categoria_id: null // Pode adicionar seletor de categoria depois
+                    });
+                
+                if (error) throw error;
+                
+                alert('Post criado com sucesso!');
+                loadForumPosts(); // Recarregar posts
+                
+            } catch (error) {
+                console.error('Erro ao criar post:', error);
+                alert('Erro ao criar post. Tente novamente.');
+            }
+        }
 
-        // Fechar modal com ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && detailModal.classList.contains('active')) {
-                closeModal();
+        // Configurar eventos dos modais
+        function setupModalEvents() {
+            document.getElementById('modalSimulados').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModalSimulados();
+                }
+            });
+
+            document.getElementById('modalAuth').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAuthModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModalSimulados();
+                    closeAuthModal();
+                }
+            });
+
+            // Tabs de autenticação
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    showAuthTab(tabName);
+                });
+            });
+        }
+
+        // Redefinir senha
+        function forgotPassword() {
+            const email = prompt('Digite seu email para redefinir a senha:');
+            if (!email) return;
+            
+            supabase.auth.resetPasswordForEmail(email)
+                .then(({ error }) => {
+                    if (error) {
+                        alert('Erro ao enviar email de redefinição: ' + error.message);
+                    } else {
+                        alert('Email de redefinição enviado! Verifique sua caixa de entrada.');
+                    }
+                });
+        }
+
+        // =============================
+        // SISTEMA DE UPLOAD REAL
+        // =============================
+
+        // Inicializar sistema de upload
+        function initUploadSystem() {
+            console.log('Sistema de upload inicializado');
+        }
+
+        // Modal de Upload
+        function openUploadModal() {
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
+            
+            // Criar modal dinâmico se não existir
+            if (!document.getElementById('modalUpload')) {
+                createUploadModal();
+            }
+            
+            document.getElementById('modalUpload').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Criar modal de upload
+        function createUploadModal() {
+            const modalHTML = `
+                <div id="modalUpload" class="modal-upload">
+                    <div class="modal-container" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-cloud-upload-alt"></i> Enviar Simulado</h3>
+                            <button class="fechar-modal" onclick="closeUploadModal()">&times;</button>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <div id="uploadMessage" class="message"></div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoNome">Nome do Simulado *</label>
+                                <input type="text" id="simuladoNome" placeholder="Ex: ITIL 4 Foundation - Simulado 1" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoDescricao">Descrição</label>
+                                <textarea id="simuladoDescricao" rows="3" placeholder="Descreva seu simulado..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="simuladoCertificacao">Certificação</label>
+                                <select id="simuladoCertificacao">
+                                    <option value="">Selecione uma certificação</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="totalQuestoes">Total de Questões</label>
+                                <input type="number" id="totalQuestoes" placeholder="Ex: 40" min="1" max="200">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tempoEstimado">Tempo Estimado (minutos)</label>
+                                <input type="number" id="tempoEstimado" placeholder="Ex: 60" min="1" max="300">
+                            </div>
+                            
+                            <div class="upload-area" style="margin: 20px 0;">
+                                <i class="fas fa-file-upload"></i>
+                                <h4>Selecione o arquivo HTML</h4>
+                                <p>Arraste ou clique para selecionar um arquivo HTML</p>
+                                <input type="file" id="fileUploadInput" accept=".html,.htm" style="display: none;">
+                                <button class="btn btn-primary" onclick="document.getElementById('fileUploadInput').click()">
+                                    <i class="fas fa-folder-open"></i> Selecionar Arquivo
+                                </button>
+                                <p id="fileName" style="margin-top: 10px; color: var(--gray);"></p>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label>
+                                    <input type="checkbox" id="termosAceitos" required>
+                                    Concordo com os <a href="#" onclick="alert('Termos de uso em desenvolvimento')">termos de uso</a>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" onclick="closeUploadModal()">Cancelar</button>
+                            <button class="btn btn-success" onclick="enviarSimulado()" id="btnEnviarSimulado">
+                                <i class="fas fa-paper-plane"></i> Enviar Simulado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Configurar eventos do modal
+            document.getElementById('modalUpload').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeUploadModal();
+                }
+            });
+            
+            // Evento do input de arquivo
+            const fileInput = document.getElementById('fileUploadInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        const fileNameElement = document.getElementById('fileName');
+                        if (fileNameElement) {
+                            fileNameElement.textContent = `Arquivo selecionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                        }
+                    }
+                });
+            }
+            
+            // Adicionar evento de tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('modalUpload').classList.contains('active')) {
+                    closeUploadModal();
+                }
+            });
+            
+            // Carregar certificações no select
+            loadCertificacoesForUpload();
+        }
+
+        // Carregar certificações para o select de upload
+        async function loadCertificacoesForUpload() {
+            try {
+                const { data, error } = await supabase
+                    .from('certificacoes')
+                    .select('id, nome')
+                    .eq('ativo', true)
+                    .order('nome');
+                
+                if (error) throw error;
+                
+                const select = document.getElementById('simuladoCertificacao');
+                if (select && data) {
+                    data.forEach(cert => {
+                        const option = document.createElement('option');
+                        option.value = cert.id;
+                        option.textContent = cert.nome;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar certificações:', error);
+            }
+        }
+
+        // Fechar modal de upload
+        function closeUploadModal() {
+            const modal = document.getElementById('modalUpload');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            document.body.style.overflow = 'auto';
+            
+            // Limpar formulário
+            if (document.getElementById('simuladoNome')) {
+                document.getElementById('simuladoNome').value = '';
+                document.getElementById('simuladoDescricao').value = '';
+                document.getElementById('simuladoCertificacao').value = '';
+                document.getElementById('totalQuestoes').value = '';
+                document.getElementById('tempoEstimado').value = '';
+                document.getElementById('fileName').textContent = '';
+                document.getElementById('termosAceitos').checked = false;
+                document.getElementById('uploadMessage').style.display = 'none';
+            }
+        }
+
+        // Enviar simulado REAL para o Supabase
+        async function enviarSimulado() {
+            const nome = document.getElementById('simuladoNome').value.trim();
+            const descricao = document.getElementById('simuladoDescricao').value.trim();
+            const certificacaoId = document.getElementById('simuladoCertificacao').value;
+            const totalQuestoes = parseInt(document.getElementById('totalQuestoes').value) || 0;
+            const tempoEstimado = parseInt(document.getElementById('tempoEstimado').value) || 0;
+            const fileInput = document.getElementById('fileUploadInput');
+            const file = fileInput.files[0];
+            
+            const uploadMessage = document.getElementById('uploadMessage');
+            const btnEnviar = document.getElementById('btnEnviarSimulado');
+            
+            // Validação
+            if (!nome) {
+                showUploadMessage('Por favor, insira um nome para o simulado.', 'error');
+                return;
+            }
+            
+            if (!file) {
+                showUploadMessage('Por favor, selecione um arquivo HTML.', 'error');
+                return;
+            }
+            
+            if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
+                showUploadMessage('Por favor, selecione apenas arquivos HTML.', 'error');
+                return;
+            }
+            
+            if (!document.getElementById('termosAceitos').checked) {
+                showUploadMessage('Você precisa aceitar os termos de uso.', 'error');
+                return;
+            }
+            
+            try {
+                // Mostrar loading
+                btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                btnEnviar.disabled = true;
+                
+                // Buscar ID do usuário na tabela usuarios
+                const { data: usuarioData, error: usuarioError } = await supabase
+                    .from('usuarios')
+                    .select('id, nome')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (usuarioError) throw usuarioError;
+                
+                // 1. Fazer upload para o Storage
+                const nomeArquivo = `simulados/${Date.now()}_${currentUser.id}_${file.name.replace(/\s+/g, '_')}`;
+                
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('studycert-files')  // Nome do bucket
+                    .upload(nomeArquivo, file);
+                
+                if (uploadError) throw uploadError;
+                
+                // 2. Salvar metadados no banco de dados
+                const { error: dbError } = await supabase
+                    .from('simulados')
+                    .insert({
+                        nome: nome,
+                        descricao: descricao,
+                        certificacao_id: certificacaoId || null,
+                        total_questoes: totalQuestoes,
+                        tempo_estimado_minutos: tempoEstimado,
+                        arquivo_url: nomeArquivo,
+                        usuario_id: usuarioData.id,
+                        status: 'pendente',
+                        nivel_dificuldade: 'intermediario'
+                    });
+                
+                if (dbError) throw dbError;
+                
+                showUploadMessage('✅ Simulado enviado com sucesso! Aguarde aprovação do administrador.', 'success');
+                
+                // Atualizar lista de simulados após 3 segundos
+                setTimeout(() => {
+                    closeUploadModal();
+                    alert('Simulado enviado com sucesso! Aguarde aprovação.');
+                    loadSimulados(); // Recarregar lista
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Erro ao enviar simulado:', error);
+                showUploadMessage(`❌ Erro ao enviar simulado: ${error.message}`, 'error');
+            } finally {
+                // Restaurar botão
+                btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Simulado';
+                btnEnviar.disabled = false;
+            }
+        }
+
+        // Mostrar mensagem no modal de upload
+        function showUploadMessage(message, type) {
+            const element = document.getElementById('uploadMessage');
+            if (element) {
+                element.innerHTML = message;
+                element.className = `message ${type}`;
+                element.style.display = 'block';
+            }
+        }
+
+        // Funções para ações
+        function estudarCertificacao(certId) {
+            alert(`Iniciando estudos para certificação ID: ${certId}`);
+            // Implementar navegação para página de estudos
+        }
+
+        function acessarMaterial(materialId) {
+            alert(`Acessando material ID: ${materialId}`);
+            // Implementar visualização do material
+        }
+
+        function iniciarSimulado(simuladoId) {
+            alert(`Iniciando simulado ID: ${simuladoId}`);
+            // Implementar navegação para o simulado
+        }
+
+        function verPost(postId) {
+            alert(`Visualizando post ID: ${postId}`);
+            // Implementar visualização completa do post
+        }
+
+        function filtrarForum(categoriaId) {
+            alert(`Filtrando fórum por categoria ID: ${categoriaId}`);
+            // Implementar filtro de fórum
+        }
+
+        // Upload de arquivo antigo (para compatibilidade)
+        function uploadSimulado() {
+            if (!currentUser) {
+                alert('Por favor, faça login para fazer upload de simulados.');
+                openLogin();
+                return;
+            }
+            
+            document.getElementById('fileUpload').click();
+        }
+
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.type !== 'text/html') {
+                    alert('Por favor, selecione apenas arquivos HTML.');
+                    return;
+                }
+                
+                alert(`Arquivo "${file.name}" selecionado para upload.`);
+                console.log('Arquivo para upload:', file);
+                
+                // Limpar o input
+                e.target.value = '';
             }
         });
     </script>
