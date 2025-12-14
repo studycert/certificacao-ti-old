@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inserir Materiais - StudyCert</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -29,7 +28,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 40px;
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
         }
 
         h1 {
@@ -86,7 +85,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            text-decoration: none;
         }
 
         .btn-primary {
@@ -121,26 +119,14 @@
             transform: translateY(-2px);
         }
 
-        .btn-warning {
-            background: #f39c12;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #e67e22;
-            transform: translateY(-2px);
-        }
-
         .btn-container {
             display: flex;
             gap: 15px;
             margin-top: 30px;
-            flex-wrap: wrap;
         }
 
         .btn-container .btn {
             flex: 1;
-            min-width: 180px;
         }
 
         .message {
@@ -191,7 +177,7 @@
         }
 
         .material-grid {
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
             margin-top: 20px;
             border: 2px dashed #ddd;
@@ -227,87 +213,22 @@
             color: #7f8c8d;
             font-size: 14px;
         }
-
-        .warning-box {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .info-box {
-            background-color: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            gap: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="navigation">
-            <h1>🛠️ Inserir Materiais - StudyCert</h1>
-            <div class="navigation-buttons">
-                <a href="index.html" class="btn btn-warning">
-                    <i class="fas fa-home"></i> Voltar para Home
-                </a>
-                <a href="itil4-materiais.html" class="btn btn-primary">
-                    <i class="fas fa-book"></i> Ver Materiais ITIL 4
-                </a>
-            </div>
-        </div>
-
+        <h1>🛠️ Inserir Materiais - StudyCert</h1>
         <p class="subtitle">Adicione materiais de exemplo para a página ITIL 4</p>
-
-        <div class="warning-box">
-            <i class="fas fa-exclamation-triangle"></i>
-            <strong>Importante:</strong> A tabela 'materiais' requer que pelo menos um dos campos seja preenchido:
-            <code>caminho_arquivo</code> OU <code>url_externa</code>. Caso contrário, ocorrerá erro de constraint.
-        </div>
 
         <div id="messageContainer"></div>
 
-        <!-- Configuração -->
-        <div class="form-group">
-            <label for="tipoLocalizacao">Tipo de Localização do Material:</label>
-            <select id="tipoLocalizacao">
-                <option value="url_externa">URL Externa (Link)</option>
-                <option value="caminho_arquivo">Caminho Interno (Arquivo)</option>
-            </select>
-            <div class="info-box">
-                <div id="urlInfo" style="display: block;">
-                    <i class="fas fa-link"></i> Exemplo de URL: https://studycert.com/files/itil4/guia-completo.pdf
-                </div>
-                <div id="caminhoInfo" style="display: none;">
-                    <i class="fas fa-folder"></i> Exemplo de Caminho: /uploads/itil4/guia-completo.pdf
-                </div>
-            </div>
-        </div>
-
+        <!-- Formulário para inserir materiais -->
         <div class="form-group">
             <label for="quantidade">Quantidade de Materiais a Inserir:</label>
             <select id="quantidade">
                 <option value="1">1 Material</option>
                 <option value="3" selected>3 Materiais</option>
-                <option value="5">5 Materiais</option>
+                <option value="6">6 Materiais</option>
                 <option value="10">10 Materiais</option>
             </select>
         </div>
@@ -345,9 +266,9 @@
         </div>
 
         <div class="credits">
-            <p><i class="fas fa-database"></i> Conexão Supabase ativa | Projeto: StudyCert</p>
-            <p><i class="fas fa-info-circle"></i> Esta página insere dados na tabela 'materiais' do seu banco de dados</p>
-            <p><a href="index.html" style="color: #3498db; text-decoration: none;"><i class="fas fa-arrow-left"></i> Voltar para a página principal</a></p>
+            <p>🔗 URL do Supabase: <code>https://blnnwbrhrckqegaiparr.supabase.co</code></p>
+            <p>⚠️ Certifique-se de que a tabela 'materiais' existe no seu banco</p>
+            <p>📖 Voltar para: <a href="index.html" style="color: #3498db; text-decoration: none;">Home</a> | <a href="itil4-materiais.html" style="color: #3498db; text-decoration: none;">ITIL 4 Materiais</a></p>
         </div>
     </div>
 
@@ -357,27 +278,19 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_HGgcbNNjAvfdWUbYOPFBKQ_5uOEkY7s';
         
         let supabase;
+        let currentUser = null;
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('Inicializando inserção de materiais...');
             
-            // Configurar listener para o tipo de localização
-            document.getElementById('tipoLocalizacao').addEventListener('change', function() {
-                const tipo = this.value;
-                if (tipo === 'url_externa') {
-                    document.getElementById('urlInfo').style.display = 'block';
-                    document.getElementById('caminhoInfo').style.display = 'none';
-                } else {
-                    document.getElementById('urlInfo').style.display = 'none';
-                    document.getElementById('caminhoInfo').style.display = 'block';
-                }
-            });
-            
             try {
                 // Inicializar Supabase
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('Supabase configurado com sucesso!');
+                
+                // Verificar autenticação
+                await checkAuth();
                 
                 mostrarMensagem('✅ Conectado ao Supabase com sucesso!', 'success');
                 
@@ -387,10 +300,42 @@
             }
         });
 
-        // Função principal para inserir materiais (CORRIGIDA)
+        async function checkAuth() {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                } else {
+                    // Se não estiver logado, tentar logar como anônimo
+                    await loginAnonimo();
+                }
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                await loginAnonimo();
+            }
+        }
+
+        async function loginAnonimo() {
+            try {
+                // Usar um email genérico para inserções
+                currentUser = { email: 'admin@studycert.com' };
+                console.log('Usando modo anônimo para inserções');
+            } catch (err) {
+                console.error('Erro no login anônimo:', err);
+            }
+        }
+
+        // Função principal para inserir materiais
         async function inserirMateriais() {
             const quantidade = parseInt(document.getElementById('quantidade').value);
-            const tipoLocalizacao = document.getElementById('tipoLocalizacao').value;
             
             if (!quantidade || quantidade < 1) {
                 mostrarMensagem('❌ Selecione uma quantidade válida!', 'error');
@@ -403,11 +348,10 @@
             document.getElementById('existingSection').style.display = 'none';
 
             try {
-                // Gerar materiais de exemplo CORRIGIDOS
-                const materiais = gerarMateriaisCorretos(quantidade, tipoLocalizacao);
+                // Gerar materiais de exemplo
+                const materiais = gerarMateriaisExemplo(quantidade);
                 
                 console.log(`Inserindo ${materiais.length} materiais...`);
-                console.log('Primeiro material (exemplo):', materiais[0]);
                 
                 let inseridos = 0;
                 const resultados = [];
@@ -415,13 +359,6 @@
                 // Inserir cada material individualmente
                 for (const material of materiais) {
                     try {
-                        // Log do material antes de inserir
-                        console.log('Inserindo material:', {
-                            titulo: material.titulo,
-                            caminho_arquivo: material.caminho_arquivo,
-                            url_externa: material.url_externa
-                        });
-                        
                         const { data, error } = await supabase
                             .from('materiais')
                             .insert([material])
@@ -435,7 +372,7 @@
                                 erro: error.message
                             });
                         } else {
-                            console.log('Material inserido com sucesso:', data);
+                            console.log('Material inserido:', data);
                             inseridos++;
                             resultados.push({
                                 titulo: material.titulo,
@@ -460,7 +397,7 @@
                 mostrarResultados(resultados, inseridos, materiais.length);
                 
                 // Atualizar contagem
-                setTimeout(() => verificarMateriais(), 1000);
+                await verificarMateriais();
                 
             } catch (error) {
                 console.error('Erro geral ao inserir materiais:', error);
@@ -469,20 +406,8 @@
             }
         }
 
-        // Gerar materiais de exemplo CORRETOS (respeitando a constraint)
-        function gerarMateriaisCorretos(quantidade, tipoLocalizacao) {
-            const baseUrls = [
-                'https://studycert.com/files/itil4/',
-                'https://drive.google.com/file/d/',
-                'https://exemplo.org/materiais/'
-            ];
-            
-            const baseCaminhos = [
-                '/uploads/itil4/',
-                '/materiais/certificacoes/',
-                '/arquivos/estudo/'
-            ];
-            
+        // Gerar materiais de exemplo
+        function gerarMateriaisExemplo(quantidade) {
             const materiaisExemplo = [
                 {
                     titulo: 'Guia Completo ITIL 4 Foundation',
@@ -496,8 +421,7 @@
                     downloads: 890,
                     curtidas: 120,
                     status: 'aprovado',
-                    data_publicacao: new Date('2024-03-15').toISOString(),
-                    nome_arquivo: 'guia-completo-itil4.pdf'
+                    data_publicacao: new Date('2024-03-15').toISOString()
                 },
                 {
                     titulo: 'Apresentação ITIL 4 - Slides de Estudo',
@@ -511,8 +435,7 @@
                     downloads: 540,
                     curtidas: 85,
                     status: 'aprovado',
-                    data_publicacao: new Date('2024-03-10').toISOString(),
-                    nome_arquivo: 'apresentacao-itil4.pptx'
+                    data_publicacao: new Date('2024-03-10').toISOString()
                 },
                 {
                     titulo: 'Questões Resolvidas ITIL 4 Foundation',
@@ -526,8 +449,7 @@
                     downloads: 980,
                     curtidas: 150,
                     status: 'aprovado',
-                    data_publicacao: new Date('2024-03-05').toISOString(),
-                    nome_arquivo: 'questoes-itil4.docx'
+                    data_publicacao: new Date('2024-03-05').toISOString()
                 },
                 {
                     titulo: 'Resumo Rápido ITIL 4 - Última Revisão',
@@ -541,8 +463,7 @@
                     downloads: 1650,
                     curtidas: 210,
                     status: 'aprovado',
-                    data_publicacao: new Date('2024-03-01').toISOString(),
-                    nome_arquivo: 'resumo-itil4.pdf'
+                    data_publicacao: new Date('2024-03-01').toISOString()
                 },
                 {
                     titulo: 'Videoaula Completa ITIL 4 Foundation',
@@ -556,46 +477,82 @@
                     downloads: 1250,
                     curtidas: 340,
                     status: 'aprovado',
-                    data_publicacao: new Date('2024-02-25').toISOString(),
-                    nome_arquivo: 'videoaula-itil4.mp4'
+                    data_publicacao: new Date('2024-02-25').toISOString()
+                },
+                {
+                    titulo: 'Fluxos de Trabalho ITIL 4 - Diagramas',
+                    descricao: 'Diagramas e fluxos de trabalho do ITIL 4 em alta resolução.',
+                    tipo: 'ppt',
+                    tamanho_mb: 6.5,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'avancado',
+                    tags: ['itil4', 'diagramas', 'fluxos', 'ppt'],
+                    visualizacoes: 760,
+                    downloads: 420,
+                    curtidas: 65,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-20').toISOString()
+                },
+                {
+                    titulo: 'Checklist de Preparação ITIL 4',
+                    descricao: 'Checklist completo para preparação do exame ITIL 4 Foundation.',
+                    tipo: 'pdf',
+                    tamanho_mb: 1.8,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'checklist', 'preparacao', 'pdf'],
+                    visualizacoes: 1120,
+                    downloads: 780,
+                    curtidas: 95,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-15').toISOString()
+                },
+                {
+                    titulo: 'Glossário ITIL 4 - Termos e Definições',
+                    descricao: 'Glossário completo com todos os termos e definições do ITIL 4.',
+                    tipo: 'doc',
+                    tamanho_mb: 2.1,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'glossario', 'termos', 'doc'],
+                    visualizacoes: 980,
+                    downloads: 650,
+                    curtidas: 80,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-10').toISOString()
+                },
+                {
+                    titulo: 'Simulado ITIL 4 - Teste Prático',
+                    descricao: 'Simulado com 40 questões no formato do exame oficial.',
+                    tipo: 'pdf',
+                    tamanho_mb: 4.3,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'intermediario',
+                    tags: ['itil4', 'simulado', 'teste', 'pdf'],
+                    visualizacoes: 1870,
+                    downloads: 1100,
+                    curtidas: 170,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-05').toISOString()
+                },
+                {
+                    titulo: 'Mapa Mental ITIL 4 - Conceitos Chave',
+                    descricao: 'Mapa mental visual com todos os conceitos chave do ITIL 4.',
+                    tipo: 'pdf',
+                    tamanho_mb: 3.7,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'mapamental', 'visual', 'pdf'],
+                    visualizacoes: 1430,
+                    downloads: 920,
+                    curtidas: 130,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-01').toISOString()
                 }
             ];
             
-            // Selecionar apenas a quantidade solicitada
-            const materiaisSelecionados = materiaisExemplo.slice(0, quantidade);
-            
-            // Adicionar caminho_arquivo ou url_externa baseado no tipo selecionado
-            return materiaisSelecionados.map((material, index) => {
-                const materialModificado = { ...material };
-                
-                // Gerar nome de arquivo amigável
-                const nomeArquivo = material.titulo.toLowerCase()
-                    .replace(/[^a-z0-9]/g, '-')
-                    .replace(/-+/g, '-')
-                    .replace(/^-|-$/g, '');
-                
-                if (tipoLocalizacao === 'url_externa') {
-                    // Adicionar url_externa (e garantir que caminho_arquivo seja null)
-                    const baseUrl = baseUrls[index % baseUrls.length];
-                    materialModificado.url_externa = `${baseUrl}${nomeArquivo}.${material.tipo}`;
-                    materialModificado.caminho_arquivo = null; // IMPORTANTE: Definir como null
-                } else {
-                    // Adicionar caminho_arquivo (e garantir que url_externa seja null)
-                    const baseCaminho = baseCaminhos[index % baseCaminhos.length];
-                    materialModificado.caminho_arquivo = `${baseCaminho}${nomeArquivo}.${material.tipo}`;
-                    materialModificado.url_externa = null; // IMPORTANTE: Definir como null
-                }
-                
-                console.log(`Material ${index + 1}:`, {
-                    titulo: materialModificado.titulo,
-                    caminho_arquivo: materialModificado.caminho_arquivo,
-                    url_externa: materialModificado.url_externa,
-                    tem_caminho: materialModificado.caminho_arquivo !== null,
-                    tem_url: materialModificado.url_externa !== null
-                });
-                
-                return materialModificado;
-            });
+            // Retornar apenas a quantidade solicitada
+            return materiaisExemplo.slice(0, quantidade);
         }
 
         // Mostrar resultados da inserção
@@ -603,10 +560,7 @@
             const materialGrid = document.getElementById('materialGrid');
             materialGrid.innerHTML = '';
             
-            let html = `<div class="material-card" style="background-color: ${inseridos === total ? '#d4edda' : inseridos > 0 ? '#fff3cd' : '#f8d7da'}">
-                <h3>📊 Resultado: ${inseridos} de ${total} materiais inseridos com sucesso!</h3>
-                <p>${inseridos === total ? '🎉 Todos os materiais foram inseridos!' : inseridos > 0 ? '⚠️ Alguns materiais podem ter falhado' : '❌ Nenhum material foi inserido'}</p>
-            </div>`;
+            let html = `<p><strong>📊 Resultado:</strong> ${inseridos} de ${total} materiais inseridos com sucesso!</p>`;
             
             resultados.forEach((resultado, index) => {
                 html += `
@@ -628,11 +582,11 @@
             
             // Mostrar mensagem final
             if (inseridos === total) {
-                mostrarMensagem(`🎉 Sucesso! Todos os ${inseridos} materiais foram inseridos corretamente.`, 'success');
+                mostrarMensagem(`🎉 Todos os ${inseridos} materiais foram inseridos com sucesso!`, 'success');
             } else if (inseridos > 0) {
-                mostrarMensagem(`⚠️ Atenção: ${inseridos} de ${total} materiais foram inseridos. Verifique os erros acima.`, 'info');
+                mostrarMensagem(`⚠️ ${inseridos} de ${total} materiais foram inseridos. Verifique os erros acima.`, 'info');
             } else {
-                mostrarMensagem('❌ Falha: Nenhum material foi inserido. Verifique os erros acima.', 'error');
+                mostrarMensagem('❌ Nenhum material foi inserido. Verifique os erros acima.', 'error');
             }
         }
 
@@ -641,7 +595,6 @@
             try {
                 document.getElementById('loadingSection').style.display = 'block';
                 document.getElementById('existingSection').style.display = 'none';
-                document.getElementById('resultsSection').style.display = 'none';
                 
                 const { data: materiais, error } = await supabase
                     .from('materiais')
@@ -666,18 +619,14 @@
                         </div>
                     `;
                 } else {
-                    let html = `<div class="material-card" style="background-color: #e3f2fd;">
-                        <h3><i class="fas fa-database"></i> Total de Materiais: ${materiais.length}</h3>
-                        <p>Última atualização: ${new Date().toLocaleString('pt-BR')}</p>
-                    </div>`;
+                    let html = `<p><strong>📈 Total de materiais:</strong> ${materiais.length}</p>`;
                     
                     materiais.forEach((material, index) => {
                         html += `
                             <div class="material-card">
                                 <h3>${index + 1}. ${material.titulo}</h3>
                                 <p><strong>Tipo:</strong> ${material.tipo} | <strong>Categoria:</strong> ${material.categoria}</p>
-                                <p><strong>Localização:</strong> ${material.url_externa ? `<i class="fas fa-link"></i> URL: ${material.url_externa.substring(0, 40)}...` : `<i class="fas fa-folder"></i> Caminho: ${material.caminho_arquivo}`}</p>
-                                <p><strong>Status:</strong> <span style="color: ${material.status === 'aprovado' ? '#27ae60' : '#f39c12'}">${material.status}</span> | <strong>Downloads:</strong> ${material.downloads || 0}</p>
+                                <p><strong>Status:</strong> ${material.status} | <strong>Downloads:</strong> ${material.downloads || 0}</p>
                                 <p><strong>ID:</strong> <code>${material.id}</code></p>
                                 <p><strong>Criado em:</strong> ${new Date(material.created_at).toLocaleDateString('pt-BR')}</p>
                             </div>
@@ -708,28 +657,10 @@
             try {
                 document.getElementById('loadingSection').style.display = 'block';
                 
-                // Primeiro, verificar quantos materiais existem
-                const { data: materiais, error: countError } = await supabase
-                    .from('materiais')
-                    .select('id')
-                    .limit(1);
-                
-                if (countError) {
-                    mostrarMensagem(`❌ Erro ao verificar materiais: ${countError.message}`, 'error');
-                    document.getElementById('loadingSection').style.display = 'none';
-                    return;
-                }
-                
-                if (!materiais || materiais.length === 0) {
-                    mostrarMensagem('ℹ️ A tabela já está vazia.', 'info');
-                    document.getElementById('loadingSection').style.display = 'none';
-                    return;
-                }
-                
                 const { error } = await supabase
                     .from('materiais')
                     .delete()
-                    .neq('id', '00000000-0000-0000-0000-000000000000');
+                    .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
                 
                 document.getElementById('loadingSection').style.display = 'none';
                 
@@ -747,7 +678,6 @@
                     `;
                     
                     document.getElementById('existingSection').style.display = 'block';
-                    document.getElementById('resultsSection').style.display = 'none';
                 }
                 
             } catch (error) {
@@ -777,6 +707,12 @@
                 }, 5000);
             }
         }
+
+        // Carregar ícones do FontAwesome
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(link);
     </script>
 </body>
 </html>
