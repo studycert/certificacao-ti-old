@@ -360,7 +360,7 @@
                 for (const material of materiais) {
                     try {
                         const { data, error } = await supabase
-                            .from('Materiais')
+                            .from('materiais')
                             .insert([material])
                             .select();
                         
@@ -597,7 +597,7 @@
                 document.getElementById('existingSection').style.display = 'none';
                 
                 const { data: materiais, error } = await supabase
-                    .from('Materiais')
+                    .from('materiais')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(50);
@@ -658,7 +658,7 @@
                 document.getElementById('loadingSection').style.display = 'block';
                 
                 const { error } = await supabase
-                    .from('Materiais')
+                    .from('materiais')
                     .delete()
                     .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
                 
