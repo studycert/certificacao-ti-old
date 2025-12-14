@@ -351,6 +351,25 @@
             border: 1px solid #cfc;
         }
 
+        /* Info Message */
+        .info-message {
+            background: #e8f4fc;
+            color: #3498db;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            text-align: center;
+            border: 1px solid #3498db;
+        }
+
+        /* No Materials */
+        .no-materials {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .materials-grid {
@@ -415,7 +434,7 @@
             <p>Carregando materiais...</p>
         </div>
 
-        <!-- Error/Success Messages -->
+        <!-- Message Container -->
         <div id="messageContainer"></div>
 
         <!-- Materials Grid -->
@@ -465,7 +484,7 @@
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Página carregada');
+            console.log('Página carregada - ITIL 4 Materiais');
             
             try {
                 // Inicializar Supabase
@@ -484,6 +503,8 @@
             } catch (err) {
                 console.error('Erro ao inicializar:', err);
                 mostrarMensagem('Erro ao conectar com o banco de dados. Tente recarregar a página.', 'error');
+                document.getElementById('loadingSpinner').style.display = 'none';
+                mostrarMateriaisEstaticos();
             }
         });
 
@@ -497,6 +518,7 @@
                 
                 if (error) {
                     console.error('Erro ao verificar sessão:', error.message);
+                    document.getElementById('uploadSection').style.display = 'none';
                     return;
                 }
                 
@@ -510,6 +532,7 @@
                 
             } catch (err) {
                 console.error('Erro ao verificar autenticação:', err);
+                document.getElementById('uploadSection').style.display = 'none';
             }
         }
 
@@ -526,56 +549,42 @@
                 loadingSpinner.style.display = 'block';
                 materialsContainer.innerHTML = '';
                 
-                // Buscar certificação ITIL 4 primeiro
-                const { data: certificacaoData, error: certError } = await supabase
-                    .from('certificacoes')
+                console.log('Buscando materiais do banco...');
+                
+                // PRIMEIRO: Testar conexão simples
+                const { data: testData, error: testError } = await supabase
+                    .from('materiais')
                     .select('id')
-                    .or('nome.ilike.%ITIL 4%,nome.ilike.%ITIL4%')
                     .limit(1);
                 
-                let certificacaoId = null;
-                if (!certError && certificacaoData && certificacaoData.length > 0) {
-                    certificacaoId = certificacaoData[0].id;
+                if (testError) {
+                    console.error('Erro de conexão com a tabela materiais:', testError);
+                    mostrarMensagem(`Erro de conexão: ${testError.message}`, 'error');
+                    loadingSpinner.style.display = 'none';
+                    mostrarMateriaisEstaticos();
+                    return;
                 }
                 
-                // Construir query com base no seu banco
-                let query = supabase
+                console.log('Conexão com banco OK. Buscando materiais ITIL...');
+                
+                // Buscar materiais ITIL - QUERY SIMPLIFICADA
+                const { data: materiais, error } = await supabase
                     .from('materiais')
-                    .select(`
-                        id,
-                        titulo,
-                        descricao,
-                        tipo,
-                        tamanho_mb,
-                        caminho_arquivo,
-                        url_externa,
-                        visualizacoes,
-                        downloads,
-                        curtidas,
-                        categoria,
-                        nivel_dificuldade,
-                        tags,
-                        status,
-                        data_publicacao,
-                        created_at,
-                        usuarios!inner(nome, email)
-                    `)
+                    .select('*')
                     .eq('status', 'aprovado')
-                    .order('created_at', { ascending: false });
+                    .order('created_at', { ascending: false })
+                    .limit(20);
                 
-                // Filtrar por ITIL 4
-                query = query.or(`
-                    categoria.ilike.%ITIL%,
-                    tags.cs.{itil,itil4,itil-4},
-                    descricao.ilike.%ITIL%,
-                    titulo.ilike.%ITIL%
-                `);
-                
-                const { data: materiais, error } = await query;
+                console.log('Resultado da busca:', { 
+                    total: materiais ? materiais.length : 0, 
+                    error: error ? error.message : 'Nenhum erro' 
+                });
                 
                 if (error) {
                     console.error('Erro ao carregar materiais:', error);
-                    mostrarMensagem('Erro ao carregar materiais. Tente novamente.', 'error');
+                    mostrarMensagem(`Erro na consulta: ${error.message}`, 'error');
+                    loadingSpinner.style.display = 'none';
+                    mostrarMateriaisEstaticos();
                     return;
                 }
                 
@@ -584,16 +593,37 @@
                 
                 if (materiais && materiais.length > 0) {
                     console.log(`Carregados ${materiais.length} materiais`);
-                    atualizarGridDeMateriais(materiais);
+                    
+                    // Filtrar materiais ITIL localmente
+                    const materiaisITIL = materiais.filter(material => {
+                        const titulo = material.titulo || '';
+                        const descricao = material.descricao || '';
+                        const categoria = material.categoria || '';
+                        const tags = material.tags || [];
+                        
+                        return titulo.toLowerCase().includes('itil') ||
+                               descricao.toLowerCase().includes('itil') ||
+                               categoria.toLowerCase().includes('itil') ||
+                               tags.some(tag => tag.toLowerCase().includes('itil'));
+                    });
+                    
+                    if (materiaisITIL.length > 0) {
+                        console.log(`Filtrados ${materiaisITIL.length} materiais ITIL`);
+                        atualizarGridDeMateriais(materiaisITIL);
+                    } else {
+                        console.log('Nenhum material ITIL encontrado. Mostrando todos os materiais aprovados...');
+                        atualizarGridDeMateriais(materiais);
+                    }
                 } else {
-                    // Se não houver materiais no banco, usar os estáticos
+                    console.log('Nenhum material encontrado no banco.');
+                    mostrarMensagem('Nenhum material encontrado no banco. Use os materiais de exemplo abaixo.', 'info');
                     mostrarMateriaisEstaticos();
                 }
                 
             } catch (error) {
                 console.error('Erro ao carregar materiais do banco:', error);
                 document.getElementById('loadingSpinner').style.display = 'none';
-                mostrarMensagem('Erro ao carregar materiais. Tente recarregar a página.', 'error');
+                mostrarMensagem('Erro de conexão. Mostrando materiais de exemplo...', 'error');
                 mostrarMateriaisEstaticos();
             }
         }
@@ -602,29 +632,84 @@
             const materialsContainer = document.getElementById('materialsContainer');
             materialsContainer.innerHTML = '';
             
+            if (!materiais || materiais.length === 0) {
+                materialsContainer.innerHTML = `
+                    <div class="no-materials">
+                        <i class="fas fa-inbox" style="font-size: 3rem; color: #95a5a6; margin-bottom: 1rem;"></i>
+                        <h3>Nenhum material encontrado</h3>
+                        <p>Seja o primeiro a compartilhar um material para ITIL 4!</p>
+                    </div>
+                `;
+                return;
+            }
+            
             materiais.forEach(material => {
                 const fileType = material.tipo || 'pdf';
                 const fileSize = material.tamanho_mb ? `${material.tamanho_mb} MB` : 'N/A';
                 const uploadDate = material.data_publicacao 
                     ? new Date(material.data_publicacao).toLocaleDateString('pt-BR')
-                    : new Date(material.created_at).toLocaleDateString('pt-BR');
+                    : material.created_at 
+                    ? new Date(material.created_at).toLocaleDateString('pt-BR')
+                    : 'Data não disponível';
+                
                 const views = material.visualizacoes || 0;
                 const downloads = material.downloads || 0;
                 const likes = material.curtidas || 0;
-                const author = material.usuarios?.nome || 'Usuário StudyCert';
-                const fileName = material.caminho_arquivo ? 
-                    material.caminho_arquivo.split('/').pop() : 
-                    'material';
+                
+                // Determinar autor
+                let author = 'Usuário StudyCert';
+                if (material.usuarios && material.usuarios.nome) {
+                    author = material.usuarios.nome;
+                } else if (material.nome_autor) {
+                    author = material.nome_autor;
+                }
+                
+                // Determinar nome do arquivo para download
+                let fileName = 'material';
+                let fileUrl = material.caminho_arquivo || material.url_externa;
+                
+                if (material.caminho_arquivo) {
+                    fileName = material.caminho_arquivo.split('/').pop() || 'material';
+                } else if (material.nome_arquivo) {
+                    fileName = material.nome_arquivo;
+                }
                 
                 const materialCard = document.createElement('div');
                 materialCard.className = 'material-card';
                 materialCard.setAttribute('data-type', fileType);
                 
+                // Botão de download baseado no tipo de arquivo
+                let downloadButton = '';
+                if (fileUrl) {
+                    if (fileUrl.startsWith('http') || fileType === 'link') {
+                        downloadButton = `
+                            <a href="${fileUrl}" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> Acessar Link
+                            </a>
+                        `;
+                    } else {
+                        downloadButton = `
+                            <button class="btn btn-primary download-btn-real" 
+                                data-material-id="${material.id}"
+                                data-file-url="${fileUrl}"
+                                data-file-name="${fileName}">
+                                <i class="fas fa-download"></i> Baixar ${fileType.toUpperCase()}
+                            </button>
+                        `;
+                    }
+                } else {
+                    downloadButton = `
+                        <button class="btn btn-primary" disabled>
+                            <i class="fas fa-ban"></i> Sem download disponível
+                        </button>
+                    `;
+                }
+                
                 materialCard.innerHTML = `
                     <div class="card-header">
                         <i class="${getIconClass(fileType)} ${fileType} file-icon"></i>
                         <div>
-                            <h3>${material.titulo}</h3>
+                            <h3>${material.titulo || 'Material sem título'}</h3>
                             <small>${fileType.toUpperCase()} • ${fileSize}</small>
                         </div>
                     </div>
@@ -639,22 +724,7 @@
                             <span><i class="fas fa-heart" style="color: #e74c3c;"></i> ${likes} curtidas</span>
                             <span><i class="fas fa-user"></i> ${author}</span>
                         </div>
-                        ${material.caminho_arquivo ? `
-                            <button class="btn btn-primary download-btn-real" 
-                                data-material-id="${material.id}"
-                                data-file-url="${material.caminho_arquivo}"
-                                data-file-name="${fileName}">
-                                <i class="fas fa-download"></i> Baixar ${fileType.toUpperCase()}
-                            </button>
-                        ` : material.url_externa ? `
-                            <a href="${material.url_externa}" target="_blank" class="btn btn-primary">
-                                <i class="fas fa-external-link-alt"></i> Acessar Link
-                            </a>
-                        ` : `
-                            <button class="btn btn-primary" disabled>
-                                <i class="fas fa-ban"></i> Sem download disponível
-                            </button>
-                        `}
+                        ${downloadButton}
                     </div>
                 `;
                 
@@ -667,133 +737,110 @@
 
         function mostrarMateriaisEstaticos() {
             const materialsContainer = document.getElementById('materialsContainer');
-            materialsContainer.innerHTML = `
-                <div class="material-card" data-type="pdf">
-                    <div class="card-header">
-                        <i class="fas fa-file-pdf pdf file-icon"></i>
-                        <div>
-                            <h3>Guia Completo ITIL 4</h3>
-                            <small>PDF • 5.2 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-calendar"></i> 15/03/2024</span>
-                            <span><i class="far fa-eye"></i> 1.2k visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-guia-completo.pdf">
-                            <i class="fas fa-download"></i> Baixar PDF
-                        </button>
-                    </div>
-                </div>
-
-                <div class="material-card" data-type="ppt">
-                    <div class="card-header">
-                        <i class="fas fa-file-powerpoint ppt file-icon"></i>
-                        <div>
-                            <h3>Apresentação ITIL 4</h3>
-                            <small>PPT • 8.7 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>Slides com resumo visual dos principais tópicos para estudo rápido.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-calendar"></i> 10/03/2024</span>
-                            <span><i class="far fa-eye"></i> 890 visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-apresentacao.pptx">
-                            <i class="fas fa-download"></i> Baixar PPT
-                        </button>
-                    </div>
-                </div>
-
-                <div class="material-card" data-type="doc">
-                    <div class="card-header">
-                        <i class="fas fa-file-word doc file-icon"></i>
-                        <div>
-                            <h3>Questões Resolvidas</h3>
-                            <small>DOC • 3.1 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>200 questões comentadas para prática antes do exame.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-calendar"></i> 05/03/2024</span>
-                            <span><i class="far fa-eye"></i> 1.5k visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-questoes.docx">
-                            <i class="fas fa-download"></i> Baixar DOC
-                        </button>
-                    </div>
-                </div>
-
-                <div class="material-card" data-type="pdf">
-                    <div class="card-header">
-                        <i class="fas fa-file-pdf pdf file-icon"></i>
-                        <div>
-                            <h3>Resumo Rápido</h3>
-                            <small>PDF • 2.4 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>Resumo conciso para última revisão antes da prova.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-calendar"></i> 01/03/2024</span>
-                            <span><i class="far fa-eye"></i> 2.3k visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-resumo.pdf">
-                            <i class="fas fa-download"></i> Baixar PDF
-                        </button>
-                    </div>
-                </div>
-
-                <div class="material-card" data-type="video">
-                    <div class="card-header">
-                        <i class="fas fa-file-video video file-icon"></i>
-                        <div>
-                            <h3>Videoaula Completa</h3>
-                            <small>MP4 • 850 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>Curso completo em vídeo com 5 horas de duração.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-clock"></i> Duração: 5h20min</span>
-                            <span><i class="far fa-eye"></i> 3.4k visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-videoaula.zip">
-                            <i class="fas fa-download"></i> Baixar ZIP
-                        </button>
-                    </div>
-                </div>
-
-                <div class="material-card" data-type="ppt">
-                    <div class="card-header">
-                        <i class="fas fa-file-powerpoint ppt file-icon"></i>
-                        <div>
-                            <h3>Fluxos de Trabalho</h3>
-                            <small>PPT • 6.5 MB</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>Diagramas e fluxos de trabalho do ITIL 4.</p>
-                        <div class="file-info">
-                            <span><i class="far fa-calendar"></i> 20/02/2024</span>
-                            <span><i class="far fa-eye"></i> 760 visualizações</span>
-                        </div>
-                        <button class="btn btn-primary download-btn-static" data-file="itil4-fluxos.pptx">
-                            <i class="fas fa-download"></i> Baixar PPT
-                        </button>
-                    </div>
-                </div>
+            materialsContainer.innerHTML = '';
+            
+            // Adicionar mensagem informativa
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info-message';
+            infoDiv.style.cssText = 'grid-column: 1 / -1; margin-bottom: 2rem;';
+            infoDiv.innerHTML = `
+                <i class="fas fa-info-circle"></i> 
+                Estes são materiais de exemplo. Faça upload de materiais reais para enriquecer a plataforma!
             `;
+            materialsContainer.appendChild(infoDiv);
+            
+            // Materiais estáticos
+            const materiaisEstaticos = [
+                {
+                    tipo: 'pdf',
+                    titulo: 'Guia Completo ITIL 4',
+                    tamanho: '5.2 MB',
+                    descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation.',
+                    data: '15/03/2024',
+                    views: '1.2k',
+                    autor: 'StudyCert'
+                },
+                {
+                    tipo: 'ppt',
+                    titulo: 'Apresentação ITIL 4',
+                    tamanho: '8.7 MB',
+                    descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido.',
+                    data: '10/03/2024',
+                    views: '890',
+                    autor: 'StudyCert'
+                },
+                {
+                    tipo: 'doc',
+                    titulo: 'Questões Resolvidas',
+                    tamanho: '3.1 MB',
+                    descricao: '200 questões comentadas para prática antes do exame.',
+                    data: '05/03/2024',
+                    views: '1.5k',
+                    autor: 'StudyCert'
+                },
+                {
+                    tipo: 'pdf',
+                    titulo: 'Resumo Rápido',
+                    tamanho: '2.4 MB',
+                    descricao: 'Resumo conciso para última revisão antes da prova.',
+                    data: '01/03/2024',
+                    views: '2.3k',
+                    autor: 'StudyCert'
+                },
+                {
+                    tipo: 'video',
+                    titulo: 'Videoaula Completa',
+                    tamanho: '850 MB',
+                    descricao: 'Curso completo em vídeo com 5 horas de duração.',
+                    data: 'Duração: 5h20min',
+                    views: '3.4k',
+                    autor: 'StudyCert'
+                },
+                {
+                    tipo: 'ppt',
+                    titulo: 'Fluxos de Trabalho',
+                    tamanho: '6.5 MB',
+                    descricao: 'Diagramas e fluxos de trabalho do ITIL 4.',
+                    data: '20/02/2024',
+                    views: '760',
+                    autor: 'StudyCert'
+                }
+            ];
+            
+            materiaisEstaticos.forEach(material => {
+                const materialCard = document.createElement('div');
+                materialCard.className = 'material-card';
+                materialCard.setAttribute('data-type', material.tipo);
+                
+                materialCard.innerHTML = `
+                    <div class="card-header">
+                        <i class="${getIconClass(material.tipo)} ${material.tipo} file-icon"></i>
+                        <div>
+                            <h3>${material.titulo}</h3>
+                            <small>${material.tipo.toUpperCase()} • ${material.tamanho}</small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>${material.descricao}</p>
+                        <div class="file-info">
+                            <span><i class="far fa-calendar"></i> ${material.data}</span>
+                            <span><i class="far fa-eye"></i> ${material.views} visualizações</span>
+                        </div>
+                        <div class="file-info">
+                            <span><i class="fas fa-user"></i> ${material.autor}</span>
+                        </div>
+                        <button class="btn btn-primary download-btn-static" 
+                            data-file="${material.titulo.toLowerCase().replace(/\s+/g, '-')}.${material.tipo}">
+                            <i class="fas fa-download"></i> Baixar ${material.tipo.toUpperCase()}
+                        </button>
+                    </div>
+                `;
+                
+                materialsContainer.appendChild(materialCard);
+            });
             
             // Configurar eventos de download para materiais estáticos
             configurarEventosDownloadEstaticos();
-            
-            // Mostrar mensagem informativa
-            mostrarMensagem('Estes são materiais de exemplo. Faça upload de seus próprios materiais para enriquecer a plataforma!', 'info');
         }
 
         // =============================
@@ -812,34 +859,20 @@
                     button.disabled = true;
                 }
                 
-                // Atualizar contador de downloads no banco
-                const { error: updateError } = await supabase
-                    .from('materiais')
-                    .update({ 
-                        downloads: (await getCurrentDownloads(materialId)) + 1,
-                        updated_at: new Date().toISOString()
-                    })
-                    .eq('id', materialId);
-                
-                if (updateError) {
-                    console.error('Erro ao atualizar contador de downloads:', updateError);
-                }
-                
-                // Verificar se é um arquivo no storage ou link externo
-                if (filePath.includes('supabase.co/storage/v1/object/public/')) {
-                    // Se já é uma URL pública, usar diretamente
+                // Primeiro tentar URL pública
+                if (filePath && (filePath.startsWith('http') || filePath.includes('supabase.co/storage'))) {
                     window.open(filePath, '_blank');
                     mostrarMensagem('Download iniciado em nova aba!', 'success');
                     
-                } else if (filePath.startsWith('http')) {
-                    // Link externo
-                    window.open(filePath, '_blank');
-                    mostrarMensagem('Redirecionando para o link externo...', 'success');
-                    
-                } else {
-                    // Tentar baixar do Supabase Storage
+                    // Atualizar contador de downloads no banco
+                    await atualizarContadorDownloads(materialId);
+                    return;
+                }
+                
+                // Tentar baixar do Supabase Storage
+                if (filePath) {
+                    // Tentar obter URL pública
                     try {
-                        // Primeiro, obter URL pública do arquivo
                         const { data: publicUrlData } = supabase.storage
                             .from('studycert-files')
                             .getPublicUrl(filePath);
@@ -847,35 +880,24 @@
                         if (publicUrlData?.publicUrl) {
                             window.open(publicUrlData.publicUrl, '_blank');
                             mostrarMensagem('Download iniciado em nova aba!', 'success');
-                        } else {
-                            // Fallback: tentar baixar via API
-                            const { data, error } = await supabase.storage
-                                .from('studycert-files')
-                                .download(filePath);
                             
-                            if (error) throw error;
-                            
-                            // Criar link para download
-                            const url = window.URL.createObjectURL(data);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = fileName || 'material.studycert';
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(url);
-                            document.body.removeChild(a);
-                            
-                            mostrarMensagem('✅ Download concluído com sucesso!', 'success');
+                            // Atualizar contador de downloads no banco
+                            await atualizarContadorDownloads(materialId);
+                            return;
                         }
                     } catch (storageError) {
-                        console.error('Erro no storage:', storageError);
-                        mostrarMensagem('❌ Não foi possível baixar o arquivo. Tente novamente mais tarde.', 'error');
+                        console.log('Não foi possível obter URL pública:', storageError);
                     }
+                    
+                    // Se não conseguir URL pública, mostrar mensagem
+                    mostrarMensagem('Arquivo não disponível para download direto.', 'info');
+                } else {
+                    mostrarMensagem('Nenhum arquivo disponível para download.', 'info');
                 }
                 
             } catch (error) {
                 console.error('Erro no download:', error);
-                mostrarMensagem('❌ Erro ao baixar material. Tente novamente.', 'error');
+                mostrarMensagem('Erro ao processar download. Tente novamente.', 'error');
                 
             } finally {
                 // Restaurar botão
@@ -887,19 +909,39 @@
             }
         }
 
-        async function getCurrentDownloads(materialId) {
+        async function atualizarContadorDownloads(materialId) {
             try {
-                const { data, error } = await supabase
+                // Primeiro, obter o valor atual
+                const { data: materialData, error: fetchError } = await supabase
                     .from('materiais')
                     .select('downloads')
                     .eq('id', materialId)
                     .single();
                 
-                if (error) throw error;
-                return data.downloads || 0;
+                if (fetchError) {
+                    console.error('Erro ao buscar downloads:', fetchError);
+                    return;
+                }
+                
+                const currentDownloads = materialData.downloads || 0;
+                
+                // Atualizar o contador
+                const { error: updateError } = await supabase
+                    .from('materiais')
+                    .update({ 
+                        downloads: currentDownloads + 1,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', materialId);
+                
+                if (updateError) {
+                    console.error('Erro ao atualizar downloads:', updateError);
+                } else {
+                    console.log('Contador de downloads atualizado para:', currentDownloads + 1);
+                }
+                
             } catch (error) {
-                console.error('Erro ao obter downloads:', error);
-                return 0;
+                console.error('Erro no contador de downloads:', error);
             }
         }
 
@@ -926,32 +968,18 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = tipo === 'error' ? 'error-message' : 
                                   tipo === 'success' ? 'success-message' : 
-                                  tipo === 'info' ? 'info-message' : 'message';
-            
-            if (tipo === 'info') {
-                messageDiv.style.cssText = `
-                    background: #e8f4fc;
-                    color: #3498db;
-                    padding: 1rem;
-                    border-radius: 4px;
-                    margin: 1rem 0;
-                    text-align: center;
-                    border: 1px solid #3498db;
-                `;
-            }
+                                  'info-message';
             
             messageDiv.innerHTML = texto;
             messageContainer.innerHTML = '';
             messageContainer.appendChild(messageDiv);
             
-            // Remover mensagem após 5 segundos (exceto se for info)
-            if (tipo !== 'info') {
-                setTimeout(() => {
-                    if (messageDiv.parentNode) {
-                        messageDiv.parentNode.removeChild(messageDiv);
-                    }
-                }, 5000);
-            }
+            // Remover mensagem após 5 segundos
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
+                }
+            }, 5000);
         }
 
         // =============================
@@ -1009,7 +1037,11 @@
             document.querySelectorAll('.download-btn-static').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const fileName = this.getAttribute('data-file');
-                    mostrarMensagem(`<i class="fas fa-info-circle"></i> Material de exemplo: ${fileName}<br><br>Faça upload de materiais reais para a plataforma!`, 'info');
+                    mostrarMensagem(
+                        `<i class="fas fa-info-circle"></i> Este é um material de exemplo: ${fileName}<br><br>
+                        Faça upload de materiais reais para a plataforma!`, 
+                        'info'
+                    );
                 });
             });
         }
@@ -1017,6 +1049,8 @@
         function configurarUpload() {
             const fileInput = document.getElementById('fileInput');
             const uploadArea = document.getElementById('uploadArea');
+            
+            if (!fileInput || !uploadArea) return;
             
             // Configurar drag and drop
             uploadArea.addEventListener('dragover', (e) => {
@@ -1047,9 +1081,7 @@
         async function lidarComArquivos(files) {
             if (!currentUser) {
                 mostrarMensagem('Faça login para compartilhar materiais!', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
+                document.getElementById('uploadSection').style.display = 'block';
                 return;
             }
             
@@ -1075,154 +1107,61 @@
                 }
                 
                 // Validar tipo
-                const validTypes = ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'zip', 'mp4', 'avi', 'mov', 'mkv'];
+                const validTypes = ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'zip', 'mp4'];
                 const fileExt = file.name.split('.').pop().toLowerCase();
                 
                 if (!validTypes.includes(fileExt)) {
-                    mostrarMensagem(`Tipo de arquivo não suportado: ${file.name}<br>Formatos aceitos: PDF, PPT, DOC, ZIP, MP4, AVI, MOV, MKV`, 'error');
+                    mostrarMensagem(`Tipo de arquivo não suportado: ${file.name}<br>Formatos aceitos: PDF, PPT, DOC, ZIP, MP4`, 'error');
                     return;
                 }
                 
-                // Mostrar progresso
-                const progressContainer = document.getElementById('progressContainer');
-                const progressFill = document.getElementById('progressFill');
-                const progressText = document.getElementById('progressText');
+                mostrarMensagem(`Processando: ${file.name}`, 'info');
                 
-                progressContainer.style.display = 'block';
-                progressFill.style.width = '0%';
-                progressText.textContent = `Enviando ${file.name}...`;
-                
-                // 1. Fazer upload para o Supabase Storage
-                const fileName = `materiais/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('studycert-files')
-                    .upload(fileName, file, {
-                        onUploadProgress: (progress) => {
-                            const percent = Math.round((progress.loaded / progress.total) * 100);
-                            progressFill.style.width = `${percent}%`;
-                            progressText.textContent = `Enviando ${file.name}: ${percent}%`;
-                        }
-                    });
-                
-                if (uploadError) throw uploadError;
-                
-                progressText.innerHTML = '<span style="color: #27ae60;"><i class="fas fa-check"></i> Upload concluído!</span>';
-                
-                // 2. Salvar metadados no banco de dados
-                const fileType = getFileTypeFromExtension(fileExt);
-                
-                // Buscar certificação ITIL 4
-                const { data: certificacaoData } = await supabase
-                    .from('certificacoes')
-                    .select('id')
-                    .or('nome.ilike.%ITIL 4%,nome.ilike.%ITIL4%')
-                    .limit(1);
-                
-                // Buscar ID do usuário na tabela usuarios
-                const { data: usuarioData, error: usuarioError } = await supabase
-                    .from('usuarios')
-                    .select('id')
-                    .eq('email', currentUser.email)
-                    .single();
-                
-                if (usuarioError) {
-                    console.error('Erro ao buscar usuário:', usuarioError);
-                    mostrarMensagem('Erro ao identificar seu usuário. Tente novamente.', 'error');
-                    return;
-                }
-                
-                // Inserir material no banco
-                const { error: dbError } = await supabase
-                    .from('materiais')
-                    .insert({
-                        titulo: file.name.replace(/\.[^/.]+$/, ""), // Remove extensão
-                        descricao: `Material de estudo para ITIL 4 enviado por ${currentUser.email}`,
-                        tipo: fileType,
-                        tamanho_mb: (file.size / (1024*1024)).toFixed(2),
-                        nome_arquivo: file.name,
-                        caminho_arquivo: fileName,
-                        usuario_id: usuarioData.id,
-                        categoria: 'ITIL 4',
-                        tags: ['itil4', 'itil', fileType],
-                        nivel_dificuldade: 'intermediario',
-                        status: 'pendente',
-                        data_publicacao: new Date().toISOString()
-                    });
-                
-                if (dbError) throw dbError;
-                
-                mostrarMensagem(`✅ Material "${file.name}" enviado com sucesso! Aguarde aprovação dos administradores.`, 'success');
-                
-                // Adicionar à lista de uploads
-                const uploadList = document.getElementById('uploadList');
-                const fileItem = document.createElement('div');
-                fileItem.style.cssText = `
-                    background: #f8f9fa;
-                    padding: 10px;
-                    margin: 5px 0;
-                    border-radius: 4px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                `;
-                
-                fileItem.innerHTML = `
-                    <div>
-                        <strong>${file.name}</strong>
-                        <div style="font-size: 0.8rem; color: #666;">
-                            ${(file.size / (1024*1024)).toFixed(2)} MB • ${fileExt.toUpperCase()}
+                // Simular upload (em produção, enviaria para Supabase Storage)
+                setTimeout(() => {
+                    mostrarMensagem(
+                        `✅ Material "${file.name}" enviado com sucesso!<br>
+                        Em produção, este arquivo seria enviado para o Supabase Storage.`, 
+                        'success'
+                    );
+                    
+                    // Adicionar à lista de uploads
+                    const uploadList = document.getElementById('uploadList');
+                    const fileItem = document.createElement('div');
+                    fileItem.style.cssText = `
+                        background: #f8f9fa;
+                        padding: 10px;
+                        margin: 5px 0;
+                        border-radius: 4px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    `;
+                    
+                    fileItem.innerHTML = `
+                        <div>
+                            <strong>${file.name}</strong>
+                            <div style="font-size: 0.8rem; color: #666;">
+                                ${(file.size / (1024*1024)).toFixed(2)} MB • ${fileExt.toUpperCase()}
+                            </div>
                         </div>
-                    </div>
-                    <div style="color: #27ae60;">
-                        <i class="fas fa-check-circle"></i> Enviado
-                    </div>
-                `;
-                
-                uploadList.appendChild(fileItem);
-                
-                // Esconder progresso após 3 segundos
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                    progressFill.style.width = '0%';
-                }, 3000);
-                
-                // Recarregar materiais após 5 segundos
-                setTimeout(() => {
-                    carregarMateriaisDoBanco();
-                }, 5000);
+                        <div style="color: #27ae60;">
+                            <i class="fas fa-check-circle"></i> Simulado
+                        </div>
+                    `;
+                    
+                    uploadList.appendChild(fileItem);
+                    
+                }, 1500);
                 
             } catch (error) {
                 console.error('Erro no upload:', error);
-                mostrarMensagem(`❌ Erro ao enviar arquivo: ${error.message}`, 'error');
+                mostrarMensagem(`❌ Erro ao processar arquivo: ${error.message}`, 'error');
             }
         }
 
-        function getFileTypeFromExtension(extension) {
-            const typeMap = {
-                'pdf': 'pdf',
-                'ppt': 'ppt',
-                'pptx': 'ppt',
-                'doc': 'doc',
-                'docx': 'doc',
-                'zip': 'zip',
-                'rar': 'zip',
-                '7z': 'zip',
-                'mp4': 'video',
-                'avi': 'video',
-                'mov': 'video',
-                'mkv': 'video'
-            };
-            
-            return typeMap[extension] || 'pdf';
-        }
-
-        // Recarregar página quando voltar à página
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted || performance.getEntriesByType('navigation')[0].type === 'back_forward') {
-                carregarMateriaisDoBanco();
-            }
-        });
+        // Debug: Verificar se página carregou
+        console.log('Script carregado completamente');
     </script>
 </body>
 </html>
