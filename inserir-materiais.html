@@ -334,226 +334,270 @@
         }
 
         // Função principal para inserir materiais
-        async function inserirMateriais() {
-            const quantidade = parseInt(document.getElementById('quantidade').value);
-            
-            if (!quantidade || quantidade < 1) {
-                mostrarMensagem('❌ Selecione uma quantidade válida!', 'error');
-                return;
-            }
+async function inserirMateriais() {
+    const quantidade = parseInt(document.getElementById('quantidade').value);
+    
+    if (!quantidade || quantidade < 1) {
+        mostrarMensagem('❌ Selecione uma quantidade válida!', 'error');
+        return;
+    }
 
-            // Mostrar loading
-            document.getElementById('loadingSection').style.display = 'block';
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('existingSection').style.display = 'none';
+    // Mostrar loading
+    document.getElementById('loadingSection').style.display = 'block';
+    document.getElementById('resultsSection').style.display = 'none';
+    document.getElementById('existingSection').style.display = 'none';
 
-            try {
-                // Gerar materiais de exemplo
-                const materiais = gerarMateriaisExemplo(quantidade);
-                
-                console.log(`Inserindo ${materiais.length} materiais...`);
-                
-                let inseridos = 0;
-                const resultados = [];
-                
-                // Inserir cada material individualmente
-                for (const material of materiais) {
-                    try {
-                        const { data, error } = await supabase
-                            .from('materiais')
-                            .insert([material])
-                            .select();
-                        
-                        if (error) {
-                            console.error('Erro ao inserir material:', error);
-                            resultados.push({
-                                titulo: material.titulo,
-                                sucesso: false,
-                                erro: error.message
-                            });
-                        } else {
-                            console.log('Material inserido:', data);
-                            inseridos++;
-                            resultados.push({
-                                titulo: material.titulo,
-                                sucesso: true,
-                                id: data[0]?.id
-                            });
-                        }
-                    } catch (err) {
-                        console.error('Erro ao processar material:', err);
-                        resultados.push({
-                            titulo: material.titulo,
-                            sucesso: false,
-                            erro: err.message
-                        });
-                    }
-                }
-                
-                // Esconder loading
-                document.getElementById('loadingSection').style.display = 'none';
-                
-                // Mostrar resultados
-                mostrarResultados(resultados, inseridos, materiais.length);
-                
-                // Atualizar contagem
-                await verificarMateriais();
-                
-            } catch (error) {
-                console.error('Erro geral ao inserir materiais:', error);
-                document.getElementById('loadingSection').style.display = 'none';
-                mostrarMensagem(`❌ Erro ao inserir materiais: ${error.message}`, 'error');
-            }
-        }
-
+    try {
         // Gerar materiais de exemplo
-        function gerarMateriaisExemplo(quantidade) {
-            const materiaisExemplo = [
-                {
-                    titulo: 'Guia Completo ITIL 4 Foundation',
-                    descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation. Inclui exemplos práticos e estudos de caso.',
-                    tipo: 'pdf',
-                    tamanho_mb: 5.2,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'fundamentos', 'guia', 'pdf'],
-                    visualizacoes: 1250,
-                    downloads: 890,
-                    curtidas: 120,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-03-15').toISOString()
-                },
-                {
-                    titulo: 'Apresentação ITIL 4 - Slides de Estudo',
-                    descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido e apresentações.',
-                    tipo: 'ppt',
-                    tamanho_mb: 8.7,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'slides', 'apresentacao', 'ppt'],
-                    visualizacoes: 890,
-                    downloads: 540,
-                    curtidas: 85,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-03-10').toISOString()
-                },
-                {
-                    titulo: 'Questões Resolvidas ITIL 4 Foundation',
-                    descricao: '200 questões comentadas para prática antes do exame oficial.',
-                    tipo: 'doc',
-                    tamanho_mb: 3.1,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'questoes', 'exercicios', 'doc'],
-                    visualizacoes: 1560,
-                    downloads: 980,
-                    curtidas: 150,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-03-05').toISOString()
-                },
-                {
-                    titulo: 'Resumo Rápido ITIL 4 - Última Revisão',
-                    descricao: 'Resumo conciso para última revisão antes da prova. Inclui conceitos-chave e dicas.',
-                    tipo: 'pdf',
-                    tamanho_mb: 2.4,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'resumo', 'revisao', 'pdf'],
-                    visualizacoes: 2340,
-                    downloads: 1650,
-                    curtidas: 210,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-03-01').toISOString()
-                },
-                {
-                    titulo: 'Videoaula Completa ITIL 4 Foundation',
-                    descricao: 'Curso completo em vídeo com 5 horas de duração. Cobre todos os tópicos do exame.',
-                    tipo: 'video',
-                    tamanho_mb: 850,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'video', 'curso', 'aula'],
-                    visualizacoes: 3450,
-                    downloads: 1250,
-                    curtidas: 340,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-25').toISOString()
-                },
-                {
-                    titulo: 'Fluxos de Trabalho ITIL 4 - Diagramas',
-                    descricao: 'Diagramas e fluxos de trabalho do ITIL 4 em alta resolução.',
-                    tipo: 'ppt',
-                    tamanho_mb: 6.5,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'avancado',
-                    tags: ['itil4', 'diagramas', 'fluxos', 'ppt'],
-                    visualizacoes: 760,
-                    downloads: 420,
-                    curtidas: 65,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-20').toISOString()
-                },
-                {
-                    titulo: 'Checklist de Preparação ITIL 4',
-                    descricao: 'Checklist completo para preparação do exame ITIL 4 Foundation.',
-                    tipo: 'pdf',
-                    tamanho_mb: 1.8,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'checklist', 'preparacao', 'pdf'],
-                    visualizacoes: 1120,
-                    downloads: 780,
-                    curtidas: 95,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-15').toISOString()
-                },
-                {
-                    titulo: 'Glossário ITIL 4 - Termos e Definições',
-                    descricao: 'Glossário completo com todos os termos e definições do ITIL 4.',
-                    tipo: 'doc',
-                    tamanho_mb: 2.1,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'glossario', 'termos', 'doc'],
-                    visualizacoes: 980,
-                    downloads: 650,
-                    curtidas: 80,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-10').toISOString()
-                },
-                {
-                    titulo: 'Simulado ITIL 4 - Teste Prático',
-                    descricao: 'Simulado com 40 questões no formato do exame oficial.',
-                    tipo: 'pdf',
-                    tamanho_mb: 4.3,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'simulado', 'teste', 'pdf'],
-                    visualizacoes: 1870,
-                    downloads: 1100,
-                    curtidas: 170,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-05').toISOString()
-                },
-                {
-                    titulo: 'Mapa Mental ITIL 4 - Conceitos Chave',
-                    descricao: 'Mapa mental visual com todos os conceitos chave do ITIL 4.',
-                    tipo: 'pdf',
-                    tamanho_mb: 3.7,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'mapamental', 'visual', 'pdf'],
-                    visualizacoes: 1430,
-                    downloads: 920,
-                    curtidas: 130,
-                    status: 'aprovado',
-                    data_publicacao: new Date('2024-02-01').toISOString()
+        const materiais = gerarMateriaisExemplo(quantidade);
+        
+        console.log(`Inserindo ${materiais.length} materiais...`);
+        
+        let inseridos = 0;
+        const resultados = [];
+        
+        // Inserir cada material individualmente
+        for (const material of materiais) {
+            try {
+                // Garantir que cada material tenha caminho_arquivo OU url_externa
+                const materialCompleto = {
+                    ...material,
+                    // Se não tiver caminho_arquivo nem url_externa, adicionar um placeholder
+                    caminho_arquivo: material.caminho_arquivo || `/materiais/itil4/${material.titulo.toLowerCase().replace(/\s+/g, '-')}.${material.tipo}`,
+                    url_externa: material.url_externa || null,
+                    // Adicionar outras colunas que podem ser necessárias
+                    nome_arquivo: material.nome_arquivo || `${material.titulo}.${material.tipo}`,
+                    data_atualizacao: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                };
+                
+                console.log('Inserindo material:', materialCompleto);
+                
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .insert([materialCompleto])
+                    .select();
+                
+                if (error) {
+                    console.error('Erro ao inserir material:', error);
+                    resultados.push({
+                        titulo: material.titulo,
+                        sucesso: false,
+                        erro: error.message
+                    });
+                } else {
+                    console.log('Material inserido:', data);
+                    inseridos++;
+                    resultados.push({
+                        titulo: material.titulo,
+                        sucesso: true,
+                        id: data[0]?.id
+                    });
                 }
-            ];
-            
-            // Retornar apenas a quantidade solicitada
-            return materiaisExemplo.slice(0, quantidade);
+            } catch (err) {
+                console.error('Erro ao processar material:', err);
+                resultados.push({
+                    titulo: material.titulo,
+                    sucesso: false,
+                    erro: err.message
+                });
+            }
         }
+        
+        // Esconder loading
+        document.getElementById('loadingSection').style.display = 'none';
+        
+        // Mostrar resultados
+        mostrarResultados(resultados, inseridos, materiais.length);
+        
+        // Atualizar contagem
+        await verificarMateriais();
+        
+    } catch (error) {
+        console.error('Erro geral ao inserir materiais:', error);
+        document.getElementById('loadingSection').style.display = 'none';
+        mostrarMensagem(`❌ Erro ao inserir materiais: ${error.message}`, 'error');
+    }
+}
+
+// Gerar materiais de exemplo CORRIGIDA
+function gerarMateriaisExemplo(quantidade) {
+    const materiaisExemplo = [
+        {
+            titulo: 'Guia Completo ITIL 4 Foundation',
+            descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation. Inclui exemplos práticos e estudos de caso.',
+            tipo: 'pdf',
+            tamanho_mb: 5.2,
+            categoria: 'ITIL 4',
+            subcategoria: 'Foundation',
+            nivel_dificuldade: 'intermediario',
+            tags: ['itil4', 'fundamentos', 'guia', 'pdf'],
+            visualizacoes: 1250,
+            downloads: 890,
+            curtidas: 120,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/guia-completo.pdf',
+            url_externa: null,
+            data_publicacao: new Date('2024-03-15').toISOString()
+        },
+        {
+            titulo: 'Apresentação ITIL 4 - Slides de Estudo',
+            descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido e apresentações.',
+            tipo: 'ppt',
+            tamanho_mb: 8.7,
+            categoria: 'ITIL 4',
+            subcategoria: 'Apresentações',
+            nivel_dificuldade: 'facil',
+            tags: ['itil4', 'slides', 'apresentacao', 'ppt'],
+            visualizacoes: 890,
+            downloads: 540,
+            curtidas: 85,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/apresentacao.pptx',
+            url_externa: null,
+            data_publicacao: new Date('2024-03-10').toISOString()
+        },
+        {
+            titulo: 'Questões Resolvidas ITIL 4 Foundation',
+            descricao: '200 questões comentadas para prática antes do exame oficial.',
+            tipo: 'doc',
+            tamanho_mb: 3.1,
+            categoria: 'ITIL 4',
+            subcategoria: 'Exercícios',
+            nivel_dificuldade: 'intermediario',
+            tags: ['itil4', 'questoes', 'exercicios', 'doc'],
+            visualizacoes: 1560,
+            downloads: 980,
+            curtidas: 150,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/questoes-resolvidas.docx',
+            url_externa: null,
+            data_publicacao: new Date('2024-03-05').toISOString()
+        },
+        {
+            titulo: 'Resumo Rápido ITIL 4 - Última Revisão',
+            descricao: 'Resumo conciso para última revisão antes da prova. Inclui conceitos-chave e dicas.',
+            tipo: 'pdf',
+            tamanho_mb: 2.4,
+            categoria: 'ITIL 4',
+            subcategoria: 'Resumos',
+            nivel_dificuldade: 'facil',
+            tags: ['itil4', 'resumo', 'revisao', 'pdf'],
+            visualizacoes: 2340,
+            downloads: 1650,
+            curtidas: 210,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/resumo-rapido.pdf',
+            url_externa: null,
+            data_publicacao: new Date('2024-03-01').toISOString()
+        },
+        {
+            titulo: 'Videoaula Completa ITIL 4 Foundation',
+            descricao: 'Curso completo em vídeo com 5 horas de duração. Cobre todos os tópicos do exame.',
+            tipo: 'video',
+            tamanho_mb: 850,
+            categoria: 'ITIL 4',
+            subcategoria: 'Videoaulas',
+            nivel_dificuldade: 'intermediario',
+            tags: ['itil4', 'video', 'curso', 'aula'],
+            visualizacoes: 3450,
+            downloads: 1250,
+            curtidas: 340,
+            status: 'aprovado',
+            caminho_arquivo: null,
+            url_externa: 'https://exemplo.com/videoaula-itil4',
+            data_publicacao: new Date('2024-02-25').toISOString()
+        },
+        {
+            titulo: 'Fluxos de Trabalho ITIL 4 - Diagramas',
+            descricao: 'Diagramas e fluxos de trabalho do ITIL 4 em alta resolução.',
+            tipo: 'ppt',
+            tamanho_mb: 6.5,
+            categoria: 'ITIL 4',
+            subcategoria: 'Diagramas',
+            nivel_dificuldade: 'avancado',
+            tags: ['itil4', 'diagramas', 'fluxos', 'ppt'],
+            visualizacoes: 760,
+            downloads: 420,
+            curtidas: 65,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/fluxos-trabalho.pptx',
+            url_externa: null,
+            data_publicacao: new Date('2024-02-20').toISOString()
+        },
+        {
+            titulo: 'Checklist de Preparação ITIL 4',
+            descricao: 'Checklist completo para preparação do exame ITIL 4 Foundation.',
+            tipo: 'pdf',
+            tamanho_mb: 1.8,
+            categoria: 'ITIL 4',
+            subcategoria: 'Checklists',
+            nivel_dificuldade: 'facil',
+            tags: ['itil4', 'checklist', 'preparacao', 'pdf'],
+            visualizacoes: 1120,
+            downloads: 780,
+            curtidas: 95,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/checklist-preparacao.pdf',
+            url_externa: null,
+            data_publicacao: new Date('2024-02-15').toISOString()
+        },
+        {
+            titulo: 'Glossário ITIL 4 - Termos e Definições',
+            descricao: 'Glossário completo com todos os termos e definições do ITIL 4.',
+            tipo: 'doc',
+            tamanho_mb: 2.1,
+            categoria: 'ITIL 4',
+            subcategoria: 'Glossários',
+            nivel_dificuldade: 'facil',
+            tags: ['itil4', 'glossario', 'termos', 'doc'],
+            visualizacoes: 980,
+            downloads: 650,
+            curtidas: 80,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/glossario-termos.docx',
+            url_externa: null,
+            data_publicacao: new Date('2024-02-10').toISOString()
+        },
+        {
+            titulo: 'Simulado ITIL 4 - Teste Prático',
+            descricao: 'Simulado com 40 questões no formato do exame oficial.',
+            tipo: 'pdf',
+            tamanho_mb: 4.3,
+            categoria: 'ITIL 4',
+            subcategoria: 'Simulados',
+            nivel_dificuldade: 'intermediario',
+            tags: ['itil4', 'simulado', 'teste', 'pdf'],
+            visualizacoes: 1870,
+            downloads: 1100,
+            curtidas: 170,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/simulado-teste.pdf',
+            url_externa: null,
+            data_publicacao: new Date('2024-02-05').toISOString()
+        },
+        {
+            titulo: 'Mapa Mental ITIL 4 - Conceitos Chave',
+            descricao: 'Mapa mental visual com todos os conceitos chave do ITIL 4.',
+            tipo: 'pdf',
+            tamanho_mb: 3.7,
+            categoria: 'ITIL 4',
+            subcategoria: 'Mapas Mentais',
+            nivel_dificuldade: 'facil',
+            tags: ['itil4', 'mapamental', 'visual', 'pdf'],
+            visualizacoes: 1430,
+            downloads: 920,
+            curtidas: 130,
+            status: 'aprovado',
+            caminho_arquivo: '/materiais/itil4/mapa-mental.pdf',
+            url_externa: null,
+            data_publicacao: new Date('2024-02-01').toISOString()
+        }
+    ];
+    
+    // Retornar apenas a quantidade solicitada
+    return materiaisExemplo.slice(0, quantidade);
+}
 
         // Mostrar resultados da inserção
         function mostrarResultados(resultados, inseridos, total) {
