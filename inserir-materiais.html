@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inserir Materiais - StudyCert</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -29,7 +28,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 40px;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
         }
 
         h1 {
@@ -120,14 +119,26 @@
             transform: translateY(-2px);
         }
 
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
         .btn-container {
             display: flex;
             gap: 15px;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .btn-container .btn {
             flex: 1;
+            min-width: 150px;
         }
 
         .message {
@@ -167,8 +178,18 @@
             border-left: 4px solid #3498db;
         }
 
+        .material-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .material-card p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
         .material-grid {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             margin-top: 20px;
             border: 2px dashed #ddd;
@@ -205,82 +226,279 @@
             font-size: 14px;
         }
 
-        .admin-access {
-            margin-top: 20px;
-            padding: 15px;
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .material-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
             background: #f8f9fa;
+            padding: 15px;
             border-radius: 8px;
+            text-align: center;
             border-left: 4px solid #3498db;
+        }
+
+        .stat-card h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .admin-info {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .admin-info p {
+            margin: 5px 0;
+        }
+
+        .admin-info strong {
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🛠️ Inserir Materiais - StudyCert</h1>
-        <p class="subtitle">Adicione materiais de exemplo para a página ITIL 4</p>
+        <p class="subtitle">Adicione materiais de exemplo para a plataforma StudyCert</p>
 
         <div id="messageContainer"></div>
 
-        <div class="admin-access">
-            <h3><i class="fas fa-user-shield"></i> Acesso Administrativo</h3>
-            <p>Esta página permite inserir materiais de exemplo no banco de dados.</p>
+        <!-- Informações do administrador -->
+        <div id="adminInfo" class="admin-info" style="display: none;">
+            <h3>👨‍💼 Informações do Administrador</h3>
+            <p><strong>Usuário:</strong> <span id="adminEmail"></span></p>
+            <p><strong>Permissão:</strong> <span id="adminPermission">Administrador</span></p>
+            <p><strong>Status:</strong> <span id="adminStatus" style="color: #27ae60;">● Conectado</span></p>
         </div>
 
-        <!-- Formulário para inserir materiais -->
-        <div class="form-group">
-            <label for="quantidade">Quantidade de Materiais a Inserir:</label>
-            <select id="quantidade">
-                <option value="1">1 Material</option>
-                <option value="3" selected>3 Materiais</option>
-                <option value="6">6 Materiais</option>
-                <option value="10">10 Materiais</option>
-            </select>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('inserir')">📝 Inserir Materiais</div>
+            <div class="tab" onclick="showTab('gerenciar')">📊 Gerenciar</div>
+            <div class="tab" onclick="showTab('configurar')">⚙️ Configurações</div>
         </div>
 
-        <div class="btn-container">
-            <button class="btn btn-primary" onclick="inserirMateriais()">
-                <i class="fas fa-plus-circle"></i> Inserir Materiais
-            </button>
-            <button class="btn btn-success" onclick="verificarMateriais()">
-                <i class="fas fa-search"></i> Ver Materiais Existentes
-            </button>
-            <button class="btn btn-danger" onclick="limparMateriais()">
-                <i class="fas fa-trash"></i> Limpar Todos
-            </button>
+        <!-- Tab 1: Inserir Materiais -->
+        <div id="tabInserir" class="tab-content active">
+            <div class="form-group">
+                <label for="quantidade">Quantidade de Materiais a Inserir:</label>
+                <select id="quantidade">
+                    <option value="1">1 Material</option>
+                    <option value="3" selected>3 Materiais</option>
+                    <option value="6">6 Materiais</option>
+                    <option value="10">10 Materiais</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoria Principal:</label>
+                <select id="categoria">
+                    <option value="ITIL 4">ITIL 4</option>
+                    <option value="Microsoft Azure">Microsoft Azure</option>
+                    <option value="Amazon AWS">Amazon AWS</option>
+                    <option value="Linux LPIC">Linux LPIC</option>
+                    <option value="Security">Security</option>
+                    <option value="Redes">Redes</option>
+                    <option value="Dados">Dados</option>
+                    <option value="Desenvolvimento">Desenvolvimento</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="status">Status dos Materiais:</label>
+                    <select id="status">
+                        <option value="aprovado">Aprovado</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="ativo">Ativo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nivelDificuldade">Nível de Dificuldade:</label>
+                    <select id="nivelDificuldade">
+                        <option value="facil">Fácil</option>
+                        <option value="intermediario" selected>Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-primary" onclick="inserirMateriais()">
+                    <i class="fas fa-plus-circle"></i> Inserir Materiais
+                </button>
+                <button class="btn btn-warning" onclick="inserirMaterialIndividual()">
+                    <i class="fas fa-plus"></i> Inserir Individual
+                </button>
+                <button class="btn btn-success" onclick="verificarMateriais()">
+                    <i class="fas fa-search"></i> Ver Materiais
+                </button>
+            </div>
         </div>
 
-        <!-- Resultados -->
+        <!-- Tab 2: Gerenciar -->
+        <div id="tabGerenciar" class="tab-content">
+            <div class="material-stats" id="materialStats">
+                <!-- Estatísticas serão carregadas aqui -->
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-success" onclick="verificarMateriais()">
+                    <i class="fas fa-sync-alt"></i> Atualizar Lista
+                </button>
+                <button class="btn btn-warning" onclick="exportarMateriais()">
+                    <i class="fas fa-download"></i> Exportar Dados
+                </button>
+                <button class="btn btn-danger" onclick="limparMateriais()">
+                    <i class="fas fa-trash"></i> Limpar Todos
+                </button>
+            </div>
+
+            <div id="resultsSection" style="display: none;">
+                <h2>📚 Materiais Inseridos</h2>
+                <div id="materialGrid" class="material-grid">
+                    <!-- Materiais serão mostrados aqui -->
+                </div>
+            </div>
+
+            <div id="existingSection" style="display: none;">
+                <h2>📋 Materiais Existentes</h2>
+                <div id="existingMaterials" class="material-grid">
+                    <!-- Materiais existentes serão mostrados aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Configurações -->
+        <div id="tabConfigurar" class="tab-content">
+            <div class="form-group">
+                <label for="supabaseUrl">URL do Supabase:</label>
+                <input type="text" id="supabaseUrl" value="https://blnnwbrhrckqegaiparr.supabase.co" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="tabelaMateriais">Tabela de Materiais:</label>
+                <input type="text" id="tabelaMateriais" value="materiais" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="testarConexao">Testar Conexão:</label>
+                <div class="btn-container">
+                    <button class="btn btn-primary" onclick="testarConexao()">
+                        <i class="fas fa-plug"></i> Testar Conexão
+                    </button>
+                    <button class="btn btn-success" onclick="criarTabela()">
+                        <i class="fas fa-database"></i> Criar Tabela
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Backup e Restauração:</label>
+                <div class="btn-container">
+                    <button class="btn btn-warning" onclick="fazerBackup()">
+                        <i class="fas fa-save"></i> Backup
+                    </button>
+                    <button class="btn btn-info" onclick="restaurarBackup()">
+                        <i class="fas fa-upload"></i> Restaurar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
         <div id="loadingSection" class="loading" style="display: none;">
             <div class="spinner"></div>
             <p>Processando...</p>
         </div>
 
-        <div id="resultsSection" style="display: none;">
-            <h2>📚 Materiais Inseridos</h2>
-            <div id="materialGrid" class="material-grid">
-                <!-- Materiais serão mostrados aqui -->
-            </div>
-        </div>
-
-        <div id="existingSection" style="display: none;">
-            <h2>📋 Materiais Existentes</h2>
-            <div id="existingMaterials" class="material-grid">
-                <!-- Materiais existentes serão mostrados aqui -->
-            </div>
-        </div>
-
         <div class="credits">
             <p>🔗 URL do Supabase: <code>https://blnnwbrhrckqegaiparr.supabase.co</code></p>
-            <p>📖 Voltar para: <a href="index.html" style="color: #3498db; text-decoration: none;">Home</a> | <a href="itil4-materiais.html" style="color: #3498db; text-decoration: none;">ITIL 4 Materiais</a></p>
+            <p>⚠️ Certifique-se de que a tabela 'materiais' existe no seu banco</p>
+            <p>📖 Voltar para: 
+                <a href="index.html" style="color: #3498db; text-decoration: none;">Home</a> | 
+                <a href="itil4-materiais.html" style="color: #3498db; text-decoration: none;">ITIL 4 Materiais</a> | 
+                <a href="#" onclick="voltarAdmin()" style="color: #3498db; text-decoration: none;">Área Admin</a>
+            </p>
         </div>
     </div>
 
     <script>
-        // Configuração do Supabase
+        // =============================
+        // CONFIGURAÇÃO DO SUPABASE
+        // =============================
         const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_HGgcbNNjAvfdWUbYOPFBKQ_5uOEkY7s';
         
         let supabase;
+        let currentUser = null;
+        let isAdmin = false;
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', async function() {
@@ -291,7 +509,24 @@
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('Supabase configurado com sucesso!');
                 
-                mostrarMensagem('✅ Conectado ao Supabase com sucesso!', 'success');
+                // Verificar autenticação
+                await checkAuth();
+                
+                // Verificar se é admin
+                isAdmin = await verificarPermissaoAdmin();
+                
+                if (isAdmin) {
+                    mostrarMensagem('✅ Conectado ao Supabase como Administrador!', 'success');
+                    mostrarInfoAdmin();
+                    
+                    // Carregar estatísticas
+                    carregarEstatisticas();
+                } else {
+                    mostrarMensagem('❌ Acesso negado. Esta página é apenas para administradores.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                }
                 
             } catch (err) {
                 console.error('Erro ao inicializar:', err);
@@ -299,9 +534,100 @@
             }
         });
 
-        // Função principal para inserir materiais - CORRIGIDA
+        // Verificar autenticação
+        async function checkAuth() {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    redirecionarLogin();
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                } else {
+                    // Se não estiver logado, redirecionar
+                    redirecionarLogin();
+                }
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                redirecionarLogin();
+            }
+        }
+
+        // Verificar se o usuário é admin
+        async function verificarPermissaoAdmin() {
+            try {
+                if (!currentUser) return false;
+                
+                // Verificar por email específico
+                const adminEmails = [
+                    'admin@studycert.com',
+                    'administrador@studycert.com',
+                    'teste@admin.com',
+                    currentUser.email // temporário para testes
+                ];
+                
+                return adminEmails.includes(currentUser.email.toLowerCase());
+                
+            } catch (error) {
+                console.error('Erro ao verificar permissão:', error);
+                return false;
+            }
+        }
+
+        // Mostrar informações do admin
+        function mostrarInfoAdmin() {
+            const adminInfo = document.getElementById('adminInfo');
+            const adminEmail = document.getElementById('adminEmail');
+            const adminStatus = document.getElementById('adminStatus');
+            
+            if (adminInfo && adminEmail && currentUser) {
+                adminInfo.style.display = 'block';
+                adminEmail.textContent = currentUser.email;
+                adminStatus.innerHTML = '<span style="color: #27ae60;">● Conectado</span>';
+            }
+        }
+
+        // Redirecionar para login
+        function redirecionarLogin() {
+            mostrarMensagem('🔒 Por favor, faça login para acessar esta página.', 'info');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Função para mostrar tabs
+        function showTab(tabName) {
+            // Remover active de todas as tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Adicionar active à tab selecionada
+            document.querySelector(`.tab[onclick*="${tabName}"]`).classList.add('active');
+            document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
+        }
+
+        // Função principal para inserir materiais
         async function inserirMateriais() {
+            if (!isAdmin) {
+                mostrarMensagem('❌ Acesso negado. Apenas administradores podem inserir materiais.', 'error');
+                return;
+            }
+
             const quantidade = parseInt(document.getElementById('quantidade').value);
+            const categoria = document.getElementById('categoria').value;
+            const status = document.getElementById('status').value;
+            const nivelDificuldade = document.getElementById('nivelDificuldade').value;
             
             if (!quantidade || quantidade < 1) {
                 mostrarMensagem('❌ Selecione uma quantidade válida!', 'error');
@@ -315,7 +641,7 @@
 
             try {
                 // Gerar materiais de exemplo
-                const materiais = gerarMateriaisExemplo(quantidade);
+                const materiais = gerarMateriaisExemplo(quantidade, categoria, status, nivelDificuldade);
                 
                 console.log(`Inserindo ${materiais.length} materiais...`);
                 
@@ -325,19 +651,9 @@
                 // Inserir cada material individualmente
                 for (const material of materiais) {
                     try {
-                        // Adicionar campos obrigatórios que estavam faltando
-                        const materialCompleto = {
-                            ...material,
-                            caminho_arquivo: `/uploads/materiais/${material.tipo}/${Date.now()}_${material.titulo.replace(/\s+/g, '_')}.${material.tipo}`,
-                            url: null, // Pode ser null se tiver caminho_arquivo
-                            usuario_id: '00000000-0000-0000-0000-000000000000', // ID genérico
-                            data_criacao: new Date().toISOString(),
-                            data_atualizacao: new Date().toISOString()
-                        };
-
                         const { data, error } = await supabase
                             .from('materiais')
-                            .insert([materialCompleto])
+                            .insert([material])
                             .select();
                         
                         if (error) {
@@ -374,6 +690,7 @@
                 
                 // Atualizar contagem
                 await verificarMateriais();
+                await carregarEstatisticas();
                 
             } catch (error) {
                 console.error('Erro geral ao inserir materiais:', error);
@@ -382,78 +699,168 @@
             }
         }
 
-        // Gerar materiais de exemplo - ATUALIZADO
-        function gerarMateriaisExemplo(quantidade) {
-            const materiaisExemplo = [
+        // Inserir material individual
+        function inserirMaterialIndividual() {
+            const titulo = prompt('Digite o título do material:');
+            if (!titulo) return;
+            
+            const descricao = prompt('Digite a descrição do material:');
+            if (!descricao) return;
+            
+            const categoria = document.getElementById('categoria').value;
+            const tipo = prompt('Tipo do material (pdf, ppt, doc, video):', 'pdf');
+            const status = document.getElementById('status').value;
+            const nivelDificuldade = document.getElementById('nivelDificuldade').value;
+            
+            const material = {
+                titulo: titulo,
+                descricao: descricao,
+                tipo: tipo || 'pdf',
+                tamanho_mb: parseFloat((Math.random() * 10).toFixed(2)),
+                categoria: categoria,
+                nivel_dificuldade: nivelDificuldade,
+                tags: [categoria.toLowerCase().replace(/\s+/g, ''), tipo || 'pdf'],
+                visualizacoes: Math.floor(Math.random() * 1000),
+                downloads: Math.floor(Math.random() * 500),
+                curtidas: Math.floor(Math.random() * 100),
+                status: status,
+                data_publicacao: new Date().toISOString(),
+                usuario_id: currentUser?.id || null
+            };
+            
+            // Mostrar preview
+            const confirmar = confirm(`Deseja inserir o material?\n\nTítulo: ${titulo}\nCategoria: ${categoria}\nTipo: ${tipo}\nStatus: ${status}`);
+            
+            if (confirmar) {
+                inserirMaterialUnico(material);
+            }
+        }
+
+        // Inserir um único material
+        async function inserirMaterialUnico(material) {
+            try {
+                document.getElementById('loadingSection').style.display = 'block';
+                
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .insert([material])
+                    .select();
+                
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                if (error) {
+                    mostrarMensagem(`❌ Erro ao inserir material: ${error.message}`, 'error');
+                } else {
+                    mostrarMensagem(`✅ Material "${material.titulo}" inserido com sucesso! ID: ${data[0]?.id}`, 'success');
+                    await verificarMateriais();
+                    await carregarEstatisticas();
+                }
+                
+            } catch (error) {
+                console.error('Erro ao inserir material único:', error);
+                document.getElementById('loadingSection').style.display = 'none';
+                mostrarMensagem(`❌ Erro: ${error.message}`, 'error');
+            }
+        }
+
+        // Gerar materiais de exemplo
+        function gerarMateriaisExemplo(quantidade, categoria, status, nivelDificuldade) {
+            const materiaisBase = {
+                'ITIL 4': [
+                    {
+                        titulo: 'Guia Completo ITIL 4 Foundation',
+                        descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation. Inclui exemplos práticos e estudos de caso.',
+                        tipo: 'pdf'
+                    },
+                    {
+                        titulo: 'Apresentação ITIL 4 - Slides de Estudo',
+                        descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido e apresentações.',
+                        tipo: 'ppt'
+                    },
+                    {
+                        titulo: 'Questões Resolvidas ITIL 4 Foundation',
+                        descricao: '200 questões comentadas para prática antes do exame oficial.',
+                        tipo: 'doc'
+                    }
+                ],
+                'Microsoft Azure': [
+                    {
+                        titulo: 'Azure Fundamentals - Guia de Estudo',
+                        descricao: 'Material completo para preparação do exame AZ-900.',
+                        tipo: 'pdf'
+                    },
+                    {
+                        titulo: 'Azure Administrator - Slides',
+                        descricao: 'Apresentação com os principais conceitos do AZ-104.',
+                        tipo: 'ppt'
+                    }
+                ],
+                'Amazon AWS': [
+                    {
+                        titulo: 'AWS Cloud Practitioner - Material Completo',
+                        descricao: 'Guia para certificação AWS Cloud Practitioner.',
+                        tipo: 'pdf'
+                    },
+                    {
+                        titulo: 'AWS Solutions Architect - Estudos',
+                        descricao: 'Material avançado para certificação SAA-C03.',
+                        tipo: 'pdf'
+                    }
+                ],
+                'Linux LPIC': [
+                    {
+                        titulo: 'LPIC-1 - Comandos Essenciais',
+                        descricao: 'Guia completo com todos os comandos essenciais para LPIC-1.',
+                        tipo: 'pdf'
+                    },
+                    {
+                        titulo: 'LPIC-2 - Administração Avançada',
+                        descricao: 'Material para certificação LPIC-2 nível avançado.',
+                        tipo: 'pdf'
+                    }
+                ],
+                'Security': [
+                    {
+                        titulo: 'Security+ SY0-601 - Guia Completo',
+                        descricao: 'Preparação completa para CompTIA Security+.',
+                        tipo: 'pdf'
+                    }
+                ]
+            };
+
+            // Obter materiais da categoria selecionada ou usar genéricos
+            const materiaisCategoria = materiaisBase[categoria] || [
                 {
-                    titulo: 'Guia Completo ITIL 4 Foundation',
-                    descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation.',
-                    tipo: 'pdf',
-                    tamanho_mb: 5.2,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'fundamentos', 'guia'],
-                    visualizacoes: 1250,
-                    downloads: 890,
-                    curtidas: 120,
-                    status: 'aprovado'
-                },
-                {
-                    titulo: 'Apresentação ITIL 4 - Slides',
-                    descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido.',
-                    tipo: 'ppt',
-                    tamanho_mb: 8.7,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'slides', 'apresentacao'],
-                    visualizacoes: 890,
-                    downloads: 540,
-                    curtidas: 85,
-                    status: 'aprovado'
-                },
-                {
-                    titulo: 'Questões Resolvidas ITIL 4',
-                    descricao: '200 questões comentadas para prática antes do exame.',
-                    tipo: 'doc',
-                    tamanho_mb: 3.1,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'questoes', 'exercicios'],
-                    visualizacoes: 1560,
-                    downloads: 980,
-                    curtidas: 150,
-                    status: 'aprovado'
-                },
-                {
-                    titulo: 'Resumo Rápido ITIL 4',
-                    descricao: 'Resumo conciso para última revisão antes da prova.',
-                    tipo: 'pdf',
-                    tamanho_mb: 2.4,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'facil',
-                    tags: ['itil4', 'resumo', 'revisao'],
-                    visualizacoes: 2340,
-                    downloads: 1650,
-                    curtidas: 210,
-                    status: 'aprovado'
-                },
-                {
-                    titulo: 'Videoaula Completa ITIL 4',
-                    descricao: 'Curso completo em vídeo com 5 horas de duração.',
-                    tipo: 'video',
-                    tamanho_mb: 850,
-                    categoria: 'ITIL 4',
-                    nivel_dificuldade: 'intermediario',
-                    tags: ['itil4', 'video', 'curso'],
-                    visualizacoes: 3450,
-                    downloads: 1250,
-                    curtidas: 340,
-                    status: 'aprovado'
+                    titulo: `Guia de ${categoria}`,
+                    descricao: `Material de estudo para ${categoria}.`,
+                    tipo: 'pdf'
                 }
             ];
-            
-            // Retornar apenas a quantidade solicitada
-            return materiaisExemplo.slice(0, quantidade);
+
+            // Gerar a quantidade solicitada
+            const materiais = [];
+            for (let i = 0; i < quantidade; i++) {
+                const baseIndex = i % materiaisCategoria.length;
+                const baseMaterial = materiaisCategoria[baseIndex];
+                
+                materiais.push({
+                    titulo: `${baseMaterial.titulo} ${i + 1}`,
+                    descricao: baseMaterial.descricao,
+                    tipo: baseMaterial.tipo,
+                    tamanho_mb: parseFloat((Math.random() * 10 + 1).toFixed(2)),
+                    categoria: categoria,
+                    nivel_dificuldade: nivelDificuldade,
+                    tags: [categoria.toLowerCase().replace(/\s+/g, ''), baseMaterial.tipo, 'estudo'],
+                    visualizacoes: Math.floor(Math.random() * 1000),
+                    downloads: Math.floor(Math.random() * 500),
+                    curtidas: Math.floor(Math.random() * 100),
+                    status: status,
+                    data_publicacao: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+                    usuario_id: currentUser?.id || null
+                });
+            }
+
+            return materiais;
         }
 
         // Mostrar resultados da inserção
@@ -523,13 +930,20 @@
                     let html = `<p><strong>📈 Total de materiais:</strong> ${materiais.length}</p>`;
                     
                     materiais.forEach((material, index) => {
+                        const statusColor = material.status === 'aprovado' ? '#27ae60' : 
+                                           material.status === 'pendente' ? '#f39c12' : '#e74c3c';
+                        
                         html += `
                             <div class="material-card">
                                 <h3>${index + 1}. ${material.titulo}</h3>
                                 <p><strong>Tipo:</strong> ${material.tipo} | <strong>Categoria:</strong> ${material.categoria}</p>
-                                <p><strong>Status:</strong> ${material.status} | <strong>Downloads:</strong> ${material.downloads || 0}</p>
+                                <p><strong>Status:</strong> <span style="color: ${statusColor}">${material.status}</span> | 
+                                   <strong>Downloads:</strong> ${material.downloads || 0}</p>
                                 <p><strong>ID:</strong> <code>${material.id}</code></p>
                                 <p><strong>Criado em:</strong> ${new Date(material.created_at).toLocaleDateString('pt-BR')}</p>
+                                <button class="btn btn-sm" onclick="editarMaterial('${material.id}')" style="padding: 5px 10px; margin-top: 5px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
                             </div>
                         `;
                     });
@@ -549,8 +963,79 @@
             }
         }
 
+        // Editar material
+        async function editarMaterial(materialId) {
+            const novoStatus = prompt('Novo status (aprovado, pendente, rejeitado):', 'aprovado');
+            if (!novoStatus || !['aprovado', 'pendente', 'rejeitado'].includes(novoStatus)) {
+                alert('Status inválido!');
+                return;
+            }
+            
+            try {
+                const { error } = await supabase
+                    .from('materiais')
+                    .update({ status: novoStatus, updated_at: new Date().toISOString() })
+                    .eq('id', materialId);
+                
+                if (error) throw error;
+                
+                alert(`Status do material atualizado para "${novoStatus}"`);
+                verificarMateriais();
+                
+            } catch (error) {
+                console.error('Erro ao editar material:', error);
+                alert('Erro ao editar material: ' + error.message);
+            }
+        }
+
+        // Carregar estatísticas
+        async function carregarEstatisticas() {
+            try {
+                const { data: materiais, error } = await supabase
+                    .from('materiais')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                const statsContainer = document.getElementById('materialStats');
+                if (!statsContainer) return;
+                
+                const total = materiais?.length || 0;
+                const aprovados = materiais?.filter(m => m.status === 'aprovado').length || 0;
+                const pendentes = materiais?.filter(m => m.status === 'pendente').length || 0;
+                const categorias = [...new Set(materiais?.map(m => m.categoria).filter(Boolean))];
+                
+                statsContainer.innerHTML = `
+                    <div class="stat-card">
+                        <h4>Total</h4>
+                        <p>${total}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Aprovados</h4>
+                        <p>${aprovados}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Pendentes</h4>
+                        <p>${pendentes}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Categorias</h4>
+                        <p>${categorias.length}</p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Erro ao carregar estatísticas:', error);
+            }
+        }
+
         // Limpar todos os materiais (CUIDADO!)
         async function limparMateriais() {
+            if (!isAdmin) {
+                mostrarMensagem('❌ Acesso negado. Apenas administradores podem limpar materiais.', 'error');
+                return;
+            }
+            
             if (!confirm('⚠️ ATENÇÃO: Esta ação irá REMOVER TODOS os materiais da tabela!\n\nTem certeza que deseja continuar?')) {
                 return;
             }
@@ -561,7 +1046,7 @@
                 const { error } = await supabase
                     .from('materiais')
                     .delete()
-                    .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+                    .neq('id', '00000000-0000-0000-0000-000000000000');
                 
                 document.getElementById('loadingSection').style.display = 'none';
                 
@@ -571,14 +1056,18 @@
                     mostrarMensagem('✅ Todos os materiais foram removidos com sucesso!', 'success');
                     
                     // Limpar exibição
-                    document.getElementById('existingMaterials').innerHTML = `
-                        <div class="material-card">
-                            <h3>📭 Tabela limpa</h3>
-                            <p>Todos os materiais foram removidos. A tabela está vazia.</p>
-                        </div>
-                    `;
+                    const existingMaterials = document.getElementById('existingMaterials');
+                    if (existingMaterials) {
+                        existingMaterials.innerHTML = `
+                            <div class="material-card">
+                                <h3>📭 Tabela limpa</h3>
+                                <p>Todos os materiais foram removidos. A tabela está vazia.</p>
+                            </div>
+                        `;
+                    }
                     
                     document.getElementById('existingSection').style.display = 'block';
+                    carregarEstatisticas();
                 }
                 
             } catch (error) {
@@ -608,6 +1097,58 @@
                 }, 5000);
             }
         }
+
+        // Funções de configuração
+        async function testarConexao() {
+            try {
+                document.getElementById('loadingSection').style.display = 'block';
+                
+                const { data, error } = await supabase
+                    .from('materiais')
+                    .select('count')
+                    .limit(1);
+                
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                if (error) throw error;
+                
+                mostrarMensagem('✅ Conexão com o Supabase estabelecida com sucesso!', 'success');
+                
+            } catch (error) {
+                document.getElementById('loadingSection').style.display = 'none';
+                mostrarMensagem(`❌ Erro na conexão: ${error.message}`, 'error');
+            }
+        }
+
+        async function criarTabela() {
+            if (!confirm('Esta ação tentará criar a tabela "materiais" no Supabase. Continuar?')) {
+                return;
+            }
+            
+            mostrarMensagem('⚠️ Esta funcionalidade requer execução do script SQL diretamente no Supabase.', 'info');
+        }
+
+        function exportarMateriais() {
+            mostrarMensagem('📊 Exportação de dados em desenvolvimento...', 'info');
+        }
+
+        function fazerBackup() {
+            mostrarMensagem('💾 Backup em desenvolvimento...', 'info');
+        }
+
+        function restaurarBackup() {
+            mostrarMensagem('🔄 Restauração em desenvolvimento...', 'info');
+        }
+
+        function voltarAdmin() {
+            window.location.href = 'index.html';
+        }
+
+        // Carregar ícones do FontAwesome
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(link);
     </script>
 </body>
 </html>
