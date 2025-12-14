@@ -219,6 +219,16 @@
             color: #7f8c8d;
             margin-top: 5px;
         }
+        
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -227,6 +237,10 @@
         <p class="subtitle">Adicione materiais de exemplo para a página ITIL 4</p>
 
         <div id="messageContainer"></div>
+        
+        <div class="warning">
+            ⚠️ <strong>Importante:</strong> A tabela 'materiais' requer <code>caminho_arquivo</code> OU <code>url_externa</code> preenchidos
+        </div>
 
         <!-- Formulário para inserir materiais -->
         <div class="form-group">
@@ -243,11 +257,11 @@
         <div class="form-group">
             <label>Tipo de Localização do Material:</label>
             <select id="tipoLocalizacao">
-                <option value="url" selected>URL (Link Externo)</option>
-                <option value="caminho">Caminho Interno</option>
+                <option value="url_externa" selected>URL Externa</option>
+                <option value="caminho_arquivo">Caminho Interno</option>
             </select>
-            <p class="url-example" id="urlExample">Exemplo: https://exemplo.com/arquivo.pdf</p>
-            <p class="url-example" id="caminhoExample" style="display: none;">Exemplo: /uploads/itil4/guia.pdf</p>
+            <p class="url-example" id="urlExample">Exemplo: https://studycert.com/files/itil4/guia-completo.pdf</p>
+            <p class="url-example" id="caminhoExample" style="display: none;">Exemplo: /uploads/itil4/guia-completo.pdf</p>
         </div>
 
         <div class="btn-container">
@@ -304,7 +318,7 @@
             // Configurar listener para o tipo de localização
             document.getElementById('tipoLocalizacao').addEventListener('change', function() {
                 const tipo = this.value;
-                if (tipo === 'url') {
+                if (tipo === 'url_externa') {
                     document.getElementById('urlExample').style.display = 'block';
                     document.getElementById('caminhoExample').style.display = 'none';
                 } else {
@@ -382,6 +396,7 @@
                 const materiais = gerarMateriaisExemplo(quantidade, tipoLocalizacao);
                 
                 console.log(`Inserindo ${materiais.length} materiais...`);
+                console.log('Primeiro material:', materiais[0]);
                 
                 let inseridos = 0;
                 const resultados = [];
@@ -596,30 +611,30 @@
             // Selecionar apenas a quantidade solicitada
             const materiaisSelecionados = materiaisExemplo.slice(0, quantidade);
             
-            // Adicionar URL ou caminho baseado no tipo selecionado
+            // Adicionar caminho_arquivo ou url_externa baseado no tipo selecionado
             return materiaisSelecionados.map((material, index) => {
                 const materialModificado = { ...material };
                 
-                if (tipoLocalizacao === 'url') {
-                    // Adicionar URL
+                if (tipoLocalizacao === 'url_externa') {
+                    // Adicionar url_externa
                     const baseUrl = baseUrls[index % baseUrls.length];
                     const nomeArquivo = material.titulo.toLowerCase()
                         .replace(/[^a-z0-9]/g, '-')
                         .replace(/-+/g, '-')
                         .replace(/^-|-$/g, '');
                     
-                    materialModificado.url = `${baseUrl}${nomeArquivo}.${material.tipo}`;
-                    materialModificado.caminho = null;
+                    materialModificado.url_externa = `${baseUrl}${nomeArquivo}.${material.tipo}`;
+                    materialModificado.caminho_arquivo = null;
                 } else {
-                    // Adicionar caminho
+                    // Adicionar caminho_arquivo
                     const baseCaminho = baseCaminhos[index % baseCaminhos.length];
                     const nomeArquivo = material.titulo.toLowerCase()
                         .replace(/[^a-z0-9]/g, '_')
                         .replace(/_+/g, '_')
                         .replace(/^_|_$/g, '');
                     
-                    materialModificado.caminho = `${baseCaminho}${nomeArquivo}.${material.tipo}`;
-                    materialModificado.url = null;
+                    materialModificado.caminho_arquivo = `${baseCaminho}${nomeArquivo}.${material.tipo}`;
+                    materialModificado.url_externa = null;
                 }
                 
                 return materialModificado;
@@ -697,7 +712,7 @@
                             <div class="material-card">
                                 <h3>${index + 1}. ${material.titulo}</h3>
                                 <p><strong>Tipo:</strong> ${material.tipo} | <strong>Categoria:</strong> ${material.categoria}</p>
-                                <p><strong>Localização:</strong> ${material.url ? `URL: ${material.url.substring(0, 50)}...` : `Caminho: ${material.caminho}`}</p>
+                                <p><strong>Localização:</strong> ${material.url_externa ? `URL: ${material.url_externa.substring(0, 50)}...` : `Caminho: ${material.caminho_arquivo}`}</p>
                                 <p><strong>Status:</strong> ${material.status} | <strong>Downloads:</strong> ${material.downloads || 0}</p>
                                 <p><strong>ID:</strong> <code>${material.id}</code></p>
                                 <p><strong>Criado em:</strong> ${new Date(material.created_at).toLocaleDateString('pt-BR')}</p>
