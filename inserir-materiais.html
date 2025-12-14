@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Materiais - StudyCert</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-container .btn {
+            flex: 1;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .material-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .material-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .material-card p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .material-grid {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 2px dashed #ddd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #3498db;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Inserir Materiais - StudyCert</h1>
+        <p class="subtitle">Adicione materiais de exemplo para a página ITIL 4</p>
+
+        <div id="messageContainer"></div>
+
+        <!-- Formulário para inserir materiais -->
+        <div class="form-group">
+            <label for="quantidade">Quantidade de Materiais a Inserir:</label>
+            <select id="quantidade">
+                <option value="1">1 Material</option>
+                <option value="3" selected>3 Materiais</option>
+                <option value="6">6 Materiais</option>
+                <option value="10">10 Materiais</option>
+            </select>
+        </div>
+
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="inserirMateriais()">
+                <i class="fas fa-plus-circle"></i> Inserir Materiais
+            </button>
+            <button class="btn btn-success" onclick="verificarMateriais()">
+                <i class="fas fa-search"></i> Ver Materiais Existentes
+            </button>
+            <button class="btn btn-danger" onclick="limparMateriais()">
+                <i class="fas fa-trash"></i> Limpar Todos
+            </button>
+        </div>
+
+        <!-- Resultados -->
+        <div id="loadingSection" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processando...</p>
+        </div>
+
+        <div id="resultsSection" style="display: none;">
+            <h2>📚 Materiais Inseridos</h2>
+            <div id="materialGrid" class="material-grid">
+                <!-- Materiais serão mostrados aqui -->
+            </div>
+        </div>
+
+        <div id="existingSection" style="display: none;">
+            <h2>📋 Materiais Existentes</h2>
+            <div id="existingMaterials" class="material-grid">
+                <!-- Materiais existentes serão mostrados aqui -->
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>🔗 URL do Supabase: <code>https://blnnwbrhrckqegaiparr.supabase.co</code></p>
+            <p>⚠️ Certifique-se de que a tabela 'materiais' existe no seu banco</p>
+            <p>📖 Voltar para: <a href="index.html" style="color: #3498db; text-decoration: none;">Home</a> | <a href="itil4-materiais.html" style="color: #3498db; text-decoration: none;">ITIL 4 Materiais</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Configuração do Supabase
+        const SUPABASE_URL = 'https://blnnwbrhrckqegaiparr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_HGgcbNNjAvfdWUbYOPFBKQ_5uOEkY7s';
+        
+        let supabase;
+        let currentUser = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Inicializando inserção de materiais...');
+            
+            try {
+                // Inicializar Supabase
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('Supabase configurado com sucesso!');
+                
+                // Verificar autenticação
+                await checkAuth();
+                
+                mostrarMensagem('✅ Conectado ao Supabase com sucesso!', 'success');
+                
+            } catch (err) {
+                console.error('Erro ao inicializar:', err);
+                mostrarMensagem('❌ Erro ao conectar com o Supabase: ' + err.message, 'error');
+            }
+        });
+
+        async function checkAuth() {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Erro ao verificar sessão:', error.message);
+                    return;
+                }
+                
+                if (data.session) {
+                    currentUser = data.session.user;
+                    console.log('Usuário logado:', currentUser.email);
+                } else {
+                    // Se não estiver logado, tentar logar como anônimo
+                    await loginAnonimo();
+                }
+                
+            } catch (err) {
+                console.error('Erro ao verificar autenticação:', err);
+                await loginAnonimo();
+            }
+        }
+
+        async function loginAnonimo() {
+            try {
+                // Usar um email genérico para inserções
+                currentUser = { email: 'admin@studycert.com' };
+                console.log('Usando modo anônimo para inserções');
+            } catch (err) {
+                console.error('Erro no login anônimo:', err);
+            }
+        }
+
+        // Função principal para inserir materiais
+        async function inserirMateriais() {
+            const quantidade = parseInt(document.getElementById('quantidade').value);
+            
+            if (!quantidade || quantidade < 1) {
+                mostrarMensagem('❌ Selecione uma quantidade válida!', 'error');
+                return;
+            }
+
+            // Mostrar loading
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('existingSection').style.display = 'none';
+
+            try {
+                // Gerar materiais de exemplo
+                const materiais = gerarMateriaisExemplo(quantidade);
+                
+                console.log(`Inserindo ${materiais.length} materiais...`);
+                
+                let inseridos = 0;
+                const resultados = [];
+                
+                // Inserir cada material individualmente
+                for (const material of materiais) {
+                    try {
+                        const { data, error } = await supabase
+                            .from('materiais')
+                            .insert([material])
+                            .select();
+                        
+                        if (error) {
+                            console.error('Erro ao inserir material:', error);
+                            resultados.push({
+                                titulo: material.titulo,
+                                sucesso: false,
+                                erro: error.message
+                            });
+                        } else {
+                            console.log('Material inserido:', data);
+                            inseridos++;
+                            resultados.push({
+                                titulo: material.titulo,
+                                sucesso: true,
+                                id: data[0]?.id
+                            });
+                        }
+                    } catch (err) {
+                        console.error('Erro ao processar material:', err);
+                        resultados.push({
+                            titulo: material.titulo,
+                            sucesso: false,
+                            erro: err.message
+                        });
+                    }
+                }
+                
+                // Esconder loading
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                // Mostrar resultados
+                mostrarResultados(resultados, inseridos, materiais.length);
+                
+                // Atualizar contagem
+                await verificarMateriais();
+                
+            } catch (error) {
+                console.error('Erro geral ao inserir materiais:', error);
+                document.getElementById('loadingSection').style.display = 'none';
+                mostrarMensagem(`❌ Erro ao inserir materiais: ${error.message}`, 'error');
+            }
+        }
+
+        // Gerar materiais de exemplo
+        function gerarMateriaisExemplo(quantidade) {
+            const materiaisExemplo = [
+                {
+                    titulo: 'Guia Completo ITIL 4 Foundation',
+                    descricao: 'Guia completo com todos os conceitos, princípios e práticas do ITIL 4 Foundation. Inclui exemplos práticos e estudos de caso.',
+                    tipo: 'pdf',
+                    tamanho_mb: 5.2,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'intermediario',
+                    tags: ['itil4', 'fundamentos', 'guia', 'pdf'],
+                    visualizacoes: 1250,
+                    downloads: 890,
+                    curtidas: 120,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-03-15').toISOString()
+                },
+                {
+                    titulo: 'Apresentação ITIL 4 - Slides de Estudo',
+                    descricao: 'Slides com resumo visual dos principais tópicos para estudo rápido e apresentações.',
+                    tipo: 'ppt',
+                    tamanho_mb: 8.7,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'slides', 'apresentacao', 'ppt'],
+                    visualizacoes: 890,
+                    downloads: 540,
+                    curtidas: 85,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-03-10').toISOString()
+                },
+                {
+                    titulo: 'Questões Resolvidas ITIL 4 Foundation',
+                    descricao: '200 questões comentadas para prática antes do exame oficial.',
+                    tipo: 'doc',
+                    tamanho_mb: 3.1,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'intermediario',
+                    tags: ['itil4', 'questoes', 'exercicios', 'doc'],
+                    visualizacoes: 1560,
+                    downloads: 980,
+                    curtidas: 150,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-03-05').toISOString()
+                },
+                {
+                    titulo: 'Resumo Rápido ITIL 4 - Última Revisão',
+                    descricao: 'Resumo conciso para última revisão antes da prova. Inclui conceitos-chave e dicas.',
+                    tipo: 'pdf',
+                    tamanho_mb: 2.4,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'resumo', 'revisao', 'pdf'],
+                    visualizacoes: 2340,
+                    downloads: 1650,
+                    curtidas: 210,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-03-01').toISOString()
+                },
+                {
+                    titulo: 'Videoaula Completa ITIL 4 Foundation',
+                    descricao: 'Curso completo em vídeo com 5 horas de duração. Cobre todos os tópicos do exame.',
+                    tipo: 'video',
+                    tamanho_mb: 850,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'intermediario',
+                    tags: ['itil4', 'video', 'curso', 'aula'],
+                    visualizacoes: 3450,
+                    downloads: 1250,
+                    curtidas: 340,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-25').toISOString()
+                },
+                {
+                    titulo: 'Fluxos de Trabalho ITIL 4 - Diagramas',
+                    descricao: 'Diagramas e fluxos de trabalho do ITIL 4 em alta resolução.',
+                    tipo: 'ppt',
+                    tamanho_mb: 6.5,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'avancado',
+                    tags: ['itil4', 'diagramas', 'fluxos', 'ppt'],
+                    visualizacoes: 760,
+                    downloads: 420,
+                    curtidas: 65,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-20').toISOString()
+                },
+                {
+                    titulo: 'Checklist de Preparação ITIL 4',
+                    descricao: 'Checklist completo para preparação do exame ITIL 4 Foundation.',
+                    tipo: 'pdf',
+                    tamanho_mb: 1.8,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'checklist', 'preparacao', 'pdf'],
+                    visualizacoes: 1120,
+                    downloads: 780,
+                    curtidas: 95,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-15').toISOString()
+                },
+                {
+                    titulo: 'Glossário ITIL 4 - Termos e Definições',
+                    descricao: 'Glossário completo com todos os termos e definições do ITIL 4.',
+                    tipo: 'doc',
+                    tamanho_mb: 2.1,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'glossario', 'termos', 'doc'],
+                    visualizacoes: 980,
+                    downloads: 650,
+                    curtidas: 80,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-10').toISOString()
+                },
+                {
+                    titulo: 'Simulado ITIL 4 - Teste Prático',
+                    descricao: 'Simulado com 40 questões no formato do exame oficial.',
+                    tipo: 'pdf',
+                    tamanho_mb: 4.3,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'intermediario',
+                    tags: ['itil4', 'simulado', 'teste', 'pdf'],
+                    visualizacoes: 1870,
+                    downloads: 1100,
+                    curtidas: 170,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-05').toISOString()
+                },
+                {
+                    titulo: 'Mapa Mental ITIL 4 - Conceitos Chave',
+                    descricao: 'Mapa mental visual com todos os conceitos chave do ITIL 4.',
+                    tipo: 'pdf',
+                    tamanho_mb: 3.7,
+                    categoria: 'ITIL 4',
+                    nivel_dificuldade: 'facil',
+                    tags: ['itil4', 'mapamental', 'visual', 'pdf'],
+                    visualizacoes: 1430,
+                    downloads: 920,
+                    curtidas: 130,
+                    status: 'aprovado',
+                    data_publicacao: new Date('2024-02-01').toISOString()
+                }
+            ];
+            
+            // Retornar apenas a quantidade solicitada
+            return materiaisExemplo.slice(0, quantidade);
+        }
+
+        // Mostrar resultados da inserção
+        function mostrarResultados(resultados, inseridos, total) {
+            const materialGrid = document.getElementById('materialGrid');
+            materialGrid.innerHTML = '';
+            
+            let html = `<p><strong>📊 Resultado:</strong> ${inseridos} de ${total} materiais inseridos com sucesso!</p>`;
+            
+            resultados.forEach((resultado, index) => {
+                html += `
+                    <div class="material-card" style="border-left-color: ${resultado.sucesso ? '#27ae60' : '#e74c3c'}">
+                        <h3>${index + 1}. ${resultado.titulo}</h3>
+                        ${resultado.sucesso 
+                            ? `<p style="color: #27ae60;"><i class="fas fa-check-circle"></i> ✅ Inserido com sucesso! ID: ${resultado.id}</p>`
+                            : `<p style="color: #e74c3c;"><i class="fas fa-times-circle"></i> ❌ Erro: ${resultado.erro}</p>`
+                        }
+                    </div>
+                `;
+            });
+            
+            materialGrid.innerHTML = html;
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // Rolar para resultados
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            
+            // Mostrar mensagem final
+            if (inseridos === total) {
+                mostrarMensagem(`🎉 Todos os ${inseridos} materiais foram inseridos com sucesso!`, 'success');
+            } else if (inseridos > 0) {
+                mostrarMensagem(`⚠️ ${inseridos} de ${total} materiais foram inseridos. Verifique os erros acima.`, 'info');
+            } else {
+                mostrarMensagem('❌ Nenhum material foi inserido. Verifique os erros acima.', 'error');
+            }
+        }
+
+        // Verificar materiais existentes
+        async function verificarMateriais() {
+            try {
+                document.getElementById('loadingSection').style.display = 'block';
+                document.getElementById('existingSection').style.display = 'none';
+                
+                const { data: materiais, error } = await supabase
+                    .from('materiais')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+                
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                if (error) {
+                    mostrarMensagem(`❌ Erro ao buscar materiais: ${error.message}`, 'error');
+                    return;
+                }
+                
+                const existingMaterials = document.getElementById('existingMaterials');
+                
+                if (!materiais || materiais.length === 0) {
+                    existingMaterials.innerHTML = `
+                        <div class="material-card">
+                            <h3>📭 Nenhum material encontrado</h3>
+                            <p>Não há materiais na tabela. Use o botão acima para inserir materiais de exemplo.</p>
+                        </div>
+                    `;
+                } else {
+                    let html = `<p><strong>📈 Total de materiais:</strong> ${materiais.length}</p>`;
+                    
+                    materiais.forEach((material, index) => {
+                        html += `
+                            <div class="material-card">
+                                <h3>${index + 1}. ${material.titulo}</h3>
+                                <p><strong>Tipo:</strong> ${material.tipo} | <strong>Categoria:</strong> ${material.categoria}</p>
+                                <p><strong>Status:</strong> ${material.status} | <strong>Downloads:</strong> ${material.downloads || 0}</p>
+                                <p><strong>ID:</strong> <code>${material.id}</code></p>
+                                <p><strong>Criado em:</strong> ${new Date(material.created_at).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    existingMaterials.innerHTML = html;
+                }
+                
+                document.getElementById('existingSection').style.display = 'block';
+                
+                // Rolar para seção
+                document.getElementById('existingSection').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Erro ao verificar materiais:', error);
+                document.getElementById('loadingSection').style.display = 'none';
+                mostrarMensagem(`❌ Erro ao verificar materiais: ${error.message}`, 'error');
+            }
+        }
+
+        // Limpar todos os materiais (CUIDADO!)
+        async function limparMateriais() {
+            if (!confirm('⚠️ ATENÇÃO: Esta ação irá REMOVER TODOS os materiais da tabela!\n\nTem certeza que deseja continuar?')) {
+                return;
+            }
+            
+            try {
+                document.getElementById('loadingSection').style.display = 'block';
+                
+                const { error } = await supabase
+                    .from('materiais')
+                    .delete()
+                    .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+                
+                document.getElementById('loadingSection').style.display = 'none';
+                
+                if (error) {
+                    mostrarMensagem(`❌ Erro ao limpar materiais: ${error.message}`, 'error');
+                } else {
+                    mostrarMensagem('✅ Todos os materiais foram removidos com sucesso!', 'success');
+                    
+                    // Limpar exibição
+                    document.getElementById('existingMaterials').innerHTML = `
+                        <div class="material-card">
+                            <h3>📭 Tabela limpa</h3>
+                            <p>Todos os materiais foram removidos. A tabela está vazia.</p>
+                        </div>
+                    `;
+                    
+                    document.getElementById('existingSection').style.display = 'block';
+                }
+                
+            } catch (error) {
+                console.error('Erro ao limpar materiais:', error);
+                document.getElementById('loadingSection').style.display = 'none';
+                mostrarMensagem(`❌ Erro ao limpar materiais: ${error.message}`, 'error');
+            }
+        }
+
+        // Função auxiliar para mostrar mensagens
+        function mostrarMensagem(texto, tipo = 'info') {
+            const messageContainer = document.getElementById('messageContainer');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${tipo}`;
+            messageDiv.innerHTML = texto;
+            
+            messageContainer.innerHTML = '';
+            messageContainer.appendChild(messageDiv);
+            
+            // Remover mensagem após 5 segundos (exceto se for sucesso)
+            if (tipo !== 'success') {
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Carregar ícones do FontAwesome
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(link);
+    </script>
+</body>
+</html>
