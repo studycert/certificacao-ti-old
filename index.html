@@ -5,13 +5,860 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="js/config.js"></script>
-    <script src="js/app.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - BOTÕES SEM BORDA */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent; /* Sem fundo */
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 3rem 0;
+            min-height: 60vh;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Forum */
+        .forum-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .forum-categories {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .forum-categories h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-count {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .forum-posts {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .post-title:hover {
+            color: var(--secondary);
+        }
+
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .new-post-btn {
+            display: block;
+            margin: 2rem auto;
+            width: 200px;
+        }
+
+        /* Study Materials */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .material-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .material-content {
+            padding: 1.5rem;
+        }
+
+        .material-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .material-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Simulados */
+        .simulados-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .simulado-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .simulado-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .simulado-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certifications Grid */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .cert-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-level {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
+        
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal overlay para lista de simulados */
+        .modal-simulados {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-simulados.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Container interno da modal */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cabeçalho da modal */
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo da modal */
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Cada item da lista */
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        /* Ícones de status */
+        .status-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .status-disponivel {
+            color: #27ae60;
+        }
+
+        .status-em-breve {
+            color: #f39c12;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Botões na modal */
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Rodapé da modal */
+        .modal-footer {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Scrollbar customizada */
+        .modal-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 0 12px 0;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .simulado-item-modal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn-sm {
+                align-self: flex-end;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header com botões SEM BORDA -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -28,67 +875,20 @@
                         <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons" id="authButtons">
-                    <!-- Será preenchido dinamicamente via JavaScript -->
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">Entrar</a>
+                    <a href="#" class="btn btn-primary">Cadastrar</a>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- Modal de Login/Cadastro -->
-    <div id="modalAuth" class="modal-auth">
-        <div class="auth-container">
-            <button class="close-auth-modal" onclick="closeAuthModal()">&times;</button>
-            <div class="auth-header">
-                <h2>Study<span style="color: #3498db;">Cert</span></h2>
-                <p>Sua jornada começa aqui</p>
-            </div>
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Entrar</div>
-                <div class="auth-tab" data-tab="register">Cadastrar</div>
-            </div>
-            
-            <div id="loginForm" class="auth-form active">
-                <div id="loginMessage" class="message"></div>
-                <div class="form-group">
-                    <label for="loginEmail">E-mail</label>
-                    <input type="email" id="loginEmail" placeholder="seu@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Senha</label>
-                    <input type="password" id="loginPassword" placeholder="Sua senha">
-                </div>
-                <button class="btn btn-primary" onclick="login()" style="width: 100%;">Entrar</button>
-                <div class="auth-footer">
-                    <p>Esqueceu sua senha? <a href="#" onclick="forgotPassword()">Redefinir senha</a></p>
-                </div>
-            </div>
-            
-            <div id="registerForm" class="auth-form">
-                <div id="registerMessage" class="message"></div>
-                <div class="form-group">
-                    <label for="registerName">Nome Completo</label>
-                    <input type="text" id="registerName" placeholder="Seu nome completo">
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">E-mail</label>
-                    <input type="email" id="registerEmail" placeholder="seu@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Senha</label>
-                    <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres">
-                </div>
-                <button class="btn btn-success" onclick="register()" style="width: 100%;">Criar Conta</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h2>Prepare-se para suas Certificações de TI</h2>
             <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
-            <a href="#" class="btn btn-primary" onclick="openRegister()">Começar Agora</a>
+            <a href="#" class="btn btn-primary">Começar Agora</a>
         </div>
     </section>
 
@@ -98,15 +898,6 @@
             <div class="section-title">
                 <h2>Bem-vindo ao StudyCert</h2>
                 <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação</p>
-            </div>
-
-            <!-- Progresso do Usuário -->
-            <div id="userProgress" class="user-progress" style="display: none;">
-                <h3>Seu Progresso</h3>
-                <div class="progress-bar">
-                    <div id="progressFill" class="progress-fill"></div>
-                </div>
-                <p id="progressText">Carregando progresso...</p>
             </div>
 
             <div class="cards-container">
@@ -212,7 +1003,7 @@
                 <p>Prepare-se para as certificações mais demandadas do mercado</p>
             </div>
 
-            <div class="certifications-grid" id="certificacoesContent">
+            <div class="certifications-grid">
                 <div class="cert-card">
                     <div class="cert-icon">
                         <i class="fab fa-microsoft"></i>
@@ -320,68 +1111,80 @@
                 <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
             </div>
 
-            <div id="forumContent">
-                <div class="forum-container">
-                    <div class="forum-categories">
-                        <h3>Categorias</h3>
-                        <ul class="category-list" id="forumCategories">
-                            <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                            <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                            <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                            <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                            <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                            <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                            <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
-                        </ul>
+            <div class="forum-container">
+                <div class="forum-categories">
+                    <h3>Categorias</h3>
+                    <ul class="category-list">
+                        <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
+                        <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
+                        <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
+                        <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
+                        <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
+                        <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="forum-posts">
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
+                            <div class="post-meta">por João Silva • 2 horas atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 7 respostas</span>
+                            <span><i class="far fa-eye"></i> 42 visualizações</span>
+                        </div>
                     </div>
 
-                    <div class="forum-posts" id="forumPosts">
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                                <div class="post-meta">por João Silva • 2 horas atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 7 respostas</span>
-                                <span><i class="far fa-eye"></i> 42 visualizações</span>
-                            </div>
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
+                            <div class="post-meta">por Maria Santos • 1 dia atrás</div>
                         </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                                <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 12 respostas</span>
-                                <span><i class="far fa-eye"></i> 87 visualizações</span>
-                            </div>
+                        <div class="post-excerpt">
+                            <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
                         </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 12 respostas</span>
+                            <span><i class="far fa-eye"></i> 87 visualizações</span>
+                        </div>
+                    </div>
 
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Experiência com exame Security+</a>
-                                <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 23 respostas</span>
-                                <span><i class="far fa-eye"></i> 156 visualizações</span>
-                            </div>
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Experiência com exame Security+</a>
+                            <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 23 respostas</span>
+                            <span><i class="far fa-eye"></i> 156 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Diferença entre LPIC-1 e LPIC-2</a>
+                            <div class="post-meta">por Ana Costa • 5 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou com dificuldades para entender a diferença entre o conteúdo da LPIC-1 e LPIC-2. Alguém pode explicar os principais tópicos de cada uma?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 9 respostas</span>
+                            <span><i class="far fa-eye"></i> 74 visualizações</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <button class="btn btn-primary new-post-btn" onclick="createNewPost()">Nova Discussão</button>
+
+            <a href="#" class="btn btn-primary new-post-btn">Nova Discussão</a>
         </div>
     </section>
 
@@ -393,7 +1196,7 @@
                 <p>Recursos selecionados para sua preparação</p>
             </div>
 
-            <div id="materialsContent" class="materials-grid">
+            <div class="materials-grid">
                 <div class="material-card">
                     <div class="material-icon">
                         <i class="fab fa-microsoft"></i>
@@ -434,7 +1237,7 @@
                     <div class="material-content">
                         <h3>ITIL 4</h3>
                         <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="materiais/itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
                     </div>
                 </div>
 
@@ -466,7 +1269,7 @@
                 <p>Aprenda com instrutores especializados</p>
             </div>
 
-            <div id="videosContent" class="cards-container">
+            <div class="cards-container">
                 <div class="card">
                     <div class="card-header">
                         <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
@@ -517,15 +1320,15 @@
                 <p>Teste seus conhecimentos e acompanhe seu progresso</p>
             </div>
 
-            <div class="upload-area" id="uploadArea" style="display: none;">
+            <div class="upload-area">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <h3>Compartilhe Seu Simulado</h3>
                 <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <input type="file" id="fileUpload" accept=".html" style="display: none;">
-                <button class="btn btn-primary" onclick="uploadSimulado()">Upload de Arquivo</button>
+                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
             </div>
 
-            <div id="simuladosContent" class="simulados-container">
+            <div class="simulados-container">
+                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
@@ -533,6 +1336,8 @@
                     <div class="card-body">
                         <span class="simulado-badge">11 Simulados Disponíveis</span>
                         <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                        
+                        <!-- Botão para mostrar simulados -->
                         <button class="show-simulados-btn" onclick="abrirModalSimulados()">
                             <i class="fas fa-list"></i> Ver 11 Simulados
                         </button>
@@ -542,6 +1347,7 @@
                     </div>
                 </div>
                 
+                <!-- LPIC-1 -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-server"></i> LPIC-1</h3>
@@ -556,6 +1362,7 @@
                     </div>
                 </div>
 
+                <!-- Security+ -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-shield-alt"></i> Security+</h3>
@@ -570,6 +1377,7 @@
                     </div>
                 </div>
 
+                <!-- AWS Cloud Practitioner -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
@@ -584,76 +1392,7 @@
                     </div>
                 </div>
 
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">40 questões</span>
-                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">55 questões</span>
-                        <p>Simulado para Cisco Certified Network Associate.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">35 questões</span>
-                        <p>Simulado para DP-900: Data Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">70 questões</span>
-                        <p>Simulado para Linux Professional Institute Level 2.</p>
-                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">65 questões</span>
-                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
-                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
+                <!-- Adicionar Simulado -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
@@ -662,7 +1401,7 @@
                         <p>Compartilhe seu próprio simulado com a comunidade.</p>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
+                        <a href="#" class="btn btn-outline">Upload</a>
                     </div>
                 </div>
             </div>
@@ -677,105 +1416,113 @@
                 <button class="fechar-modal" onclick="fecharModalSimulados()">&times;</button>
             </div>
             
-            <div class="modal-body" id="simuladosList">
+            <div class="modal-body">
+                <!-- SIMULADO 1 - DISPONÍVEL -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
                     </div>
-                    <a href="simulados/simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
+                <!-- SIMULADO 2 - DISPONÍVEL -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
                     </div>
-                    <a href="simulados/simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
+                <!-- SIMULADO 3 - DISPONÍVEL -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
                     </div>
-                    <a href="simulados/simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
+                <!-- SIMULADO 4 - DISPONÍVEL -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
                     </div>
-                    <a href="simulados/simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
+                <!-- SIMULADO 5 - DISPONÍVEL -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
                     </div>
-                    <a href="simulados/simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
+                <!-- SIMULADO 6 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
                     </div>
-                    <a href="simulados/simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
                 
+                <!-- SIMULADO 7 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
                     </div>
-                    <a href="simulados/simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
                 
+                <!-- SIMULADO 8 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 8 - Governança</span>
                     </div>
-                    <a href="simulados/simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
                 
+                <!-- SIMULADO 9 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
                     </div>
-                    <a href="simulados/simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
                 
+                <!-- SIMULADO 10 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
                     </div>
-                <a href="simulados/simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
                 
+                <!-- SIMULADO 11 - EM BREVE -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
                         <span class="simulado-nome">Simulado 11 - Final Completo</span>
                     </div>
-                    <a href="simulados/simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
                 </div>
             </div>
             
             <div class="modal-footer">
-                <div><strong>11</strong> simulados disponíveis</div>
-                <div><strong>440</strong> questões no total</div>
+                <div><strong>5 de 11</strong> simulados disponíveis</div>
+                <div><strong>120</strong> questões no total</div>
             </div>
         </div>
     </div>
-
-    <!-- Modal de Upload (será criado dinamicamente pelo JS) -->
-    <div id="modalUpload"></div>
 
     <!-- Footer -->
     <footer>
@@ -825,9 +1572,76 @@
             </div>
 
             <div class="copyright">
-                <p>&copy; 2025 StudyCert. Todos os direitos reservados.</p>
+                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Navigation between sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
+            const mainContents = document.querySelectorAll('.main-content');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Update active nav link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+            
+            // Simulate file upload for simulados
+            const uploadBtn = document.querySelector('.upload-area .btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Funcionalidade de upload será implementada em breve!');
+                });
+            }
+        });
+
+        // Funções para abrir/fechar a modal de simulados
+        function abrirModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal ao clicar fora do container
+        document.getElementById('modalSimulados').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModalSimulados();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalSimulados();
+            }
+        });
+    </script>
 </body>
 </html>
