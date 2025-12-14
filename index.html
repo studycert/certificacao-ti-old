@@ -665,7 +665,7 @@
             }
         }
 
-        /* BOTÃO DE FECHAR MODAL - ADICIONADO */
+        /* BOTÃO DE FECHAR MODAL */
         .close-auth-modal {
             position: absolute;
             top: 15px;
@@ -1109,6 +1109,12 @@
                         <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
                         <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
                         <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
+                        <!-- NOVO: Botão para inserir materiais (visível apenas para admins) -->
+                        <li id="adminInsertMaterials" style="display: none;">
+                            <a href="#" class="nav-link" onclick="openInsertMaterials()">
+                                <i class="fas fa-plus-circle"></i> Inserir Materiais
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="auth-buttons" id="authButtons">
@@ -1299,102 +1305,7 @@
             </div>
 
             <div class="certifications-grid" id="certificacoesContent">
-                <!-- Conteúdo estático para teste -->
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Administrator</h3>
-                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Solutions Architect</h3>
-                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Specialist</h3>
-                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-1</h3>
-                        <p>Certificação Linux Professional Institute - Nível 1.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-2</h3>
-                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Rede</span>
-                        <h3>CCNA</h3>
-                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Dados</span>
-                        <h3>Data Fundamentals</h3>
-                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente -->
             </div>
         </div>
     </section>
@@ -1412,60 +1323,12 @@
                     <div class="forum-categories">
                         <h3>Categorias</h3>
                         <ul class="category-list" id="forumCategories">
-                            <!-- Conteúdo estático -->
-                            <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                            <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                            <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                            <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                            <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                            <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                            <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                            <!-- Conteúdo será carregado dinamicamente -->
                         </ul>
                     </div>
 
                     <div class="forum-posts" id="forumPosts">
-                        <!-- Conteúdo estático -->
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                                <div class="post-meta">por João Silva • 2 horas atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 7 respostas</span>
-                                <span><i class="far fa-eye"></i> 42 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                                <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 12 respostas</span>
-                                <span><i class="far fa-eye"></i> 87 visualizações</span>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="#" class="post-title">Experiência com exame Security+</a>
-                                <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                            </div>
-                            <div class="post-excerpt">
-                                <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                            </div>
-                            <div class="post-footer">
-                                <span><i class="far fa-comment"></i> 23 respostas</span>
-                                <span><i class="far fa-eye"></i> 156 visualizações</span>
-                            </div>
-                        </div>
+                        <!-- Conteúdo será carregado dinamicamente -->
                     </div>
                 </div>
             </div>
@@ -1483,72 +1346,7 @@
             </div>
 
             <div id="materialsContent" class="materials-grid">
-                <!-- Conteúdo estático -->
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Microsoft Azure</h3>
-                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Amazon AWS</h3>
-                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>LPIC-1 e LPIC-2</h3>
-                        <p>Recursos para certificações Linux Professional Institute.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>ITIL 4</h3>
-                        <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Security+</h3>
-                        <p>Material para preparação da certificação CompTIA Security+.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>CCNA</h3>
-                        <p>Recursos para Cisco Certified Network Associate.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente -->
             </div>
 
             <div class="section-title" style="margin-top: 4rem;">
@@ -1597,33 +1395,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- SEÇÃO DE FERRAMENTAS ADMINISTRATIVAS - ADICIONADA -->
-            <div style="text-align: center; margin-top: 4rem; padding: 2.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; border: 2px dashed #3498db;">
-                <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.5rem;">
-                    <i class="fas fa-tools" style="color: #3498db; margin-right: 10px;"></i>
-                    Ferramentas Administrativas
-                </h3>
-                <p style="color: #666; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Acesse ferramentas para gerenciar e inserir conteúdo na plataforma. Disponível para administradores.
-                </p>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                    <a href="inserir-materiais.html" class="btn btn-primary" style="padding: 0.8rem 2rem; font-size: 1rem;">
-                        <i class="fas fa-database"></i> Inserir Materiais no Banco
-                    </a>
-                    <button class="btn btn-success" onclick="recarregarMateriais()" style="padding: 0.8rem 2rem; font-size: 1rem;">
-                        <i class="fas fa-sync-alt"></i> Recarregar Materiais
-                    </button>
-                    <button class="btn btn-warning" onclick="testarConexao()" style="padding: 0.8rem 2rem; font-size: 1rem;">
-                        <i class="fas fa-wifi"></i> Testar Conexão
-                    </button>
-                </div>
-                
-                <p style="color: #95a5a6; font-size: 0.9rem; max-width: 600px; margin: 0 auto;">
-                    <i class="fas fa-info-circle"></i> Use a página "Inserir Materiais" para popular o banco de dados com exemplos.
-                </p>
-            </div>
         </div>
     </section>
 
@@ -1644,147 +1415,7 @@
             </div>
 
             <div id="simuladosContent" class="simulados-container">
-                <!-- Conteúdo estático - 9 SIMULADOS -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
-                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
-                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
-                            <i class="fas fa-list"></i> Ver 11 Simulados
-                        </button>
-                    </div>
-                    <div class="card-footer">
-                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
-                    </div>
-                </div>
-                
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">60 questões</span>
-                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">45 questões</span>
-                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">50 questões</span>
-                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-microsoft"></i> Azure Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">40 questões</span>
-                        <p>Simulado para AZ-900: Azure Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 60 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-network-wired"></i> CCNA</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">55 questões</span>
-                        <p>Simulado para Cisco Certified Network Associate.</p>
-                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-database"></i> Data Fundamentals</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">35 questões</span>
-                        <p>Simulado para DP-900: Data Fundamentals.</p>
-                        <p><strong>Tempo estimado:</strong> 45 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-server"></i> LPIC-2</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">70 questões</span>
-                        <p>Simulado para Linux Professional Institute Level 2.</p>
-                        <p><strong>Tempo estimado:</strong> 120 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fab fa-aws"></i> AWS Solutions Architect</h3>
-                    </div>
-                    <div class="card-body">
-                        <span class="simulado-badge">65 questões</span>
-                        <p>Simulado para SAA-C03: AWS Solutions Architect.</p>
-                        <p><strong>Tempo estimado:</strong> 130 minutos</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
-                    </div>
-                    <div class="card-footer">
-                        <!-- BOTÃO AZUL COM FONTE BRANCA -->
-                        <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
-                    </div>
-                </div>
+                <!-- Conteúdo será carregado dinamicamente -->
             </div>
         </div>
     </section>
@@ -1799,95 +1430,6 @@
             
             <div class="modal-body" id="simuladosList">
                 <!-- Lista estática de simulados -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
-                    </div>
-                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
-                    </div>
-                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
-                    </div>
-                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
-                    </div>
-                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
-                    </div>
-                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
-                    </div>
-                    <a href="simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
-                    </div>
-                    <a href="simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 8 - Governança</span>
-                    </div>
-                    <a href="simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
-                    </div>
-                    <a href="simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
-                    </div>
-                <a href="simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <!-- <i class="fas fa-clock status-icon status-em-breve"></i> -->
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>                        
-                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
-                    </div>
-                    <!-- <button class="btn btn-outline btn-sm" disabled>Em Breve</button> -->
-                    <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>                    
-                </div>
             </div>
             
             <div class="modal-footer">
@@ -1991,7 +1533,73 @@
             
             // Carregar dados do banco de dados
             loadInitialData();
+            
+            // Carregar lista estática de simulados
+            loadSimuladosList();
         });
+
+        // =============================
+        // FUNÇÕES PARA INSERIR MATERIAIS
+        // =============================
+
+        // Função para abrir página de inserção de materiais
+        function openInsertMaterials() {
+            if (!currentUser) {
+                alert('Por favor, faça login para acessar esta funcionalidade.');
+                openLogin();
+                return;
+            }
+            
+            // Verificar se o usuário é admin
+            verificarPermissaoAdmin().then(isAdmin => {
+                if (isAdmin) {
+                    // Redirecionar para a página de inserção de materiais
+                    window.location.href = 'inserir-materiais.html';
+                } else {
+                    alert('Acesso restrito. Esta funcionalidade é apenas para administradores.');
+                }
+            }).catch(error => {
+                console.error('Erro ao verificar permissões:', error);
+                alert('Erro ao verificar permissões. Tente novamente.');
+            });
+        }
+
+        // Função para verificar se o usuário é admin
+        async function verificarPermissaoAdmin() {
+            try {
+                if (!currentUser) return false;
+                
+                // Buscar informações do usuário na tabela usuarios
+                const { data: usuarioData, error } = await supabase
+                    .from('usuarios')
+                    .select('id, email, nivel_acesso')
+                    .eq('email', currentUser.email)
+                    .single();
+                
+                if (error) {
+                    console.error('Erro ao buscar dados do usuário:', error);
+                    return false;
+                }
+                
+                // Verificar se é admin (você pode criar um campo 'nivel_acesso' ou 'role' na tabela usuarios)
+                // Por enquanto, vamos verificar por email específico
+                const adminEmails = [
+                    'admin@studycert.com',
+                    'administrador@studycert.com',
+                    currentUser.email // temporário para testes
+                ];
+                
+                return adminEmails.includes(currentUser.email.toLowerCase());
+                
+            } catch (error) {
+                console.error('Erro ao verificar permissão:', error);
+                return false;
+            }
+        }
+
+        // =============================
+        // FUNÇÕES PRINCIPAIS
+        // =============================
 
         // Função para carregar dados iniciais do banco
         async function loadInitialData() {
@@ -2057,7 +1665,7 @@
             }
         }
 
-        // Função para carregar materiais - CORRIGIDA
+        // Função para carregar materiais
         async function loadMateriais() {
             try {
                 const { data, error } = await supabase
@@ -2069,10 +1677,9 @@
                 
                 if (error) throw error;
                 
-                const materialsContent = document.getElementById('materialsContent');
-                if (materialsContent) {
-                    // Limpar apenas se tiver dados
-                    if (data && data.length > 0) {
+                if (data && data.length > 0) {
+                    const materialsContent = document.getElementById('materialsContent');
+                    if (materialsContent) {
                         materialsContent.innerHTML = '';
                         
                         data.forEach(material => {
@@ -2085,42 +1692,16 @@
                                     <div class="material-content">
                                         <h3>${material.titulo}</h3>
                                         <p>${material.descricao || 'Material de estudo'}</p>
-                                        <p><small><i class="fas fa-download"></i> ${material.downloads || 0} downloads</small></p>
                                         <button class="btn btn-primary" onclick="acessarMaterial('${material.id}')">Acessar</button>
                                     </div>
                                 </div>
                             `;
                             materialsContent.insertAdjacentHTML('beforeend', materialCard);
                         });
-                    } else {
-                        // Se não houver materiais, mostrar mensagem
-                        materialsContent.innerHTML = `
-                            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
-                                <i class="fas fa-inbox" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
-                                <h3>Nenhum material disponível</h3>
-                                <p>Não há materiais de estudo cadastrados no momento.</p>
-                                <a href="inserir-materiais.html" class="btn btn-primary" style="margin-top: 1rem;">
-                                    <i class="fas fa-plus-circle"></i> Inserir Materiais
-                                </a>
-                            </div>
-                        `;
                     }
                 }
             } catch (error) {
                 console.error('Erro ao carregar materiais:', error);
-                const materialsContent = document.getElementById('materialsContent');
-                if (materialsContent) {
-                    materialsContent.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning); margin-bottom: 1rem;"></i>
-                            <h3>Erro ao carregar materiais</h3>
-                            <p>${error.message}</p>
-                            <a href="inserir-materiais.html" class="btn btn-primary" style="margin-top: 1rem;">
-                                <i class="fas fa-tools"></i> Configurar Materiais
-                            </a>
-                        </div>
-                    `;
-                }
             }
         }
 
@@ -2166,12 +1747,90 @@
                         // Adicionar card de upload de volta
                         if (uploadCard) {
                             simuladosContent.appendChild(uploadCard);
+                        } else {
+                            // Se não existir, criar
+                            const uploadCardHTML = `
+                                <div class="simulado-card">
+                                    <div class="card-header">
+                                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
+                                    </div>
+                                </div>
+                            `;
+                            simuladosContent.insertAdjacentHTML('beforeend', uploadCardHTML);
                         }
+                    }
+                } else {
+                    // Se não houver simulados, mostrar mensagem e botão de upload
+                    const simuladosContent = document.getElementById('simuladosContent');
+                    if (simuladosContent) {
+                        simuladosContent.innerHTML = `
+                            <div class="simulado-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p>Seja o primeiro a compartilhar um simulado com a comunidade.</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary" onclick="openUploadModal()">Upload</button>
+                                </div>
+                            </div>
+                        `;
                     }
                 }
             } catch (error) {
                 console.error('Erro ao carregar simulados:', error);
             }
+        }
+
+        // Carregar lista estática de simulados ITIL
+        function loadSimuladosList() {
+            const simuladosList = document.getElementById('simuladosList');
+            if (!simuladosList) return;
+            
+            const simuladosITIL = [
+                { nome: 'Simulado 1 - Conceitos Básicos', arquivo: 'simulado-itil4-01.html', status: 'disponivel' },
+                { nome: 'Simulado 2 - Dimensões do Serviço', arquivo: 'simulado-itil4-02.html', status: 'disponivel' },
+                { nome: 'Simulado 3 - Cadeia de Valor', arquivo: 'simulado-itil4-03.html', status: 'disponivel' },
+                { nome: 'Simulado 4 - Práticas Gerais', arquivo: 'simulado-itil4-04.html', status: 'disponivel' },
+                { nome: 'Simulado 5 - Gerenciamento de Serviço', arquivo: 'simulado-itil4-05.html', status: 'disponivel' },
+                { nome: 'Simulado 6 - Princípios Orientadores', arquivo: 'simulado-itil4-06.html', status: 'disponivel' },
+                { nome: 'Simulado 7 - Melhoria Contínua', arquivo: 'simulado-itil4-07.html', status: 'disponivel' },
+                { nome: 'Simulado 8 - Governança', arquivo: 'simulado-itil4-08.html', status: 'disponivel' },
+                { nome: 'Simulado 9 - Modelos de Mudança', arquivo: 'simulado-itil4-09.html', status: 'disponivel' },
+                { nome: 'Simulado 10 - Práticas Técnicas', arquivo: 'simulado-itil4-10.html', status: 'disponivel' },
+                { nome: 'Simulado 11 - Final Completo', arquivo: 'simulado-itil4-11.html', status: 'disponivel' }
+            ];
+            
+            simuladosList.innerHTML = '';
+            
+            simuladosITIL.forEach((simulado, index) => {
+                const statusIcon = simulado.status === 'disponivel' ? 
+                    '<i class="fas fa-check-circle status-icon status-disponivel"></i>' : 
+                    '<i class="fas fa-clock status-icon status-em-breve"></i>';
+                
+                const botao = simulado.status === 'disponivel' ? 
+                    `<a href="${simulado.arquivo}" class="btn btn-primary btn-sm">Iniciar</a>` : 
+                    `<button class="btn btn-outline btn-sm" disabled>Em Breve</button>`;
+                
+                const itemHTML = `
+                    <div class="simulado-item-modal">
+                        <div class="simulado-info">
+                            ${statusIcon}
+                            <span class="simulado-nome">${simulado.nome}</span>
+                        </div>
+                        ${botao}
+                    </div>
+                `;
+                
+                simuladosList.insertAdjacentHTML('beforeend', itemHTML);
+            });
         }
 
         // Função para carregar categorias do fórum
@@ -2430,9 +2089,10 @@
         }
 
         // Atualizar UI de autenticação
-        function updateAuthUI() {
+        async function updateAuthUI() {
             const authButtons = document.getElementById('authButtons');
             const uploadArea = document.getElementById('uploadArea');
+            const adminInsertMaterials = document.getElementById('adminInsertMaterials');
             
             if (currentUser) {
                 // Usuário logado
@@ -2452,6 +2112,12 @@
                     uploadArea.style.display = 'block';
                 }
                 
+                // Verificar se é admin e mostrar botão de inserir materiais
+                if (adminInsertMaterials) {
+                    const isAdmin = await verificarPermissaoAdmin();
+                    adminInsertMaterials.style.display = isAdmin ? 'block' : 'none';
+                }
+                
             } else {
                 // Usuário não logado
                 authButtons.innerHTML = `
@@ -2462,6 +2128,11 @@
                 // Esconde área de upload
                 if (uploadArea) {
                     uploadArea.style.display = 'none';
+                }
+                
+                // Esconde botão de admin
+                if (adminInsertMaterials) {
+                    adminInsertMaterials.style.display = 'none';
                 }
             }
         }
@@ -3072,147 +2743,29 @@
             }
         }
 
-        // =============================
-        // FUNÇÕES ADICIONAIS PARA MATERIAIS
-        // =============================
-
-        // Função para acessar material (CORRIGIDA)
-        async function acessarMaterial(materialId) {
-            try {
-                // Buscar detalhes do material
-                const { data: material, error } = await supabase
-                    .from('materiais')
-                    .select('*')
-                    .eq('id', materialId)
-                    .single();
-                
-                if (error) throw error;
-                
-                if (material) {
-                    // Abrir material em nova aba ou mostrar preview
-                    if (material.url) {
-                        window.open(material.url, '_blank');
-                    } else if (material.caminho_arquivo) {
-                        // Se tiver caminho, simular acesso
-                        const modalHTML = `
-                            <div id="materialModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; justify-content: center; align-items: center;">
-                                <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                        <h3 style="color: var(--primary);">${material.titulo}</h3>
-                                        <button onclick="fecharModalMaterial()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
-                                    </div>
-                                    <p><strong>Tipo:</strong> ${material.tipo}</p>
-                                    <p><strong>Categoria:</strong> ${material.categoria}</p>
-                                    <p><strong>Descrição:</strong> ${material.descricao}</p>
-                                    <p><strong>Tamanho:</strong> ${material.tamanho_mb} MB</p>
-                                    <p><strong>Downloads:</strong> ${material.downloads || 0}</p>
-                                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                                        <button class="btn btn-primary" onclick="simularDownload('${materialId}')">
-                                            <i class="fas fa-download"></i> Baixar Material
-                                        </button>
-                                        <button class="btn btn-outline" onclick="fecharModalMaterial()">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        
-                        // Adicionar modal ao body
-                        const modalDiv = document.createElement('div');
-                        modalDiv.innerHTML = modalHTML;
-                        document.body.appendChild(modalDiv);
-                    } else {
-                        alert(`📚 Acessando material: ${material.titulo}\n\nID: ${material.id}\nStatus: ${material.status}\n\nEm um sistema completo, este material seria aberto para visualização ou download.`);
-                    }
-                    
-                    // Incrementar visualizações
-                    await supabase
-                        .from('materiais')
-                        .update({ visualizacoes: (material.visualizacoes || 0) + 1 })
-                        .eq('id', materialId);
-                }
-                
-            } catch (error) {
-                console.error('Erro ao acessar material:', error);
-                alert(`📚 Acessando material ID: ${materialId}\n\nEm um sistema real, este material seria aberto para visualização ou download.`);
-            }
-        }
-
-        function fecharModalMaterial() {
-            const modal = document.getElementById('materialModal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        async function simularDownload(materialId) {
-            try {
-                const { data: material, error } = await supabase
-                    .from('materiais')
-                    .select('titulo, downloads')
-                    .eq('id', materialId)
-                    .single();
-                
-                if (error) throw error;
-                
-                // Atualizar contador de downloads
-                await supabase
-                    .from('materiais')
-                    .update({ downloads: (material.downloads || 0) + 1 })
-                    .eq('id', materialId);
-                
-                alert(`✅ Download iniciado: ${material.titulo}\n\nID: ${materialId}\n\nEm um sistema real, o arquivo começaria a ser baixado.`);
-                fecharModalMaterial();
-                
-            } catch (error) {
-                console.error('Erro ao simular download:', error);
-                alert('✅ Download simulado com sucesso!');
-            }
-        }
-
-        // Função para recarregar materiais
-        async function recarregarMateriais() {
-            if (confirm('Deseja recarregar os materiais do banco de dados?')) {
-                await loadMateriais();
-                alert('✅ Materiais recarregados com sucesso!');
-            }
-        }
-
-        // Função para testar conexão com Supabase
-        async function testarConexao() {
-            try {
-                const { data, error } = await supabase
-                    .from('materiais')
-                    .select('count')
-                    .limit(1);
-                
-                if (error) throw error;
-                
-                alert('✅ Conexão com Supabase estabelecida com sucesso!\n\nO banco de dados está respondendo corretamente.');
-                
-            } catch (error) {
-                console.error('Erro ao testar conexão:', error);
-                alert('❌ Erro na conexão com Supabase:\n' + error.message);
-            }
-        }
-
         // Funções para ações
         function estudarCertificacao(certId) {
-            alert(`📖 Iniciando estudos para certificação ID: ${certId}`);
+            alert(`Iniciando estudos para certificação ID: ${certId}`);
             // Implementar navegação para página de estudos
         }
 
+        function acessarMaterial(materialId) {
+            alert(`Acessando material ID: ${materialId}`);
+            // Implementar visualização do material
+        }
+
         function iniciarSimulado(simuladoId) {
-            alert(`📝 Iniciando simulado ID: ${simuladoId}`);
+            alert(`Iniciando simulado ID: ${simuladoId}`);
             // Implementar navegação para o simulado
         }
 
         function verPost(postId) {
-            alert(`💬 Visualizando post ID: ${postId}`);
+            alert(`Visualizando post ID: ${postId}`);
             // Implementar visualização completa do post
         }
 
         function filtrarForum(categoriaId) {
-            alert(`🗂️ Filtrando fórum por categoria ID: ${categoriaId}`);
+            alert(`Filtrando fórum por categoria ID: ${categoriaId}`);
             // Implementar filtro de fórum
         }
 
