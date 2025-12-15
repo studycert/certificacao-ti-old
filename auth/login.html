@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - StudyCert</title>
+    
+    <!-- BASE URL CORRIGIDA -->
+    <base href="https://studycert.github.io/certificacao-ti-old/">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://studycert.github.io/styles.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .login-header {
@@ -36,18 +45,6 @@
             width: 100%;
             max-width: 450px;
             overflow: hidden;
-            animation: slideUp 0.5s ease-out;
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         .login-header-card {
@@ -59,7 +56,7 @@
         
         .login-header-card h1 {
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,25 +141,6 @@
             text-decoration: underline;
         }
         
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .alert-error {
-            background: #fee;
-            border: 1px solid #fcc;
-            color: #c00;
-        }
-        
-        .alert-success {
-            background: #efe;
-            border: 1px solid #cfc;
-            color: #0a0;
-        }
-        
         .password-toggle {
             position: relative;
         }
@@ -184,7 +162,6 @@
             gap: 8px;
             color: white;
             text-decoration: none;
-            margin-top: 20px;
             transition: all 0.3s;
         }
         
@@ -210,13 +187,13 @@
 <body>
     <!-- Header -->
     <header class="login-header">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #3498db;"></i>
                     <h1 style="font-size: 1.5rem; color: white; margin: 0;">Study<span style="color: #3498db;">Cert</span></h1>
                 </div>
-                <a href="https://studycert.github.io/" class="back-home">
+                <a href="index.html" class="back-home">
                     <i class="fas fa-arrow-left"></i> Voltar ao Site
                 </a>
             </div>
@@ -232,7 +209,7 @@
             </div>
             
             <div class="login-body">
-                <div id="alertMessage" class="alert" style="display: none;"></div>
+                <div id="alertMessage" style="display: none; padding: 15px; border-radius: 8px; margin-bottom: 20px;"></div>
                 
                 <form id="loginForm">
                     <div class="form-group">
@@ -248,7 +225,7 @@
                         </button>
                     </div>
                     
-                    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <label style="margin: 0;">
                             <input type="checkbox" id="remember"> Lembrar-me
                         </label>
@@ -260,7 +237,7 @@
                     </button>
                     
                     <div class="login-footer">
-                        <p>Não tem uma conta? <a href="register.html">Cadastre-se agora</a></p>
+                        <p>Não tem uma conta? <a href="auth/register.html">Cadastre-se agora</a></p>
                         <p style="margin-top: 10px; font-size: 0.9rem;">
                             Ao continuar, você concorda com nossos 
                             <a href="#">Termos de Uso</a> e 
@@ -272,10 +249,8 @@
         </div>
     </main>
     
-    <!-- Simulação de Login para Demonstração -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle password visibility
             const togglePassword = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('password');
             
@@ -285,12 +260,10 @@
                 this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
             });
             
-            // Form submission
             const loginForm = document.getElementById('loginForm');
             const loginBtn = document.getElementById('loginBtn');
             const alertMessage = document.getElementById('alertMessage');
             
-            // Credenciais de demonstração
             const demoAccounts = [
                 { email: 'demo@studycert.com', password: 'demo123', name: 'Usuário Demo' },
                 { email: 'admin@studycert.com', password: 'admin123', name: 'Administrador' }
@@ -301,51 +274,35 @@
                 
                 const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
-                const remember = document.getElementById('remember').checked;
                 
-                // Validar campos
                 if (!email || !password) {
                     showAlert('Por favor, preencha todos os campos.', 'error');
                     return;
                 }
                 
-                // Validar formato do email
-                if (!isValidEmail(email)) {
-                    showAlert('Por favor, insira um e-mail válido.', 'error');
-                    return;
-                }
-                
-                // Desativar botão
                 loginBtn.disabled = true;
                 loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
                 
-                // Simular delay de rede
                 setTimeout(() => {
-                    // Verificar credenciais de demonstração
                     const user = demoAccounts.find(acc => 
                         acc.email === email && acc.password === password
                     );
                     
                     if (user) {
-                        // Login bem-sucedido
                         showAlert(`Bem-vindo, ${user.name}! Login realizado com sucesso.`, 'success');
                         
-                        // Salvar dados no localStorage (para demonstração)
                         localStorage.setItem('studyCertUser', JSON.stringify({
                             email: user.email,
                             name: user.name,
                             isAdmin: user.email === 'admin@studycert.com',
-                            loggedIn: true,
-                            remember: remember
+                            loggedIn: true
                         }));
                         
-                        // Redirecionar após 2 segundos
                         setTimeout(() => {
-                            window.location.href = 'https://studycert.github.io/';
+                            window.location.href = 'index.html';
                         }, 2000);
                         
                     } else {
-                        // Login falhou
                         showAlert('E-mail ou senha incorretos. Tente novamente.', 'error');
                         loginBtn.disabled = false;
                         loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar na Conta';
@@ -353,30 +310,16 @@
                 }, 1500);
             });
             
-            // Verificar se há dados salvos
-            const savedUser = localStorage.getItem('studyCertUser');
-            if (savedUser) {
-                const userData = JSON.parse(savedUser);
-                if (userData.remember) {
-                    document.getElementById('email').value = userData.email;
-                    document.getElementById('remember').checked = true;
-                }
-            }
-            
             function showAlert(message, type) {
                 alertMessage.textContent = message;
-                alertMessage.className = `alert alert-${type}`;
                 alertMessage.style.display = 'block';
+                alertMessage.style.background = type === 'error' ? '#fee' : '#efe';
+                alertMessage.style.border = type === 'error' ? '1px solid #fcc' : '1px solid #cfc';
+                alertMessage.style.color = type === 'error' ? '#c00' : '#0a0';
                 
-                // Auto-esconder após 5 segundos
                 setTimeout(() => {
                     alertMessage.style.display = 'none';
                 }, 5000);
-            }
-            
-            function isValidEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
             }
         });
     </script>
