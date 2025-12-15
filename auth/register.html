@@ -5,147 +5,442 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - StudyCert</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .register-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .register-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .register-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .register-header-card {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .register-header-card h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .register-header-card p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        .register-body {
+            padding: 40px 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-register:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .register-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+        }
+        
+        .register-footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background: #eee;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+        
+        .strength-weak { background: #e74c3c; }
+        .strength-medium { background: #f39c12; }
+        .strength-strong { background: #27ae60; }
+        
+        .password-hints {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .password-hints ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-home:hover {
+            color: #3498db;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .register-card {
+                max-width: 100%;
+            }
+            
+            .register-header-card {
+                padding: 30px 20px;
+            }
+            
+            .register-body {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h1>Study<span>Cert</span></h1>
+    <!-- Header -->
+    <header class="register-header">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #3498db;"></i>
+                    <h1 style="font-size: 1.5rem; color: white; margin: 0;">Study<span style="color: #3498db;">Cert</span></h1>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="../index.html">Voltar ao Site</a></li>
-                    </ul>
-                </nav>
+                <a href="https://studycert.github.io/" class="back-home">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Site
+                </a>
             </div>
         </div>
     </header>
     
-    <main class="container">
-        <div class="auth-container">
-            <h2 class="text-center"><i class="fas fa-user-plus"></i> Cadastro</h2>
+    <!-- Register Container -->
+    <main class="register-container">
+        <div class="register-card">
+            <div class="register-header-card">
+                <h1><i class="fas fa-user-plus"></i> Criar Conta</h1>
+                <p>Junte-se a nossa comunidade de aprendizado</p>
+            </div>
             
-            <form id="registerForm" class="auth-form">
-                <div class="form-group">
-                    <label for="name">Nome Completo</label>
-                    <input type="text" id="name" required placeholder="Seu nome completo">
-                </div>
+            <div class="register-body">
+                <div id="alertMessage" class="alert" style="display: none;"></div>
                 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="seu@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" required placeholder="Mínimo 6 caracteres">
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmar Senha</label>
-                    <input type="password" id="confirmPassword" required placeholder="Digite novamente">
-                </div>
-                
-                <div class="form-group">
-                    <label for="experience">Nível de Experiência</label>
-                    <select id="experience" required>
-                        <option value="">Selecione</option>
-                        <option value="iniciante">Iniciante</option>
-                        <option value="intermediario">Intermediário</option>
-                        <option value="avancado">Avançado</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="terms" required>
-                        Aceito os <a href="#" target="_blank">Termos de Uso</a> e <a href="#" target="_blank">Política de Privacidade</a>
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i> Criar Conta
-                </button>
-                
-                <div class="text-center mt-3">
-                    Já tem conta? <a href="login.html">Faça login</a>
-                </div>
-            </form>
+                <form id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName"><i class="fas fa-user"></i> Nome</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="Seu nome" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName"><i class="fas fa-user"></i> Sobrenome</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Seu sobrenome" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
+                        <input type="email" id="email" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" id="password" class="form-control" placeholder="Crie uma senha forte" required>
+                        <div class="password-strength">
+                            <div id="strengthBar" class="strength-bar"></div>
+                        </div>
+                        <div class="password-hints">
+                            <ul>
+                                <li>Mínimo 8 caracteres</li>
+                                <li>Pelo menos 1 número</li>
+                                <li>Pelo menos 1 letra maiúscula</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword"><i class="fas fa-lock"></i> Confirmar Senha</label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Digite novamente" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience"><i class="fas fa-chart-line"></i> Nível de Experiência</label>
+                        <select id="experience" class="form-control" required>
+                            <option value="">Selecione...</option>
+                            <option value="iniciante">Iniciante</option>
+                            <option value="intermediario">Intermediário</option>
+                            <option value="avancado">Avançado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: flex-start; gap: 10px;">
+                            <input type="checkbox" id="terms" required style="margin-top: 3px;">
+                            <span>
+                                Concordo com os <a href="#" style="color: #3498db;">Termos de Uso</a> e 
+                                <a href="#" style="color: #3498db;">Política de Privacidade</a>
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-register" id="registerBtn">
+                        <i class="fas fa-user-plus"></i> Criar Minha Conta
+                    </button>
+                    
+                    <div class="register-footer">
+                        <p>Já tem uma conta? <a href="login.html">Faça login aqui</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
     
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
-        const supabaseUrl = 'SUPABASE_URL';
-        const supabaseKey = 'SUPABASE_ANON_KEY';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const registerBtn = document.getElementById('registerBtn');
+            const alertMessage = document.getElementById('alertMessage');
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.getElementById('strengthBar');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
             
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const experience = document.getElementById('experience').value;
+            // Verificar força da senha
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Verificar comprimento
+                if (password.length >= 8) strength += 25;
+                if (password.length >= 12) strength += 25;
+                
+                // Verificar números
+                if (/\d/.test(password)) strength += 25;
+                
+                // Verificar maiúsculas
+                if (/[A-Z]/.test(password)) strength += 25;
+                
+                // Atualizar barra de força
+                strengthBar.style.width = strength + '%';
+                strengthBar.className = 'strength-bar ';
+                
+                if (strength < 50) {
+                    strengthBar.className += 'strength-weak';
+                } else if (strength < 75) {
+                    strengthBar.className += 'strength-medium';
+                } else {
+                    strengthBar.className += 'strength-strong';
+                }
+            });
             
-            // Validações
-            if (password !== confirmPassword) {
-                alert('As senhas não coincidem!');
-                return;
+            // Verificar confirmação de senha
+            confirmPasswordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const confirmPassword = this.value;
+                
+                if (confirmPassword && password !== confirmPassword) {
+                    this.style.borderColor = '#e74c3c';
+                    this.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.2)';
+                } else {
+                    this.style.borderColor = passwordInput.value ? '#2ecc71' : '#e1e8ed';
+                    this.style.boxShadow = passwordInput.value ? '0 0 0 3px rgba(46, 204, 113, 0.2)' : 'none';
+                }
+            });
+            
+            // Submissão do formulário
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Coletar dados
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const experience = document.getElementById('experience').value;
+                const terms = document.getElementById('terms').checked;
+                
+                // Validações
+                if (!firstName || !lastName || !email || !password || !confirmPassword || !experience) {
+                    showAlert('Por favor, preencha todos os campos obrigatórios.', 'error');
+                    return;
+                }
+                
+                if (!terms) {
+                    showAlert('Você precisa aceitar os Termos de Uso e Política de Privacidade.', 'error');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    showAlert('Por favor, insira um e-mail válido.', 'error');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    showAlert('A senha deve ter pelo menos 8 caracteres.', 'error');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showAlert('As senhas não coincidem. Por favor, verifique.', 'error');
+                    return;
+                }
+                
+                // Desativar botão
+                registerBtn.disabled = true;
+                registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+                
+                // Simular registro
+                setTimeout(() => {
+                    // Salvar usuário no localStorage (para demonstração)
+                    const userData = {
+                        firstName,
+                        lastName,
+                        email,
+                        experience,
+                        registeredAt: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('studyCertRegisteredUser', JSON.stringify(userData));
+                    
+                    // Sucesso
+                    showAlert(`Conta criada com sucesso, ${firstName}! Redirecionando para login...`, 'success');
+                    
+                    // Redirecionar para login
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    
+                }, 2000);
+            });
+            
+            function showAlert(message, type) {
+                alertMessage.textContent = message;
+                alertMessage.style.display = 'block';
+                alertMessage.style.padding = '15px';
+                alertMessage.style.borderRadius = '8px';
+                alertMessage.style.marginBottom = '20px';
+                
+                if (type === 'error') {
+                    alertMessage.style.background = '#fee';
+                    alertMessage.style.border = '1px solid #fcc';
+                    alertMessage.style.color = '#c00';
+                } else {
+                    alertMessage.style.background = '#efe';
+                    alertMessage.style.border = '1px solid #cfc';
+                    alertMessage.style.color = '#0a0';
+                }
+                
+                setTimeout(() => {
+                    alertMessage.style.display = 'none';
+                }, 5000);
             }
             
-            if (password.length < 6) {
-                alert('A senha deve ter pelo menos 6 caracteres!');
-                return;
-            }
-            
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
-            
-            try {
-                // 1. Criar usuário no Auth
-                const { data: authData, error: authError } = await supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            name: name,
-                            experience: experience
-                        }
-                    }
-                });
-                
-                if (authError) throw authError;
-                
-                // 2. Criar registro na tabela usuarios
-                const { error: dbError } = await supabase
-                    .from('usuarios')
-                    .insert([
-                        {
-                            email: email,
-                            nome: name,
-                            auth_uid: authData.user.id,
-                            nivel_experiencia: experience,
-                            status: 'ativo',
-                            created_at: new Date()
-                        }
-                    ]);
-                
-                if (dbError) throw dbError;
-                
-                alert('Cadastro realizado com sucesso! Verifique seu email para confirmar a conta.');
-                window.location.href = 'login.html';
-                
-            } catch (error) {
-                alert('Erro ao cadastrar: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
             }
         });
     </script>
