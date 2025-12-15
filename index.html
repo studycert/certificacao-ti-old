@@ -1643,5 +1643,157 @@
             }
         });
     </script>
+    <!-- Scripts do Supabase e da aplicação -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/materials.js"></script>
+<script src="js/simulados.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+    // Inicializar quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Inicializar autenticação
+        await initAuth();
+        
+        // Carregar materiais na página inicial
+        if (document.getElementById('materiaisContainer')) {
+            const materials = await loadMaterials();
+            renderMaterials(materials, 'materiaisContainer');
+        }
+        
+        // Carregar certificações
+        await loadCertifications();
+        
+        // Configurar eventos de upload
+        setupUploadEvents();
+    });
+    
+    // Configurar eventos de upload
+    function setupUploadEvents() {
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        if (uploadArea && fileInput) {
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files);
+                
+                for (const file of files) {
+                    // Validar tamanho
+                    if (file.size > 100 * 1024 * 1024) {
+                        showAlert('error', `Arquivo muito grande: ${file.name}`);
+                        continue;
+                    }
+                    
+                    // Mostrar modal de metadados
+                    const metadata = await showMetadataModal(file);
+                    if (metadata) {
+                        const success = await uploadMaterial(file, metadata);
+                        if (success) {
+                            // Recarregar materiais
+                            const materials = await loadMaterials();
+                            renderMaterials(materials, 'materiaisContainer');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    // Modal para metadados do arquivo
+    async function showMetadataModal(file) {
+        return new Promise((resolve) => {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            const fileExt = file.name.split('.').pop();
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-info-circle"></i> Informações do Arquivo</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Título do Material</label>
+                            <input type="text" id="materialTitle" value="${file.name.replace(/\.[^/.]+$/, '')}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição</label>
+                            <textarea id="materialDesc" rows="3" placeholder="Descreva o conteúdo deste material..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="materialCategory">
+                                <option value="ITIL 4">ITIL 4</option>
+                                <option value="LPIC-1">LPIC-1</option>
+                                <option value="Security+">Security+</option>
+                                <option value="Azure">Azure</option>
+                                <option value="AWS">AWS</option>
+                                <option value="CCNA">CCNA</option>
+                                <option value="geral">Geral</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nível de Dificuldade</label>
+                            <select id="materialLevel">
+                                <option value="facil">Fácil</option>
+                                <option value="intermediario" selected>Intermediário</option>
+                                <option value="dificil">Difícil</option>
+                                <option value="avancado">Avançado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (separadas por vírgula)</label>
+                            <input type="text" id="materialTags" placeholder="ex: itil, governança, certificação">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline cancel-btn">Cancelar</button>
+                            <button type="button" class="btn btn-primary submit-btn">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+            
+            // Eventos
+            modal.querySelector('.close-modal').addEventListener('click', () => {
+                modal.remove();
+                resolve(null);
+            });
+            
+            modal.querySelector('.cancel-btn').addEventListener('click', () => {
+                modal.remove();
+                resolve(null);
+            });
+            
+            modal.querySelector('.submit-btn').addEventListener('click', () => {
+                const metadata = {
+                    titulo: modal.querySelector('#materialTitle').value,
+                    descricao: modal.querySelector('#materialDesc').value,
+                    categoria: modal.querySelector('#materialCategory').value,
+                    nivel: modal.querySelector('#materialLevel').value,
+                    tags: modal.querySelector('#materialTags').value,
+                    tipo: fileExt.toLowerCase()
+                };
+                
+                modal.remove();
+                resolve(metadata);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                    resolve(null);
+                }
+            });
+        });
+    }
+</script>
 </body>
 </html>
