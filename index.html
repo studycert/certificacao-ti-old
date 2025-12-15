@@ -3,75 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyCert - Sua Plataforma de Certificação em TI</title>
+    <title>Login - StudyCert</title>
+    
+    <!-- BASE URL CORRIGIDA -->
+    <base href="https://studycert.github.io/certificacao-ti-old/">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .login-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+        
+        .login-header-card {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .login-header-card h1 {
+            margin: 0;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .login-header-card p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        .login-body {
+            padding: 40px 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+        }
+        
+        .login-footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+        }
+        
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .back-home:hover {
+            color: #3498db;
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                max-width: 100%;
+            }
+            
+            .login-header-card {
+                padding: 30px 20px;
+            }
+            
+            .login-body {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header com botões SEM BORDA -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h1>Study<span>Cert</span></h1>
+    <!-- Header -->
+    <header class="login-header">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #3498db;"></i>
+                    <h1 style="font-size: 1.5rem; color: white; margin: 0;">Study<span style="color: #3498db;">Cert</span></h1>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-target="home">Início</a></li>
-                        <li><a href="#" class="nav-link" data-target="certificacoes">Certificações</a></li>
-                        <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
-                        <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
-                        <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
-                        <li id="adminLink" style="display: none;">
-                            <a href="admin/index.html" class="nav-link admin-only">
-                                <i class="fas fa-cog"></i> Admin
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="auth-buttons" id="authButtons">
-                    <!-- Botões serão preenchidos dinamicamente -->
-                </div>
+                <a href="index.html" class="back-home">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Site
+                </a>
             </div>
         </div>
     </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h2>Prepare-se para suas Certificações de TI</h2>
-            <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
-            <a href="#materiais" class="btn btn-primary">Começar Agora</a>
-        </div>
-    </section>
-
-    <!-- Seções de conteúdo (manter conforme seu HTML original) -->
-    <!-- ... restante das seções ... -->
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <!-- ... footer content ... -->
+    
+    <!-- Login Container -->
+    <main class="login-container">
+        <div class="login-card">
+            <div class="login-header-card">
+                <h1><i class="fas fa-sign-in-alt"></i> Bem-vindo de volta!</h1>
+                <p>Acesse sua conta para continuar aprendendo</p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
+            
+            <div class="login-body">
+                <div id="alertMessage" style="display: none; padding: 15px; border-radius: 8px; margin-bottom: 20px;"></div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
+                        <input type="email" id="email" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group password-toggle">
+                        <label for="password"><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" id="password" class="form-control" placeholder="Sua senha" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <label style="margin: 0;">
+                            <input type="checkbox" id="remember"> Lembrar-me
+                        </label>
+                        <a href="#" style="color: #3498db; text-decoration: none;">Esqueci a senha</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Entrar na Conta
+                    </button>
+                    
+                    <div class="login-footer">
+                        <p>Não tem uma conta? <a href="auth/register.html">Cadastre-se agora</a></p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">
+                            Ao continuar, você concorda com nossos 
+                            <a href="#">Termos de Uso</a> e 
+                            <a href="#">Política de Privacidade</a>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    </main>
+    
     <script>
-        // Configuração do Supabase
-        const supabaseUrl = 'https://blnnwbrhrckqegaiparr.supabase.co';
-        const supabaseKey = 'sb_publishable_BRAGtPaTnBQAys82wQlwDA_ZorIxDDK';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            const demoAccounts = [
+                { email: 'demo@studycert.com', password: 'demo123', name: 'Usuário Demo' },
+                { email: 'admin@studycert.com', password: 'admin123', name: 'Administrador' }
+            ];
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                
+                if (!email || !password) {
+                    showAlert('Por favor, preencha todos os campos.', 'error');
+                    return;
+                }
+                
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+                
+                setTimeout(() => {
+                    const user = demoAccounts.find(acc => 
+                        acc.email === email && acc.password === password
+                    );
+                    
+                    if (user) {
+                        showAlert(`Bem-vindo, ${user.name}! Login realizado com sucesso.`, 'success');
+                        
+                        localStorage.setItem('studyCertUser', JSON.stringify({
+                            email: user.email,
+                            name: user.name,
+                            isAdmin: user.email === 'admin@studycert.com',
+                            loggedIn: true
+                        }));
+                        
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                        
+                    } else {
+                        showAlert('E-mail ou senha incorretos. Tente novamente.', 'error');
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar na Conta';
+                    }
+                }, 1500);
+            });
+            
+            function showAlert(message, type) {
+                alertMessage.textContent = message;
+                alertMessage.style.display = 'block';
+                alertMessage.style.background = type === 'error' ? '#fee' : '#efe';
+                alertMessage.style.border = type === 'error' ? '1px solid #fcc' : '1px solid #cfc';
+                alertMessage.style.color = type === 'error' ? '#c00' : '#0a0';
+                
+                setTimeout(() => {
+                    alertMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
     </script>
-    <script src="js/auth.js"></script>
-    <script src="js/materials.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/admin.js"></script>
 </body>
 </html>
