@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - StudyCert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>Study<span>Cert</span></h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Voltar ao Site</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="auth-container">
+            <h2 class="text-center"><i class="fas fa-user-plus"></i> Cadastro</h2>
+            
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" required placeholder="Seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required placeholder="Mínimo 6 caracteres">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" id="confirmPassword" required placeholder="Digite novamente">
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Nível de Experiência</label>
+                    <select id="experience" required>
+                        <option value="">Selecione</option>
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="terms" required>
+                        Aceito os <a href="#" target="_blank">Termos de Uso</a> e <a href="#" target="_blank">Política de Privacidade</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-user-plus"></i> Criar Conta
+                </button>
+                
+                <div class="text-center mt-3">
+                    Já tem conta? <a href="login.html">Faça login</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'SUPABASE_URL';
+        const supabaseKey = 'SUPABASE_ANON_KEY';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const experience = document.getElementById('experience').value;
+            
+            // Validações
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+            
+            try {
+                // 1. Criar usuário no Auth
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            name: name,
+                            experience: experience
+                        }
+                    }
+                });
+                
+                if (authError) throw authError;
+                
+                // 2. Criar registro na tabela usuarios
+                const { error: dbError } = await supabase
+                    .from('usuarios')
+                    .insert([
+                        {
+                            email: email,
+                            nome: name,
+                            auth_uid: authData.user.id,
+                            nivel_experiencia: experience,
+                            status: 'ativo',
+                            created_at: new Date()
+                        }
+                    ]);
+                
+                if (dbError) throw dbError;
+                
+                alert('Cadastro realizado com sucesso! Verifique seu email para confirmar a conta.');
+                window.location.href = 'login.html';
+                
+            } catch (error) {
+                alert('Erro ao cadastrar: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+            }
+        });
+    </script>
+</body>
+</html>
