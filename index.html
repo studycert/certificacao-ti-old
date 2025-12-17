@@ -113,13 +113,33 @@
             transform: translateY(-1px);
         }
         
+        /* BOTÕES DE AUTENTICAÇÃO - ORGANIZADOS */
         .auth-buttons {
             display: flex;
             gap: 1rem;
+            align-items: center;
+        }
+
+        /* MENU DO USUÁRIO APÓS LOGIN */
+        .user-menu {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .user-menu span {
+            color: white;
+            font-weight: 500;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
         .btn {
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
@@ -128,6 +148,8 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .btn-outline {
@@ -1152,6 +1174,18 @@
             .social-buttons {
                 flex-direction: column;
             }
+
+            /* Ajustes para mobile */
+            .user-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: stretch;
+            }
+            
+            .user-menu span {
+                text-align: center;
+                padding: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -1174,8 +1208,8 @@
                     </ul>
                 </nav>
                 <div class="auth-buttons">
-                    <a href="#" class="btn btn-outline" onclick="abrirModalAuth()">Entrar</a>
-                    <a href="#" class="btn btn-primary" onclick="abrirModalAuth()">Cadastrar</a>
+                    <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">Entrar</a>
+                    <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">Cadastrar</a>
                 </div>
             </div>
         </div>
@@ -1831,12 +1865,12 @@
             </div>
             
             <div class="modal-auth-tabs">
-                <button class="auth-tab active" data-tab="login">Entrar</button>
+                <button class="auth-tab" data-tab="login">Entrar</button>
                 <button class="auth-tab" data-tab="register">Cadastrar</button>
             </div>
             
             <!-- Formulário de Login -->
-            <form id="loginForm" class="auth-form active" onsubmit="return fazerLogin(event)">
+            <form id="loginForm" class="auth-form" onsubmit="return fazerLogin(event)">
                 <div id="loginMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2110,11 +2144,18 @@
 
         // ========== FUNÇÕES DO FORMULÁRIO DE CADASTRO ==========
 
-        function abrirModalAuth() {
+        // Modificada para aceitar o tipo de formulário como parâmetro
+        function abrirModalAuth(tipo = 'login') {
             const modal = document.getElementById('modalAuth');
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            mostrarLogin(); // Mostra o formulário de login por padrão
+            
+            // Mostrar o formulário correto baseado no tipo
+            if (tipo === 'login') {
+                mostrarLogin();
+            } else if (tipo === 'register') {
+                mostrarCadastro();
+            }
         }
 
         function fecharModalAuth() {
@@ -2314,8 +2355,8 @@
             const nomeExibido = nomeUsuario.split(' ')[0]; // Pegar primeiro nome
             
             authButtons.innerHTML = `
-                <div class="user-menu" style="display: flex; gap: 1rem; align-items: center;">
-                    <span style="color: white; font-weight: 500;">Olá, ${nomeExibido}!</span>
+                <div class="user-menu">
+                    <span>Olá, ${nomeExibido}!</span>
                     <button class="btn btn-outline" onclick="abrirPerfil()">
                         <i class="fas fa-user"></i> Perfil
                     </button>
@@ -2358,8 +2399,8 @@
             const authButtons = document.querySelector('.auth-buttons');
             
             authButtons.innerHTML = `
-                <a href="#" class="btn btn-outline" onclick="abrirModalAuth()">Entrar</a>
-                <a href="#" class="btn btn-primary" onclick="abrirModalAuth()">Cadastrar</a>
+                <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">Entrar</a>
+                <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">Cadastrar</a>
             `;
             
             alert('Você saiu da sua conta.');
