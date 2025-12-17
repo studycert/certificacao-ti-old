@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - StudyCert</title>
-    
-    <!-- BASE URL CORRIGIDA -->
-    <base href="https://studycert.github.io/certificacao-ti-old/">
-    
+    <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -17,309 +13,1633 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+        }
+
         body {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
         }
-        
-        .login-header {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px 0;
-            backdrop-filter: blur(10px);
-        }
-        
-        .login-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-        
-        .login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+
+        .container {
             width: 100%;
-            max-width: 450px;
-            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        
-        .login-header-card {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+
+        /* Header - BOTÕES SEM BORDA */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
-            padding: 40px 30px;
-            text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        
-        .login-header-card h1 {
-            margin: 0;
-            font-size: 2rem;
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .login-header-card p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-        }
-        
-        .login-body {
-            padding: 40px 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e1e8ed;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        .btn-login {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 10px;
         }
-        
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
         }
-        
-        .btn-login:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
         }
-        
-        .login-footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #7f8c8d;
+
+        .logo span {
+            color: var(--secondary);
         }
-        
-        .login-footer a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 600;
+
+        /* NAVEGAÇÃO - BOTÕES SEM BORDA */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
         }
-        
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .password-toggle {
-            position: relative;
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            cursor: pointer;
-        }
-        
-        .back-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+
+        nav a {
             color: white;
             text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent; /* Sem fundo */
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 3rem 0;
+            min-height: 60vh;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Forum */
+        .forum-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .forum-categories {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .forum-categories h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-count {
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .forum-posts {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .post-title:hover {
+            color: var(--secondary);
+        }
+
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .new-post-btn {
+            display: block;
+            margin: 2rem auto;
+            width: 200px;
+        }
+
+        /* Study Materials */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .material-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .material-content {
+            padding: 1.5rem;
+        }
+
+        .material-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .material-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Simulados */
+        .simulados-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .simulado-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .simulado-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .simulado-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
             transition: all 0.3s;
         }
-        
-        .back-home:hover {
-            color: #3498db;
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
         }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certifications Grid */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-icon {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-content {
+            padding: 1.5rem;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .cert-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-level {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
         
-        @media (max-width: 480px) {
-            .login-card {
-                max-width: 100%;
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal overlay para lista de simulados */
+        .modal-simulados {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-simulados.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Container interno da modal */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cabeçalho da modal */
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo da modal */
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Cada item da lista */
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        /* Ícones de status */
+        .status-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .status-disponivel {
+            color: #27ae60;
+        }
+
+        .status-em-breve {
+            color: #f39c12;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Botões na modal */
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Rodapé da modal */
+        .modal-footer {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Scrollbar customizada */
+        .modal-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 0 12px 0;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
             }
             
-            .login-header-card {
-                padding: 30px 20px;
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
             }
             
-            .login-body {
-                padding: 30px 20px;
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .simulado-item-modal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn-sm {
+                align-self: flex-end;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="login-header">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #3498db;"></i>
-                    <h1 style="font-size: 1.5rem; color: white; margin: 0;">Study<span style="color: #3498db;">Cert</span></h1>
+    <!-- Header com botões SEM BORDA -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>Study<span>Cert</span></h1>
                 </div>
-                <a href="index.html" class="back-home">
-                    <i class="fas fa-arrow-left"></i> Voltar ao Site
-                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-target="home">Início</a></li>
+                        <li><a href="#" class="nav-link" data-target="certificacoes">Certificações</a></li>
+                        <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
+                        <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">Entrar</a>
+                    <a href="#" class="btn btn-primary">Cadastrar</a>
+                </div>
             </div>
         </div>
     </header>
-    
-    <!-- Login Container -->
-    <main class="login-container">
-        <div class="login-card">
-            <div class="login-header-card">
-                <h1><i class="fas fa-sign-in-alt"></i> Bem-vindo de volta!</h1>
-                <p>Acesse sua conta para continuar aprendendo</p>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Prepare-se para suas Certificações de TI</h2>
+            <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
+            <a href="#" class="btn btn-primary">Começar Agora</a>
+        </div>
+    </section>
+
+    <!-- Home Content -->
+    <section id="home" class="main-content active">
+        <div class="container">
+            <div class="section-title">
+                <h2>Bem-vindo ao StudyCert</h2>
+                <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação</p>
             </div>
-            
-            <div class="login-body">
-                <div id="alertMessage" style="display: none; padding: 15px; border-radius: 8px; margin-bottom: 20px;"></div>
-                
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
-                        <input type="email" id="email" class="form-control" placeholder="seu@email.com" required>
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comments"></i> Fórum de Discussão</h3>
                     </div>
-                    
-                    <div class="form-group password-toggle">
-                        <label for="password"><i class="fas fa-lock"></i> Senha</label>
-                        <input type="password" id="password" class="form-control" placeholder="Sua senha" required>
-                        <button type="button" class="toggle-password" id="togglePassword">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                    <div class="card-body">
+                        <p>Participe de discussões, tire dúvidas e compartilhe conhecimento com outros profissionais de TI.</p>
                     </div>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <label style="margin: 0;">
-                            <input type="checkbox" id="remember"> Lembrar-me
-                        </label>
-                        <a href="#" style="color: #3498db; text-decoration: none;">Esqueci a senha</a>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="forum">Acessar Fórum</a>
                     </div>
-                    
-                    <button type="submit" class="btn-login" id="loginBtn">
-                        <i class="fas fa-sign-in-alt"></i> Entrar na Conta
-                    </button>
-                    
-                    <div class="login-footer">
-                        <p>Não tem uma conta? <a href="auth/register.html">Cadastre-se agora</a></p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">
-                            Ao continuar, você concorda com nossos 
-                            <a href="#">Termos de Uso</a> e 
-                            <a href="#">Política de Privacidade</a>
-                        </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-book"></i> Material de Estudo</h3>
                     </div>
-                </form>
+                    <div class="card-body">
+                        <p>Acesse guias, resumos, videoaulas e outros recursos para sua preparação.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="materiais">Ver Materiais</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Simulados</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Teste seus conhecimentos com nossos simulados e acompanhe seu progresso.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" data-target="simulados">Ver Simulados</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>Certificações em Destaque</h2>
+                <p>As certificações mais relevantes do mercado de TI</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Fundamentals</h3>
+                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Cloud Practitioner</h3>
+                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Security+</h3>
+                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Foundation</h3>
+                        <p>Framework de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
-    
+    </section>
+
+    <!-- Certificações Content -->
+    <section id="certificacoes" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossas Certificações</h2>
+                <p>Prepare-se para as certificações mais demandadas do mercado</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>Azure Administrator</h3>
+                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Cloud</span>
+                        <h3>AWS Solutions Architect</h3>
+                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Segurança</span>
+                        <h3>Cybersecurity Analyst</h3>
+                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Governança</span>
+                        <h3>ITIL 4 Specialist</h3>
+                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-1</h3>
+                        <p>Certificação Linux Professional Institute - Nível 1.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Linux</span>
+                        <h3>LPIC-2</h3>
+                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Rede</span>
+                        <h3>CCNA</h3>
+                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-level">Dados</span>
+                        <h3>Data Fundamentals</h3>
+                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum Content -->
+    <section id="forum" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fórum de Discussão</h2>
+                <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
+            </div>
+
+            <div class="forum-container">
+                <div class="forum-categories">
+                    <h3>Categorias</h3>
+                    <ul class="category-list">
+                        <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
+                        <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
+                        <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
+                        <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
+                        <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
+                        <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="forum-posts">
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
+                            <div class="post-meta">por João Silva • 2 horas atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 7 respostas</span>
+                            <span><i class="far fa-eye"></i> 42 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
+                            <div class="post-meta">por Maria Santos • 1 dia atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 12 respostas</span>
+                            <span><i class="far fa-eye"></i> 87 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Experiência com exame Security+</a>
+                            <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 23 respostas</span>
+                            <span><i class="far fa-eye"></i> 156 visualizações</span>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="#" class="post-title">Diferença entre LPIC-1 e LPIC-2</a>
+                            <div class="post-meta">por Ana Costa • 5 dias atrás</div>
+                        </div>
+                        <div class="post-excerpt">
+                            <p>Estou com dificuldades para entender a diferença entre o conteúdo da LPIC-1 e LPIC-2. Alguém pode explicar os principais tópicos de cada uma?</p>
+                        </div>
+                        <div class="post-footer">
+                            <span><i class="far fa-comment"></i> 9 respostas</span>
+                            <span><i class="far fa-eye"></i> 74 visualizações</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-primary new-post-btn">Nova Discussão</a>
+        </div>
+    </section>
+
+    <!-- Study Materials Content -->
+    <section id="materiais" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Material de Estudo</h2>
+                <p>Recursos selecionados para sua preparação</p>
+            </div>
+
+            <div class="materials-grid">
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Microsoft Azure</h3>
+                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Amazon AWS</h3>
+                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>LPIC-1 e LPIC-2</h3>
+                        <p>Recursos para certificações Linux Professional Institute.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>ITIL 4</h3>
+                        <p>Guias, resumos e material para certificação ITIL.</p>
+                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>Security+</h3>
+                        <p>Material para preparação da certificação CompTIA Security+.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="material-content">
+                        <h3>CCNA</h3>
+                        <p>Recursos para Cisco Certified Network Associate.</p>
+                        <a href="#" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 4rem;">
+                <h2>Videoaulas</h2>
+                <p>Aprenda com instrutores especializados</p>
+            </div>
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
+                        <p><strong>Duração:</strong> 6 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
+                        <p><strong>Duração:</strong> 5 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Preparação completa para o exame CompTIA Security+.</p>
+                        <p><strong>Duração:</strong> 12 horas</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Assistir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulados Content -->
+    <section id="simulados" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simulados</h2>
+                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+            </div>
+
+            <div class="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Compartilhe Seu Simulado</h3>
+                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
+                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+            </div>
+
+            <div class="simulados-container">
+                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">11 Simulados Disponíveis</span>
+                        <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
+                        
+                        <!-- Botão para mostrar simulados -->
+                        <button class="show-simulados-btn" onclick="abrirModalSimulados()">
+                            <i class="fas fa-list"></i> Ver 11 Simulados
+                        </button>
+                    </div>
+                    <div class="card-footer">
+                        <small><strong>Progresso:</strong> 5 de 11 disponíveis • 120 questões</small>
+                    </div>
+                </div>
+                
+                <!-- LPIC-1 -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> LPIC-1</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">60 questões</span>
+                        <p>Simulado para Linux Professional Institute Certification Level 1.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <!-- Security+ -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shield-alt"></i> Security+</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">45 questões</span>
+                        <p>Simulado para CompTIA Security+ (SY0-601).</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <!-- AWS Cloud Practitioner -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="simulado-badge">50 questões</span>
+                        <p>Simulado para AWS Certified Cloud Practitioner.</p>
+                        <p><strong>Tempo estimado:</strong> 90 minutos</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Simulado</a>
+                    </div>
+                </div>
+
+                <!-- Adicionar Simulado -->
+                <div class="simulado-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline">Upload</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal da Lista de Simulados -->
+    <div id="modalSimulados" class="modal-simulados">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> Simulados ITIL 4 Foundation</h3>
+                <button class="fechar-modal" onclick="fecharModalSimulados()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- SIMULADO 1 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 1 - Conceitos Básicos</span>
+                    </div>
+                    <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 2 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 2 - Dimensões do Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 3 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 3 - Cadeia de Valor</span>
+                    </div>
+                    <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 4 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 4 - Práticas Gerais</span>
+                    </div>
+                    <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 5 - DISPONÍVEL -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
+                        <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
+                    </div>
+                    <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
+                </div>
+                
+                <!-- SIMULADO 6 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 7 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 8 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 8 - Governança</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 9 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 10 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+                
+                <!-- SIMULADO 11 - EM BREVE -->
+                <div class="simulado-item-modal">
+                    <div class="simulado-info">
+                        <i class="fas fa-clock status-icon status-em-breve"></i>
+                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Em Breve</button>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <div><strong>5 de 11</strong> simulados disponíveis</div>
+                <div><strong>120</strong> questões no total</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>StudyCert</h3>
+                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-target="home">Início</a></li>
+                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
+                        <li><a href="#" data-target="forum">Fórum</a></li>
+                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Certificações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Microsoft Azure</a></li>
+                        <li><a href="#">AWS</a></li>
+                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
+                        <li><a href="#">ITIL 4</a></li>
+                        <li><a href="#">Security+</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
+        // Navigation between sections
         document.addEventListener('DOMContentLoaded', function() {
-            const togglePassword = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('password');
+            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
+            const mainContents = document.querySelectorAll('.main-content');
             
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
-            
-            const loginForm = document.getElementById('loginForm');
-            const loginBtn = document.getElementById('loginBtn');
-            const alertMessage = document.getElementById('alertMessage');
-            
-            const demoAccounts = [
-                { email: 'demo@studycert.com', password: 'demo123', name: 'Usuário Demo' },
-                { email: 'admin@studycert.com', password: 'admin123', name: 'Administrador' }
-            ];
-            
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                
-                if (!email || !password) {
-                    showAlert('Por favor, preencha todos os campos.', 'error');
-                    return;
-                }
-                
-                loginBtn.disabled = true;
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
-                
-                setTimeout(() => {
-                    const user = demoAccounts.find(acc => 
-                        acc.email === email && acc.password === password
-                    );
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
                     
-                    if (user) {
-                        showAlert(`Bem-vindo, ${user.name}! Login realizado com sucesso.`, 'success');
-                        
-                        localStorage.setItem('studyCertUser', JSON.stringify({
-                            email: user.email,
-                            name: user.name,
-                            isAdmin: user.email === 'admin@studycert.com',
-                            loggedIn: true
-                        }));
-                        
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 2000);
-                        
-                    } else {
-                        showAlert('E-mail ou senha incorretos. Tente novamente.', 'error');
-                        loginBtn.disabled = false;
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar na Conta';
-                    }
-                }, 1500);
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Update active nav link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
             });
             
-            function showAlert(message, type) {
-                alertMessage.textContent = message;
-                alertMessage.style.display = 'block';
-                alertMessage.style.background = type === 'error' ? '#fee' : '#efe';
-                alertMessage.style.border = type === 'error' ? '1px solid #fcc' : '1px solid #cfc';
-                alertMessage.style.color = type === 'error' ? '#c00' : '#0a0';
-                
-                setTimeout(() => {
-                    alertMessage.style.display = 'none';
-                }, 5000);
+            // Simulate file upload for simulados
+            const uploadBtn = document.querySelector('.upload-area .btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Funcionalidade de upload será implementada em breve!');
+                });
+            }
+        });
+
+        // Funções para abrir/fechar a modal de simulados
+        function abrirModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            const modal = document.getElementById('modalSimulados');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal ao clicar fora do container
+        document.getElementById('modalSimulados').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModalSimulados();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalSimulados();
             }
         });
     </script>
