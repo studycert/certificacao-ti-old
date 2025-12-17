@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - StudyCert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --admin: #9b59b6;
+            --danger: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Admin */
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--admin) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-logo i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .admin-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .admin-logo span {
+            color: var(--warning);
+        }
+
+        .admin-user-area {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .admin-user-info i {
+            font-size: 1.2rem;
+        }
+
+        .admin-user-info span {
+            font-weight: 500;
+        }
+
+        .admin-badge {
+            background: var(--warning);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Botões admin */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            height: 36px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-admin {
+            background: var(--admin);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover { background: #2980b9; }
+        .btn-success:hover { background: #219653; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-warning:hover { background: #e67e22; }
+        .btn-admin:hover { background: #8e44ad; }
+
+        /* Layout do painel */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 1.5rem 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+
+        .admin-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .admin-nav-item:hover {
+            background: #f0f7ff;
+            color: var(--secondary);
+        }
+
+        .admin-nav-item.active {
+            background: #e3f2fd;
+            color: var(--secondary);
+            font-weight: 600;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .admin-nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-section h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            padding: 0 1rem;
+        }
+
+        /* Conteúdo principal */
+        .admin-main {
+            padding: 2rem;
+            background: #f8fafc;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Títulos das seções */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-header h2 i {
+            color: var(--admin);
+        }
+
+        /* Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Tabelas */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #e8f6ef;
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: #fef9e7;
+            color: var(--warning);
+        }
+
+        .status-inactive {
+            background: #fbeeee;
+            color: var(--danger);
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+        }
+
+        .action-edit {
+            background: var(--secondary);
+        }
+
+        .action-delete {
+            background: var(--danger);
+        }
+
+        .action-view {
+            background: var(--success);
+        }
+
+        /* Formulários */
+        .admin-form {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Upload de arquivos */
+        .upload-zone {
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--secondary);
+            background: #e3f2fd;
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-zone h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .upload-zone p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #f0f7ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .file-preview i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .file-info h5 {
+            margin-bottom: 0.3rem;
+        }
+
+        .file-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Cards de conteúdo */
+        .content-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .alert-success {
+            background: #e8f6ef;
+            color: var(--success);
+            border: 1px solid #c8e6c9;
+        }
+
+        .alert-error {
+            background: #fbeeee;
+            color: var(--danger);
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: var(--secondary);
+            border: 1px solid #bbdefb;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header-content {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .admin-user-area {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-cell {
+                flex-direction: column;
+            }
+            
+            .admin-main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Verificação de autenticação admin -->
+    <div id="authCheck" style="display: none;"></div>
+    
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-logo">
+                    <i class="fas fa-cog"></i>
+                    <h1>Study<span>Cert</span> <small style="font-size: 1rem; color: var(--warning);">Admin</small></h1>
+                </div>
+                
+                <div class="admin-user-area">
+                    <div class="admin-user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="adminUserName">Carregando...</span>
+                        <span class="admin-badge" id="adminRole">ADMIN</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="voltarParaSite()">
+                        <i class="fas fa-external-link-alt"></i> Ver Site
+                    </button>
+                    <button class="btn btn-danger" onclick="sairAdmin()">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout Principal -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <div class="nav-section">
+                    <h3>Principal</h3>
+                    <a href="#" class="admin-nav-item active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="#" class="admin-nav-item" data-section="statistics">
+                        <i class="fas fa-chart-line"></i> Estatísticas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>Conteúdo</h3>
+                    <a href="#" class="admin-nav-item" data-section="materials">
+                        <i class="fas fa-book"></i> Materiais de Estudo
+                    </a>
+                    <a href="#" class="admin-nav-item" data-section="simulados">
+                        <i class="fas fa-file-alt"></i> Simulados
+                    </a>
+                    <a href="#" class="admin-nav-item" data-section="certifications">
+                        <i class="fas fa-certificate"></i> Certificações
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>Comunidade</h3>
+                    <a href="#" class="admin-nav-item" data-section="forum">
+                        <i class="fas fa-comments"></i> Fórum
+                    </a>
+                    <a href="#" class="admin-nav-item" data-section="users">
+                        <i class="fas fa-users"></i> Usuários
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>Sistema</h3>
+                    <a href="#" class="admin-nav-item" data-section="settings">
+                        <i class="fas fa-cog"></i> Configurações
+                    </a>
+                    <a href="#" class="admin-nav-item" data-section="backup">
+                        <i class="fas fa-database"></i> Backup
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="admin-main">
+            <!-- Dashboard -->
+            <section id="dashboard" class="admin-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    <div class="date-info">
+                        <span id="currentDate">Carregando data...</span>
+                    </div>
+                </div>
+                
+                <!-- Estatísticas Rápidas -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--secondary);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalUsers">1,254</div>
+                            <div class="stat-label">Usuários Registrados</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success);">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalMaterials">87</div>
+                            <div class="stat-label">Materiais de Estudo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--warning);">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalSimulados">42</div>
+                            <div class="stat-label">Simulados</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--admin);">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalPosts">156</div>
+                            <div class="stat-label">Posts no Fórum</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ações Rápidas -->
+                <div class="section-header">
+                    <h2><i class="fas fa-bolt"></i> Ações Rápidas</h2>
+                </div>
+                
+                <div class="content-cards">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plus-circle"></i> Adicionar Material</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Adicione novos materiais de estudo, guias e recursos para os usuários.</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success" onclick="mostrarSecao('materials')">
+                                <i class="fas fa-plus"></i> Novo Material
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plus-circle"></i> Criar Simulado</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Crie novos simulados para as certificações disponíveis.</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success" onclick="mostrarSecao('simulados')">
+                                <i class="fas fa-plus"></i> Novo Simulado
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plus-circle"></i> Nova Certificação</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Adicione uma nova certificação ao catálogo.</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success" onclick="mostrarSecao('certifications')">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Atividade Recente -->
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Atividade Recente</h2>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Ação</th>
+                                <th>Data/Hora</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivity">
+                            <!-- Preenchido por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Materiais de Estudo -->
+            <section id="materials" class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Gerenciar Materiais de Estudo</h2>
+                    <button class="btn btn-success" onclick="abrirModalMaterial()">
+                        <i class="fas fa-plus"></i> Adicionar Material
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Data</th>
+                                <th>Visualizações</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialsTable">
+                            <!-- Preenchido por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Simulados -->
+            <section id="simulados" class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-alt"></i> Gerenciar Simulados</h2>
+                    <button class="btn btn-success" onclick="abrirModalSimulado()">
+                        <i class="fas fa-plus"></i> Adicionar Simulado
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Certificação</th>
+                                <th>Questões</th>
+                                <th>Duração</th>
+                                <th>Tentativas</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="simuladosTable">
+                            <!-- Preenchido por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Certificações -->
+            <section id="certifications" class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-certificate"></i> Gerenciar Certificações</h2>
+                    <button class="btn btn-success" onclick="abrirModalCertificacao()">
+                        <i class="fas fa-plus"></i> Nova Certificação
+                    </button>
+                </div>
+                
+                <div class="content-cards" id="certificationsGrid">
+                    <!-- Preenchido por JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Usuários -->
+            <section id="users" class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Gerenciar Usuários</h2>
+                    <button class="btn btn-success" onclick="abrirModalUsuario()">
+                        <i class="fas fa-plus"></i> Novo Usuário
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Tipo</th>
+                                <th>Cadastro</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Preenchido por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Configurações -->
+            <section id="settings" class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Configurações do Sistema</h2>
+                </div>
+                
+                <div class="admin-form">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Configurações Gerais</h3>
+                    
+                    <div class="form-group">
+                        <label for="siteName">Nome do Site</label>
+                        <input type="text" id="siteName" value="StudyCert" placeholder="Nome do seu site">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="siteDescription">Descrição do Site</label>
+                        <textarea id="siteDescription" placeholder="Descrição do site">Prepare-se para suas Certificações de TI. Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="adminEmail">E-mail do Administrador</label>
+                            <input type="email" id="adminEmail" value="admin@studyCert.com" placeholder="E-mail do administrador">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactPhone">Telefone de Contato</label>
+                            <input type="text" id="contactPhone" value="(11) 9999-9999" placeholder="Telefone de contato">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maintenanceMode">Modo de Manutenção</label>
+                        <select id="maintenanceMode">
+                            <option value="0">Desativado</option>
+                            <option value="1">Ativado</option>
+                        </select>
+                        <small style="color: var(--gray); display: block; margin-top: 5px;">Quando ativado, apenas administradores poderão acessar o site.</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="salvarConfiguracoes()">
+                            <i class="fas fa-save"></i> Salvar Configurações
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Material -->
+    <div id="modalMaterial" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-book"></i> <span id="modalMaterialTitle">Adicionar Material de Estudo</span></h3>
+                <button class="close-modal" onclick="fecharModalMaterial()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formMaterial" class="admin-form">
+                    <div class="form-group">
+                        <label for="materialTitle">Título do Material *</label>
+                        <input type="text" id="materialTitle" placeholder="Ex: Guia Completo LPIC-1" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="materialCategory">Categoria *</label>
+                            <select id="materialCategory" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="microsoft">Microsoft Azure</option>
+                                <option value="aws">Amazon AWS</option>
+                                <option value="linux">LPIC-1 e LPIC-2</option>
+                                <option value="itil">ITIL 4</option>
+                                <option value="security">Security+</option>
+                                <option value="ccna">CCNA</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="materialType">Tipo *</label>
+                            <select id="materialType" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="pdf">PDF/Arquivo</option>
+                                <option value="video">Videoaula</option>
+                                <option value="link">Link Externo</option>
+                                <option value="texto">Texto/Artigo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="materialDescription">Descrição *</label>
+                        <textarea id="materialDescription" placeholder="Descreva o conteúdo do material" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="materialContent">Conteúdo/URL *</label>
+                        <div id="contentTypeContainer">
+                            <input type="text" id="materialContent" placeholder="URL ou conteúdo do material" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="materialTags">Tags (separadas por vírgula)</label>
+                        <input type="text" id="materialTags" placeholder="Ex: linux, comandos, lpic-1, certificação">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="materialStatus">Status</label>
+                            <select id="materialStatus">
+                                <option value="ativo">Ativo</option>
+                                <option value="rascunho">Rascunho</option>
+                                <option value="pendente">Pendente</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="materialDifficulty">Dificuldade</label>
+                            <select id="materialDifficulty">
+                                <option value="iniciante">Iniciante</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="avancado">Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-zone" onclick="document.getElementById('fileUpload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Upload de Arquivo</h4>
+                        <p>Clique para fazer upload de um arquivo (PDF, DOC, PPT, etc.)</p>
+                        <input type="file" id="fileUpload" style="display: none;" onchange="previewFileUpload(this)">
+                        <div id="filePreview" class="file-preview" style="display: none;">
+                            <i class="fas fa-file-pdf"></i>
+                            <div class="file-info">
+                                <h5 id="fileName">arquivo.pdf</h5>
+                                <p id="fileSize">2.4 MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="fecharModalMaterial()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar Material</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Simulado -->
+    <div id="modalSimulado" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> <span id="modalSimuladoTitle">Adicionar Simulado</span></h3>
+                <button class="close-modal" onclick="fecharModalSimulado()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formSimulado" class="admin-form">
+                    <div class="form-group">
+                        <label for="simuladoName">Nome do Simulado *</label>
+                        <input type="text" id="simuladoName" placeholder="Ex: ITIL 4 Foundation - Simulado 1" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="simuladoCertification">Certificação *</label>
+                            <select id="simuladoCertification" required>
+                                <option value="">Selecione a certificação</option>
+                                <option value="itil4">ITIL 4 Foundation</option>
+                                <option value="lpic1">LPIC-1</option>
+                                <option value="security+">Security+</option>
+                                <option value="aws">AWS Cloud Practitioner</option>
+                                <option value="azure">Azure Fundamentals</option>
+                                <option value="ccna">CCNA</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="simuladoQuestions">Número de Questões *</label>
+                            <input type="number" id="simuladoQuestions" min="1" max="100" value="20" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="simuladoDuration">Duração (minutos) *</label>
+                            <input type="number" id="simuladoDuration" min="10" max="180" value="60" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="simuladoPassingGrade">Nota para Aprovação (%) *</label>
+                            <input type="number" id="simuladoPassingGrade" min="50" max="100" value="70" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="simuladoDescription">Descrição</label>
+                        <textarea id="simuladoDescription" placeholder="Descreva o conteúdo do simulado" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="simuladoInstructions">Instruções</label>
+                        <textarea id="simuladoInstructions" placeholder="Instruções para o usuário" rows="3">Leia cada questão cuidadosamente. Você tem tempo limitado. Boa sorte!</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="simuladoStatus">Status</label>
+                            <select id="simuladoStatus">
+                                <option value="ativo">Ativo</option>
+                                <option value="rascunho">Rascunho</option>
+                                <option value="em-breve">Em breve</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="simuladoAccess">Acesso</label>
+                            <select id="simuladoAccess">
+                                <option value="publico">Público</option>
+                                <option value="registrado">Usuários Registrados</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="fecharModalSimulado()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar Simulado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Certificação -->
+    <div id="modalCertificacao" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-certificate"></i> <span id="modalCertificacaoTitle">Adicionar Certificação</span></h3>
+                <button class="close-modal" onclick="fecharModalCertificacao()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formCertificacao" class="admin-form">
+                    <div class="form-group">
+                        <label for="certificacaoName">Nome da Certificação *</label>
+                        <input type="text" id="certificacaoName" placeholder="Ex: ITIL 4 Foundation" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificacaoProvider">Fornecedor *</label>
+                        <select id="certificacaoProvider" required>
+                            <option value="">Selecione o fornecedor</option>
+                            <option value="axelos">AXELOS</option>
+                            <option value="microsoft">Microsoft</option>
+                            <option value="aws">Amazon AWS</option>
+                            <option value="comptia">CompTIA</option>
+                            <option value="lpi">Linux Professional Institute</option>
+                            <option value="cisco">Cisco</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="certificacaoCode">Código da Certificação</label>
+                            <input type="text" id="certificacaoCode" placeholder="Ex: AZ-900, SY0-601">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="certificacaoLevel">Nível *</label>
+                            <select id="certificacaoLevel" required>
+                                <option value="fundamental">Fundamental</option>
+                                <option value="associate">Associate</option>
+                                <option value="professional">Professional</option>
+                                <option value="expert">Expert</option>
+                                <option value="specialty">Specialty</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificacaoCategory">Categoria *</label>
+                        <select id="certificacaoCategory" required>
+                            <option value="">Selecione a categoria</option>
+                            <option value="cloud">Cloud Computing</option>
+                            <option value="security">Cybersecurity</option>
+                            <option value="linux">Linux & DevOps</option>
+                            <option value="network">Redes</option>
+                            <option value="governance">Governança de TI</option>
+                            <option value="data">Dados & Analytics</option>
+                            <option value="project">Gerenciamento de Projetos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificacaoDescription">Descrição *</label>
+                        <textarea id="certificacaoDescription" placeholder="Descreva a certificação" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificacaoDetails">Detalhes do Exame</label>
+                        <textarea id="certificacaoDetails" placeholder="Detalhes como duração, número de questões, formato, etc." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="certificacaoDuration">Duração do Exame (minutos)</label>
+                            <input type="number" id="certificacaoDuration" min="30" max="300" value="60">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="certificacaoQuestions">Número de Questões</label>
+                            <input type="number" id="certificacaoQuestions" min="10" max="100" value="40">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificacaoIcon">Ícone (Classe FontAwesome)</label>
+                        <input type="text" id="certificacaoIcon" placeholder="Ex: fas fa-server, fab fa-microsoft" value="fas fa-certificate">
+                        <small style="color: var(--gray); display: block; margin-top: 5px;">Consulte: <a href="https://fontawesome.com/icons" target="_blank">FontAwesome Icons</a></small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="fecharModalCertificacao()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar Certificação</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Usuário -->
+    <div id="modalUsuario" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user"></i> <span id="modalUsuarioTitle">Adicionar Usuário</span></h3>
+                <button class="close-modal" onclick="fecharModalUsuario()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formUsuario" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuarioFirstName">Nome *</label>
+                            <input type="text" id="usuarioFirstName" placeholder="Primeiro nome" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="usuarioLastName">Sobrenome *</label>
+                            <input type="text" id="usuarioLastName" placeholder="Sobrenome" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuarioEmail">E-mail *</label>
+                        <input type="email" id="usuarioEmail" placeholder="usuario@exemplo.com" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuarioPassword">Senha *</label>
+                            <input type="password" id="usuarioPassword" placeholder="Mínimo 8 caracteres" minlength="8" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="usuarioConfirmPassword">Confirmar Senha *</label>
+                            <input type="password" id="usuarioConfirmPassword" placeholder="Digite novamente" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuarioRole">Tipo de Usuário *</label>
+                            <select id="usuarioRole" required>
+                                <option value="user">Usuário Normal</option>
+                                <option value="moderator">Moderador</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="usuarioStatus">Status *</label>
+                            <select id="usuarioStatus" required>
+                                <option value="ativo">Ativo</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="bloqueado">Bloqueado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuarioArea">Área de Interesse</label>
+                        <select id="usuarioArea">
+                            <option value="">Selecione uma área</option>
+                            <option value="cloud">Cloud Computing</option>
+                            <option value="linux">Linux & DevOps</option>
+                            <option value="security">Cybersecurity</option>
+                            <option value="network">Redes</option>
+                            <option value="governance">Governança de TI</option>
+                            <option value="data">Dados & Analytics</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuarioBio">Biografia (opcional)</label>
+                        <textarea id="usuarioBio" placeholder="Breve descrição sobre o usuário" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="fecharModalUsuario()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar Usuário</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== VERIFICAÇÃO DE AUTENTICAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            verificarAutenticacao();
+            carregarDadosDashboard();
+            atualizarData();
+            inicializarNavegacao();
+            carregarDadosTabelas();
+        });
+
+        // Verificar se o usuário está autenticado como admin
+        function verificarAutenticacao() {
+            const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+            const adminName = localStorage.getItem('adminName') || 'Administrador';
+            const adminUsername = localStorage.getItem('adminUsername') || 'admin';
+            
+            if (adminLoggedIn !== 'true') {
+                // Se não estiver autenticado, redirecionar para o site principal
+                alert('Acesso não autorizado. Redirecionando...');
+                window.location.href = 'index(4).html';
+                return;
+            }
+            
+            // Atualizar informações do admin na interface
+            document.getElementById('adminUserName').textContent = adminName;
+            document.getElementById('adminRole').textContent = adminUsername === 'admin' ? 'ADMIN' : 'MOD';
+        }
+
+        // Sair do painel admin
+        function sairAdmin() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminName');
+            localStorage.removeItem('adminUsername');
+            window.location.href = 'index(4).html';
+        }
+
+        // Voltar para o site principal
+        function voltarParaSite() {
+            window.location.href = 'index(4).html';
+        }
+
+        // ========== NAVEGAÇÃO ENTRE SEÇÕES ==========
+        function inicializarNavegacao() {
+            const navItems = document.querySelectorAll('.admin-nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover classe active de todos
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Adicionar classe active ao item clicado
+                    this.classList.add('active');
+                    
+                    // Mostrar seção correspondente
+                    const sectionId = this.dataset.section;
+                    mostrarSecao(sectionId);
+                });
+            });
+        }
+
+        function mostrarSecao(sectionId) {
+            // Esconder todas as seções
+            const sections = document.querySelectorAll('.admin-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar seção selecionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
+
+        // ========== DADOS DO DASHBOARD ==========
+        function carregarDadosDashboard() {
+            // Simular dados do dashboard
+            const dados = {
+                totalUsers: '1,254',
+                totalMaterials: '87',
+                totalSimulados: '42',
+                totalPosts: '156'
+            };
+            
+            // Atualizar estatísticas
+            for (const [key, value] of Object.entries(dados)) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+            
+            // Atualizar atividade recente
+            carregarAtividadeRecente();
+        }
+
+        function carregarAtividadeRecente() {
+            const atividades = [
+                { user: 'João Silva', action: 'Completou simulado ITIL 4', time: '10 minutos atrás', status: 'Concluído' },
+                { user: 'Maria Santos', action: 'Adicionou novo material', time: '30 minutos atrás', status: 'Aprovado' },
+                { user: 'Carlos Oliveira', action: 'Registrou-se no site', time: '1 hora atrás', status: 'Ativo' },
+                { user: 'Ana Costa', action: 'Postou no fórum', time: '2 horas atrás', status: 'Publicado' },
+                { user: 'Pedro Lima', action: 'Fez upload de simulado', time: '3 horas atrás', status: 'Em revisão' }
+            ];
+            
+            const tbody = document.getElementById('recentActivity');
+            tbody.innerHTML = '';
+            
+            atividades.forEach(atividade => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${atividade.user}</strong></td>
+                    <td>${atividade.action}</td>
+                    <td><small class="text-muted">${atividade.time}</small></td>
+                    <td><span class="status-badge status-active">${atividade.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function atualizarData() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('pt-BR', options);
+            document.getElementById('currentDate').textContent = dateString;
+        }
+
+        // ========== FUNÇÕES DOS MODAIS ==========
+        // Material de Estudo
+        function abrirModalMaterial(materialId = null) {
+            const modal = document.getElementById('modalMaterial');
+            const title = document.getElementById('modalMaterialTitle');
+            const form = document.getElementById('formMaterial');
+            
+            if (materialId) {
+                title.textContent = 'Editar Material de Estudo';
+                // Carregar dados do material (simulação)
+                document.getElementById('materialTitle').value = 'Guia Completo LPIC-1';
+                document.getElementById('materialCategory').value = 'linux';
+                document.getElementById('materialType').value = 'pdf';
+                document.getElementById('materialDescription').value = 'Guia completo para preparação da certificação LPIC-1';
+                document.getElementById('materialContent').value = 'https://exemplo.com/lpic1-guia.pdf';
+                document.getElementById('materialTags').value = 'linux, comandos, lpic-1, certificação';
+                document.getElementById('materialStatus').value = 'ativo';
+                document.getElementById('materialDifficulty').value = 'intermediario';
+            } else {
+                title.textContent = 'Adicionar Material de Estudo';
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function fecharModalMaterial() {
+            document.getElementById('modalMaterial').classList.remove('active');
+        }
+
+        function previewFileUpload(input) {
+            const filePreview = document.getElementById('filePreview');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                fileName.textContent = file.name;
+                fileSize.textContent = formatBytes(file.size);
+                filePreview.style.display = 'flex';
+            }
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // Simulado
+        function abrirModalSimulado(simuladoId = null) {
+            const modal = document.getElementById('modalSimulado');
+            const title = document.getElementById('modalSimuladoTitle');
+            const form = document.getElementById('formSimulado');
+            
+            if (simuladoId) {
+                title.textContent = 'Editar Simulado';
+                // Carregar dados do simulado (simulação)
+                document.getElementById('simuladoName').value = 'ITIL 4 Foundation - Simulado 1';
+                document.getElementById('simuladoCertification').value = 'itil4';
+                document.getElementById('simuladoQuestions').value = 20;
+                document.getElementById('simuladoDuration').value = 60;
+                document.getElementById('simuladoPassingGrade').value = 70;
+                document.getElementById('simuladoDescription').value = 'Simulado completo para ITIL 4 Foundation';
+                document.getElementById('simuladoInstructions').value = 'Leia cada questão cuidadosamente. Você tem tempo limitado. Boa sorte!';
+                document.getElementById('simuladoStatus').value = 'ativo';
+                document.getElementById('simuladoAccess').value = 'registrado';
+            } else {
+                title.textContent = 'Adicionar Simulado';
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function fecharModalSimulado() {
+            document.getElementById('modalSimulado').classList.remove('active');
+        }
+
+        // Certificação
+        function abrirModalCertificacao(certificacaoId = null) {
+            const modal = document.getElementById('modalCertificacao');
+            const title = document.getElementById('modalCertificacaoTitle');
+            const form = document.getElementById('formCertificacao');
+            
+            if (certificacaoId) {
+                title.textContent = 'Editar Certificação';
+                // Carregar dados da certificação (simulação)
+                document.getElementById('certificacaoName').value = 'ITIL 4 Foundation';
+                document.getElementById('certificacaoProvider').value = 'axelos';
+                document.getElementById('certificacaoCode').value = 'ITIL4-F';
+                document.getElementById('certificacaoLevel').value = 'fundamental';
+                document.getElementById('certificacaoCategory').value = 'governance';
+                document.getElementById('certificacaoDescription').value = 'Framework de gerenciamento de serviços de TI';
+                document.getElementById('certificacaoDetails').value = '40 questões, 60 minutos, nota de aprovação 65%';
+                document.getElementById('certificacaoDuration').value = 60;
+                document.getElementById('certificacaoQuestions').value = 40;
+                document.getElementById('certificacaoIcon').value = 'fas fa-cube';
+            } else {
+                title.textContent = 'Adicionar Certificação';
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function fecharModalCertificacao() {
+            document.getElementById('modalCertificacao').classList.remove('active');
+        }
+
+        // Usuário
+        function abrirModalUsuario(usuarioId = null) {
+            const modal = document.getElementById('modalUsuario');
+            const title = document.getElementById('modalUsuarioTitle');
+            const form = document.getElementById('formUsuario');
+            
+            if (usuarioId) {
+                title.textContent = 'Editar Usuário';
+                // Carregar dados do usuário (simulação)
+                document.getElementById('usuarioFirstName').value = 'João';
+                document.getElementById('usuarioLastName').value = 'Silva';
+                document.getElementById('usuarioEmail').value = 'joao@exemplo.com';
+                document.getElementById('usuarioRole').value = 'user';
+                document.getElementById('usuarioStatus').value = 'ativo';
+                document.getElementById('usuarioArea').value = 'cloud';
+                document.getElementById('usuarioBio').value = 'Profissional de TI com interesse em cloud computing';
+            } else {
+                title.textContent = 'Adicionar Usuário';
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function fecharModalUsuario() {
+            document.getElementById('modalUsuario').classList.remove('active');
+        }
+
+        // ========== CARREGAR DADOS NAS TABELAS ==========
+        function carregarDadosTabelas() {
+            carregarMateriais();
+            carregarSimulados();
+            carregarCertificacoes();
+            carregarUsuarios();
+        }
+
+        function carregarMateriais() {
+            const materiais = [
+                { id: 1, titulo: 'Guia Completo LPIC-1', categoria: 'Linux', tipo: 'PDF', data: '2023-10-15', views: 1245, status: 'ativo' },
+                { id: 2, titulo: 'Videoaula ITIL 4 Foundation', categoria: 'Governança', tipo: 'Vídeo', data: '2023-10-10', views: 892, status: 'ativo' },
+                { id: 3, titulo: 'Resumo Security+', categoria: 'Segurança', tipo: 'PDF', data: '2023-10-05', views: 567, status: 'ativo' },
+                { id: 4, titulo: 'AWS Cloud Practitioner - Slides', categoria: 'Cloud', tipo: 'PPT', data: '2023-09-28', views: 432, status: 'rascunho' },
+                { id: 5, titulo: 'Azure Fundamentals - Exercícios', categoria: 'Cloud', tipo: 'PDF', data: '2023-09-20', views: 321, status: 'ativo' }
+            ];
+            
+            const tbody = document.getElementById('materialsTable');
+            tbody.innerHTML = '';
+            
+            materiais.forEach(material => {
+                const statusClass = material.status === 'ativo' ? 'status-active' : 
+                                   material.status === 'rascunho' ? 'status-pending' : 'status-inactive';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${material.id}</td>
+                    <td><strong>${material.titulo}</strong></td>
+                    <td>${material.categoria}</td>
+                    <td>${material.tipo}</td>
+                    <td>${material.data}</td>
+                    <td>${material.views}</td>
+                    <td><span class="status-badge ${statusClass}">${material.status}</span></td>
+                    <td class="actions-cell">
+                        <button class="action-btn action-edit" onclick="abrirModalMaterial(${material.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn action-delete" onclick="excluirMaterial(${material.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="action-btn action-view" onclick="visualizarMaterial(${material.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function carregarSimulados() {
+            const simulados = [
+                { id: 1, nome: 'ITIL 4 Foundation - Simulado 1', certificacao: 'ITIL 4', questoes: 20, duracao: 60, tentativas: 145, status: 'ativo' },
+                { id: 2, nome: 'LPIC-1 - Comandos Básicos', certificacao: 'LPIC-1', questoes: 30, duracao: 90, tentativas: 89, status: 'ativo' },
+                { id: 3, nome: 'Security+ SY0-601 - Parte 1', certificacao: 'Security+', questoes: 25, duracao: 75, tentativas: 67, status: 'ativo' },
+                { id: 4, nome: 'AWS Cloud Practitioner', certificacao: 'AWS', questoes: 40, duracao: 90, tentativas: 54, status: 'em-breve' },
+                { id: 5, nome: 'Azure Fundamentals AZ-900', certificacao: 'Azure', questoes: 35, duracao: 85, tentativas: 42, status: 'ativo' }
+            ];
+            
+            const tbody = document.getElementById('simuladosTable');
+            tbody.innerHTML = '';
+            
+            simulados.forEach(simulado => {
+                const statusClass = simulado.status === 'ativo' ? 'status-active' : 
+                                   simulado.status === 'em-breve' ? 'status-pending' : 'status-inactive';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${simulado.id}</td>
+                    <td><strong>${simulado.nome}</strong></td>
+                    <td>${simulado.certificacao}</td>
+                    <td>${simulado.questoes}</td>
+                    <td>${simulado.duracao} min</td>
+                    <td>${simulado.tentativas}</td>
+                    <td><span class="status-badge ${statusClass}">${simulado.status}</span></td>
+                    <td class="actions-cell">
+                        <button class="action-btn action-edit" onclick="abrirModalSimulado(${simulado.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn action-delete" onclick="excluirSimulado(${simulado.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="action-btn action-view" onclick="visualizarSimulado(${simulado.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function carregarCertificacoes() {
+            const certificacoes = [
+                { id: 1, nome: 'ITIL 4 Foundation', fornecedor: 'AXELOS', nivel: 'Fundamental', categoria: 'Governança', icon: 'fas fa-cube' },
+                { id: 2, nome: 'LPIC-1', fornecedor: 'LPI', nivel: 'Associate', categoria: 'Linux', icon: 'fas fa-server' },
+                { id: 3, nome: 'Security+', fornecedor: 'CompTIA', nivel: 'Fundamental', categoria: 'Segurança', icon: 'fas fa-shield-alt' },
+                { id: 4, nome: 'AWS Cloud Practitioner', fornecedor: 'Amazon', nivel: 'Fundamental', categoria: 'Cloud', icon: 'fab fa-aws' },
+                { id: 5, nome: 'Azure Fundamentals', fornecedor: 'Microsoft', nivel: 'Fundamental', categoria: 'Cloud', icon: 'fab fa-microsoft' },
+                { id: 6, nome: 'CCNA', fornecedor: 'Cisco', nivel: 'Associate', categoria: 'Redes', icon: 'fas fa-network-wired' }
+            ];
+            
+            const grid = document.getElementById('certificationsGrid');
+            grid.innerHTML = '';
+            
+            certificacoes.forEach(cert => {
+                const card = document.createElement('div');
+                card.className = 'content-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h3><i class="${cert.icon}"></i> ${cert.nome}</h3>
+                        <span class="status-badge status-active">Ativa</span>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Fornecedor:</strong> ${cert.fornecedor}</p>
+                        <p><strong>Nível:</strong> ${cert.nivel}</p>
+                        <p><strong>Categoria:</strong> ${cert.categoria}</p>
+                        <p><strong>Materiais:</strong> 12 disponíveis</p>
+                        <p><strong>Simulados:</strong> 5 disponíveis</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm" onclick="abrirModalCertificacao(${cert.id})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="excluirCertificacao(${cert.id})">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function carregarUsuarios() {
+            const usuarios = [
+                { id: 1, nome: 'João Silva', email: 'joao@exemplo.com', tipo: 'Usuário', cadastro: '2023-09-15', status: 'ativo' },
+                { id: 2, nome: 'Maria Santos', email: 'maria@exemplo.com', tipo: 'Moderador', cadastro: '2023-09-10', status: 'ativo' },
+                { id: 3, nome: 'Carlos Oliveira', email: 'carlos@exemplo.com', tipo: 'Administrador', cadastro: '2023-09-05', status: 'ativo' },
+                { id: 4, nome: 'Ana Costa', email: 'ana@exemplo.com', tipo: 'Usuário', cadastro: '2023-08-28', status: 'pendente' },
+                { id: 5, nome: 'Pedro Lima', email: 'pedro@exemplo.com', tipo: 'Usuário', cadastro: '2023-08-20', status: 'bloqueado' }
+            ];
+            
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = '';
+            
+            usuarios.forEach(usuario => {
+                const statusClass = usuario.status === 'ativo' ? 'status-active' : 
+                                   usuario.status === 'pendente' ? 'status-pending' : 'status-inactive';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${usuario.id}</td>
+                    <td><strong>${usuario.nome}</strong></td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.tipo}</td>
+                    <td>${usuario.cadastro}</td>
+                    <td><span class="status-badge ${statusClass}">${usuario.status}</span></td>
+                    <td class="actions-cell">
+                        <button class="action-btn action-edit" onclick="abrirModalUsuario(${usuario.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn action-delete" onclick="excluirUsuario(${usuario.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ========== FUNÇÕES DE EXCLUSÃO ==========
+        function excluirMaterial(id) {
+            if (confirm(`Tem certeza que deseja excluir o material #${id}?`)) {
+                alert(`Material #${id} excluído com sucesso!`);
+                carregarMateriais();
+            }
+        }
+
+        function excluirSimulado(id) {
+            if (confirm(`Tem certeza que deseja excluir o simulado #${id}?`)) {
+                alert(`Simulado #${id} excluído com sucesso!`);
+                carregarSimulados();
+            }
+        }
+
+        function excluirCertificacao(id) {
+            if (confirm(`Tem certeza que deseja excluir a certificação #${id}?`)) {
+                alert(`Certificação #${id} excluída com sucesso!`);
+                carregarCertificacoes();
+            }
+        }
+
+        function excluirUsuario(id) {
+            if (confirm(`Tem certeza que deseja excluir o usuário #${id}?`)) {
+                alert(`Usuário #${id} excluído com sucesso!`);
+                carregarUsuarios();
+            }
+        }
+
+        // ========== FUNÇÕES DE VISUALIZAÇÃO ==========
+        function visualizarMaterial(id) {
+            alert(`Visualizando material #${id}\n\nEsta funcionalidade abriria o material em uma nova aba.`);
+        }
+
+        function visualizarSimulado(id) {
+            alert(`Visualizando simulado #${id}\n\nEsta funcionalidade abriria o simulado em uma nova aba.`);
+        }
+
+        // ========== SALVAR CONFIGURAÇÕES ==========
+        function salvarConfiguracoes() {
+            const siteName = document.getElementById('siteName').value;
+            const siteDescription = document.getElementById('siteDescription').value;
+            const adminEmail = document.getElementById('adminEmail').value;
+            const contactPhone = document.getElementById('contactPhone').value;
+            const maintenanceMode = document.getElementById('maintenanceMode').value;
+            
+            // Simular salvamento
+            alert('Configurações salvas com sucesso!');
+            
+            // Atualizar título se necessário
+            if (siteName) {
+                document.title = `Painel Administrativo - ${siteName}`;
+                const logoTitle = document.querySelector('.admin-logo h1 span');
+                if (logoTitle) {
+                    logoTitle.textContent = siteName;
+                }
+            }
+        }
+
+        // ========== SUBMISSÃO DOS FORMULÁRIOS ==========
+        document.getElementById('formMaterial').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Material salvo com sucesso!');
+            fecharModalMaterial();
+            carregarMateriais();
+        });
+
+        document.getElementById('formSimulado').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Simulado salvo com sucesso!');
+            fecharModalSimulado();
+            carregarSimulados();
+        });
+
+        document.getElementById('formCertificacao').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Certificação salva com sucesso!');
+            fecharModalCertificacao();
+            carregarCertificacoes();
+        });
+
+        document.getElementById('formUsuario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('usuarioPassword').value;
+            const confirmPassword = document.getElementById('usuarioConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            alert('Usuário salvo com sucesso!');
+            fecharModalUsuario();
+            carregarUsuarios();
+        });
+
+        // Fechar modais ao clicar fora
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Fechar modais com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
