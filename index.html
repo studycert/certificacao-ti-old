@@ -2061,12 +2061,12 @@
             </div>
             
             <div class="modal-auth-tabs">
-                <button class="auth-tab active" data-tab="login">Entrar</button>
-                <button class="auth-tab" data-tab="register">Cadastrar</button>
+                <button class="auth-tab active" data-tab="login" onclick="mostrarFormulario('login')">Entrar</button>
+                <button class="auth-tab" data-tab="register" onclick="mostrarFormulario('register')">Cadastrar</button>
             </div>
             
             <!-- Formulário de Login -->
-            <form id="loginForm" class="auth-form active" onsubmit="return fazerLogin(event)">
+            <form id="loginForm" class="auth-form active">
                 <div id="loginMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2083,7 +2083,7 @@
                         </button>
                     </div>
                     <div class="forgot-password">
-                        <a href="#" onclick="mostrarRecuperacao()">Esqueceu a senha?</a>
+                        <a href="#" onclick="mostrarFormulario('recovery')">Esqueceu a senha?</a>
                     </div>
                 </div>
                 
@@ -2093,7 +2093,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-block">
+                    <button type="button" class="btn btn-primary btn-block" onclick="fazerLogin()">
                         <i class="fas fa-sign-in-alt"></i> Entrar
                     </button>
                 </div>
@@ -2111,12 +2111,12 @@
                 </div>
                 
                 <div class="form-footer">
-                    Não tem uma conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se aqui</a>
+                    Não tem uma conta? <a href="#" onclick="mostrarFormulario('register')">Cadastre-se aqui</a>
                 </div>
             </form>
             
             <!-- Formulário de Cadastro -->
-            <form id="registerForm" class="auth-form" onsubmit="return fazerCadastro(event)">
+            <form id="registerForm" class="auth-form">
                 <div id="registerMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2182,18 +2182,18 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success btn-block">
+                    <button type="button" class="btn btn-success btn-block" onclick="fazerCadastro()">
                         <i class="fas fa-user-plus"></i> Criar Conta
                     </button>
                 </div>
                 
                 <div class="form-footer">
-                    Já tem uma conta? <a href="#" onclick="mostrarLogin()">Faça login aqui</a>
+                    Já tem uma conta? <a href="#" onclick="mostrarFormulario('login')">Faça login aqui</a>
                 </div>
             </form>
             
             <!-- Formulário de Recuperação de Senha -->
-            <form id="recoveryForm" class="auth-form" onsubmit="return solicitarRecuperacao(event)">
+            <form id="recoveryForm" class="auth-form">
                 <div id="recoveryMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2202,13 +2202,13 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-warning btn-block">
+                    <button type="button" class="btn btn-warning btn-block" onclick="solicitarRecuperacao()">
                         <i class="fas fa-key"></i> Enviar Link de Recuperação
                     </button>
                 </div>
                 
                 <div class="form-footer">
-                    <a href="#" onclick="mostrarLogin()">Voltar para o login</a>
+                    <a href="#" onclick="mostrarFormulario('login')">Voltar para o login</a>
                 </div>
             </form>
         </div>
@@ -2222,7 +2222,7 @@
             </div>
             <div class="modal-admin-body">
                 <div id="adminError" class="admin-error"></div>
-                <form id="adminLoginForm" class="admin-form" onsubmit="return fazerLoginAdmin(event)">
+                <form id="adminLoginForm" class="admin-form">
                     <div class="admin-form-group">
                         <label for="adminUsername">Usuário Admin</label>
                         <input type="text" id="adminUsername" placeholder="Digite o usuário admin" required>
@@ -2233,7 +2233,7 @@
                     </div>
                     <div class="admin-form-actions">
                         <button type="button" class="btn btn-outline" onclick="fecharModalAdmin()" style="flex: 1;">Cancelar</button>
-                        <button type="submit" class="btn-admin-login">Acessar Painel</button>
+                        <button type="button" class="btn-admin-login" onclick="fazerLoginAdmin()">Acessar Painel</button>
                     </div>
                 </form>
             </div>
@@ -2241,64 +2241,56 @@
     </div>
 
     <script>
-        // ========== FUNÇÕES GLOBAIS ==========
-        window.onload = function() {
+        // ========== INICIALIZAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', function() {
             inicializarPagina();
-        };
+        });
 
         function inicializarPagina() {
             configurarNavegacao();
-            configurarAutenticacao();
+            inicializarAuthButtons();
             configurarModais();
-            verificarUsuarioLogado();
             configurarEventosGerais();
         }
 
-        // ========== NAVEGAÇÃO ENTRE SEÇÕES ==========
+        // ========== NAVEGAÇÃO ==========
         function configurarNavegacao() {
-            const navLinks = document.querySelectorAll('.nav-link, .footer-links a, .btn[onclick*="mostrarSecao"]');
+            const navLinks = document.querySelectorAll('.nav-link');
             const mainContents = document.querySelectorAll('.main-content');
             
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    let targetId;
-                    if (this.getAttribute('data-target')) {
-                        targetId = this.getAttribute('data-target');
-                    } else if (this.getAttribute('onclick')) {
-                        const match = this.getAttribute('onclick').match(/mostrarSecao\('(\w+)'\)/);
-                        if (match) targetId = match[1];
-                    }
+                    const targetId = this.getAttribute('data-target');
                     
-                    if (targetId) {
-                        // Update active nav link
-                        document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
-                        document.querySelector(`[data-target="${targetId}"]`)?.classList.add('active');
-                        
-                        // Show target section
-                        mainContents.forEach(content => {
-                            content.classList.remove('active');
-                            if (content.id === targetId) {
-                                content.classList.add('active');
-                            }
-                        });
-                        
-                        // Scroll to top
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
+                    // Ativar link de navegação
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar seção correspondente
+                    mainContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll para o topo
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
         }
 
         window.mostrarSecao = function(sectionId) {
+            const navLinks = document.querySelectorAll('.nav-link');
             const mainContents = document.querySelectorAll('.main-content');
             
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
-            document.querySelector(`[data-target="${sectionId}"]`)?.classList.add('active');
+            // Ativar link
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            document.querySelector(`[data-target="${sectionId}"]`).classList.add('active');
             
-            // Show target section
+            // Mostrar seção
             mainContents.forEach(content => {
                 content.classList.remove('active');
                 if (content.id === sectionId) {
@@ -2306,30 +2298,13 @@
                 }
             });
             
-            // Scroll to top
+            // Scroll para o topo
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // ========== AUTENTICAÇÃO ==========
-        function configurarAutenticacao() {
-            // Configurar abas do formulário
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.dataset.tab;
-                    
-                    // Ativar aba clicada
-                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Mostrar formulário correspondente
-                    document.querySelectorAll('.auth-form').forEach(form => {
-                        form.classList.remove('active');
-                        if (form.id === tabId + 'Form') {
-                            form.classList.add('active');
-                        }
-                    });
-                });
-            });
+        // ========== BOTÕES DE AUTENTICAÇÃO ==========
+        function inicializarAuthButtons() {
+            atualizarAuthButtons();
         }
 
         function atualizarAuthButtons() {
@@ -2340,13 +2315,14 @@
             
             if (userLoggedIn === 'true' && userName) {
                 const nomeExibido = userName.split(' ')[0];
+                const isAdmin = verificarSeEhAdmin(userEmail);
                 
                 authButtons.innerHTML = `
                     <div class="user-area">
                         <div class="user-greeting">
                             <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
                         </div>
-                        ${verificarSeEhAdmin(userEmail) ? `
+                        ${isAdmin ? `
                         <button class="btn btn-admin" onclick="acessarPainelAdmin()">
                             <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
                         </button>
@@ -2371,20 +2347,107 @@
             }
         }
 
-        function verificarUsuarioLogado() {
-            atualizarAuthButtons();
-        }
-
         function verificarSeEhAdmin(email) {
             if (!email) return false;
             const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'admin@example.com'];
             return adminEmails.includes(email.toLowerCase());
         }
 
-        // ========== FUNÇÕES DE LOGIN/CADASTRO ==========
-        function fazerLogin(event) {
-            event.preventDefault();
+        // ========== MODAIS ==========
+        function configurarModais() {
+            // Configurar fechamento de modais ao clicar fora
+            document.querySelectorAll('.modal-simulados, .modal-auth, .modal-admin').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        if (this.id === 'modalSimulados') fecharModalSimulados();
+                        if (this.id === 'modalAuth') fecharModalAuth();
+                        if (this.id === 'modalAdmin') fecharModalAdmin();
+                    }
+                });
+            });
+
+            // Configurar tecla ESC para fechar modais
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('modalSimulados').classList.contains('active')) fecharModalSimulados();
+                    if (document.getElementById('modalAuth').classList.contains('active')) fecharModalAuth();
+                    if (document.getElementById('modalAdmin').classList.contains('active')) fecharModalAdmin();
+                }
+            });
+        }
+
+        // Modal de Simulados
+        function abrirModalSimulados() {
+            document.getElementById('modalSimulados').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            document.getElementById('modalSimulados').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Modal de Autenticação
+        function abrirModalAuth(tipo = 'login') {
+            const modal = document.getElementById('modalAuth');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            mostrarFormulario(tipo);
+        }
+
+        function fecharModalAuth() {
+            document.getElementById('modalAuth').classList.remove('active');
+            document.body.style.overflow = 'auto';
             
+            // Limpar formulários
+            document.getElementById('loginForm').reset();
+            document.getElementById('registerForm').reset();
+            document.getElementById('recoveryForm').reset();
+            
+            // Esconder mensagens
+            ['loginMessage', 'registerMessage', 'recoveryMessage'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.style.display = 'none';
+            });
+        }
+
+        function mostrarFormulario(tipo) {
+            // Ativar aba correspondente
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tipo) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Mostrar formulário correspondente
+            const forms = ['loginForm', 'registerForm', 'recoveryForm'];
+            forms.forEach(formId => {
+                const form = document.getElementById(formId);
+                if (form) {
+                    form.classList.remove('active');
+                    if (formId === tipo + 'Form') {
+                        form.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // Modal Admin
+        function abrirModalAdmin() {
+            document.getElementById('modalAdmin').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalAdmin() {
+            document.getElementById('modalAdmin').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('adminLoginForm').reset();
+            document.getElementById('adminError').style.display = 'none';
+        }
+
+        // ========== FUNÇÕES DE LOGIN/CADASTRO ==========
+        function fazerLogin() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const message = document.getElementById('loginMessage');
@@ -2392,33 +2455,45 @@
             // Validação básica
             if (!email || !password) {
                 showMessage(message, 'Por favor, preencha todos os campos.', 'error');
-                return false;
+                return;
             }
             
-            // Simulação de login
+            // Mostrar mensagem de processamento
             showMessage(message, 'Entrando...', 'success');
             
+            // Simulação de login (delay de 1 segundo)
             setTimeout(() => {
+                // Verificar se é um admin
+                const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com'];
+                const isAdmin = adminEmails.includes(email.toLowerCase());
+                
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', email.split('@')[0]);
                 localStorage.setItem('userLoggedIn', 'true');
+                if (isAdmin) {
+                    localStorage.setItem('isAdmin', 'true');
+                }
                 
+                // Sucesso
                 showMessage(message, 'Login realizado com sucesso!', 'success');
                 
                 // Fechar modal e atualizar interface
                 setTimeout(() => {
                     fecharModalAuth();
                     atualizarAuthButtons();
+                    
+                    // Mostrar mensagem de boas-vindas
+                    if (isAdmin) {
+                        alert('Bem-vindo, Administrador!');
+                    } else {
+                        alert('Login realizado com sucesso!');
+                    }
                 }, 1000);
-            }, 1500);
-            
-            return false;
+            }, 1000);
         }
 
-        function fazerCadastro(event) {
-            event.preventDefault();
-            
+        function fazerCadastro() {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const area = document.getElementById('registerArea').value;
@@ -2430,27 +2505,28 @@
             // Validações
             if (!name || !email || !area || !password || !confirmPassword) {
                 showMessage(message, 'Por favor, preencha todos os campos.', 'error');
-                return false;
+                return;
             }
             
             if (!terms) {
                 showMessage(message, 'Você precisa aceitar os termos de uso.', 'error');
-                return false;
+                return;
             }
             
             if (password.length < 8) {
                 showMessage(message, 'A senha deve ter pelo menos 8 caracteres.', 'error');
-                return false;
+                return;
             }
             
             if (password !== confirmPassword) {
                 showMessage(message, 'As senhas não coincidem.', 'error');
-                return false;
+                return;
             }
             
-            // Simulação de cadastro
+            // Mostrar mensagem de processamento
             showMessage(message, 'Criando sua conta...', 'success');
             
+            // Simulação de cadastro (delay de 1.5 segundos)
             setTimeout(() => {
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
@@ -2458,42 +2534,39 @@
                 localStorage.setItem('userArea', area);
                 localStorage.setItem('userLoggedIn', 'true');
                 
+                // Sucesso
                 showMessage(message, 'Cadastro realizado com sucesso! Bem-vindo ao StudyCert!', 'success');
                 
                 // Fechar modal e atualizar interface
                 setTimeout(() => {
                     fecharModalAuth();
                     atualizarAuthButtons();
-                }, 2000);
+                    alert('Cadastro realizado com sucesso!');
+                }, 1500);
             }, 1500);
-            
-            return false;
         }
 
-        function solicitarRecuperacao(event) {
-            event.preventDefault();
-            
+        function solicitarRecuperacao() {
             const email = document.getElementById('recoveryEmail').value;
             const message = document.getElementById('recoveryMessage');
             
             if (!email) {
                 showMessage(message, 'Por favor, digite seu e-mail.', 'error');
-                return false;
+                return;
             }
             
-            // Simulação de envio
+            // Mostrar mensagem de processamento
             showMessage(message, 'Enviando link de recuperação...', 'success');
             
+            // Simulação de envio (delay de 1.5 segundos)
             setTimeout(() => {
                 showMessage(message, `Link enviado para ${email}. Verifique sua caixa de entrada.`, 'success');
                 
                 // Voltar para login após 3 segundos
                 setTimeout(() => {
-                    mostrarLogin();
+                    mostrarFormulario('login');
                 }, 3000);
             }, 1500);
-            
-            return false;
         }
 
         // ========== FUNÇÕES DE ADMIN ==========
@@ -2501,16 +2574,16 @@
             const usuarioAtual = localStorage.getItem('userEmail');
             
             if (verificarSeEhAdmin(usuarioAtual)) {
-                alert('Redirecionando para painel administrativo...');
+                // Simulação de redirecionamento para painel admin
+                alert('Redirecionando para painel administrativo...\n\nEm uma implementação real, você seria redirecionado para admin.html');
                 // window.location.href = 'admin.html';
             } else {
+                // Se não for admin, abrir modal de login admin
                 abrirModalAdmin();
             }
         }
 
-        function fazerLoginAdmin(event) {
-            event.preventDefault();
-            
+        function fazerLoginAdmin() {
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
             const errorElement = document.getElementById('adminError');
@@ -2531,6 +2604,7 @@
                 localStorage.setItem('userEmail', admin.email);
                 localStorage.setItem('userName', username);
                 localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('isAdmin', 'true');
                 
                 fecharModalAdmin();
                 atualizarAuthButtons();
@@ -2538,8 +2612,6 @@
             } else {
                 showAdminError('Credenciais inválidas. Tente novamente.');
             }
-            
-            return false;
         }
 
         function showAdminError(message) {
@@ -2550,97 +2622,6 @@
             setTimeout(() => {
                 errorElement.style.display = 'none';
             }, 3000);
-        }
-
-        // ========== MODAIS ==========
-        function configurarModais() {
-            // Modal de Simulados
-            window.abrirModalSimulados = function() {
-                const modal = document.getElementById('modalSimulados');
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            window.fecharModalSimulados = function() {
-                const modal = document.getElementById('modalSimulados');
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Modal de Autenticação
-            window.abrirModalAuth = function(tipo = 'login') {
-                const modal = document.getElementById('modalAuth');
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Mostrar o formulário correto
-                if (tipo === 'login') {
-                    mostrarLogin();
-                } else if (tipo === 'register') {
-                    mostrarCadastro();
-                }
-            }
-
-            window.fecharModalAuth = function() {
-                const modal = document.getElementById('modalAuth');
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Modal Admin
-            window.abrirModalAdmin = function() {
-                const modal = document.getElementById('modalAdmin');
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            window.fecharModalAdmin = function() {
-                const modal = document.getElementById('modalAdmin');
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // Funções auxiliares modais
-        function mostrarLogin() {
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === 'login') {
-                    tab.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'loginForm') {
-                    form.classList.add('active');
-                }
-            });
-        }
-
-        function mostrarCadastro() {
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === 'register') {
-                    tab.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'registerForm') {
-                    form.classList.add('active');
-                }
-            });
-        }
-
-        function mostrarRecuperacao() {
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'recoveryForm') {
-                    form.classList.add('active');
-                }
-            });
         }
 
         // ========== FUNÇÕES AUXILIARES ==========
@@ -2673,11 +2654,14 @@
         }
 
         function fazerLogout() {
+            // Limpar dados do usuário
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userName');
             localStorage.removeItem('userArea');
             localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('isAdmin');
             
+            // Atualizar interface
             atualizarAuthButtons();
             alert('Você saiu da sua conta.');
         }
@@ -2694,6 +2678,7 @@
                 
                 fecharModalAuth();
                 atualizarAuthButtons();
+                alert('Login com Google realizado com sucesso!');
             }, 1500);
         }
 
@@ -2709,48 +2694,25 @@
                 
                 fecharModalAuth();
                 atualizarAuthButtons();
+                alert('Login com GitHub realizado com sucesso!');
             }, 1500);
         }
 
         function abrirPerfil() {
-            alert('Página de perfil em desenvolvimento!');
+            alert('Página de perfil em desenvolvimento!\n\nAqui você poderá visualizar e editar suas informações, ver seu progresso e histórico de atividades.');
         }
 
         function mostrarTermos() {
-            alert('Termos de Uso:\n\n1. Uso do conteúdo apenas para estudo pessoal\n2. Proibida a redistribuição comercial\n3. Dados protegidos pela LGPD\n\nTexto completo disponível em /termos.html');
+            alert('TERMOS DE USO\n\n1. Aceitação dos Termos\nAo acessar e usar o StudyCert, você concorda com estes termos.\n\n2. Uso do Conteúdo\nTodo o conteúdo é para uso educacional pessoal.\n\n3. Conta do Usuário\nVocê é responsável por manter a confidencialidade de sua conta.\n\nTexto completo disponível em /termos.html');
         }
 
         function mostrarPolitica() {
-            alert('Política de Privacidade:\n\n1. Seus dados são protegidos\n2. Não compartilhamos informações com terceiros\n3. Você pode excluir sua conta a qualquer momento\n\nTexto completo disponível em /privacidade.html');
+            alert('POLÍTICA DE PRIVACIDADE\n\n1. Coleta de Informações\nColetamos apenas informações necessárias para o funcionamento da plataforma.\n\n2. Uso das Informações\nSuas informações não serão compartilhadas com terceiros.\n\n3. Segurança\nImplementamos medidas de segurança para proteger seus dados.\n\nTexto completo disponível em /privacidade.html');
         }
 
         // ========== EVENTOS GERAIS ==========
         function configurarEventosGerais() {
-            // Fechar modais ao clicar fora
-            document.getElementById('modalAuth')?.addEventListener('click', function(e) {
-                if (e.target === this) fecharModalAuth();
-            });
-
-            document.getElementById('modalSimulados')?.addEventListener('click', function(e) {
-                if (e.target === this) fecharModalSimulados();
-            });
-
-            document.getElementById('modalAdmin')?.addEventListener('click', function(e) {
-                if (e.target === this) fecharModalAdmin();
-            });
-
-            // Fechar modais com ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    const authModal = document.getElementById('modalAuth');
-                    const simuladosModal = document.getElementById('modalSimulados');
-                    const adminModal = document.getElementById('modalAdmin');
-                    
-                    if (authModal?.classList.contains('active')) fecharModalAuth();
-                    if (simuladosModal?.classList.contains('active')) fecharModalSimulados();
-                    if (adminModal?.classList.contains('active')) fecharModalAdmin();
-                }
-            });
+            // Nada adicional necessário aqui
         }
     </script>
 </body>
