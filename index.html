@@ -854,6 +854,295 @@
             .btn-sm {
                 align-self: flex-end;
             }
+            /* ========== MODAL DE LOGIN/CADASTRO ========== */
+.modal-auth {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.modal-auth.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-auth-container {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-auth-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.modal-auth-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-auth-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    margin: 0 20px 20px 20px;
+    overflow: hidden;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.auth-tab.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.auth-tab:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.auth-form {
+    padding: 0 20px 20px 20px;
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-group input {
+    width: auto;
+    margin-top: 3px;
+}
+
+.checkbox-group label {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.checkbox-group a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.checkbox-group a:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    margin-top: 2rem;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-footer a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+.social-login {
+    margin-top: 1.5rem;
+}
+
+.social-login p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.social-login p::before,
+.social-login p::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: #eee;
+}
+
+.social-login p::before {
+    left: 0;
+}
+
+.social-login p::after {
+    right: 0;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.social-btn:hover {
+    background: #f8f9fa;
+    border-color: #ccc;
+}
+
+.social-btn.google {
+    color: #DB4437;
+}
+
+.social-btn.github {
+    color: #333;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagens de erro/sucesso */
+.form-message {
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: none;
+}
+
+.form-message.error {
+    background: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+}
+
+.form-message.success {
+    background: #efe;
+    color: #393;
+    border: 1px solid #cfc;
+}
         }
     </style>
 </head>
@@ -1526,6 +1815,167 @@
 
     <!-- Footer -->
     <footer>
+        <!-- Modal de Login/Cadastro -->
+<div id="modalAuth" class="modal-auth">
+    <div class="modal-auth-container">
+        <div class="modal-auth-header">
+            <h3><i class="fas fa-user-circle"></i> Acesso StudyCert</h3>
+            <button class="fechar-modal" onclick="fecharModalAuth()">&times;</button>
+        </div>
+        
+        <div class="modal-auth-tabs">
+            <button class="auth-tab active" data-tab="login">Entrar</button>
+            <button class="auth-tab" data-tab="register">Cadastrar</button>
+        </div>
+        
+        <!-- Formulário de Login -->
+        <form id="loginForm" class="auth-form active" onsubmit="return fazerLogin(event)">
+            <div id="loginMessage" class="form-message"></div>
+            
+            <div class="form-group">
+                <label for="loginEmail">E-mail</label>
+                <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">Senha</label>
+                <div class="password-input">
+                    <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="forgot-password">
+                    <a href="#" onclick="mostrarRecuperacao()">Esqueceu a senha?</a>
+                </div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Manter-me conectado</label>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </div>
+            
+            <div class="social-login">
+                <p>Ou entre com</p>
+                <div class="social-buttons">
+                    <button type="button" class="social-btn google" onclick="loginComGoogle()">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="social-btn github" onclick="loginComGitHub()">
+                        <i class="fab fa-github"></i> GitHub
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-footer">
+                Não tem uma conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se aqui</a>
+            </div>
+        </form>
+        
+        <!-- Formulário de Cadastro -->
+        <form id="registerForm" class="auth-form" onsubmit="return fazerCadastro(event)">
+            <div id="registerMessage" class="form-message"></div>
+            
+            <div class="form-group">
+                <label for="registerName">Nome completo</label>
+                <input type="text" id="registerName" placeholder="Seu nome completo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerEmail">E-mail</label>
+                <input type="email" id="registerEmail" placeholder="seu@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerArea">Área de interesse</label>
+                <select id="registerArea" required>
+                    <option value="">Selecione sua área</option>
+                    <option value="cloud">Cloud Computing</option>
+                    <option value="linux">Linux & DevOps</option>
+                    <option value="security">Cybersecurity</option>
+                    <option value="network">Redes</option>
+                    <option value="governance">Governança de TI</option>
+                    <option value="data">Dados & Analytics</option>
+                    <option value="other">Outra</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerPassword">Senha</label>
+                <div class="password-input">
+                    <input type="password" id="registerPassword" placeholder="Mínimo 8 caracteres" minlength="8" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    A senha deve ter pelo menos 8 caracteres
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerConfirmPassword">Confirmar senha</label>
+                <div class="password-input">
+                    <input type="password" id="registerConfirmPassword" placeholder="Digite a senha novamente" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerConfirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    Concordo com os <a href="#" onclick="mostrarTermos()">Termos de Uso</a> e 
+                    <a href="#" onclick="mostrarPolitica()">Política de Privacidade</a>
+                </label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="newsletter">
+                <label for="newsletter">
+                    Desejo receber novidades, materiais de estudo e ofertas especiais por e-mail
+                </label>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success btn-block">
+                    <i class="fas fa-user-plus"></i> Criar Conta
+                </button>
+            </div>
+            
+            <div class="form-footer">
+                Já tem uma conta? <a href="#" onclick="mostrarLogin()">Faça login aqui</a>
+            </div>
+        </form>
+        
+        <!-- Formulário de Recuperação de Senha -->
+        <form id="recoveryForm" class="auth-form" onsubmit="return solicitarRecuperacao(event)">
+            <div id="recoveryMessage" class="form-message"></div>
+            
+            <div class="form-group">
+                <label for="recoveryEmail">E-mail cadastrado</label>
+                <input type="email" id="recoveryEmail" placeholder="Digite o e-mail da sua conta" required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-warning btn-block">
+                    <i class="fas fa-key"></i> Enviar Link de Recuperação
+                </button>
+            </div>
+            
+            <div class="form-footer">
+                <a href="#" onclick="mostrarLogin()">Voltar para o login</a>
+            </div>
+        </form>
+    </div>
+</div>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
