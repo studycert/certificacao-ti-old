@@ -139,6 +139,20 @@
             white-space: nowrap;
         }
 
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-greeting {
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         /* Botões */
         .btn {
             padding: 0.5rem 1rem;
@@ -659,34 +673,10 @@
             font-size: 0.9rem;
         }
 
-        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
-        
-        /* Botão "Ver todos os simulados" */
-        .show-simulados-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 15px 0 5px 0;
-            width: 200px;
-        }
-
-        .show-simulados-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
-        }
-
-        /* Modal overlay para lista de simulados */
-        .modal-simulados {
+        /* ========== MODAIS ========== */
+        .modal-simulados,
+        .modal-auth,
+        .modal-admin {
             display: none;
             position: fixed;
             top: 0;
@@ -702,13 +692,17 @@
             padding: 20px;
         }
 
-        .modal-simulados.active {
+        .modal-simulados.active,
+        .modal-auth.active,
+        .modal-admin.active {
             display: flex;
             opacity: 1;
         }
 
-        /* Container interno da modal */
-        .modal-container {
+        /* Container da modal */
+        .modal-container,
+        .modal-auth-container,
+        .modal-admin-container {
             background: white;
             border-radius: 12px;
             width: 100%;
@@ -717,6 +711,14 @@
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .modal-auth-container {
+            max-width: 450px;
+        }
+
+        .modal-admin-container {
+            max-width: 400px;
         }
 
         @keyframes modalSlideIn {
@@ -731,8 +733,10 @@
         }
 
         /* Cabeçalho da modal */
-        .modal-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        .modal-header,
+        .modal-auth-header,
+        .modal-admin-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 20px;
             border-radius: 12px 12px 0 0;
@@ -744,7 +748,14 @@
             z-index: 1;
         }
 
-        .modal-header h3 {
+        .modal-admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #9b59b6 100%);
+            text-align: center;
+        }
+
+        .modal-header h3,
+        .modal-auth-header h3,
+        .modal-admin-header h3 {
             margin: 0;
             font-size: 1.4rem;
             display: flex;
@@ -773,11 +784,36 @@
         }
 
         /* Corpo da modal */
-        .modal-body {
+        .modal-body,
+        .modal-admin-body {
             padding: 25px;
         }
 
-        /* Cada item da lista */
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Cada item da lista de simulados */
         .simulado-item-modal {
             display: flex;
             justify-content: space-between;
@@ -849,79 +885,7 @@
             color: #666;
         }
 
-        /* Scrollbar customizada */
-        .modal-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 0 0 12px 0;
-        }
-
-        .modal-container::-webkit-scrollbar-thumb {
-            background: #3498db;
-            border-radius: 4px;
-        }
-
-        .modal-container::-webkit-scrollbar-thumb:hover {
-            background: #2980b9;
-        }
-
-        /* ========== MODAL DE LOGIN/CADASTRO ========== */
-        .modal-auth {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-        }
-
-        .modal-auth.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-auth-container {
-            background: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 450px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        .modal-auth-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px 12px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
-
-        .modal-auth-header h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        /* ========== FORMULÁRIOS DE AUTENTICAÇÃO ========== */
         .modal-auth-tabs {
             display: flex;
             background: rgba(255, 255, 255, 0.1);
@@ -1158,75 +1122,24 @@
             border: 1px solid #cfc;
         }
 
-        /* ========== MODAL DE LOGIN ADMIN ========== */
-        .modal-admin {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-        }
-        
-        .modal-admin.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-admin-container {
-            background: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease-out;
-        }
-        
-        .modal-admin-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #9b59b6 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px 12px 0 0;
-            text-align: center;
-        }
-        
-        .modal-admin-header h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .modal-admin-body {
-            padding: 25px;
-        }
-        
+        /* ========== FORMULÁRIO ADMIN ========== */
         .admin-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-        
+
         .admin-form-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
-        
+
         .admin-form-group label {
             font-weight: 500;
             color: var(--primary);
         }
-        
+
         .admin-form-group input {
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -1234,19 +1147,19 @@
             font-size: 1rem;
             transition: all 0.3s;
         }
-        
+
         .admin-form-group input:focus {
             outline: none;
             border-color: #9b59b6;
             box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
         }
-        
+
         .admin-form-actions {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .btn-admin-login {
             flex: 1;
             background: #9b59b6;
@@ -1258,11 +1171,11 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .btn-admin-login:hover {
             background: #8e44ad;
         }
-        
+
         .admin-error {
             background: #fee;
             color: #c33;
@@ -1271,6 +1184,33 @@
             border: 1px solid #fcc;
             margin-bottom: 1rem;
             display: none;
+        }
+
+        /* Scrollbar customizada */
+        .modal-container::-webkit-scrollbar,
+        .modal-auth-container::-webkit-scrollbar,
+        .modal-admin-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-container::-webkit-scrollbar-track,
+        .modal-auth-container::-webkit-scrollbar-track,
+        .modal-admin-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 0 12px 0;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb,
+        .modal-auth-container::-webkit-scrollbar-thumb,
+        .modal-admin-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb:hover,
+        .modal-auth-container::-webkit-scrollbar-thumb:hover,
+        .modal-admin-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
 
         /* Responsividade */
@@ -1375,11 +1315,21 @@
                 margin-right: 0;
                 margin-bottom: 0.5rem;
             }
+            
+            .user-area {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+            }
+            
+            .user-greeting {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header com nova organização -->
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1388,9 +1338,7 @@
                     <h1>Study<span>Cert</span></h1>
                 </div>
                 
-                <!-- Área principal de navegação -->
                 <div class="main-nav">
-                    <!-- Links principais à esquerda -->
                     <div class="nav-left">
                         <nav>
                             <ul>
@@ -1403,20 +1351,8 @@
                         </nav>
                     </div>
                     
-                    <!-- Área do usuário à direita (será preenchida após login) -->
                     <div class="auth-buttons">
-                        <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
-                            <i class="fas fa-sign-in-alt"></i> Entrar
-                        </a>
-                        <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
-                            <i class="fas fa-user-plus"></i> Cadastrar
-                        </a>
-                        <!-- Botão de admin (visível apenas quando logado como admin) -->
-                        <div id="adminButtonContainer" style="display: none;" class="admin-button">
-                            <a href="#" class="btn-admin" onclick="acessarPainelAdmin()">
-                                <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
-                            </a>
-                        </div>
+                        <!-- Conteúdo dinâmico será inserido aqui pelo JavaScript -->
                     </div>
                 </div>
             </div>
@@ -1449,7 +1385,7 @@
                         <p>Participe de discussões, tire dúvidas e compartilhe conhecimento com outros profissionais de TI.</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="forum">Acessar Fórum</a>
+                        <a href="#" class="btn btn-primary" onclick="mostrarSecao('forum')">Acessar Fórum</a>
                     </div>
                 </div>
 
@@ -1461,7 +1397,7 @@
                         <p>Acesse guias, resumos, videoaulas e outros recursos para sua preparação.</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="materiais">Ver Materiais</a>
+                        <a href="#" class="btn btn-primary" onclick="mostrarSecao('materiais')">Ver Materiais</a>
                     </div>
                 </div>
 
@@ -1473,7 +1409,7 @@
                         <p>Teste seus conhecimentos com nossos simulados e acompanhe seu progresso.</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="simulados">Ver Simulados</a>
+                        <a href="#" class="btn btn-primary" onclick="mostrarSecao('simulados')">Ver Simulados</a>
                     </div>
                 </div>
             </div>
@@ -1777,7 +1713,7 @@
                     <div class="material-content">
                         <h3>ITIL 4</h3>
                         <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
+                        <a href="#" class="btn btn-primary">Acessar</a>
                     </div>
                 </div>
 
@@ -1864,11 +1800,11 @@
                 <i class="fas fa-cloud-upload-alt"></i>
                 <h3>Compartilhe Seu Simulado</h3>
                 <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+                <a href="#" class="btn btn-primary" onclick="alert('Funcionalidade de upload em desenvolvimento!')">Upload de Arquivo</a>
             </div>
 
             <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
+                <!-- ITIL 4 Foundation -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
@@ -1877,7 +1813,6 @@
                         <span class="simulado-badge">11 Simulados Disponíveis</span>
                         <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
                         
-                        <!-- Botão para mostrar simulados -->
                         <button class="show-simulados-btn" onclick="abrirModalSimulados()">
                             <i class="fas fa-list"></i> Ver 11 Simulados
                         </button>
@@ -1941,7 +1876,7 @@
                         <p>Compartilhe seu próprio simulado com a comunidade.</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-outline">Upload</a>
+                        <a href="#" class="btn btn-outline" onclick="alert('Funcionalidade de upload em desenvolvimento!')">Upload</a>
                     </div>
                 </div>
             </div>
@@ -1966,11 +1901,11 @@
                 <div class="footer-column">
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links">
-                        <li><a href="#" data-target="home">Início</a></li>
-                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
-                        <li><a href="#" data-target="forum">Fórum</a></li>
-                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
-                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                        <li><a href="#" onclick="mostrarSecao('home')">Início</a></li>
+                        <li><a href="#" onclick="mostrarSecao('certificacoes')">Certificações</a></li>
+                        <li><a href="#" onclick="mostrarSecao('forum')">Fórum</a></li>
+                        <li><a href="#" onclick="mostrarSecao('materiais')">Material de Estudo</a></li>
+                        <li><a href="#" onclick="mostrarSecao('simulados')">Simulados</a></li>
                     </ul>
                 </div>
 
@@ -2126,12 +2061,12 @@
             </div>
             
             <div class="modal-auth-tabs">
-                <button class="auth-tab" data-tab="login">Entrar</button>
+                <button class="auth-tab active" data-tab="login">Entrar</button>
                 <button class="auth-tab" data-tab="register">Cadastrar</button>
             </div>
             
             <!-- Formulário de Login -->
-            <form id="loginForm" class="auth-form" onsubmit="return fazerLogin(event)">
+            <form id="loginForm" class="auth-form active" onsubmit="return fazerLogin(event)">
                 <div id="loginMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2306,64 +2241,77 @@
     </div>
 
     <script>
+        // ========== FUNÇÕES GLOBAIS ==========
+        window.onload = function() {
+            inicializarPagina();
+        };
+
+        function inicializarPagina() {
+            configurarNavegacao();
+            configurarAutenticacao();
+            configurarModais();
+            verificarUsuarioLogado();
+            configurarEventosGerais();
+        }
+
         // ========== NAVEGAÇÃO ENTRE SEÇÕES ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
+        function configurarNavegacao() {
+            const navLinks = document.querySelectorAll('.nav-link, .footer-links a, .btn[onclick*="mostrarSecao"]');
             const mainContents = document.querySelectorAll('.main-content');
             
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    const targetId = this.getAttribute('data-target');
+                    let targetId;
+                    if (this.getAttribute('data-target')) {
+                        targetId = this.getAttribute('data-target');
+                    } else if (this.getAttribute('onclick')) {
+                        const match = this.getAttribute('onclick').match(/mostrarSecao\('(\w+)'\)/);
+                        if (match) targetId = match[1];
+                    }
                     
-                    // Update active nav link
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show target section
-                    mainContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === targetId) {
-                            content.classList.add('active');
-                        }
-                    });
-                    
-                    // Scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            });
-            
-            // Função auxiliar para mostrar seção
-            window.mostrarSecao = function(sectionId) {
-                const navLinks = document.querySelectorAll('.nav-link');
-                const mainContents = document.querySelectorAll('.main-content');
-                
-                // Update active nav link
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                document.querySelector(`[data-target="${sectionId}"]`).classList.add('active');
-                
-                // Show target section
-                mainContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === sectionId) {
-                        content.classList.add('active');
+                    if (targetId) {
+                        // Update active nav link
+                        document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                        document.querySelector(`[data-target="${targetId}"]`)?.classList.add('active');
+                        
+                        // Show target section
+                        mainContents.forEach(content => {
+                            content.classList.remove('active');
+                            if (content.id === targetId) {
+                                content.classList.add('active');
+                            }
+                        });
+                        
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 });
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
+            });
+        }
+
+        window.mostrarSecao = function(sectionId) {
+            const mainContents = document.querySelectorAll('.main-content');
             
-            // Simulate file upload for simulados
-            const uploadBtn = document.querySelector('.upload-area .btn');
-            if (uploadBtn) {
-                uploadBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    alert('Funcionalidade de upload será implementada em breve!');
-                });
-            }
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+            document.querySelector(`[data-target="${sectionId}"]`)?.classList.add('active');
             
+            // Show target section
+            mainContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === sectionId) {
+                    content.classList.add('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // ========== AUTENTICAÇÃO ==========
+        function configurarAutenticacao() {
             // Configurar abas do formulário
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -2382,108 +2330,58 @@
                     });
                 });
             });
+        }
+
+        function atualizarAuthButtons() {
+            const authButtons = document.querySelector('.auth-buttons');
+            const userLoggedIn = localStorage.getItem('userLoggedIn');
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
             
-            // Verificar se há usuário logado ao carregar
-            verificarUsuarioLogado();
-        });
-
-        // ========== MODAL DE SIMULADOS ==========
-        function abrirModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function fecharModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // ========== MODAL DE AUTENTICAÇÃO ==========
-        function abrirModalAuth(tipo = 'login') {
-            const modal = document.getElementById('modalAuth');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Mostrar o formulário correto baseado no tipo
-            if (tipo === 'login') {
-                mostrarLogin();
-            } else if (tipo === 'register') {
-                mostrarCadastro();
-            }
-        }
-
-        function fecharModalAuth() {
-            const modal = document.getElementById('modalAuth');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function mostrarLogin() {
-            // Ativar aba de login
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === 'login') {
-                    tab.classList.add('active');
-                }
-            });
-            
-            // Mostrar formulário de login
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'loginForm') {
-                    form.classList.add('active');
-                }
-            });
-        }
-
-        function mostrarCadastro() {
-            // Ativar aba de cadastro
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === 'register') {
-                    tab.classList.add('active');
-                }
-            });
-            
-            // Mostrar formulário de cadastro
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'registerForm') {
-                    form.classList.add('active');
-                }
-            });
-        }
-
-        function mostrarRecuperacao() {
-            // Mostrar formulário de recuperação
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'recoveryForm') {
-                    form.classList.add('active');
-                }
-            });
-        }
-
-        // Mostrar/ocultar senha
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const toggleBtn = input.nextElementSibling;
-            const icon = toggleBtn.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+            if (userLoggedIn === 'true' && userName) {
+                const nomeExibido = userName.split(' ')[0];
+                
+                authButtons.innerHTML = `
+                    <div class="user-area">
+                        <div class="user-greeting">
+                            <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
+                        </div>
+                        ${verificarSeEhAdmin(userEmail) ? `
+                        <button class="btn btn-admin" onclick="acessarPainelAdmin()">
+                            <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
+                        </button>
+                        ` : ''}
+                        <button class="btn btn-outline" onclick="abrirPerfil()">
+                            <i class="fas fa-user"></i> Perfil
+                        </button>
+                        <button class="btn btn-primary" onclick="fazerLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                `;
             } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                authButtons.innerHTML = `
+                    <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </a>
+                    <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
+                        <i class="fas fa-user-plus"></i> Cadastrar
+                    </a>
+                `;
             }
         }
 
-        // ========== FUNÇÕES DE AUTENTICAÇÃO ==========
+        function verificarUsuarioLogado() {
+            atualizarAuthButtons();
+        }
+
+        function verificarSeEhAdmin(email) {
+            if (!email) return false;
+            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'admin@example.com'];
+            return adminEmails.includes(email.toLowerCase());
+        }
+
+        // ========== FUNÇÕES DE LOGIN/CADASTRO ==========
         function fazerLogin(event) {
             event.preventDefault();
             
@@ -2501,19 +2399,17 @@
             showMessage(message, 'Entrando...', 'success');
             
             setTimeout(() => {
-                // Simulação de login bem-sucedido
-                showMessage(message, 'Login realizado com sucesso! Redirecionando...', 'success');
-                
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', email.split('@')[0]);
                 localStorage.setItem('userLoggedIn', 'true');
                 
-                // Fechar modal após 1 segundo
+                showMessage(message, 'Login realizado com sucesso!', 'success');
+                
+                // Fechar modal e atualizar interface
                 setTimeout(() => {
                     fecharModalAuth();
-                    // Atualizar interface para usuário logado
-                    atualizarInterfaceUsuarioLogado(email);
+                    atualizarAuthButtons();
                 }, 1000);
             }, 1500);
             
@@ -2556,20 +2452,18 @@
             showMessage(message, 'Criando sua conta...', 'success');
             
             setTimeout(() => {
-                // Simulação de cadastro bem-sucedido
-                showMessage(message, 'Cadastro realizado com sucesso! Bem-vindo ao StudyCert!', 'success');
-                
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', name);
                 localStorage.setItem('userArea', area);
                 localStorage.setItem('userLoggedIn', 'true');
                 
-                // Fechar modal após 2 segundos
+                showMessage(message, 'Cadastro realizado com sucesso! Bem-vindo ao StudyCert!', 'success');
+                
+                // Fechar modal e atualizar interface
                 setTimeout(() => {
                     fecharModalAuth();
-                    // Atualizar interface para usuário logado
-                    atualizarInterfaceUsuarioLogado(name);
+                    atualizarAuthButtons();
                 }, 2000);
             }, 1500);
             
@@ -2602,78 +2496,18 @@
             return false;
         }
 
-        // Função auxiliar para mostrar mensagens
-        function showMessage(element, text, type) {
-            element.textContent = text;
-            element.className = `form-message ${type}`;
-            element.style.display = 'block';
-            
-            // Limpar mensagem após 5 segundos
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
-        }
-
-        // ========== ATUALIZAR INTERFACE APÓS LOGIN ==========
-        function atualizarInterfaceUsuarioLogado(nomeUsuario) {
-            const authButtons = document.querySelector('.auth-buttons');
-            const nomeExibido = nomeUsuario.split(' ')[0];
-            
-            // Criar nova estrutura com botões de usuário logado
-            authButtons.innerHTML = `
-                <div class="user-area" style="display: flex; align-items: center; gap: 1rem;">
-                    <div class="user-greeting" style="color: white; font-weight: 500;">
-                        <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
-                    </div>
-                    <button class="btn btn-outline" onclick="abrirPerfil()">
-                        <i class="fas fa-user"></i> Perfil
-                    </button>
-                    <button class="btn btn-primary" onclick="fazerLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </button>
-                </div>
-            `;
-            
-            // Verificar se é admin para mostrar botão
-            verificarAdmin();
-        }
-
-        // Verificar se usuário está logado
-        function verificarUsuarioLogado() {
-            const userLoggedIn = localStorage.getItem('userLoggedIn');
-            const userName = localStorage.getItem('userName');
-            
-            if (userLoggedIn === 'true' && userName) {
-                atualizarInterfaceUsuarioLogado(userName);
-            }
-        }
-
-        // Verificar se usuário é admin
-        function verificarAdmin() {
-            const adminButtonContainer = document.getElementById('adminButtonContainer');
+        // ========== FUNÇÕES DE ADMIN ==========
+        function acessarPainelAdmin() {
             const usuarioAtual = localStorage.getItem('userEmail');
             
-            // Lista de e-mails admin (simulação)
-            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com'];
-            
-            if (usuarioAtual && adminEmails.includes(usuarioAtual)) {
-                adminButtonContainer.style.display = 'block';
+            if (verificarSeEhAdmin(usuarioAtual)) {
+                alert('Redirecionando para painel administrativo...');
+                // window.location.href = 'admin.html';
+            } else {
+                abrirModalAdmin();
             }
         }
 
-        // ========== FUNÇÕES DE ADMINISTRAÇÃO ==========
-        function abrirModalAdmin() {
-            const modal = document.getElementById('modalAdmin');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function fecharModalAdmin() {
-            const modal = document.getElementById('modalAdmin');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
         function fazerLoginAdmin(event) {
             event.preventDefault();
             
@@ -2683,8 +2517,8 @@
             
             // Credenciais de administrador
             const adminCredentials = [
-                { username: 'admin', password: 'admin123', name: 'Administrador Principal' },
-                { username: 'moderador', password: 'mod123', name: 'Moderador' }
+                { username: 'admin', password: 'admin123', email: 'admin@studyCert.com' },
+                { username: 'moderador', password: 'mod123', email: 'moderador@studyCert.com' }
             ];
             
             // Verificar credenciais
@@ -2694,23 +2528,20 @@
             
             if (admin) {
                 // Login bem-sucedido
-                localStorage.setItem('adminLoggedIn', 'true');
-                localStorage.setItem('adminName', admin.name);
-                localStorage.setItem('adminUsername', admin.username);
+                localStorage.setItem('userEmail', admin.email);
+                localStorage.setItem('userName', username);
+                localStorage.setItem('userLoggedIn', 'true');
                 
-                // Fechar modal
                 fecharModalAdmin();
-                
-                // Redirecionar para página admin
-                window.location.href = 'admin.html';
+                atualizarAuthButtons();
+                alert(`Bem-vindo, ${username}! Acesso administrativo concedido.`);
             } else {
-                // Credenciais inválidas
                 showAdminError('Credenciais inválidas. Tente novamente.');
             }
             
             return false;
         }
-        
+
         function showAdminError(message) {
             const errorElement = document.getElementById('adminError');
             errorElement.textContent = message;
@@ -2720,29 +2551,149 @@
                 errorElement.style.display = 'none';
             }, 3000);
         }
-        
-        // Acessar painel admin
-        function acessarPainelAdmin() {
-            const usuarioAtual = localStorage.getItem('userEmail');
-            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com'];
-            
-            if (usuarioAtual && adminEmails.includes(usuarioAtual)) {
-                window.location.href = 'admin.html';
-            } else {
-                // Se não for admin, mostrar modal de login admin
-                abrirModalAdmin();
+
+        // ========== MODAIS ==========
+        function configurarModais() {
+            // Modal de Simulados
+            window.abrirModalSimulados = function() {
+                const modal = document.getElementById('modalSimulados');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            window.fecharModalSimulados = function() {
+                const modal = document.getElementById('modalSimulados');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Modal de Autenticação
+            window.abrirModalAuth = function(tipo = 'login') {
+                const modal = document.getElementById('modalAuth');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Mostrar o formulário correto
+                if (tipo === 'login') {
+                    mostrarLogin();
+                } else if (tipo === 'register') {
+                    mostrarCadastro();
+                }
+            }
+
+            window.fecharModalAuth = function() {
+                const modal = document.getElementById('modalAuth');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Modal Admin
+            window.abrirModalAdmin = function() {
+                const modal = document.getElementById('modalAdmin');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            window.fecharModalAdmin = function() {
+                const modal = document.getElementById('modalAdmin');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
             }
         }
 
-        // ========== OUTRAS FUNÇÕES ==========
+        // Funções auxiliares modais
+        function mostrarLogin() {
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === 'login') {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+                if (form.id === 'loginForm') {
+                    form.classList.add('active');
+                }
+            });
+        }
+
+        function mostrarCadastro() {
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === 'register') {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+                if (form.id === 'registerForm') {
+                    form.classList.add('active');
+                }
+            });
+        }
+
+        function mostrarRecuperacao() {
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+                if (form.id === 'recoveryForm') {
+                    form.classList.add('active');
+                }
+            });
+        }
+
+        // ========== FUNÇÕES AUXILIARES ==========
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleBtn = input.nextElementSibling;
+            const icon = toggleBtn.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function showMessage(element, text, type) {
+            if (!element) return;
+            
+            element.textContent = text;
+            element.className = `form-message ${type}`;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        function fazerLogout() {
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userArea');
+            localStorage.removeItem('userLoggedIn');
+            
+            atualizarAuthButtons();
+            alert('Você saiu da sua conta.');
+        }
+
         function loginComGoogle() {
             const message = document.getElementById('loginMessage');
             showMessage(message, 'Redirecionando para login com Google...', 'success');
             
             setTimeout(() => {
                 // Simulação de login bem-sucedido
+                localStorage.setItem('userEmail', 'usuario.google@example.com');
+                localStorage.setItem('userName', 'Usuário Google');
+                localStorage.setItem('userLoggedIn', 'true');
+                
                 fecharModalAuth();
-                atualizarInterfaceUsuarioLogado('Usuário Google');
+                atualizarAuthButtons();
             }, 1500);
         }
 
@@ -2752,37 +2703,17 @@
             
             setTimeout(() => {
                 // Simulação de login bem-sucedido
+                localStorage.setItem('userEmail', 'usuario.github@example.com');
+                localStorage.setItem('userName', 'Usuário GitHub');
+                localStorage.setItem('userLoggedIn', 'true');
+                
                 fecharModalAuth();
-                atualizarInterfaceUsuarioLogado('Usuário GitHub');
+                atualizarAuthButtons();
             }, 1500);
         }
 
-        function fazerLogout() {
-            // Limpar dados do usuário
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userArea');
-            localStorage.removeItem('userLoggedIn');
-            localStorage.removeItem('adminLoggedIn');
-            localStorage.removeItem('adminName');
-            localStorage.removeItem('adminUsername');
-            
-            const authButtons = document.querySelector('.auth-buttons');
-            
-            // Voltar aos botões de login/cadastro
-            authButtons.innerHTML = `
-                <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
-                </a>
-                <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
-                    <i class="fas fa-user-plus"></i> Cadastrar
-                </a>
-            `;
-            
-            // Esconder botão admin
-            document.getElementById('adminButtonContainer').style.display = 'none';
-            
-            alert('Você saiu da sua conta.');
+        function abrirPerfil() {
+            alert('Página de perfil em desenvolvimento!');
         }
 
         function mostrarTermos() {
@@ -2793,47 +2724,34 @@
             alert('Política de Privacidade:\n\n1. Seus dados são protegidos\n2. Não compartilhamos informações com terceiros\n3. Você pode excluir sua conta a qualquer momento\n\nTexto completo disponível em /privacidade.html');
         }
 
-        function abrirPerfil() {
-            alert('Página de perfil em desenvolvimento!');
+        // ========== EVENTOS GERAIS ==========
+        function configurarEventosGerais() {
+            // Fechar modais ao clicar fora
+            document.getElementById('modalAuth')?.addEventListener('click', function(e) {
+                if (e.target === this) fecharModalAuth();
+            });
+
+            document.getElementById('modalSimulados')?.addEventListener('click', function(e) {
+                if (e.target === this) fecharModalSimulados();
+            });
+
+            document.getElementById('modalAdmin')?.addEventListener('click', function(e) {
+                if (e.target === this) fecharModalAdmin();
+            });
+
+            // Fechar modais com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const authModal = document.getElementById('modalAuth');
+                    const simuladosModal = document.getElementById('modalSimulados');
+                    const adminModal = document.getElementById('modalAdmin');
+                    
+                    if (authModal?.classList.contains('active')) fecharModalAuth();
+                    if (simuladosModal?.classList.contains('active')) fecharModalSimulados();
+                    if (adminModal?.classList.contains('active')) fecharModalAdmin();
+                }
+            });
         }
-
-        // Fechar modais ao clicar fora
-        document.getElementById('modalAuth').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalAuth();
-            }
-        });
-
-        document.getElementById('modalSimulados').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalSimulados();
-            }
-        });
-
-        document.getElementById('modalAdmin').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalAdmin();
-            }
-        });
-
-        // Fechar modais com ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const authModal = document.getElementById('modalAuth');
-                const simuladosModal = document.getElementById('modalSimulados');
-                const adminModal = document.getElementById('modalAdmin');
-                
-                if (authModal.classList.contains('active')) {
-                    fecharModalAuth();
-                }
-                if (simuladosModal.classList.contains('active')) {
-                    fecharModalSimulados();
-                }
-                if (adminModal.classList.contains('active')) {
-                    fecharModalAdmin();
-                }
-            }
-        });
     </script>
 </body>
 </html>
