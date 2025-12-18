@@ -6,14 +6,7 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== SEU CÓDIGO ORIGINAL COMPLETO ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* ========== VARIÁVEIS CSS & RESET ========== */
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -23,12 +16,23 @@
             --light: #ecf0f1;
             --dark: #2c3e50;
             --gray: #95a5a6;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -38,7 +42,7 @@
             padding: 0 20px;
         }
 
-        /* Header - BOTÕES SEM BORDA */
+        /* ========== HEADER & NAVEGAÇÃO CORRIGIDA ========== */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -59,6 +63,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
+            color: white;
         }
 
         .logo i {
@@ -75,71 +81,99 @@
             color: var(--secondary);
         }
 
-        /* NAVEGAÇÃO - BOTÕES SEM BORDA - CORRIGIDO */
+        /* NAVEGAÇÃO CORRIGIDA - EFEITO SEPARADO POR BOTÃO */
         nav ul {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         nav a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 4px;
             position: relative;
-            overflow: hidden;
-            background-color: transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* EFEITO CORRIGIDO: Barra azul ao passar o mouse */
+        /* CORREÇÃO: Efeito de barra azul corrigido */
         nav a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 3px;
             background: var(--secondary);
-            border-radius: 3px 3px 0 0;
+            border-radius: 3px;
             transition: width 0.3s ease;
         }
 
         nav a:hover::after {
-            width: 80%;
+            width: 70%;
         }
 
         nav a.active::after {
-            width: 80%;
+            width: 70%;
             background: var(--success);
         }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        nav a:hover::before {
-            left: 100%;
-        }
-
-        nav a:hover, nav a.active {
+        nav a:hover {
             color: var(--secondary);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
-        
-        .auth-buttons {
+
+        nav a.active {
+            color: var(--secondary);
+        }
+
+        /* Área do usuário logado */
+        .user-area {
             display: flex;
-            gap: 1rem;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
         }
 
         .btn {
@@ -147,42 +181,18 @@
             border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             border: none;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary {
             background: var(--secondary);
             color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
         }
 
         .btn-primary:hover {
@@ -191,19 +201,18 @@
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
 
-        .btn-success:hover {
-            background: #219653;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
         }
 
-        .btn-warning:hover {
-            background: #e67e22;
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
         }
 
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        /* Botão menu mobile */
+        /* Menu mobile toggle */
         .menu-toggle {
             display: none;
             background: none;
@@ -211,16 +220,19 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
         }
 
-        /* Hero Section */
+        /* ========== HERO SECTION ========== */
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
             padding: 5rem 0;
             text-align: center;
+            flex: 1;
         }
 
         .hero h2 {
@@ -232,17 +244,25 @@
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 2rem;
+            opacity: 0.9;
         }
 
-        /* Main Content */
+        /* ========== MAIN CONTENT ========== */
         .main-content {
             display: none;
             padding: 3rem 0;
             min-height: 60vh;
+            flex: 1;
         }
 
         .main-content.active {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
@@ -262,7 +282,7 @@
             margin: 0 auto;
         }
 
-        /* Cards */
+        /* ========== CARDS ========== */
         .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -275,7 +295,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: var(--transition);
         }
 
         .card:hover {
@@ -299,7 +319,7 @@
             border-top: 1px solid #eee;
         }
 
-        /* Forum */
+        /* ========== FORUM ========== */
         .forum-container {
             display: grid;
             grid-template-columns: 1fr 3fr;
@@ -409,7 +429,7 @@
             width: 200px;
         }
 
-        /* Study Materials */
+        /* ========== STUDY MATERIALS ========== */
         .materials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -421,7 +441,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: var(--transition);
         }
 
         .material-card:hover {
@@ -451,7 +471,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Simulados */
+        /* ========== SIMULADOS ========== */
         .simulados-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -463,7 +483,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: var(--transition);
             position: relative;
         }
 
@@ -489,7 +509,7 @@
             padding: 3rem 2rem;
             text-align: center;
             margin-bottom: 2rem;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .upload-area:hover {
@@ -513,7 +533,31 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Certifications Grid */
+        /* Botão "Ver todos os simulados" */
+        .show-simulados-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 15px 0 5px 0;
+            width: 200px;
+        }
+
+        .show-simulados-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* ========== CERTIFICATIONS GRID ========== */
         .certifications-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -525,7 +569,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: var(--transition);
         }
 
         .cert-card:hover {
@@ -565,11 +609,12 @@
             margin-bottom: 1rem;
         }
 
-        /* Footer */
+        /* ========== FOOTER ========== */
         footer {
             background: var(--primary);
             color: white;
             padding: 3rem 0 1.5rem;
+            margin-top: auto;
         }
 
         .footer-content {
@@ -607,7 +652,7 @@
         .footer-links a {
             color: #ddd;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
 
         .footer-links a:hover {
@@ -629,7 +674,7 @@
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
             color: white;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .social-links a:hover {
@@ -645,33 +690,7 @@
             font-size: 0.9rem;
         }
 
-        /* ========== LISTA DE SIMULADOS - MODAL OVERLAY ========== */
-        
-        /* Botão "Ver todos os simulados" */
-        .show-simulados-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 15px 0 5px 0;
-            width: 200px;
-        }
-
-        .show-simulados-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
-        }
-
-        /* Modal overlay para lista de simulados */
+        /* ========== MODAL DE SIMULADOS ========== */
         .modal-simulados {
             display: none;
             position: fixed;
@@ -693,7 +712,6 @@
             opacity: 1;
         }
 
-        /* Container interno da modal */
         .modal-container {
             background: white;
             border-radius: 12px;
@@ -716,9 +734,8 @@
             }
         }
 
-        /* Cabeçalho da modal */
         .modal-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 20px;
             border-radius: 12px 12px 0 0;
@@ -750,7 +767,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .fechar-modal:hover {
@@ -758,19 +775,17 @@
             transform: rotate(90deg);
         }
 
-        /* Corpo da modal */
         .modal-body {
             padding: 25px;
         }
 
-        /* Cada item da lista */
         .simulado-item-modal {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px;
             border-bottom: 1px solid #eee;
-            transition: all 0.2s;
+            transition: var(--transition);
             border-radius: 6px;
         }
 
@@ -783,18 +798,13 @@
             border-bottom: none;
         }
 
-        /* Ícones de status */
         .status-icon {
             margin-right: 12px;
             font-size: 1.1rem;
         }
 
         .status-disponivel {
-            color: #27ae60;
-        }
-
-        .status-em-breve {
-            color: #f39c12;
+            color: var(--success);
         }
 
         .simulado-info {
@@ -805,17 +815,16 @@
 
         .simulado-nome {
             font-weight: 500;
-            color: #2c3e50;
+            color: var(--primary);
         }
 
-        /* Botões na modal */
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.85em;
             border-radius: 4px;
             min-width: 80px;
             text-align: center;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .btn-sm:hover {
@@ -823,7 +832,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* Rodapé da modal */
         .modal-footer {
             padding: 15px 25px;
             background: #f8f9fa;
@@ -846,7 +854,7 @@
         }
 
         .modal-container::-webkit-scrollbar-thumb {
-            background: #3498db;
+            background: var(--secondary);
             border-radius: 4px;
         }
 
@@ -900,14 +908,6 @@
             z-index: 1;
         }
 
-        .modal-auth-header h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .modal-auth-tabs {
             display: flex;
             background: rgba(255, 255, 255, 0.1);
@@ -925,7 +925,7 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .auth-tab.active {
@@ -963,7 +963,7 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .form-group input:focus,
@@ -1007,15 +1007,6 @@
             line-height: 1.4;
         }
 
-        .checkbox-group a {
-            color: var(--secondary);
-            text-decoration: none;
-        }
-
-        .checkbox-group a:hover {
-            text-decoration: underline;
-        }
-
         .form-actions {
             margin-top: 2rem;
         }
@@ -1035,43 +1026,8 @@
             font-size: 0.9rem;
         }
 
-        .form-footer a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-
         .social-login {
             margin-top: 1.5rem;
-        }
-
-        .social-login p {
-            text-align: center;
-            color: #666;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .social-login p::before,
-        .social-login p::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background: #eee;
-        }
-
-        .social-login p::before {
-            left: 0;
-        }
-
-        .social-login p::after {
-            right: 0;
         }
 
         .social-buttons {
@@ -1092,248 +1048,122 @@
             color: #333;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
-        .social-btn:hover {
-            background: #f8f9fa;
-            border-color: #ccc;
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .forum-container {
+                grid-template-columns: 1fr;
+            }
+            
+            nav a {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .user-info span:not(.badge) {
+                display: none;
+            }
         }
 
-        .social-btn.google {
-            color: #DB4437;
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: block;
+                order: 1;
+            }
+
+            nav {
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                order: 3;
+            }
+
+            nav.active {
+                max-height: 300px;
+                margin-top: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            nav a {
+                padding: 1rem;
+                justify-content: center;
+            }
+
+            .user-area {
+                order: 2;
+                margin-left: auto;
+            }
+
+            .user-info {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .user-info span:not(.badge) {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cards-container,
+            .certifications-grid,
+            .materials-grid,
+            .simulados-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-container {
+                max-width: 95%;
+                max-height: 85vh;
+            }
         }
 
-        .social-btn.github {
-            color: #333;
+        @media (max-width: 480px) {
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .user-area {
+                gap: 8px;
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
         }
 
-        .forgot-password {
-            text-align: right;
-            margin-top: -0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .forgot-password a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
-        /* Mensagens de erro/sucesso */
-        .form-message {
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
-
-        .form-message.error {
-            background: #fee;
-            color: #c33;
-            border: 1px solid #fcc;
-        }
-
-        .form-message.success {
-            background: #efe;
-            color: #393;
-            border: 1px solid #cfc;
-        }
-
-        /* ========== PAINEL ADMINISTRATIVO ========== */
-        .admin-panel {
-            display: none;
-        }
-
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .stat-icon.users { background: var(--secondary); }
-        .stat-icon.files { background: var(--success); }
-        .stat-icon.videos { background: var(--warning); }
-        .stat-icon.materials { background: var(--accent); }
-
-        .stat-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.25rem;
-            color: var(--primary);
-        }
-
-        .stat-info p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 0.5rem;
-        }
-
-        .admin-tab {
-            padding: 0.75rem 1.5rem;
-            background: none;
-            border: none;
-            border-radius: 4px 4px 0 0;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--gray);
-            transition: all 0.3s;
-        }
-
-        .admin-tab.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .admin-tab:hover:not(.active) {
-            background: #f0f0f0;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .admin-table {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .admin-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .admin-table th {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-            text-align: left;
-            padding: 1rem;
-        }
-
-        .admin-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .admin-table tr:hover {
-            background: #f9f9f9;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .admin-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-primary { background: var(--secondary); color: white; }
-        .badge-success { background: var(--success); color: white; }
-        .badge-warning { background: var(--warning); color: white; }
-        .badge-danger { background: var(--accent); color: white; }
-
-        /* Toast */
+        /* ========== TOAST NOTIFICATION ========== */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -1360,103 +1190,32 @@
             background: var(--accent);
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-wrap: wrap;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            nav {
-                width: 100%;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-            }
-
-            nav.active {
-                max-height: 300px;
-                margin-top: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .auth-buttons {
-                width: 100%;
-                justify-content: center;
-                margin-top: 1rem;
-                display: none;
-            }
-
-            .auth-buttons.active {
-                display: flex;
-            }
-
-            .forum-container {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .admin-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .admin-tabs {
-                flex-wrap: wrap;
-            }
-
-            .table-header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .btn-mobile-full {
-                width: 100%;
-            }
+        /* ========== LOADING SPINNER ========== */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
         }
 
-        @media (max-width: 480px) {
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-card {
-                flex-direction: column;
-                text-align: center;
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Header com botões SEM BORDA -->
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
+                <a href="#" class="logo" data-target="home">
                     <i class="fas fa-graduation-cap"></i>
                     <h1>Study<span>Cert</span></h1>
-                </div>
+                </a>
                 
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
@@ -1469,24 +1228,18 @@
                         <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
                         <li><a href="#" class="nav-link" data-target="materiais">Material de Estudo</a></li>
                         <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
-                        <li id="adminLink" style="display: none;">
-                            <a href="#" class="nav-link" data-target="admin">
-                                <i class="fas fa-cog"></i> Admin
-                            </a>
-                        </li>
                     </ul>
                 </nav>
                 
-                <div class="auth-buttons" id="authButtons">
-                    <button class="btn btn-outline" id="loginBtn">Entrar</button>
-                    <button class="btn btn-primary" id="registerBtn">Cadastrar</button>
+                <div class="user-area" id="userArea">
+                    <!-- Conteúdo dinâmico será inserido aqui -->
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
         <div class="container">
             <h2>Prepare-se para suas Certificações de TI</h2>
             <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
@@ -1926,11 +1679,11 @@
                 <i class="fas fa-cloud-upload-alt"></i>
                 <h3>Compartilhe Seu Simulado</h3>
                 <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
+                <a href="#" class="btn btn-primary" id="uploadSimuladoBtn">Upload de Arquivo</a>
             </div>
 
             <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
+                <!-- ITIL 4 Foundation -->
                 <div class="simulado-card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
@@ -1939,7 +1692,6 @@
                         <span class="simulado-badge">11 Simulados Disponíveis</span>
                         <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
                         
-                        <!-- Botão para mostrar simulados -->
                         <button class="show-simulados-btn" onclick="abrirModalSimulados()">
                             <i class="fas fa-list"></i> Ver 11 Simulados
                         </button>
@@ -2006,135 +1758,6 @@
                         <a href="#" class="btn btn-outline">Upload</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== PAINEL ADMINISTRATIVO ========== -->
-    <section id="admin" class="main-content admin-panel">
-        <div class="container">
-            <div class="admin-header">
-                <div>
-                    <h2>Painel Administrativo</h2>
-                    <p>Gerencie usuários, conteúdos e configurações do sistema</p>
-                </div>
-                <button class="btn btn-primary" id="logoutAdminBtn">
-                    <i class="fas fa-sign-out-alt"></i> Sair do Admin
-                </button>
-            </div>
-
-            <!-- Estatísticas -->
-            <div class="admin-stats">
-                <div class="stat-card">
-                    <div class="stat-icon users">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalUsers">0</h3>
-                        <p>Usuários Registrados</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon files">
-                        <i class="fas fa-file"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalFiles">0</h3>
-                        <p>Arquivos Uploadados</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon videos">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalVideos">0</h3>
-                        <p>Videoaulas</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon materials">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalMaterials">0</h3>
-                        <p>Materiais de Estudo</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabs do Admin -->
-            <div class="admin-tabs">
-                <button class="admin-tab active" data-tab="users">Usuários</button>
-                <button class="admin-tab" data-tab="files">Arquivos</button>
-                <button class="admin-tab" data-tab="videos">Videos</button>
-                <button class="admin-tab" data-tab="materials">Materiais</button>
-                <button class="admin-tab" data-tab="settings">Configurações</button>
-            </div>
-
-            <!-- Conteúdo das Tabs -->
-            <div class="tab-content">
-                <!-- Gerenciamento de Usuários -->
-                <div id="usersTab" class="tab-content active">
-                    <div class="table-header">
-                        <h3>Gerenciamento de Usuários</h3>
-                        <button class="btn btn-success" id="addUserBtn">
-                            <i class="fas fa-plus"></i> Novo Usuário
-                        </button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>Tipo</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="usersList">
-                                <!-- Usuários carregados via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Gerenciamento de Arquivos -->
-                <div id="filesTab" class="tab-content">
-                    <div class="upload-area" id="fileUploadArea">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Upload de Arquivos</h3>
-                        <p>Arraste e solte arquivos aqui ou clique para selecionar</p>
-                        <input type="file" id="fileInput" multiple style="display: none;">
-                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
-                            Selecionar Arquivos
-                        </button>
-                    </div>
-                    
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Tipo</th>
-                                    <th>Tamanho</th>
-                                    <th>Data Upload</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="filesList">
-                                <!-- Arquivos carregados via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Outras tabs podem ser adicionadas seguindo o mesmo padrão -->
             </div>
         </div>
     </section>
@@ -2269,7 +1892,7 @@
             </div>
             
             <!-- Formulário de Login -->
-            <form id="loginForm" class="auth-form active" onsubmit="return fazerLogin(event)">
+            <form id="loginForm" class="auth-form active">
                 <div id="loginMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2301,25 +1924,13 @@
                     </button>
                 </div>
                 
-                <div class="social-login">
-                    <p>Ou entre com</p>
-                    <div class="social-buttons">
-                        <button type="button" class="social-btn google" onclick="loginComGoogle()">
-                            <i class="fab fa-google"></i> Google
-                        </button>
-                        <button type="button" class="social-btn github" onclick="loginComGitHub()">
-                            <i class="fab fa-github"></i> GitHub
-                        </button>
-                    </div>
-                </div>
-                
                 <div class="form-footer">
                     Não tem uma conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se aqui</a>
                 </div>
             </form>
             
             <!-- Formulário de Cadastro -->
-            <form id="registerForm" class="auth-form" onsubmit="return fazerCadastro(event)">
+            <form id="registerForm" class="auth-form">
                 <div id="registerMessage" class="form-message"></div>
                 
                 <div class="form-group">
@@ -2377,13 +1988,6 @@
                     </label>
                 </div>
                 
-                <div class="checkbox-group">
-                    <input type="checkbox" id="newsletter">
-                    <label for="newsletter">
-                        Desejo receber novidades, materiais de estudo e ofertas especiais por e-mail
-                    </label>
-                </div>
-                
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success btn-block">
                         <i class="fas fa-user-plus"></i> Criar Conta
@@ -2392,26 +1996,6 @@
                 
                 <div class="form-footer">
                     Já tem uma conta? <a href="#" onclick="mostrarLogin()">Faça login aqui</a>
-                </div>
-            </form>
-            
-            <!-- Formulário de Recuperação de Senha -->
-            <form id="recoveryForm" class="auth-form" onsubmit="return solicitarRecuperacao(event)">
-                <div id="recoveryMessage" class="form-message"></div>
-                
-                <div class="form-group">
-                    <label for="recoveryEmail">E-mail cadastrado</label>
-                    <input type="email" id="recoveryEmail" placeholder="Digite o e-mail da sua conta" required>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-warning btn-block">
-                        <i class="fas fa-key"></i> Enviar Link de Recuperação
-                    </button>
-                </div>
-                
-                <div class="form-footer">
-                    <a href="#" onclick="mostrarLogin()">Voltar para o login</a>
                 </div>
             </form>
         </div>
@@ -2477,86 +2061,9 @@
     </footer>
 
     <script>
-        // ========== SISTEMA DE NAVEGAÇÃO ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
-            const mainContents = document.querySelectorAll('.main-content');
-            
-            // Navegação entre seções
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('data-target');
-                    
-                    // Update active nav link
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show target section
-                    mainContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === targetId) {
-                            content.classList.add('active');
-                        }
-                    });
-                    
-                    // Scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    
-                    // Fechar menu mobile se aberto
-                    if (window.innerWidth <= 768) {
-                        document.getElementById('mainNav').classList.remove('active');
-                        document.getElementById('authButtons').classList.remove('active');
-                    }
-                });
-            });
-            
-            // Menu mobile toggle
-            document.getElementById('menuToggle').addEventListener('click', function() {
-                const nav = document.getElementById('mainNav');
-                const authButtons = document.getElementById('authButtons');
-                
-                nav.classList.toggle('active');
-                authButtons.classList.toggle('active');
-            });
-            
-            // Botões de autenticação
-            document.getElementById('loginBtn').addEventListener('click', function() {
-                abrirModalAuth('login');
-            });
-            
-            document.getElementById('registerBtn').addEventListener('click', function() {
-                abrirModalAuth('register');
-            });
-            
-            // Simulate file upload for simulados
-            const uploadBtn = document.querySelector('.upload-area .btn');
-            if (uploadBtn) {
-                uploadBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    showToast('Funcionalidade de upload será implementada em breve!');
-                });
-            }
-            
-            // Inicializar banco de dados
-            initDatabase();
-        });
-
         // ========== BANCO DE DADOS SIMULADO ==========
         let db = {
-            users: [],
-            files: [],
-            videos: [],
-            materials: []
-        };
-
-        let currentUser = null;
-        let isAdmin = false;
-
-        function initDatabase() {
-            // Usuários de exemplo
-            db.users = [
+            users: [
                 {
                     id: 1,
                     name: 'Administrador',
@@ -2575,190 +2082,154 @@
                     status: 'active',
                     createdAt: new Date().toISOString()
                 }
-            ];
-            
-            // Arquivos de exemplo
-            db.files = [
-                {
-                    id: 1,
-                    name: 'Guia LPIC-1.pdf',
-                    type: 'application/pdf',
-                    size: '2.5 MB',
-                    uploadedAt: '2023-10-15'
-                },
-                {
-                    id: 2,
-                    name: 'Simulado ITIL 4.xlsx',
-                    type: 'application/vnd.ms-excel',
-                    size: '1.8 MB',
-                    uploadedAt: '2023-10-10'
-                }
-            ];
-            
-            updateAdminStats();
-        }
+            ],
+            files: [],
+            videos: [],
+            materials: []
+        };
 
-        // ========== FUNÇÕES DO MODAL DE SIMULADOS ==========
-        function abrirModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        let currentUser = null;
+        let isAdmin = false;
 
-        function fecharModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Fechar modal ao clicar fora do container
-        document.getElementById('modalSimulados').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModalSimulados();
-            }
+        // ========== INICIALIZAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            setupEventListeners();
+            updateAuthUI();
         });
 
-        // ========== FUNÇÕES DO MODAL DE AUTENTICAÇÃO ==========
-        function abrirModalAuth(tab = 'login') {
-            const modal = document.getElementById('modalAuth');
-            const tabs = document.querySelectorAll('.auth-tab');
-            const forms = document.querySelectorAll('.auth-form');
-            
-            // Reset forms
-            forms.forEach(form => form.classList.remove('active'));
-            tabs.forEach(tabEl => tabEl.classList.remove('active'));
-            
-            // Show selected tab
-            if (tab === 'login') {
-                document.getElementById('loginForm').classList.add('active');
-                document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
-            } else {
-                document.getElementById('registerForm').classList.add('active');
-                document.querySelector('.auth-tab[data-tab="register"]').classList.add('active');
+        function initApp() {
+            // Verificar se há usuário salvo no localStorage
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isAdmin = currentUser.type === 'admin';
+                updateAuthUI();
             }
-            
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
 
-        function fecharModalAuth() {
-            const modal = document.getElementById('modalAuth');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+        // ========== NAVEGAÇÃO ==========
+        function setupEventListeners() {
+            // Navegação
+            document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    showSection(targetId);
+                    
+                    // Fechar menu mobile
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('mainNav').classList.remove('active');
+                    }
+                });
+            });
             
-            // Reset forms
-            document.getElementById('loginForm').reset();
-            document.getElementById('registerForm').reset();
-            document.getElementById('recoveryForm').reset();
+            // Menu mobile toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.getElementById('mainNav').classList.toggle('active');
+            });
             
-            // Hide messages
-            document.querySelectorAll('.form-message').forEach(msg => {
-                msg.style.display = 'none';
+            // Botão upload simulado
+            document.getElementById('uploadSimuladoBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('Funcionalidade de upload será implementada em breve!');
+            });
+            
+            // Formulário de login
+            document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                fazerLogin();
+            });
+            
+            // Formulário de cadastro
+            document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                fazerCadastro();
             });
         }
 
-        function mostrarLogin() {
-            const forms = document.querySelectorAll('.auth-form');
-            const tabs = document.querySelectorAll('.auth-tab');
+        function showSection(sectionId) {
+            // Atualizar links de navegação
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-target') === sectionId) {
+                    link.classList.add('active');
+                }
+            });
             
-            forms.forEach(form => form.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
+            // Mostrar seção
+            document.querySelectorAll('.main-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId)?.classList.add('active');
             
-            document.getElementById('loginForm').classList.add('active');
-            document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
+            // Scroll suave para topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function mostrarCadastro() {
-            const forms = document.querySelectorAll('.auth-form');
-            const tabs = document.querySelectorAll('.auth-tab');
-            
-            forms.forEach(form => form.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById('registerForm').classList.add('active');
-            document.querySelector('.auth-tab[data-tab="register"]').classList.add('active');
-        }
-
-        function mostrarRecuperacao() {
-            const forms = document.querySelectorAll('.auth-form');
-            const tabs = document.querySelectorAll('.auth-tab');
-            
-            forms.forEach(form => form.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById('recoveryForm').classList.add('active');
-        }
-
-        // ========== FUNÇÕES DE AUTENTICAÇÃO ==========
-        function fazerLogin(event) {
-            event.preventDefault();
-            
+        // ========== AUTENTICAÇÃO ==========
+        function fazerLogin() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            const messageEl = document.getElementById('loginMessage');
             
-            // Validação
             if (!email || !password) {
-                showMessage(messageEl, 'Preencha todos os campos', 'error');
-                return false;
+                showToast('Preencha todos os campos', 'error');
+                return;
             }
             
             // Buscar usuário
             const user = db.users.find(u => u.email === email && u.password === password);
             
             if (!user) {
-                showMessage(messageEl, 'Email ou senha incorretos', 'error');
-                return false;
+                showToast('Email ou senha incorretos', 'error');
+                return;
             }
             
-            // Login bem-sucedido
             currentUser = user;
             isAdmin = user.type === 'admin';
             
+            // Salvar no localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
             showToast('Login realizado com sucesso!');
             fecharModalAuth();
-            
-            // Atualizar UI
             updateAuthUI();
             
-            // Se for admin, mostrar link do admin
+            // Se for admin, redirecionar para admin.html
             if (isAdmin) {
-                document.getElementById('adminLink').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
             }
-            
-            return false;
         }
 
-        function fazerCadastro(event) {
-            event.preventDefault();
-            
+        function fazerCadastro() {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const area = document.getElementById('registerArea').value;
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            const messageEl = document.getElementById('registerMessage');
             
             // Validações
             if (!name || !email || !area || !password || !confirmPassword) {
-                showMessage(messageEl, 'Preencha todos os campos', 'error');
-                return false;
+                showToast('Preencha todos os campos', 'error');
+                return;
             }
             
             if (password !== confirmPassword) {
-                showMessage(messageEl, 'As senhas não coincidem', 'error');
-                return false;
+                showToast('As senhas não coincidem', 'error');
+                return;
             }
             
             if (password.length < 8) {
-                showMessage(messageEl, 'A senha deve ter pelo menos 8 caracteres', 'error');
-                return false;
+                showToast('A senha deve ter pelo menos 8 caracteres', 'error');
+                return;
             }
             
             // Verificar se email já existe
             if (db.users.some(u => u.email === email)) {
-                showMessage(messageEl, 'Este email já está cadastrado', 'error');
-                return false;
+                showToast('Este email já está cadastrado', 'error');
+                return;
             }
             
             // Criar novo usuário
@@ -2777,70 +2248,32 @@
             currentUser = newUser;
             isAdmin = false;
             
+            // Salvar no localStorage
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
             showToast('Cadastro realizado com sucesso!');
             fecharModalAuth();
-            
-            // Atualizar UI
             updateAuthUI();
-            updateAdminStats();
-            
-            return false;
-        }
-
-        function solicitarRecuperacao(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('recoveryEmail').value;
-            const messageEl = document.getElementById('recoveryMessage');
-            
-            if (!email) {
-                showMessage(messageEl, 'Digite seu email', 'error');
-                return false;
-            }
-            
-            // Verificar se email existe
-            const userExists = db.users.some(u => u.email === email);
-            
-            if (!userExists) {
-                showMessage(messageEl, 'Email não encontrado', 'error');
-                return false;
-            }
-            
-            showMessage(messageEl, 'Link de recuperação enviado para seu email!', 'success');
-            
-            setTimeout(() => {
-                mostrarLogin();
-            }, 2000);
-            
-            return false;
         }
 
         function logout() {
             currentUser = null;
             isAdmin = false;
+            localStorage.removeItem('currentUser');
             
             showToast('Logout realizado com sucesso');
             updateAuthUI();
-            
-            // Esconder link do admin
-            document.getElementById('adminLink').style.display = 'none';
-            
-            // Voltar para home
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.querySelector('.nav-link[data-target="home"]').classList.add('active');
-            
-            document.querySelectorAll('.main-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById('home').classList.add('active');
+            showSection('home');
         }
 
         function updateAuthUI() {
-            const authButtons = document.getElementById('authButtons');
+            const userArea = document.getElementById('userArea');
             
             if (currentUser) {
-                authButtons.innerHTML = `
-                    <div class="user-info" style="display: flex; align-items: center; gap: 10px; color: white;">
+                const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                userArea.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
                         <span>Olá, ${currentUser.name.split(' ')[0]}</span>
                         ${isAdmin ? '<span class="badge badge-primary">Admin</span>' : ''}
                     </div>
@@ -2849,143 +2282,71 @@
                     </button>
                 `;
             } else {
-                authButtons.innerHTML = `
-                    <button class="btn btn-outline" id="loginBtn">Entrar</button>
-                    <button class="btn btn-primary" id="registerBtn">Cadastrar</button>
+                userArea.innerHTML = `
+                    <button class="btn btn-outline" onclick="abrirModalAuth('login')">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                    <button class="btn btn-primary" onclick="abrirModalAuth('register')">
+                        <i class="fas fa-user-plus"></i> Cadastrar
+                    </button>
                 `;
-                
-                // Reatachar eventos
-                document.getElementById('loginBtn').addEventListener('click', () => abrirModalAuth('login'));
-                document.getElementById('registerBtn').addEventListener('click', () => abrirModalAuth('register'));
             }
         }
 
-        // ========== FUNÇÕES DO PAINEL ADMIN ==========
-        function updateAdminStats() {
-            document.getElementById('totalUsers').textContent = db.users.length;
-            document.getElementById('totalFiles').textContent = db.files.length;
-            document.getElementById('totalVideos').textContent = db.videos.length;
-            document.getElementById('totalMaterials').textContent = db.materials.length;
-        }
-
-        function loadUsersTable() {
-            const tbody = document.getElementById('usersList');
-            tbody.innerHTML = '';
+        // ========== MODAIS ==========
+        function abrirModalAuth(tab = 'login') {
+            const modal = document.getElementById('modalAuth');
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
             
-            db.users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>
-                        <span class="badge ${user.type === 'admin' ? 'badge-primary' : 'badge-success'}">
-                            ${user.type}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge ${user.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                            ${user.status}
-                        </span>
-                    </td>
-                    <td class="table-actions">
-                        <button class="btn btn-sm btn-primary" onclick="editUser(${user.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function editUser(userId) {
-            const user = db.users.find(u => u.id === userId);
-            if (!user) return;
-            
-            // Implementar edição de usuário
-            showToast(`Editar usuário: ${user.name}`);
-        }
-
-        function deleteUser(userId) {
-            if (confirm('Tem certeza que deseja excluir este usuário?')) {
-                db.users = db.users.filter(u => u.id !== userId);
-                loadUsersTable();
-                updateAdminStats();
-                showToast('Usuário excluído com sucesso!');
+            if (tab === 'login') {
+                document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab[data-tab="register"]').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
             }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Event listeners para o painel admin
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tabs do admin
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // Remover active de todas as tabs
-                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    
-                    // Ativar tab clicada
-                    this.classList.add('active');
-                    document.getElementById(`${tabId}Tab`)?.classList.add('active');
-                    
-                    // Carregar dados da tab
-                    if (tabId === 'users') {
-                        loadUsersTable();
-                    }
-                });
-            });
+        function fecharModalAuth() {
+            document.getElementById('modalAuth').classList.remove('active');
+            document.body.style.overflow = 'auto';
             
-            // Botão adicionar usuário
-            document.getElementById('addUserBtn')?.addEventListener('click', function() {
-                // Implementar adição de usuário
-                showToast('Adicionar novo usuário');
-            });
+            // Reset forms
+            document.getElementById('loginForm').reset();
+            document.getElementById('registerForm').reset();
+        }
+
+        function mostrarLogin() {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
             
-            // Botão sair do admin
-            document.getElementById('logoutAdminBtn')?.addEventListener('click', function() {
-                logout();
-            });
+            document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
+            document.getElementById('loginForm').classList.add('active');
+        }
+
+        function mostrarCadastro() {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
             
-            // Upload de arquivos
-            document.getElementById('fileInput')?.addEventListener('change', function(e) {
-                const files = Array.from(e.target.files);
-                
-                files.forEach(file => {
-                    const newFile = {
-                        id: db.files.length + 1,
-                        name: file.name,
-                        type: file.type,
-                        size: formatFileSize(file.size),
-                        uploadedAt: new Date().toLocaleDateString('pt-BR')
-                    };
-                    
-                    db.files.push(newFile);
-                });
-                
-                updateAdminStats();
-                showToast(`${files.length} arquivo(s) adicionado(s)!`);
-                
-                // Limpar input
-                this.value = '';
-            });
-        });
+            document.querySelector('.auth-tab[data-tab="register"]').classList.add('active');
+            document.getElementById('registerForm').classList.add('active');
+        }
+
+        function abrirModalSimulados() {
+            document.getElementById('modalSimulados').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalSimulados() {
+            document.getElementById('modalSimulados').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
         // ========== FUNÇÕES AUXILIARES ==========
-        function showMessage(element, message, type = 'success') {
-            element.textContent = message;
-            element.className = `form-message ${type}`;
-            element.style.display = 'block';
-            
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
-        }
-
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const messageEl = document.getElementById('toastMessage');
@@ -3014,24 +2375,26 @@
             }
         }
 
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
         // Fechar modais com ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                fecharModalSimulados();
                 fecharModalAuth();
+                fecharModalSimulados();
             }
         });
 
-        // Inicializar
-        initDatabase();
+        // Fechar modais ao clicar fora
+        document.querySelectorAll('.modal-simulados, .modal-auth').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'modalSimulados') {
+                        fecharModalSimulados();
+                    } else {
+                        fecharModalAuth();
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
