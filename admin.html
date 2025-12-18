@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - StudyCert</title>
+    <title>StudyCert - Painel Administrativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -16,126 +16,192 @@
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
-            --admin: #9b59b6;
+            --accent: #e74c3c;
             --success: #27ae60;
             --warning: #f39c12;
             --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --purple: #9b59b6;
         }
 
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Admin */
-        .admin-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--admin) 100%);
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
             padding: 1.5rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
         }
 
-        .admin-header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
         }
 
         .admin-logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none;
-            color: white;
+            margin-bottom: 1rem;
         }
 
         .admin-logo i {
             font-size: 2rem;
+            color: var(--purple);
         }
 
         .admin-logo h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
         .admin-logo span {
-            color: var(--secondary);
+            color: var(--purple);
         }
 
-        .admin-nav {
+        .admin-info {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
         }
 
-        .admin-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.2);
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-details h3 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .admin-details p {
+            font-size: 0.8rem;
+            color: #ddd;
+        }
+
+        .admin-badge {
+            background: var(--accent);
             color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Menu Lateral */
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            padding: 12px 1.5rem;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
         }
 
-        .admin-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--secondary);
         }
 
-        .admin-user {
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: var(--purple);
+            font-weight: 600;
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-count {
+            margin-left: auto;
+            background: var(--accent);
             color: white;
-            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
-        /* Dashboard */
-        .dashboard {
-            padding: 2rem 0;
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
         }
 
-        .dashboard-title {
+        .main-header {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
-            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .dashboard-title h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .main-header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .dashboard-title p {
-            color: #666;
+        .header-actions {
+            display: flex;
+            gap: 1rem;
         }
 
         /* Stats Cards */
-        .stats-grid {
+        .stats-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
             background: white;
+            border-radius: 10px;
             padding: 1.5rem;
-            border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
@@ -150,33 +216,37 @@
         .stat-icon {
             width: 60px;
             height: 60px;
-            background: var(--admin);
-            color: white;
-            border-radius: 50%;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            color: white;
         }
+
+        .stat-icon.users { background: var(--secondary); }
+        .stat-icon.materials { background: var(--success); }
+        .stat-icon.simulados { background: var(--warning); }
+        .stat-icon.forum { background: var(--purple); }
 
         .stat-info h3 {
             font-size: 2rem;
             color: var(--primary);
-            margin-bottom: 0.2rem;
+            margin-bottom: 5px;
         }
 
         .stat-info p {
-            color: #666;
+            color: var(--gray);
             font-size: 0.9rem;
         }
 
         /* Tables */
         .admin-section {
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
         }
 
         .section-header {
@@ -185,10 +255,10 @@
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--light);
         }
 
-        .section-header h3 {
+        .section-header h2 {
             color: var(--primary);
             font-size: 1.3rem;
             display: flex;
@@ -196,365 +266,1240 @@
             gap: 10px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: #f8f9fa;
-            padding: 1rem;
-            text-align: left;
+        /* Botões Admin */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             font-weight: 600;
-            color: var(--primary);
-            border-bottom: 2px solid #eee;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:hover {
-            background: #f8f9fa;
-        }
-
-        .status {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status.active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status.inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .action-btn {
-            padding: 0.3rem 0.8rem;
-            border: none;
-            border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
             transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
-        .edit-btn {
+        .btn-primary {
             background: var(--secondary);
             color: white;
         }
 
-        .edit-btn:hover {
-            background: #2980b9;
+        .btn-success {
+            background: var(--success);
+            color: white;
         }
 
-        .delete-btn {
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
             background: var(--danger);
             color: white;
         }
 
-        .delete-btn:hover {
-            background: #c0392b;
+        .btn-purple {
+            background: var(--purple);
+            color: white;
         }
 
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
         }
 
-        .action-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+        .btn-primary:hover { background: #2980b9; }
+        .btn-success:hover { background: #219653; }
+        .btn-warning:hover { background: #e67e22; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-purple:hover { background: #8e44ad; }
+        .btn-outline:hover { background: var(--secondary); color: white; }
+
+        /* Tabelas */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: var(--admin);
-        }
-
-        .action-card i {
-            font-size: 2rem;
-            color: var(--admin);
-            margin-bottom: 1rem;
-        }
-
-        .action-card h4 {
+        .admin-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
             color: var(--primary);
-            margin-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
         }
 
-        .action-card p {
-            color: #666;
+        .admin-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
             font-size: 0.9rem;
         }
 
-        /* Footer Admin */
-        .admin-footer {
-            background: var(--primary);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            text-align: center;
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .admin-header-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        .badge-purple { background: #e8d6f7; color: #4a235a; }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        /* Formulários Admin */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Upload Area Admin */
+        .upload-area-admin {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+
+        .upload-area-admin:hover {
+            background: #e8f4fc;
+            border-color: #2980b9;
+        }
+
+        .upload-area-admin i {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsivo */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
             }
             
-            .admin-nav {
-                flex-wrap: wrap;
+            .sidebar-header {
+                padding: 0 1rem 1rem;
+            }
+            
+            .admin-logo h1,
+            .admin-details,
+            .sidebar-menu span:not(.menu-count) {
+                display: none;
+            }
+            
+            .admin-logo {
                 justify-content: center;
             }
             
-            table {
-                display: block;
-                overflow-x: auto;
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 12px;
             }
             
-            .stats-grid {
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-cards {
                 grid-template-columns: 1fr;
             }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.active {
+                width: 250px;
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block !important;
+            }
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: var(--purple);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
 <body>
-    <!-- Admin Header -->
-    <header class="admin-header">
-        <div class="container">
-            <div class="admin-header-content">
-                <a href="index.html" class="admin-logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h1>Study<span>Cert</span> <small style="font-size: 1rem;">Admin</small></h1>
-                </a>
-                
-                <div class="admin-nav">
-                    <span class="admin-user">
-                        <i class="fas fa-user-shield"></i> Administrador
-                    </span>
-                    <a href="index.html" class="admin-btn">
-                        <i class="fas fa-home"></i> Voltar ao Site
-                    </a>
-                    <button class="admin-btn" onclick="logoutAdmin()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="admin-logo">
+                <i class="fas fa-cogs"></i>
+                <h1>Study<span>Cert</span> Admin</h1>
+            </div>
+            
+            <div class="admin-info">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div class="admin-details">
+                    <h3 id="adminName">Administrador</h3>
+                    <p>Super Admin</p>
+                </div>
+                <span class="admin-badge">ADM</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+            <li><a href="#" data-section="usuarios"><i class="fas fa-users"></i> <span>Gerenciar Usuários</span> <span class="menu-count" id="userCount">0</span></a></li>
+            <li><a href="#" data-section="materiais"><i class="fas fa-book"></i> <span>Gerenciar Materiais</span> <span class="menu-count" id="materialCount">0</span></a></li>
+            <li><a href="#" data-section="simulados"><i class="fas fa-file-alt"></i> <span>Gerenciar Simulados</span> <span class="menu-count" id="simuladoCount">0</span></a></li>
+            <li><a href="#" data-section="forum"><i class="fas fa-comments"></i> <span>Moderar Fórum</span> <span class="menu-count" id="forumCount">0</span></a></li>
+            <li><a href="#" data-section="uploads"><i class="fas fa-cloud-upload-alt"></i> <span>Aprovar Uploads</span> <span class="menu-count" id="uploadCount">0</span></a></li>
+            <li><a href="#" data-section="certificacoes"><i class="fas fa-certificate"></i> <span>Certificações</span></a></li>
+            <li><a href="#" data-section="configuracoes"><i class="fas fa-cog"></i> <span>Configurações</span></a></li>
+            <li><a href="#" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> <span>Sair</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="admin-section active">
+            <div class="main-header">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard Administrativo</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="refreshStats()">
+                        <i class="fas fa-sync-alt"></i> Atualizar
+                    </button>
+                    <button class="btn btn-success" onclick="exportData()">
+                        <i class="fas fa-download"></i> Exportar Dados
                     </button>
                 </div>
             </div>
-        </div>
-    </header>
 
-    <!-- Dashboard -->
-    <main class="dashboard">
-        <div class="container">
-            <div class="dashboard-title">
-                <h2><i class="fas fa-tachometer-alt"></i> Painel Administrativo</h2>
-                <p>Gerencie usuários, conteúdos e configurações do sistema</p>
-            </div>
-
-            <!-- Stats -->
-            <div class="stats-grid">
+            <!-- Stats Cards -->
+            <div class="stats-cards">
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat-icon users">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>1,248</h3>
-                        <p>Usuários Ativos</p>
+                        <h3 id="totalUsers">0</h3>
+                        <p>Usuários Registrados</p>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat-icon materials">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalMaterials">0</h3>
+                        <p>Materiais de Estudo</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon simulados">
                         <i class="fas fa-file-alt"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>48</h3>
-                        <p>Simulados Publicados</p>
+                        <h3 id="totalSimulados">0</h3>
+                        <p>Simulados Disponíveis</p>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat-icon forum">
                         <i class="fas fa-comments"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>156</h3>
+                        <h3 id="totalPosts">0</h3>
                         <p>Posts no Fórum</p>
                     </div>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>89%</h3>
-                        <p>Taxa de Engajamento</p>
-                    </div>
-                </div>
             </div>
 
-            <!-- Users Table -->
+            <!-- Atividades Recentes -->
             <div class="admin-section">
                 <div class="section-header">
-                    <h3><i class="fas fa-users-cog"></i> Gerenciamento de Usuários</h3>
-                    <button class="admin-btn">
-                        <i class="fas fa-plus"></i> Novo Usuário
+                    <h2><i class="fas fa-history"></i> Atividades Recentes</h2>
+                    <button class="btn btn-outline" onclick="viewAllActivities()">
+                        <i class="fas fa-list"></i> Ver Tudo
                     </button>
                 </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Plano</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#001</td>
-                            <td>João Silva</td>
-                            <td>joao@email.com</td>
-                            <td>Premium</td>
-                            <td><span class="status active">Ativo</span></td>
-                            <td>
-                                <button class="action-btn edit-btn">Editar</button>
-                                <button class="action-btn delete-btn">Excluir</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#002</td>
-                            <td>Maria Santos</td>
-                            <td>maria@email.com</td>
-                            <td>Gratuito</td>
-                            <td><span class="status active">Ativo</span></td>
-                            <td>
-                                <button class="action-btn edit-btn">Editar</button>
-                                <button class="action-btn delete-btn">Excluir</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#003</td>
-                            <td>Carlos Oliveira</td>
-                            <td>carlos@email.com</td>
-                            <td>Premium</td>
-                            <td><span class="status pending">Pendente</span></td>
-                            <td>
-                                <button class="action-btn edit-btn">Editar</button>
-                                <button class="action-btn delete-btn">Excluir</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Content Management -->
-            <div class="admin-section">
-                <div class="section-header">
-                    <h3><i class="fas fa-cogs"></i> Gerenciamento Rápido</h3>
-                </div>
-
-                <div class="quick-actions">
-                    <div class="action-card" onclick="alert('Abrir gerenciamento de simulados')">
-                        <i class="fas fa-file-alt"></i>
-                        <h4>Simulados</h4>
-                        <p>Gerencie 11 simulados disponíveis</p>
-                    </div>
-
-                    <div class="action-card" onclick="alert('Abrir gerenciamento de materiais')">
-                        <i class="fas fa-book"></i>
-                        <h4>Materiais</h4>
-                        <p>Gerencie materiais de estudo</p>
-                    </div>
-
-                    <div class="action-card" onclick="alert('Abrir moderação do fórum')">
-                        <i class="fas fa-comments"></i>
-                        <h4>Fórum</h4>
-                        <p>Modere discussões</p>
-                    </div>
-
-                    <div class="action-card" onclick="alert('Abrir configurações')">
-                        <i class="fas fa-cog"></i>
-                        <h4>Configurações</h4>
-                        <p>Configure o sistema</p>
-                    </div>
+                <div id="recentActivities">
+                    <!-- As atividades serão carregadas via JavaScript -->
+                    <p class="text-center" style="color: #666; padding: 2rem;">Carregando atividades...</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Gerenciar Usuários -->
+        <section id="usuarios" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-users"></i> Gerenciar Usuários</h2>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="addUser()">
+                        <i class="fas fa-user-plus"></i> Adicionar Usuário
+                    </button>
+                    <button class="btn btn-primary" onclick="filterUsers()">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="searchUsers" placeholder="Buscar por nome ou e-mail..." onkeyup="searchUsers()">
+                </div>
+                <div class="form-group">
+                    <select id="filterRole" onchange="filterUsers()">
+                        <option value="">Todos os perfis</option>
+                        <option value="admin">Administrador</option>
+                        <option value="moderator">Moderador</option>
+                        <option value="user">Usuário</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="filterStatus" onchange="filterUsers()">
+                        <option value="">Todos os status</option>
+                        <option value="active">Ativo</option>
+                        <option value="inactive">Inativo</option>
+                        <option value="banned">Banido</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
+                        <th>Registro</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTable">
+                    <!-- Os usuários serão carregados via JavaScript -->
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding: 2rem; color: #666;">
+                            Carregando usuários...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Gerenciar Materiais -->
+        <section id="materiais" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-book"></i> Gerenciar Materiais de Estudo</h2>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="addMaterial()">
+                        <i class="fas fa-plus"></i> Adicionar Material
+                    </button>
+                    <button class="btn btn-primary" onclick="importMaterials()">
+                        <i class="fas fa-file-import"></i> Importar
+                    </button>
+                </div>
+            </div>
+
+            <div class="upload-area-admin">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Upload de Materiais em Massa</h3>
+                <p>Arraste e solte múltiplos arquivos ou clique para selecionar</p>
+                <button class="btn btn-primary" onclick="document.getElementById('bulkUpload').click()">
+                    <i class="fas fa-upload"></i> Selecionar Arquivos
+                </button>
+                <input type="file" id="bulkUpload" multiple style="display: none;" onchange="handleBulkUpload()">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <select id="materialCategory" onchange="filterMaterials()">
+                        <option value="">Todas as categorias</option>
+                        <option value="itil">ITIL 4</option>
+                        <option value="azure">Microsoft Azure</option>
+                        <option value="aws">Amazon AWS</option>
+                        <option value="linux">LPIC-1/LPIC-2</option>
+                        <option value="security">Security+</option>
+                        <option value="ccna">CCNA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="materialType" onchange="filterMaterials()">
+                        <option value="">Todos os tipos</option>
+                        <option value="pdf">PDF</option>
+                        <option value="ppt">Apresentação</option>
+                        <option value="doc">Documento</option>
+                        <option value="video">Videoaula</option>
+                        <option value="zip">Arquivo ZIP</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="materialStatus" onchange="filterMaterials()">
+                        <option value="">Todos os status</option>
+                        <option value="published">Publicado</option>
+                        <option value="pending">Pendente</option>
+                        <option value="draft">Rascunho</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Downloads</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="materialsTable">
+                    <tr>
+                        <td colspan="7" class="text-center" style="padding: 2rem; color: #666;">
+                            Carregando materiais...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Gerenciar Simulados -->
+        <section id="simulados" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> Gerenciar Simulados</h2>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="addSimulado()">
+                        <i class="fas fa-plus"></i> Novo Simulado
+                    </button>
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        <i class="fas fa-chart-bar"></i> Relatório
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="searchSimulados" placeholder="Buscar simulados..." onkeyup="searchSimulados()">
+                </div>
+                <div class="form-group">
+                    <select id="filterCertificacao" onchange="filterSimulados()">
+                        <option value="">Todas certificações</option>
+                        <option value="itil">ITIL 4 Foundation</option>
+                        <option value="lpic1">LPIC-1</option>
+                        <option value="security">Security+</option>
+                        <option value="aws">AWS Cloud Practitioner</option>
+                        <option value="azure">Azure Fundamentals</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="filterDificuldade" onchange="filterSimulados()">
+                        <option value="">Todas dificuldades</option>
+                        <option value="facil">Fácil</option>
+                        <option value="medio">Médio</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Simulado</th>
+                        <th>Certificação</th>
+                        <th>Questões</th>
+                        <th>Dificuldade</th>
+                        <th>Tentativas</th>
+                        <th>Média</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="simuladosTable">
+                    <tr>
+                        <td colspan="7" class="text-center" style="padding: 2rem; color: #666;">
+                            Carregando simulados...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Aprovar Uploads -->
+        <section id="uploads" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Aprovar Uploads da Comunidade</h2>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="approveAll()">
+                        <i class="fas fa-check-double"></i> Aprovar Todos
+                    </button>
+                    <button class="btn btn-danger" onclick="rejectAll()">
+                        <i class="fas fa-times"></i> Rejeitar Todos
+                    </button>
+                </div>
+            </div>
+
+            <div id="pendingUploads">
+                <!-- Uploads pendentes serão carregados aqui -->
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Nenhum upload pendente</strong>
+                        <p>Não há materiais ou simulados aguardando aprovação no momento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configurações -->
+        <section id="configuracoes" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-cog"></i> Configurações do Sistema</h2>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nome da Plataforma</label>
+                    <input type="text" id="siteName" value="StudyCert" placeholder="Nome da plataforma">
+                </div>
+                <div class="form-group">
+                    <label>URL do Site</label>
+                    <input type="text" id="siteUrl" value="https://studyCert.com" placeholder="URL completa">
+                </div>
+                <div class="form-group">
+                    <label>E-mail de Contato</label>
+                    <input type="email" id="contactEmail" value="contato@studyCert.com" placeholder="E-mail de contato">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Limite de Upload (MB)</label>
+                    <input type="number" id="uploadLimit" value="100" min="1" max="500">
+                </div>
+                <div class="form-group">
+                    <label>Manutenção do Sistema</label>
+                    <select id="maintenanceMode">
+                        <option value="false">Desativado</option>
+                        <option value="true">Ativado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Registro de Usuários</label>
+                    <select id="userRegistration">
+                        <option value="open">Aberto</option>
+                        <option value="invite">Somente por Convite</option>
+                        <option value="closed">Fechado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mensagem de Boas-vindas</label>
+                <textarea id="welcomeMessage" rows="4" placeholder="Digite a mensagem de boas-vindas...">Bem-vindo ao StudyCert! Sua plataforma completa para certificações de TI.</textarea>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+                <button class="btn btn-outline" onclick="resetSettings()">
+                    <i class="fas fa-undo"></i> Restaurar Padrões
+                </button>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="admin-footer">
-        <div class="container">
-            <p>&copy; 2023 StudyCert - Painel Administrativo</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #aaa;">
-                Acesso restrito • v1.0.0
-            </p>
-        </div>
-    </footer>
-
     <script>
-        // Verificar se é admin
-        function verificarAdmin() {
-            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+        // Verificar login de admin
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+            const adminName = localStorage.getItem('adminName');
+            const adminUsername = localStorage.getItem('adminUsername');
             
-            if (!usuarioSalvo) {
-                // Não está logado
-                alert('Acesso negado! Faça login como administrador.');
+            if (!adminLoggedIn || adminLoggedIn !== 'true') {
+                alert('Acesso negado! Redirecionando para login...');
                 window.location.href = 'index.html';
                 return;
             }
             
-            const usuario = JSON.parse(usuarioSalvo);
+            // Atualizar informações do admin
+            if (adminName) {
+                document.getElementById('adminName').textContent = adminName;
+                document.getElementById('adminAvatar').textContent = adminName.charAt(0).toUpperCase();
+            }
             
-            if (usuario.tipo !== 'admin') {
-                // Não é admin
-                alert('Acesso restrito ao administrador!');
+            // Carregar dados iniciais
+            loadDashboardStats();
+            loadUsers();
+            loadMaterials();
+            loadSimulados();
+            loadRecentActivities();
+            
+            // Configurar navegação do menu
+            setupMenuNavigation();
+        });
+
+        // Configurar navegação do menu
+        function setupMenuNavigation() {
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover active de todos
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    sections.forEach(s => s.style.display = 'none');
+                    
+                    // Adicionar active ao clicado
+                    this.classList.add('active');
+                    
+                    // Mostrar seção correspondente
+                    const sectionId = this.getAttribute('data-section');
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Toggle sidebar em mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Carregar estatísticas do dashboard
+        function loadDashboardStats() {
+            // Simulação de dados - em um sistema real, viria de uma API
+            const stats = {
+                users: 1247,
+                materials: 89,
+                simulados: 42,
+                posts: 356,
+                pendingUploads: 12
+            };
+            
+            document.getElementById('totalUsers').textContent = stats.users.toLocaleString();
+            document.getElementById('totalMaterials').textContent = stats.materials;
+            document.getElementById('totalSimulados').textContent = stats.simulados;
+            document.getElementById('totalPosts').textContent = stats.posts;
+            
+            document.getElementById('userCount').textContent = stats.users;
+            document.getElementById('materialCount').textContent = stats.materials;
+            document.getElementById('simuladoCount').textContent = stats.simulados;
+            document.getElementById('uploadCount').textContent = stats.pendingUploads;
+        }
+
+        // Carregar usuários
+        function loadUsers() {
+            const users = [
+                { id: 1, name: "João Silva", email: "joao@email.com", role: "user", status: "active", date: "2024-03-15" },
+                { id: 2, name: "Maria Santos", email: "maria@email.com", role: "user", status: "active", date: "2024-03-10" },
+                { id: 3, name: "Carlos Oliveira", email: "carlos@email.com", role: "moderator", status: "active", date: "2024-03-05" },
+                { id: 4, name: "Ana Costa", email: "ana@email.com", role: "user", status: "inactive", date: "2024-02-28" },
+                { id: 5, name: "Pedro Almeida", email: "pedro@email.com", role: "admin", status: "active", date: "2024-02-20" },
+                { id: 6, name: "Fernanda Lima", email: "fernanda@email.com", role: "user", status: "banned", date: "2024-02-15" }
+            ];
+            
+            const tableBody = document.getElementById('usersTable');
+            tableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                // Determinar badge de perfil
+                let roleBadge = '';
+                if (user.role === 'admin') {
+                    roleBadge = '<span class="badge badge-danger">Admin</span>';
+                } else if (user.role === 'moderator') {
+                    roleBadge = '<span class="badge badge-warning">Moderador</span>';
+                } else {
+                    roleBadge = '<span class="badge badge-success">Usuário</span>';
+                }
+                
+                // Determinar badge de status
+                let statusBadge = '';
+                if (user.status === 'active') {
+                    statusBadge = '<span class="badge badge-success">Ativo</span>';
+                } else if (user.status === 'inactive') {
+                    statusBadge = '<span class="badge badge-warning">Inativo</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-danger">Banido</span>';
+                }
+                
+                // Inicial do nome para avatar
+                const initial = user.name.charAt(0).toUpperCase();
+                
+                row.innerHTML = `
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="user-avatar">${initial}</div>
+                            <div>
+                                <strong>${user.name}</strong><br>
+                                <small>ID: ${user.id}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td>${roleBadge}</td>
+                    <td>${statusBadge}</td>
+                    <td>${user.date}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="editUser(${user.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="toggleUserStatus(${user.id})">
+                                <i class="fas fa-user-cog"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Carregar materiais
+        function loadMaterials() {
+            const materials = [
+                { id: 1, name: "Guia Completo ITIL 4", category: "itil", type: "pdf", downloads: 1247, status: "published", date: "2024-03-15" },
+                { id: 2, name: "Apresentação Azure Fundamentals", category: "azure", type: "ppt", downloads: 892, status: "published", date: "2024-03-10" },
+                { id: 3, name: "Questões LPIC-1", category: "linux", type: "doc", downloads: 1567, status: "published", date: "2024-03-05" },
+                { id: 4, name: "Videoaula Security+", category: "security", type: "video", downloads: 2345, status: "pending", date: "2024-03-01" },
+                { id: 5, name: "Resumo AWS Cloud", category: "aws", type: "pdf", downloads: 781, status: "published", date: "2024-02-28" },
+                { id: 6, name: "Simulado CCNA", category: "ccna", type: "zip", downloads: 0, status: "draft", date: "2024-02-25" }
+            ];
+            
+            const tableBody = document.getElementById('materialsTable');
+            tableBody.innerHTML = '';
+            
+            materials.forEach(material => {
+                const row = document.createElement('tr');
+                
+                // Badge de categoria
+                let categoryBadge = '';
+                switch(material.category) {
+                    case 'itil': categoryBadge = '<span class="badge badge-purple">ITIL 4</span>'; break;
+                    case 'azure': categoryBadge = '<span class="badge badge-info">Azure</span>'; break;
+                    case 'aws': categoryBadge = '<span class="badge badge-warning">AWS</span>'; break;
+                    case 'linux': categoryBadge = '<span class="badge badge-success">Linux</span>'; break;
+                    case 'security': categoryBadge = '<span class="badge badge-danger">Security</span>'; break;
+                    case 'ccna': categoryBadge = '<span class="badge badge-primary">CCNA</span>'; break;
+                }
+                
+                // Badge de tipo
+                let typeBadge = '';
+                switch(material.type) {
+                    case 'pdf': typeBadge = '<span class="badge badge-danger">PDF</span>'; break;
+                    case 'ppt': typeBadge = '<span class="badge badge-warning">PPT</span>'; break;
+                    case 'doc': typeBadge = '<span class="badge badge-info">DOC</span>'; break;
+                    case 'video': typeBadge = '<span class="badge badge-success">Vídeo</span>'; break;
+                    case 'zip': typeBadge = '<span class="badge badge-purple">ZIP</span>'; break;
+                }
+                
+                // Badge de status
+                let statusBadge = '';
+                if (material.status === 'published') {
+                    statusBadge = '<span class="badge badge-success">Publicado</span>';
+                } else if (material.status === 'pending') {
+                    statusBadge = '<span class="badge badge-warning">Pendente</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-info">Rascunho</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>
+                        <strong>${material.name}</strong><br>
+                        <small>ID: ${material.id}</small>
+                    </td>
+                    <td>${categoryBadge}</td>
+                    <td>${typeBadge}</td>
+                    <td>${material.downloads.toLocaleString()}</td>
+                    <td>${statusBadge}</td>
+                    <td>${material.date}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="editMaterial(${material.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="publishMaterial(${material.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteMaterial(${material.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Carregar simulados
+        function loadSimulados() {
+            const simulados = [
+                { id: 1, name: "ITIL 4 - Simulado 1", certification: "itil", questions: 40, difficulty: "facil", attempts: 124, average: 78 },
+                { id: 2, name: "LPIC-1 Comandos", certification: "lpic1", questions: 60, difficulty: "medio", attempts: 89, average: 65 },
+                { id: 3, name: "Security+ SY0-601", certification: "security", questions: 45, difficulty: "dificil", attempts: 156, average: 72 },
+                { id: 4, name: "AWS Cloud Practitioner", certification: "aws", questions: 50, difficulty: "medio", attempts: 234, average: 81 },
+                { id: 5, name: "Azure Fundamentals", certification: "azure", questions: 40, difficulty: "facil", attempts: 178, average: 85 }
+            ];
+            
+            const tableBody = document.getElementById('simuladosTable');
+            tableBody.innerHTML = '';
+            
+            simulados.forEach(simulado => {
+                const row = document.createElement('tr');
+                
+                // Badge de certificação
+                let certBadge = '';
+                switch(simulado.certification) {
+                    case 'itil': certBadge = '<span class="badge badge-purple">ITIL 4</span>'; break;
+                    case 'lpic1': certBadge = '<span class="badge badge-success">LPIC-1</span>'; break;
+                    case 'security': certBadge = '<span class="badge badge-danger">Security+</span>'; break;
+                    case 'aws': certBadge = '<span class="badge badge-warning">AWS</span>'; break;
+                    case 'azure': certBadge = '<span class="badge badge-info">Azure</span>'; break;
+                }
+                
+                // Badge de dificuldade
+                let diffBadge = '';
+                switch(simulado.difficulty) {
+                    case 'facil': diffBadge = '<span class="badge badge-success">Fácil</span>'; break;
+                    case 'medio': diffBadge = '<span class="badge badge-warning">Médio</span>'; break;
+                    case 'dificil': diffBadge = '<span class="badge badge-danger">Difícil</span>'; break;
+                }
+                
+                // Cor da média baseada no valor
+                let averageColor = '';
+                if (simulado.average >= 80) averageColor = 'text-success';
+                else if (simulado.average >= 60) averageColor = 'text-warning';
+                else averageColor = 'text-danger';
+                
+                row.innerHTML = `
+                    <td>
+                        <strong>${simulado.name}</strong><br>
+                        <small>ID: ${simulado.id}</small>
+                    </td>
+                    <td>${certBadge}</td>
+                    <td>${simulado.questions}</td>
+                    <td>${diffBadge}</td>
+                    <td>${simulado.attempts.toLocaleString()}</td>
+                    <td class="${averageColor}"><strong>${simulado.average}%</strong></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="editSimulado(${simulado.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="viewResults(${simulado.id})">
+                                <i class="fas fa-chart-bar"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteSimulado(${simulado.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Carregar atividades recentes
+        function loadRecentActivities() {
+            const activities = [
+                { user: "João Silva", action: "adicionou novo material", target: "Guia LPIC-1", time: "5 minutos atrás" },
+                { user: "Maria Santos", action: "completou simulado", target: "ITIL 4 - Simulado 5", time: "15 minutos atrás" },
+                { user: "Admin", action: "aprovou upload", target: "Videoaula Security+", time: "1 hora atrás" },
+                { user: "Carlos Oliveira", action: "criou tópico no fórum", target: "Dúvida sobre Azure", time: "2 horas atrás" },
+                { user: "Ana Costa", action: "registrou-se na plataforma", target: "", time: "3 horas atrás" }
+            ];
+            
+            const container = document.getElementById('recentActivities');
+            container.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const activityDiv = document.createElement('div');
+                activityDiv.style.cssText = `
+                    padding: 12px;
+                    border-bottom: 1px solid #eee;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                `;
+                
+                // Ícone baseado na ação
+                let icon = 'fa-user';
+                let iconColor = '#3498db';
+                
+                if (activity.action.includes('material')) {
+                    icon = 'fa-book';
+                    iconColor = '#27ae60';
+                } else if (activity.action.includes('simulado')) {
+                    icon = 'fa-file-alt';
+                    iconColor = '#f39c12';
+                } else if (activity.action.includes('aprovou')) {
+                    icon = 'fa-check-circle';
+                    iconColor = '#27ae60';
+                } else if (activity.action.includes('tópico')) {
+                    icon = 'fa-comments';
+                    iconColor = '#9b59b6';
+                } else if (activity.action.includes('registrou')) {
+                    icon = 'fa-user-plus';
+                    iconColor = '#3498db';
+                }
+                
+                activityDiv.innerHTML = `
+                    <div style="width: 40px; height: 40px; background: ${iconColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <strong>${activity.user}</strong> ${activity.action} 
+                        ${activity.target ? `<strong>${activity.target}</strong>` : ''}
+                        <div style="font-size: 0.85rem; color: #666;">${activity.time}</div>
+                    </div>
+                `;
+                
+                container.appendChild(activityDiv);
+            });
+        }
+
+        // Funções de gerenciamento de usuários
+        function addUser() {
+            alert('Funcionalidade: Adicionar novo usuário\n\nEm um sistema real, um formulário modal seria aberto para cadastro de novo usuário.');
+        }
+
+        function editUser(id) {
+            alert(`Funcionalidade: Editar usuário ID: ${id}\n\nAbriria um formulário com os dados do usuário para edição.`);
+        }
+
+        function toggleUserStatus(id) {
+            if (confirm('Deseja alterar o status deste usuário?')) {
+                alert(`Status do usuário ID: ${id} alterado com sucesso!`);
+                loadUsers(); // Recarregar lista
+            }
+        }
+
+        function deleteUser(id) {
+            if (confirm('Tem certeza que deseja excluir este usuário?\nEsta ação não pode ser desfeita.')) {
+                alert(`Usuário ID: ${id} excluído com sucesso!`);
+                loadUsers(); // Recarregar lista
+            }
+        }
+
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchUsers').value.toLowerCase();
+            alert(`Funcionalidade: Buscar usuários por "${searchTerm}"\n\nEm um sistema real, filtraria a lista de usuários.`);
+        }
+
+        function filterUsers() {
+            const role = document.getElementById('filterRole').value;
+            const status = document.getElementById('filterStatus').value;
+            alert(`Funcionalidade: Filtrar usuários\nPerfil: ${role || 'Todos'}\nStatus: ${status || 'Todos'}`);
+        }
+
+        // Funções de gerenciamento de materiais
+        function addMaterial() {
+            alert('Funcionalidade: Adicionar novo material\n\nAbriria um formulário para upload e detalhes do material.');
+        }
+
+        function editMaterial(id) {
+            alert(`Funcionalidade: Editar material ID: ${id}`);
+        }
+
+        function publishMaterial(id) {
+            if (confirm('Publicar este material?')) {
+                alert(`Material ID: ${id} publicado com sucesso!`);
+                loadMaterials();
+            }
+        }
+
+        function deleteMaterial(id) {
+            if (confirm('Excluir este material permanentemente?')) {
+                alert(`Material ID: ${id} excluído!`);
+                loadMaterials();
+            }
+        }
+
+        function filterMaterials() {
+            const category = document.getElementById('materialCategory').value;
+            const type = document.getElementById('materialType').value;
+            const status = document.getElementById('materialStatus').value;
+            alert(`Filtrando materiais\nCategoria: ${category || 'Todas'}\nTipo: ${type || 'Todos'}\nStatus: ${status || 'Todos'}`);
+        }
+
+        function handleBulkUpload() {
+            const files = document.getElementById('bulkUpload').files;
+            alert(`Upload em massa: ${files.length} arquivo(s) selecionado(s)\n\nEm um sistema real, os arquivos seriam enviados para o servidor.`);
+        }
+
+        // Funções de gerenciamento de simulados
+        function addSimulado() {
+            alert('Funcionalidade: Criar novo simulado\n\nAbriria um editor de questões e configurações do simulado.');
+        }
+
+        function editSimulado(id) {
+            alert(`Funcionalidade: Editar simulado ID: ${id}`);
+        }
+
+        function viewResults(id) {
+            alert(`Funcionalidade: Ver resultados do simulado ID: ${id}\n\nMostraria estatísticas e desempenho dos usuários.`);
+        }
+
+        function deleteSimulado(id) {
+            if (confirm('Excluir este simulado?')) {
+                alert(`Simulado ID: ${id} excluído!`);
+                loadSimulados();
+            }
+        }
+
+        function searchSimulados() {
+            const search = document.getElementById('searchSimulados').value;
+            alert(`Buscando simulados: "${search}"`);
+        }
+
+        function filterSimulados() {
+            const cert = document.getElementById('filterCertificacao').value;
+            const diff = document.getElementById('filterDificuldade').value;
+            alert(`Filtrando simulados\nCertificação: ${cert || 'Todas'}\nDificuldade: ${diff || 'Todas'}`);
+        }
+
+        function generateReport() {
+            alert('Gerando relatório de simulados...\n\nUm arquivo PDF/Excel seria gerado com todas as estatísticas.');
+        }
+
+        // Funções para uploads pendentes
+        function approveAll() {
+            if (confirm('Aprovar todos os uploads pendentes?')) {
+                alert('Todos os uploads foram aprovados!');
+            }
+        }
+
+        function rejectAll() {
+            if (confirm('Rejeitar todos os uploads pendentes?')) {
+                alert('Todos os uploads foram rejeitados!');
+            }
+        }
+
+        // Funções de configurações
+        function saveSettings() {
+            const siteName = document.getElementById('siteName').value;
+            const siteUrl = document.getElementById('siteUrl').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const uploadLimit = document.getElementById('uploadLimit').value;
+            const maintenanceMode = document.getElementById('maintenanceMode').value;
+            const userRegistration = document.getElementById('userRegistration').value;
+            const welcomeMessage = document.getElementById('welcomeMessage').value;
+            
+            // Salvar no localStorage (em um sistema real, enviaria para o servidor)
+            const settings = {
+                siteName,
+                siteUrl,
+                contactEmail,
+                uploadLimit,
+                maintenanceMode: maintenanceMode === 'true',
+                userRegistration,
+                welcomeMessage
+            };
+            
+            localStorage.setItem('adminSettings', JSON.stringify(settings));
+            
+            alert('Configurações salvas com sucesso!');
+        }
+
+        function resetSettings() {
+            if (confirm('Restaurar configurações padrão?')) {
+                document.getElementById('siteName').value = 'StudyCert';
+                document.getElementById('siteUrl').value = 'https://studyCert.com';
+                document.getElementById('contactEmail').value = 'contato@studyCert.com';
+                document.getElementById('uploadLimit').value = '100';
+                document.getElementById('maintenanceMode').value = 'false';
+                document.getElementById('userRegistration').value = 'open';
+                document.getElementById('welcomeMessage').value = 'Bem-vindo ao StudyCert! Sua plataforma completa para certificações de TI.';
+                
+                localStorage.removeItem('adminSettings');
+                alert('Configurações restauradas para os valores padrão!');
+            }
+        }
+
+        // Outras funções úteis
+        function refreshStats() {
+            alert('Atualizando estatísticas...');
+            loadDashboardStats();
+        }
+
+        function exportData() {
+            alert('Exportando dados...\n\nUm arquivo contendo todos os dados do sistema seria gerado para backup.');
+        }
+
+        function viewAllActivities() {
+            alert('Mostrando todas as atividades...\n\nEm um sistema real, abriria uma página com histórico completo.');
+        }
+
+        function importMaterials() {
+            alert('Importar materiais...\n\nPermitiria importar materiais de arquivos CSV ou de outras fontes.');
+        }
+
+        // Logout do admin
+        function logoutAdmin() {
+            if (confirm('Deseja sair do painel administrativo?')) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminName');
+                localStorage.removeItem('adminUsername');
                 window.location.href = 'index.html';
             }
         }
-        
-        // Logout admin
-        function logoutAdmin() {
-            localStorage.removeItem('usuarioLogado');
-            alert('Logout realizado!');
-            window.location.href = 'index.html';
-        }
-        
-        // Verificar ao carregar
-        document.addEventListener('DOMContentLoaded', function() {
-            verificarAdmin();
-        });
     </script>
 </body>
 </html>
