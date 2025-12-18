@@ -74,6 +74,7 @@
         .admin-nav {
             display: flex;
             gap: 1rem;
+            align-items: center;
         }
 
         .admin-btn {
@@ -88,11 +89,17 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .admin-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
+        }
+
+        .admin-user {
+            color: white;
+            font-weight: 500;
         }
 
         /* Dashboard */
@@ -108,6 +115,9 @@
         .dashboard-title h2 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .dashboard-title p {
@@ -130,6 +140,11 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
 
         .stat-icon {
@@ -176,6 +191,9 @@
         .section-header h3 {
             color: var(--primary);
             font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         table {
@@ -206,6 +224,7 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            display: inline-block;
         }
 
         .status.active {
@@ -230,6 +249,7 @@
             cursor: pointer;
             font-size: 0.8rem;
             margin-right: 0.5rem;
+            transition: all 0.3s;
         }
 
         .edit-btn {
@@ -237,9 +257,17 @@
             color: white;
         }
 
+        .edit-btn:hover {
+            background: #2980b9;
+        }
+
         .delete-btn {
             background: var(--danger);
             color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
         }
 
         /* Quick Actions */
@@ -258,11 +286,13 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            border: 2px solid transparent;
         }
 
         .action-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--admin);
         }
 
         .action-card i {
@@ -307,6 +337,10 @@
                 display: block;
                 overflow-x: auto;
             }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -317,10 +351,13 @@
             <div class="admin-header-content">
                 <a href="index.html" class="admin-logo">
                     <i class="fas fa-graduation-cap"></i>
-                    <h1>Study<span>Cert</span> <small>Admin</small></h1>
+                    <h1>Study<span>Cert</span> <small style="font-size: 1rem;">Admin</small></h1>
                 </a>
                 
                 <div class="admin-nav">
+                    <span class="admin-user">
+                        <i class="fas fa-user-shield"></i> Administrador
+                    </span>
                     <a href="index.html" class="admin-btn">
                         <i class="fas fa-home"></i> Voltar ao Site
                     </a>
@@ -368,7 +405,7 @@
                     </div>
                     <div class="stat-info">
                         <h3>156</h3>
-                        <p>Posts no Fórum (30 dias)</p>
+                        <p>Posts no Fórum</p>
                     </div>
                 </div>
 
@@ -437,17 +474,6 @@
                                 <button class="action-btn delete-btn">Excluir</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#004</td>
-                            <td>Ana Costa</td>
-                            <td>ana@email.com</td>
-                            <td>Gratuito</td>
-                            <td><span class="status inactive">Inativo</span></td>
-                            <td>
-                                <button class="action-btn edit-btn">Editar</button>
-                                <button class="action-btn delete-btn">Excluir</button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -455,35 +481,32 @@
             <!-- Content Management -->
             <div class="admin-section">
                 <div class="section-header">
-                    <h3><i class="fas fa-file-alt"></i> Gerenciamento de Conteúdo</h3>
-                    <button class="admin-btn">
-                        <i class="fas fa-plus"></i> Novo Conteúdo
-                    </button>
+                    <h3><i class="fas fa-cogs"></i> Gerenciamento Rápido</h3>
                 </div>
 
                 <div class="quick-actions">
-                    <div class="action-card" onclick="alert('Gerenciar Simulados')">
+                    <div class="action-card" onclick="alert('Abrir gerenciamento de simulados')">
                         <i class="fas fa-file-alt"></i>
                         <h4>Simulados</h4>
-                        <p>Gerencie simulados disponíveis</p>
+                        <p>Gerencie 11 simulados disponíveis</p>
                     </div>
 
-                    <div class="action-card" onclick="alert('Gerenciar Materiais')">
+                    <div class="action-card" onclick="alert('Abrir gerenciamento de materiais')">
                         <i class="fas fa-book"></i>
                         <h4>Materiais</h4>
                         <p>Gerencie materiais de estudo</p>
                     </div>
 
-                    <div class="action-card" onclick="alert('Gerenciar Fórum')">
+                    <div class="action-card" onclick="alert('Abrir moderação do fórum')">
                         <i class="fas fa-comments"></i>
                         <h4>Fórum</h4>
-                        <p>Modere discussões do fórum</p>
+                        <p>Modere discussões</p>
                     </div>
 
-                    <div class="action-card" onclick="alert('Configurações do Site')">
+                    <div class="action-card" onclick="alert('Abrir configurações')">
                         <i class="fas fa-cog"></i>
                         <h4>Configurações</h4>
-                        <p>Configure o site</p>
+                        <p>Configure o sistema</p>
                     </div>
                 </div>
             </div>
@@ -493,9 +516,9 @@
     <!-- Footer -->
     <footer class="admin-footer">
         <div class="container">
-            <p>&copy; 2023 StudyCert - Painel Administrativo. Todos os direitos reservados.</p>
+            <p>&copy; 2023 StudyCert - Painel Administrativo</p>
             <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #aaa;">
-                Acesso restrito ao administrador
+                Acesso restrito • v1.0.0
             </p>
         </div>
     </footer>
@@ -503,8 +526,19 @@
     <script>
         // Verificar se é admin
         function verificarAdmin() {
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail !== 'admin@studyCert.com') {
+            const usuarioSalvo = localStorage.getItem('usuarioLogado');
+            
+            if (!usuarioSalvo) {
+                // Não está logado
+                alert('Acesso negado! Faça login como administrador.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const usuario = JSON.parse(usuarioSalvo);
+            
+            if (usuario.tipo !== 'admin') {
+                // Não é admin
                 alert('Acesso restrito ao administrador!');
                 window.location.href = 'index.html';
             }
@@ -512,9 +546,8 @@
         
         // Logout admin
         function logoutAdmin() {
-            localStorage.removeItem('userLoggedIn');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userName');
+            localStorage.removeItem('usuarioLogado');
+            alert('Logout realizado!');
             window.location.href = 'index.html';
         }
         
