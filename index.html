@@ -37,7 +37,7 @@
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Header - CORREÇÃO PRINCIPAL */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -52,14 +52,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Alterado para nowrap */
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-right: 2rem;
+            flex-shrink: 0; /* Impede que a logo encolha */
         }
 
         .logo i {
@@ -70,18 +70,20 @@
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
+            white-space: nowrap;
         }
 
         .logo span {
             color: var(--secondary);
         }
 
-        /* Navegação Principal */
+        /* Navegação Principal - ESTRUTURA CORRIGIDA */
         .main-nav {
             display: flex;
             align-items: center;
-            flex-grow: 1;
             justify-content: space-between;
+            flex-grow: 1;
+            margin-left: 2rem;
         }
 
         .nav-left {
@@ -103,22 +105,39 @@
             transition: all 0.3s;
             padding: 0.5rem 1rem;
             border-radius: 4px;
-            display: block;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
         }
 
         nav a:hover, nav a.active {
             color: var(--secondary);
-            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
         }
-
+        
         /* Área de autenticação */
         .auth-buttons {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            margin-left: auto;
-            flex-wrap: nowrap;
-            white-space: nowrap;
+            flex-shrink: 0; /* Impede que encolha */
         }
 
         /* Botões */
@@ -186,10 +205,11 @@
             background: #e67e22;
         }
 
-        /* Botão de Admin */
+        /* Botão de Admin - SEMPRE OCULTO após login como usuário normal */
         .btn-admin {
             background: #9b59b6;
             color: white;
+            display: none; /* Começa oculto */
         }
         
         .btn-admin:hover {
@@ -1255,17 +1275,20 @@
             display: none;
         }
 
-        /* Responsividade */
+        /* ========== RESPONSIVIDADE CORRIGIDA ========== */
         @media (max-width: 992px) {
+            /* Menu principal vai para baixo da logo */
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
                 align-items: stretch;
+                gap: 1rem;
             }
 
             .main-nav {
+                margin-left: 0;
                 flex-direction: column;
                 gap: 1rem;
+                width: 100%;
             }
 
             .nav-left {
@@ -1286,8 +1309,8 @@
             .auth-buttons {
                 width: 100%;
                 justify-content: center;
-                margin-left: 0;
                 gap: 0.8rem;
+                flex-wrap: wrap;
             }
             
             .btn {
@@ -1334,7 +1357,40 @@
             }
         }
 
+        @media (max-width: 768px) {
+            /* Ajustes para telas menores */
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo i {
+                font-size: 1.5rem;
+            }
+            
+            nav ul {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                justify-content: flex-start;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+
         @media (max-width: 576px) {
+            /* Ajustes finos para mobile */
+            .logo {
+                justify-content: center;
+            }
+            
             nav ul {
                 flex-direction: column;
                 align-items: center;
@@ -1342,26 +1398,21 @@
             }
             
             .auth-buttons {
-                flex-direction: column;
-                align-items: center;
                 gap: 0.5rem;
             }
             
-            .btn {
-                width: 100%;
-                max-width: 200px;
+            .hero h2 {
+                font-size: 1.8rem;
             }
             
-            .logo {
-                justify-content: center;
-                margin-right: 0;
-                margin-bottom: 0.5rem;
+            .hero p {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header com nova organização -->
+    <!-- Header corrigido -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1370,9 +1421,9 @@
                     <h1>Study<span>Cert</span></h1>
                 </div>
                 
-                <!-- Área principal de navegação -->
+                <!-- Área de navegação que vai para baixo da logo em telas menores -->
                 <div class="main-nav">
-                    <!-- Links principais à esquerda -->
+                    <!-- Links principais -->
                     <div class="nav-left">
                         <nav>
                             <ul>
@@ -1385,7 +1436,7 @@
                         </nav>
                     </div>
                     
-                    <!-- Área do usuário à direita (será preenchida após login) -->
+                    <!-- Área de autenticação -->
                     <div class="auth-buttons">
                         <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
                             <i class="fas fa-sign-in-alt"></i> Entrar
@@ -1393,9 +1444,9 @@
                         <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
                             <i class="fas fa-user-plus"></i> Cadastrar
                         </a>
-                        <!-- Botão de admin (visível apenas quando logado como admin) -->
-                        <div id="adminButtonContainer" style="display: none;" class="admin-button">
-                            <a href="#" class="btn-admin" onclick="acessarPainelAdmin()">
+                        <!-- Botão de admin (visível apenas para admin) -->
+                        <div id="adminButtonContainer" style="display: none;">
+                            <a href="#" class="btn btn-admin" onclick="acessarPainelAdmin()">
                                 <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
                             </a>
                         </div>
@@ -2600,12 +2651,11 @@
         function atualizarInterfaceUsuarioLogado(nomeUsuario) {
             const authButtons = document.querySelector('.auth-buttons');
             const nomeExibido = nomeUsuario.split(' ')[0];
-            const userEmail = localStorage.getItem('userEmail');
             
             // Criar nova estrutura com botões de usuário logado
             authButtons.innerHTML = `
-                <div class="user-area" style="display: flex; align-items: center; gap: 1rem;">
-                    <div class="user-greeting" style="color: white; font-weight: 500;">
+                <div class="user-area" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <div class="user-greeting" style="color: white; font-weight: 500; white-space: nowrap;">
                         <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
                     </div>
                     <button class="btn btn-outline" onclick="abrirPerfil()">
@@ -2618,7 +2668,7 @@
             `;
             
             // Verificar se é admin para mostrar botão
-            verificarAdmin(userEmail);
+            verificarAdmin();
         }
 
         // Verificar se usuário está logado
@@ -2631,21 +2681,18 @@
             }
         }
 
-        // Verificar se usuário é admin
-        function verificarAdmin(userEmail = null) {
+        // Verificar se usuário é admin - AGORA BOTÃO ADMIN NÃO APARECE PARA USUÁRIOS NORMAIS
+        function verificarAdmin() {
             const adminButtonContainer = document.getElementById('adminButtonContainer');
+            const usuarioAtual = localStorage.getItem('userEmail');
             
-            // Se não receber email, pegar do localStorage
-            if (!userEmail) {
-                userEmail = localStorage.getItem('userEmail');
-            }
-            
-            // Lista de e-mails admin (simulação)
+            // Lista de e-mails admin (apenas esses verão o botão admin)
             const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com'];
             
-            if (userEmail && adminEmails.includes(userEmail)) {
+            if (usuarioAtual && adminEmails.includes(usuarioAtual)) {
                 adminButtonContainer.style.display = 'block';
             } else {
+                // Usuário normal - botão admin fica oculto
                 adminButtonContainer.style.display = 'none';
             }
         }
