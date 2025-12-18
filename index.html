@@ -6,6 +6,7 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ========== RESET E VARIÁVEIS ========== */
         * {
             margin: 0;
             padding: 0;
@@ -23,22 +24,25 @@
             --dark: #2c3e50;
             --gray: #95a5a6;
             --purple: #9b59b6;
+            --light-gray: #f5f7fa;
+            --border-color: #e0e0e0;
         }
 
         body {
-            background-color: #f5f7fa;
+            background-color: var(--light-gray);
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
 
-        /* ========== HEADER CORRIGIDO ========== */
+        /* ========== HEADER CORRIGIDO E RESPONSIVO ========== */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -54,6 +58,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
+            min-height: 70px;
         }
 
         .logo {
@@ -61,6 +66,7 @@
             align-items: center;
             gap: 12px;
             flex-shrink: 0;
+            z-index: 1001;
         }
 
         .logo i {
@@ -84,13 +90,26 @@
             font-weight: 800;
         }
 
-        /* ========== NAVEGAÇÃO PRINCIPAL - COMPLETAMENTE REORGANIZADA ========== */
+        /* ========== MENU HAMBURGUER PARA MOBILE ========== */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1002;
+        }
+
+        /* ========== NAVEGAÇÃO PRINCIPAL - COMPLETAMENTE RESPONSIVA ========== */
         .nav-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex: 1;
             margin-left: 2rem;
+            transition: all 0.3s ease;
         }
 
         .main-nav {
@@ -124,7 +143,7 @@
             overflow: hidden;
         }
 
-        /* EFEITO HOVER COM BARRINHA AZUL (NOVO) */
+        /* EFEITO HOVER COM BARRINHA AZUL */
         .nav-link::after {
             content: '';
             position: absolute;
@@ -158,7 +177,7 @@
             background: var(--secondary);
         }
 
-        /* ========== ÁREA DE AUTENTICAÇÃO - CORRIGIDA ========== */
+        /* ========== ÁREA DE AUTENTICAÇÃO - CORRIGIDA PARA MOBILE ========== */
         .auth-area {
             display: flex;
             align-items: center;
@@ -167,7 +186,7 @@
             margin-left: auto;
         }
 
-        /* ========== BOTÕES - DESIGN MELHORADO ========== */
+        /* ========== BOTÕES - DESIGN MELHORADO E RESPONSIVO ========== */
         .btn {
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
@@ -184,6 +203,7 @@
             white-space: nowrap;
             position: relative;
             overflow: hidden;
+            min-height: 40px;
         }
 
         .btn::before {
@@ -228,18 +248,6 @@
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, var(--success) 0%, #219653 100%);
-            color: white;
-            border: none;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning) 0%, #e67e22 100%);
-            color: white;
-            border: none;
-        }
-
         .btn-purple {
             background: linear-gradient(135deg, var(--purple) 0%, #8e44ad 100%);
             color: white;
@@ -261,23 +269,13 @@
             box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
 
-        .btn-success:hover {
-            background: linear-gradient(135deg, #219653 0%, var(--success) 100%);
-            transform: translateY(-2px);
-        }
-
-        .btn-warning:hover {
-            background: linear-gradient(135deg, #e67e22 0%, var(--warning) 100%);
-            transform: translateY(-2px);
-        }
-
         .btn-purple:hover {
             background: linear-gradient(135deg, #8e44ad 0%, var(--purple) 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
         }
 
-        /* ========== BOTÃO ADMIN - CORRIGIDO ========== */
+        /* ========== BOTÃO ADMIN - CORRIGIDO PARA MOBILE ========== */
         .btn-admin {
             display: flex !important;
             align-items: center;
@@ -293,29 +291,8 @@
             box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
             position: relative;
             overflow: hidden;
-        }
-
-        .btn-admin::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-admin:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-admin:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+            min-width: auto;
+            width: auto;
         }
 
         .admin-badge {
@@ -328,6 +305,7 @@
             margin-left: 0.3rem;
             position: relative;
             z-index: 1;
+            white-space: nowrap;
         }
 
         /* ========== ÁREA DO USUÁRIO LOGADO ========== */
@@ -336,6 +314,7 @@
             align-items: center;
             gap: 1rem;
             flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         .user-greeting {
@@ -351,28 +330,29 @@
             border-left: 3px solid var(--secondary);
         }
 
-        /* ========== RESTANTE DO CSS (igual ao anterior) ========== */
-        /* Hero Section */
+        /* ========== HERO SECTION ========== */
         .hero {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 5rem 0;
+            padding: 4rem 0;
             text-align: center;
         }
 
         .hero h2 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
             font-weight: 700;
+            line-height: 1.2;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto 2rem;
             opacity: 0.9;
+            line-height: 1.5;
         }
 
         .hero .btn {
@@ -380,16 +360,16 @@
             font-size: 1.1rem;
         }
 
-        /* Main Content */
+        /* ========== MAIN CONTENT ========== */
         .main-content {
             display: none;
-            padding: 3rem 0;
+            padding: 2.5rem 0;
             min-height: 60vh;
+            animation: fadeIn 0.5s ease;
         }
 
         .main-content.active {
             display: block;
-            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
@@ -399,12 +379,12 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             color: var(--primary);
         }
 
         .section-title h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
             position: relative;
             display: inline-block;
@@ -427,432 +407,10 @@
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        /* Cards */
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #eee;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .card-header {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-        }
-
-        .card-header h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .card-footer {
-            padding: 1rem 1.5rem;
-            background: #f8f9fa;
-            border-top: 1px solid #eee;
-        }
-
-        /* Forum */
-        .forum-container {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            gap: 2rem;
-        }
-
-        .forum-categories {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border: 1px solid #eee;
-        }
-
-        .forum-categories h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 0.5rem;
-        }
-
-        .category-list {
-            list-style: none;
-        }
-
-        .category-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            transition: padding-left 0.3s;
-        }
-
-        .category-list li:hover {
-            padding-left: 10px;
-        }
-
-        .category-list li:last-child {
-            border-bottom: none;
-        }
-
-        .category-list a {
-            color: var(--dark);
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .category-list a:hover {
-            color: var(--secondary);
-        }
-
-        .category-count {
-            background: var(--secondary);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .forum-posts {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border: 1px solid #eee;
-        }
-
-        .post {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #eee;
-            transition: background 0.3s;
-        }
-
-        .post:hover {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 0 -1.5rem;
-        }
-
-        .post:last-child {
-            border-bottom: none;
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            align-items: flex-start;
-        }
-
-        .post-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .post-title:hover {
-            color: var(--secondary);
-        }
-
-        .post-meta {
-            color: var(--gray);
-            font-size: 0.9rem;
-            white-space: nowrap;
-            margin-left: 1rem;
-        }
-
-        .post-excerpt {
-            color: #555;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .post-footer {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        .new-post-btn {
-            display: block;
-            margin: 2rem auto;
-            width: 200px;
-        }
-
-        /* Study Materials */
-        .materials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .material-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-            border: 1px solid #eee;
-        }
-
-        .material-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .material-icon {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 2rem;
-        }
-
-        .material-content {
-            padding: 1.5rem;
-        }
-
-        .material-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .material-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        /* Simulados */
-        .simulados-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .simulado-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-            border: 1px solid #eee;
-            position: relative;
-        }
-
-        .simulado-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .simulado-badge {
-            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
-            color: white;
-            padding: 0.5rem 1rem;
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .upload-area {
-            background: white;
-            border: 2px dashed var(--gray);
-            border-radius: 10px;
-            padding: 3rem 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            transition: all 0.3s;
-            border: 1px solid #eee;
-        }
-
-        .upload-area:hover {
-            border-color: var(--secondary);
-            background: #f8fafc;
-            transform: translateY(-2px);
-        }
-
-        .upload-area i {
-            font-size: 3rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-
-        .upload-area h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .upload-area p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Certifications Grid */
-        .certifications-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .cert-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-            border: 1px solid #eee;
-        }
-
-        .cert-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .cert-icon {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 2.5rem;
-        }
-
-        .cert-content {
-            padding: 1.5rem;
-        }
-
-        .cert-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .cert-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .cert-level {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 3rem 0 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--secondary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-            transform: translateX(5px);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-
-        /* ========== MODAIS (mesmo CSS anterior) ========== */
+        /* ========== MODAIS - LAYOUT CORRIGIDO ========== */
         .modal-simulados, .modal-auth, .modal-admin {
             display: none;
             position: fixed;
@@ -878,11 +436,15 @@
             background: white;
             border-radius: 12px;
             width: 100%;
-            max-width: 700px;
-            max-height: 80vh;
+            max-width: 500px;
+            max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .modal-auth-container {
+            max-width: 450px;
         }
 
         @keyframes modalSlideIn {
@@ -897,9 +459,9 @@
         }
 
         .modal-header, .modal-auth-header, .modal-admin-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 20px;
+            padding: 1.5rem;
             border-radius: 12px 12px 0 0;
             display: flex;
             justify-content: space-between;
@@ -909,7 +471,425 @@
             z-index: 1;
         }
 
-        /* ========== RESPONSIVIDADE MELHORADA ========== */
+        .modal-header h3, .modal-auth-header h3, .modal-admin-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fechar-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* ========== FORMULÁRIOS DE AUTENTICAÇÃO CORRIGIDOS ========== */
+        .modal-auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            overflow: hidden;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .auth-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-form {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.2rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+            font-weight: normal;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .forgot-password a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .form-actions {
+            margin-top: 1.5rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .form-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 1.5rem;
+        }
+
+        .social-login p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 1rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .social-btn:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .social-btn.google {
+            color: #DB4437;
+        }
+
+        .social-btn.github {
+            color: #333;
+        }
+
+        .form-message {
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.2rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .form-message.error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .form-message.success {
+            background: #efe;
+            color: #393;
+            border: 1px solid #cfc;
+        }
+
+        /* ========== MODAL DE SIMULADOS CORRIGIDO ========== */
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .simulado-item-modal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .simulado-item-modal:hover {
+            background-color: #f8f9fa;
+        }
+
+        .simulado-item-modal:last-child {
+            border-bottom: none;
+        }
+
+        .simulado-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .simulado-nome {
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .status-icon {
+            font-size: 1rem;
+        }
+
+        .status-disponivel {
+            color: var(--success);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            min-width: 80px;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* ========== MODAL ADMIN CORRIGIDO ========== */
+        .modal-admin-container {
+            max-width: 400px;
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            padding: 1.5rem;
+        }
+
+        .admin-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .admin-form-group label {
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .admin-form-group input {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .admin-form-group input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+
+        .admin-form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .admin-error {
+            background: #fee;
+            color: #c33;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #fcc;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        /* ========== CARDS E CONTEÚDO ========== */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.2rem;
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ========== RESPONSIVIDADE COMPLETA ========== */
         @media (max-width: 1200px) {
             .container {
                 padding: 0 15px;
@@ -928,57 +908,113 @@
 
         @media (max-width: 992px) {
             .header-content {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 1rem 0;
+                flex-wrap: wrap;
+                padding: 0.8rem 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                order: 1;
+                margin-left: auto;
+            }
+            
+            .logo {
+                order: 0;
             }
             
             .nav-container {
-                margin-left: 0;
-                width: 100%;
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--primary);
                 flex-direction: column;
-                gap: 1.5rem;
+                margin-left: 0;
+                padding: 1.5rem;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 999;
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+            
+            .nav-container.active {
+                display: flex;
             }
             
             .main-nav {
                 width: 100%;
-                justify-content: center;
+                order: 2;
+                margin-bottom: 1.5rem;
             }
             
             nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 0.3rem;
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
             }
             
             .nav-link {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.85rem;
+                width: 100%;
+                text-align: left;
+                padding: 0.8rem 1rem;
+                justify-content: flex-start;
+                flex-direction: row;
+                gap: 10px;
             }
             
             .auth-area {
                 width: 100%;
-                justify-content: center;
+                order: 1;
                 margin-left: 0;
+                justify-content: center;
                 flex-wrap: wrap;
+                gap: 0.8rem;
             }
             
             .user-area {
-                justify-content: center;
+                flex-direction: column;
                 width: 100%;
+                align-items: stretch;
+                gap: 0.8rem;
             }
             
-            .forum-container {
-                grid-template-columns: 1fr;
+            .user-greeting {
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .btn, .btn-admin {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding: 3rem 0;
             }
             
             .hero h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .hero p {
                 font-size: 1rem;
                 padding: 0 1rem;
+            }
+            
+            .cards-container,
+            .certifications-grid,
+            .materials-grid,
+            .simulados-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .modal-auth-tabs {
+                margin: 0 1rem 1rem 1rem;
+            }
+            
+            .auth-form {
+                padding: 0 1rem 1rem 1rem;
             }
         }
 
@@ -991,27 +1027,16 @@
                 font-size: 1.5rem;
             }
             
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                gap: 0.5rem;
+            .hero h2 {
+                font-size: 1.6rem;
             }
             
-            .nav-link {
-                width: 100%;
-                text-align: center;
-                padding: 0.8rem;
+            .section-title h2 {
+                font-size: 1.5rem;
             }
             
-            .auth-area {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .main-content {
+                padding: 2rem 0;
             }
             
             .cards-container,
@@ -1019,23 +1044,18 @@
             .materials-grid,
             .simulados-container {
                 grid-template-columns: 1fr;
+                gap: 1.2rem;
             }
             
-            .hero h2 {
-                font-size: 1.8rem;
+            .social-buttons {
+                flex-direction: column;
             }
             
-            .section-title h2 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
             .modal-container,
             .modal-auth-container,
             .modal-admin-container {
                 max-width: 95%;
-                max-height: 90vh;
+                max-height: 85vh;
             }
             
             .modal-header h3,
@@ -1044,21 +1064,119 @@
                 font-size: 1.2rem;
             }
             
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .simulado-item-modal {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+            
+            .btn-sm {
+                align-self: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-content {
+                padding: 0.6rem 0;
+            }
+            
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
+            .logo i {
+                font-size: 1.3rem;
+            }
+            
             .hero {
-                padding: 3rem 0;
+                padding: 2.5rem 0;
             }
             
             .hero h2 {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+            
+            .hero p {
+                font-size: 0.95rem;
             }
             
             .hero .btn {
                 width: 90%;
                 margin: 0 auto;
             }
+            
+            .section-title h2 {
+                font-size: 1.3rem;
+            }
+            
+            .section-title p {
+                font-size: 0.9rem;
+            }
+            
+            .modal-auth-tabs {
+                flex-direction: column;
+            }
+            
+            .auth-tab {
+                padding: 0.6rem;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
         }
 
-        /* ========== ANIMAÇÕES ADICIONAIS ========== */
+        @media (max-width: 400px) {
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+            
+            .logo span {
+                display: none;
+            }
+            
+            .user-greeting {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .admin-badge {
+                font-size: 0.6rem;
+                padding: 0.1rem 0.4rem;
+            }
+        }
+
+        /* ========== SCROLLBAR PERSONALIZADA ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #2980b9 0%, var(--secondary) 100%);
+        }
+
+        /* ========== ANIMAÇÕES ========== */
         .pulse {
             animation: pulse 2s infinite;
         }
@@ -1074,34 +1192,6 @@
                 transform: scale(1);
             }
         }
-
-        .shake {
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        /* ========== SCROLLBAR PERSONALIZADA ========== */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #2980b9 0%, var(--secondary) 100%);
-        }
     </style>
 </head>
 <body>
@@ -1114,9 +1204,14 @@
                     <h1>Study<span>Cert</span></h1>
                 </div>
                 
-                <!-- Área de navegação completamente reorganizada -->
-                <div class="nav-container">
-                    <!-- Navegação principal centralizada -->
+                <!-- Menu Hamburger para Mobile -->
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Área de navegação -->
+                <div class="nav-container" id="navContainer">
+                    <!-- Navegação principal -->
                     <div class="main-nav">
                         <nav>
                             <ul>
@@ -1129,19 +1224,19 @@
                         </nav>
                     </div>
                     
-                    <!-- Área de autenticação corrigida -->
+                    <!-- Área de autenticação -->
                     <div class="auth-area" id="authArea">
                         <!-- Botões padrão (aparecem quando não está logado) -->
                         <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
-                            <i class="fas fa-sign-in-alt"></i> Entrar
+                            <i class="fas fa-sign-in-alt"></i> <span class="btn-text">Entrar</span>
                         </a>
                         <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
-                            <i class="fas fa-user-plus"></i> Cadastrar
+                            <i class="fas fa-user-plus"></i> <span class="btn-text">Cadastrar</span>
                         </a>
                         
                         <!-- Botão Admin (oculto por padrão) -->
                         <a href="#" class="btn btn-purple" id="adminButton" style="display: none;" onclick="acessarPainelAdmin()">
-                            <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
+                            <i class="fas fa-cog"></i> <span class="btn-text">Admin</span> <span class="admin-badge">ADM</span>
                         </a>
                     </div>
                 </div>
@@ -1203,378 +1298,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="section-title">
-                <h2>Certificações em Destaque</h2>
-                <p>As certificações mais relevantes do mercado de TI</p>
-            </div>
-
-            <div class="certifications-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Fundamentals</h3>
-                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Cloud Practitioner</h3>
-                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Security+</h3>
-                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Foundation</h3>
-                        <p>Framework de gerenciamento de serviços de TI.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certificações Content -->
-    <section id="certificacoes" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nossas Certificações</h2>
-                <p>Prepare-se para as certificações mais demandadas do mercado</p>
-            </div>
-
-            <div class="certifications-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Administrator</h3>
-                        <p>AZ-104: Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Solutions Architect</h3>
-                        <p>SAA-C03: Projeto e implantação de sistemas escaláveis na AWS.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>CySA+: Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Specialist</h3>
-                        <p>Práticas avançadas de gerenciamento de serviços de TI.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-1</h3>
-                        <p>Certificação Linux Professional Institute - Nível 1.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Linux</span>
-                        <h3>LPIC-2</h3>
-                        <p>Certificação Linux Professional Institute - Nível Avançado.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Rede</span>
-                        <h3>CCNA</h3>
-                        <p>Cisco Certified Network Associate: Fundamentos de redes.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-level">Dados</span>
-                        <h3>Data Fundamentals</h3>
-                        <p>DP-900: Conceitos fundamentais de dados e analytics.</p>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Forum Content -->
-    <section id="forum" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Fórum de Discussão</h2>
-                <p>Tire dúvidas, compartilhe experiências e conecte-se com outros profissionais</p>
-            </div>
-
-            <div class="forum-container">
-                <div class="forum-categories">
-                    <h3>Categorias</h3>
-                    <ul class="category-list">
-                        <li><a href="#">Certificações Microsoft <span class="category-count">24</span></a></li>
-                        <li><a href="#">Certificações AWS <span class="category-count">18</span></a></li>
-                        <li><a href="#">LPIC-1 e LPIC-2 <span class="category-count">15</span></a></li>
-                        <li><a href="#">ITIL e Governança <span class="category-count">12</span></a></li>
-                        <li><a href="#">Security & Cybersecurity <span class="category-count">9</span></a></li>
-                        <li><a href="#">Cloud Computing <span class="category-count">21</span></a></li>
-                        <li><a href="#">Dúvidas Gerais <span class="category-count">32</span></a></li>
-                    </ul>
-                </div>
-
-                <div class="forum-posts">
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Dúvida sobre LPIC-1 - Comandos essenciais</a>
-                            <div class="post-meta">por João Silva • 2 horas atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Estou estudando para a LPIC-1 e tenho dúvidas sobre os comandos mais importantes para o exame. Alguém tem uma lista dos comandos que mais caem?</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 7 respostas</span>
-                            <span><i class="far fa-eye"></i> 42 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Material de estudo para ITIL 4 Foundation</a>
-                            <div class="post-meta">por Maria Santos • 1 dia atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Alguém tem recomendações de materiais de estudo para a ITIL 4 Foundation? Estou procurando livros, videoaulas e simulados.</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 12 respostas</span>
-                            <span><i class="far fa-eye"></i> 87 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Experiência com exame Security+</a>
-                            <div class="post-meta">por Carlos Oliveira • 3 dias atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Acabei de fazer o exame Security+ e gostaria de compartilhar minha experiência e dar algumas dicas para quem vai fazer.</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 23 respostas</span>
-                            <span><i class="far fa-eye"></i> 156 visualizações</span>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <a href="#" class="post-title">Diferença entre LPIC-1 e LPIC-2</a>
-                            <div class="post-meta">por Ana Costa • 5 dias atrás</div>
-                        </div>
-                        <div class="post-excerpt">
-                            <p>Estou com dificuldades para entender a diferença entre o conteúdo da LPIC-1 e LPIC-2. Alguém pode explicar os principais tópicos de cada uma?</p>
-                        </div>
-                        <div class="post-footer">
-                            <span><i class="far fa-comment"></i> 9 respostas</span>
-                            <span><i class="far fa-eye"></i> 74 visualizações</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="btn btn-primary new-post-btn">Nova Discussão</a>
-        </div>
-    </section>
-
-    <!-- Study Materials Content -->
-    <section id="materiais" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2>Material de Estudo</h2>
-                <p>Recursos selecionados para sua preparação</p>
-            </div>
-
-            <div class="materials-grid">
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Microsoft Azure</h3>
-                        <p>Guias de estudo, resumos e recursos para certificações Azure.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Amazon AWS</h3>
-                        <p>Material para Cloud Practitioner, Solutions Architect e outras.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>LPIC-1 e LPIC-2</h3>
-                        <p>Recursos para certificações Linux Professional Institute.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>ITIL 4</h3>
-                        <p>Guias, resumos e material para certificação ITIL.</p>
-                        <a href="itil4-materiais.html" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Security+</h3>
-                        <p>Material para preparação da certificação CompTIA Security+.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>CCNA</h3>
-                        <p>Recursos para Cisco Certified Network Associate.</p>
-                        <a href="#" class="btn btn-primary">Acessar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-title" style="margin-top: 4rem;">
-                <h2>Videoaulas</h2>
-                <p>Aprenda com instrutores especializados</p>
-            </div>
-
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> LPIC-1: Comandos Essenciais</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Curso completo cobrindo todos os comandos essenciais para o exame LPIC-1.</p>
-                        <p><strong>Duração:</strong> 6 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> ITIL 4 Foundation</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Videoaulas cobrindo o framework ITIL 4 e conceitos de gerenciamento de serviços.</p>
-                        <p><strong>Duração:</strong> 5 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Preparação completa para o exame CompTIA Security+.</p>
-                        <p><strong>Duração:</strong> 12 horas</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Assistir</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -1586,21 +1309,14 @@
                 <p>Teste seus conhecimentos e acompanhe seu progresso</p>
             </div>
 
-            <div class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Compartilhe Seu Simulado</h3>
-                <p>Faça upload de simulados HTML para compartilhar com a comunidade</p>
-                <a href="#" class="btn btn-primary">Upload de Arquivo</a>
-            </div>
-
-            <div class="simulados-container">
-                <!-- ITIL 4 Foundation - COM NOVO DESIGN -->
-                <div class="simulado-card">
+            <div class="cards-container">
+                <!-- ITIL 4 Foundation -->
+                <div class="card">
                     <div class="card-header">
                         <h3><i class="fas fa-file-alt"></i> ITIL 4 Foundation</h3>
                     </div>
                     <div class="card-body">
-                        <span class="simulado-badge">11 Simulados Disponíveis</span>
+                        <div class="simulado-badge">11 Simulados Disponíveis</div>
                         <p>Pacote completo de simulados para certificação ITIL 4 Foundation.</p>
                         
                         <!-- Botão para mostrar simulados -->
@@ -1614,12 +1330,12 @@
                 </div>
                 
                 <!-- LPIC-1 -->
-                <div class="simulado-card">
+                <div class="card">
                     <div class="card-header">
                         <h3><i class="fas fa-server"></i> LPIC-1</h3>
                     </div>
                     <div class="card-body">
-                        <span class="simulado-badge">60 questões</span>
+                        <div class="simulado-badge">60 questões</div>
                         <p>Simulado para Linux Professional Institute Certification Level 1.</p>
                         <p><strong>Tempo estimado:</strong> 90 minutos</p>
                     </div>
@@ -1629,12 +1345,12 @@
                 </div>
 
                 <!-- Security+ -->
-                <div class="simulado-card">
+                <div class="card">
                     <div class="card-header">
                         <h3><i class="fas fa-shield-alt"></i> Security+</h3>
                     </div>
                     <div class="card-body">
-                        <span class="simulado-badge">45 questões</span>
+                        <div class="simulado-badge">45 questões</div>
                         <p>Simulado para CompTIA Security+ (SY0-601).</p>
                         <p><strong>Tempo estimado:</strong> 90 minutos</p>
                     </div>
@@ -1644,12 +1360,12 @@
                 </div>
 
                 <!-- AWS Cloud Practitioner -->
-                <div class="simulado-card">
+                <div class="card">
                     <div class="card-header">
                         <h3><i class="fab fa-aws"></i> AWS Cloud Practitioner</h3>
                     </div>
                     <div class="card-body">
-                        <span class="simulado-badge">50 questões</span>
+                        <div class="simulado-badge">50 questões</div>
                         <p>Simulado para AWS Certified Cloud Practitioner.</p>
                         <p><strong>Tempo estimado:</strong> 90 minutos</p>
                     </div>
@@ -1657,86 +1373,20 @@
                         <a href="#" class="btn btn-primary">Iniciar Simulado</a>
                     </div>
                 </div>
-
-                <!-- Adicionar Simulado -->
-                <div class="simulado-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-plus-circle"></i> Adicionar Simulado</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Compartilhe seu próprio simulado com a comunidade.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-outline">Upload</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>StudyCert</h3>
-                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Links Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="#" data-target="home">Início</a></li>
-                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
-                        <li><a href="#" data-target="forum">Fórum</a></li>
-                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
-                        <li><a href="#" data-target="simulados">Simulados</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Certificações</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Microsoft Azure</a></li>
-                        <li><a href="#">AWS</a></li>
-                        <li><a href="#">LPIC-1 e LPIC-2</a></li>
-                        <li><a href="#">ITIL 4</a></li>
-                        <li><a href="#">Security+</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Contato</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
-                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                <p>&copy; 2023 StudyCert. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- Modal da Lista de Simulados -->
     <div id="modalSimulados" class="modal-simulados">
         <div class="modal-container">
             <div class="modal-header">
                 <h3><i class="fas fa-file-alt"></i> 11 Simulados ITIL 4 Foundation</h3>
-                <button class="btn btn-outline" onclick="fecharModalSimulados()">&times;</button>
+                <button class="fechar-modal" onclick="fecharModalSimulados()">&times;</button>
             </div>
             
             <div class="modal-body">
-                <!-- SIMULADO 1 -->
+                <!-- Lista de simulados -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
@@ -1745,7 +1395,6 @@
                     <a href="simulado-itil4-01.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
-                <!-- SIMULADO 2 -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
@@ -1754,7 +1403,6 @@
                     <a href="simulado-itil4-02.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
-                <!-- SIMULADO 3 -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
@@ -1763,7 +1411,6 @@
                     <a href="simulado-itil4-03.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
-                <!-- SIMULADO 4 -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
@@ -1772,67 +1419,12 @@
                     <a href="simulado-itil4-04.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
                 
-                <!-- SIMULADO 5 -->
                 <div class="simulado-item-modal">
                     <div class="simulado-info">
                         <i class="fas fa-check-circle status-icon status-disponivel"></i>
                         <span class="simulado-nome">Simulado 5 - Gerenciamento de Serviço</span>
                     </div>
                     <a href="simulado-itil4-05.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 6 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 6 - Princípios Orientadores</span>
-                    </div>
-                    <a href="simulado-itil4-06.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 7 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 7 - Melhoria Contínua</span>
-                    </div>
-                    <a href="simulado-itil4-07.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 8 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 8 - Governança</span>
-                    </div>
-                    <a href="simulado-itil4-08.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 9 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 9 - Modelos de Mudança</span>
-                    </div>
-                    <a href="simulado-itil4-09.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 10 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 10 - Práticas Técnicas</span>
-                    </div>
-                    <a href="simulado-itil4-10.html" class="btn btn-primary btn-sm">Iniciar</a>
-                </div>
-                
-                <!-- SIMULADO 11 -->
-                <div class="simulado-item-modal">
-                    <div class="simulado-info">
-                        <i class="fas fa-check-circle status-icon status-disponivel"></i>
-                        <span class="simulado-nome">Simulado 11 - Final Completo</span>
-                    </div>
-                    <a href="simulado-itil4-11.html" class="btn btn-primary btn-sm">Iniciar</a>
                 </div>
             </div>
             
@@ -1848,7 +1440,7 @@
         <div class="modal-auth-container">
             <div class="modal-auth-header">
                 <h3><i class="fas fa-user-circle"></i> Acesso StudyCert</h3>
-                <button class="btn btn-outline" onclick="fecharModalAuth()">&times;</button>
+                <button class="fechar-modal" onclick="fecharModalAuth()">&times;</button>
             </div>
             
             <div class="modal-auth-tabs">
@@ -1973,33 +1565,13 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success btn-block">
+                    <button type="submit" class="btn btn-primary btn-block">
                         <i class="fas fa-user-plus"></i> Criar Conta
                     </button>
                 </div>
                 
                 <div class="form-footer">
                     Já tem uma conta? <a href="#" onclick="mostrarLogin()">Faça login aqui</a>
-                </div>
-            </form>
-            
-            <!-- Formulário de Recuperação de Senha -->
-            <form id="recoveryForm" class="auth-form" onsubmit="return solicitarRecuperacao(event)">
-                <div id="recoveryMessage" class="form-message"></div>
-                
-                <div class="form-group">
-                    <label for="recoveryEmail">E-mail cadastrado</label>
-                    <input type="email" id="recoveryEmail" placeholder="Digite o e-mail da sua conta" required>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-warning btn-block">
-                        <i class="fas fa-key"></i> Enviar Link de Recuperação
-                    </button>
-                </div>
-                
-                <div class="form-footer">
-                    <a href="#" onclick="mostrarLogin()">Voltar para o login</a>
                 </div>
             </form>
         </div>
@@ -2010,6 +1582,7 @@
         <div class="modal-admin-container">
             <div class="modal-admin-header">
                 <h3><i class="fas fa-lock"></i> Acesso Administrativo</h3>
+                <button class="fechar-modal" onclick="fecharModalAdmin()">&times;</button>
             </div>
             <div class="modal-admin-body">
                 <div id="adminError" class="admin-error"></div>
@@ -2032,9 +1605,26 @@
     </div>
 
     <script>
-        // ========== CORREÇÕES PRINCIPAIS ==========
+        // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Configurar navegação entre seções
+            // Configurar navegação
+            setupNavigation();
+            
+            // Configurar menu mobile
+            setupMobileMenu();
+            
+            // Configurar modais
+            setupModals();
+            
+            // Verificar usuário logado
+            verificarUsuarioLogado();
+            
+            // Configurar formulários
+            setupForms();
+        });
+
+        // ========== NAVEGAÇÃO ==========
+        function setupNavigation() {
             const navLinks = document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]');
             const mainContents = document.querySelectorAll('.main-content');
             
@@ -2043,6 +1633,11 @@
                     e.preventDefault();
                     
                     const targetId = this.getAttribute('data-target');
+                    
+                    // Fechar menu mobile se aberto
+                    if (window.innerWidth <= 992) {
+                        document.getElementById('navContainer').classList.remove('active');
+                    }
                     
                     // Atualizar link ativo
                     document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
@@ -2056,21 +1651,62 @@
                         }
                     });
                     
-                    // Scroll suave para o topo
+                    // Scroll suave
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
+        }
+
+        // ========== MENU MOBILE ==========
+        function setupMobileMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navContainer = document.getElementById('navContainer');
             
+            if (menuToggle && navContainer) {
+                menuToggle.addEventListener('click', function() {
+                    navContainer.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    if (navContainer.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                
+                // Fechar menu ao clicar fora
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.nav-container') && 
+                        !event.target.closest('.menu-toggle') &&
+                        navContainer.classList.contains('active')) {
+                        navContainer.classList.remove('active');
+                        menuToggle.querySelector('i').classList.remove('fa-times');
+                        menuToggle.querySelector('i').classList.add('fa-bars');
+                    }
+                });
+                
+                // Fechar menu ao redimensionar para desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 992) {
+                        navContainer.classList.remove('active');
+                        menuToggle.querySelector('i').classList.remove('fa-times');
+                        menuToggle.querySelector('i').classList.add('fa-bars');
+                    }
+                });
+            }
+        }
+
+        // ========== MODAIS ==========
+        function setupModals() {
             // Configurar abas do modal de autenticação
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabId = this.dataset.tab;
                     
-                    // Ativar aba clicada
                     document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Mostrar formulário correspondente
                     document.querySelectorAll('.auth-form').forEach(form => {
                         form.classList.remove('active');
                         if (form.id === tabId + 'Form') {
@@ -2080,50 +1716,47 @@
                 });
             });
             
-            // Verificar se há usuário logado
-            verificarUsuarioLogado();
-            
-            // Configurar efeito hover nos botões da navegação
-            setupNavHoverEffects();
-        });
-
-        // ========== FUNÇÕES DE NAVEGAÇÃO ==========
-        function mostrarSecao(sectionId) {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const mainContents = document.querySelectorAll('.main-content');
-            
-            // Atualizar link ativo
-            navLinks.forEach(nav => nav.classList.remove('active'));
-            document.querySelector(`[data-target="${sectionId}"]`).classList.add('active');
-            
-            // Mostrar seção alvo
-            mainContents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === sectionId) {
-                    content.classList.add('active');
+            // Fechar modais ao clicar fora
+            const modals = ['modalAuth', 'modalSimulados', 'modalAdmin'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            const closeFunc = {
+                                'modalAuth': fecharModalAuth,
+                                'modalSimulados': fecharModalSimulados,
+                                'modalAdmin': fecharModalAdmin
+                            }[modalId];
+                            closeFunc();
+                        }
+                    });
                 }
             });
             
-            // Scroll suave para o topo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Fechar modais com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('modalAuth').classList.contains('active')) fecharModalAuth();
+                    if (document.getElementById('modalSimulados').classList.contains('active')) fecharModalSimulados();
+                    if (document.getElementById('modalAdmin').classList.contains('active')) fecharModalAdmin();
+                }
+            });
         }
 
         // ========== FUNÇÕES DE MODAL ==========
         function abrirModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.add('active');
+            document.getElementById('modalSimulados').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function fecharModalSimulados() {
-            const modal = document.getElementById('modalSimulados');
-            modal.classList.remove('active');
+            document.getElementById('modalSimulados').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         function abrirModalAuth(tipo = 'login') {
-            const modal = document.getElementById('modalAuth');
-            modal.classList.add('active');
+            document.getElementById('modalAuth').classList.add('active');
             document.body.style.overflow = 'hidden';
             
             if (tipo === 'login') {
@@ -2134,20 +1767,17 @@
         }
 
         function fecharModalAuth() {
-            const modal = document.getElementById('modalAuth');
-            modal.classList.remove('active');
+            document.getElementById('modalAuth').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         function abrirModalAdmin() {
-            const modal = document.getElementById('modalAdmin');
-            modal.classList.add('active');
+            document.getElementById('modalAdmin').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         
         function fecharModalAdmin() {
-            const modal = document.getElementById('modalAdmin');
-            modal.classList.remove('active');
+            document.getElementById('modalAdmin').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
@@ -2183,16 +1813,34 @@
             });
         }
 
-        function mostrarRecuperacao() {
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-                if (form.id === 'recoveryForm') {
-                    form.classList.add('active');
+        // ========== AUTENTICAÇÃO ==========
+        function setupForms() {
+            // Toggle password visibility
+            window.togglePassword = function(inputId) {
+                const input = document.getElementById(inputId);
+                const toggleBtn = input.parentElement.querySelector('.password-toggle');
+                const icon = toggleBtn.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            };
+            
+            // Limpar formulários ao fechar modal
+            document.getElementById('modalAuth').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    document.getElementById('loginForm').reset();
+                    document.getElementById('registerForm').reset();
                 }
             });
         }
 
-        // ========== FUNÇÕES DE AUTENTICAÇÃO ==========
         function fazerLogin(event) {
             event.preventDefault();
             
@@ -2207,17 +1855,32 @@
             
             mostrarMensagem(message, 'Entrando...', 'success');
             
+            // Simular login
             setTimeout(() => {
-                mostrarMensagem(message, 'Login realizado com sucesso! Redirecionando...', 'success');
+                // Credenciais de admin para teste
+                const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'administrador@studyCert.com'];
+                
+                // Verificar se é admin
+                const isAdmin = adminEmails.includes(email.toLowerCase());
                 
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', email.split('@')[0]);
                 localStorage.setItem('userLoggedIn', 'true');
                 
+                if (isAdmin) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('adminEmail', email);
+                }
+                
+                mostrarMensagem(message, 'Login realizado com sucesso!', 'success');
+                
                 setTimeout(() => {
                     fecharModalAuth();
-                    atualizarInterfaceUsuarioLogado(email);
+                    atualizarInterfaceUsuarioLogado(email.split('@')[0]);
+                    
+                    // Limpar formulário
+                    document.getElementById('loginForm').reset();
                 }, 1000);
             }, 1500);
             
@@ -2258,84 +1921,24 @@
             mostrarMensagem(message, 'Criando sua conta...', 'success');
             
             setTimeout(() => {
-                mostrarMensagem(message, 'Cadastro realizado com sucesso! Bem-vindo ao StudyCert!', 'success');
-                
                 // Salvar dados do usuário
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', name);
                 localStorage.setItem('userArea', area);
                 localStorage.setItem('userLoggedIn', 'true');
                 
+                mostrarMensagem(message, 'Cadastro realizado com sucesso! Bem-vindo ao StudyCert!', 'success');
+                
                 setTimeout(() => {
                     fecharModalAuth();
                     atualizarInterfaceUsuarioLogado(name);
-                }, 2000);
+                    
+                    // Limpar formulário
+                    document.getElementById('registerForm').reset();
+                }, 1500);
             }, 1500);
             
             return false;
-        }
-
-        // ========== ATUALIZAR INTERFACE DO USUÁRIO ==========
-        function atualizarInterfaceUsuarioLogado(nomeUsuario) {
-            const authArea = document.getElementById('authArea');
-            const nomeExibido = nomeUsuario.split(' ')[0];
-            
-            // Criar nova interface para usuário logado
-            authArea.innerHTML = `
-                <div class="user-area">
-                    <div class="user-greeting">
-                        <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
-                    </div>
-                    <button class="btn btn-outline" onclick="abrirPerfil()">
-                        <i class="fas fa-user"></i> Perfil
-                    </button>
-                    <button class="btn btn-primary" onclick="fazerLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </button>
-                    <!-- Botão Admin AGORA APARECE CORRETAMENTE -->
-                    <a href="#" class="btn btn-purple" id="adminButton" onclick="acessarPainelAdmin()">
-                        <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
-                    </a>
-                </div>
-            `;
-            
-            // Verificar se é admin para mostrar/ocultar botão
-            verificarAdmin();
-        }
-
-        function verificarUsuarioLogado() {
-            const userLoggedIn = localStorage.getItem('userLoggedIn');
-            const userName = localStorage.getItem('userName');
-            
-            if (userLoggedIn === 'true' && userName) {
-                atualizarInterfaceUsuarioLogado(userName);
-            }
-        }
-
-        // ========== FUNÇÃO ADMIN CORRIGIDA ==========
-        function verificarAdmin() {
-            const adminButton = document.getElementById('adminButton');
-            const usuarioAtual = localStorage.getItem('userEmail');
-            
-            // Lista de e-mails admin
-            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'administrador@studyCert.com'];
-            
-            if (usuarioAtual && adminEmails.includes(usuarioAtual)) {
-                adminButton.style.display = 'flex';
-            } else {
-                adminButton.style.display = 'none';
-            }
-        }
-
-        function acessarPainelAdmin() {
-            const usuarioAtual = localStorage.getItem('userEmail');
-            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'administrador@studyCert.com'];
-            
-            if (usuarioAtual && adminEmails.includes(usuarioAtual)) {
-                window.location.href = 'admin.html';
-            } else {
-                abrirModalAdmin();
-            }
         }
 
         function fazerLoginAdmin(event) {
@@ -2347,9 +1950,9 @@
             
             // Credenciais de administrador
             const adminCredentials = [
-                { username: 'admin', password: 'admin123', name: 'Administrador Principal' },
-                { username: 'moderador', password: 'mod123', name: 'Moderador' },
-                { username: 'administrador', password: 'admin123', name: 'Administrador' }
+                { username: 'admin', password: 'admin123', email: 'admin@studyCert.com' },
+                { username: 'moderador', password: 'mod123', email: 'moderador@studyCert.com' },
+                { username: 'administrador', password: 'admin123', email: 'administrador@studyCert.com' }
             ];
             
             const admin = adminCredentials.find(cred => 
@@ -2357,27 +1960,92 @@
             );
             
             if (admin) {
+                // Salvar dados de admin
                 localStorage.setItem('adminLoggedIn', 'true');
-                localStorage.setItem('adminName', admin.name);
-                localStorage.setItem('adminUsername', admin.username);
-                localStorage.setItem('userEmail', `${username}@studyCert.com`);
-                localStorage.setItem('userName', admin.name);
+                localStorage.setItem('adminEmail', admin.email);
+                localStorage.setItem('userEmail', admin.email);
+                localStorage.setItem('userName', username);
                 localStorage.setItem('userLoggedIn', 'true');
                 
                 fecharModalAdmin();
                 
                 // Atualizar interface
-                atualizarInterfaceUsuarioLogado(admin.name);
+                atualizarInterfaceUsuarioLogado(username);
                 
-                // Redirecionar após 1 segundo
+                // Redirecionar para painel admin
                 setTimeout(() => {
                     window.location.href = 'admin.html';
-                }, 1000);
+                }, 500);
             } else {
-                mostrarAdminErro('Credenciais inválidas. Tente novamente.');
+                mostrarMensagem(errorElement, 'Credenciais inválidas. Tente novamente.', 'error');
             }
             
             return false;
+        }
+
+        // ========== INTERFACE DO USUÁRIO ==========
+        function atualizarInterfaceUsuarioLogado(nomeUsuario) {
+            const authArea = document.getElementById('authArea');
+            const nomeExibido = nomeUsuario.split(' ')[0];
+            const userEmail = localStorage.getItem('userEmail');
+            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'administrador@studyCert.com'];
+            const isAdmin = adminEmails.includes(userEmail);
+            
+            // Criar interface para usuário logado
+            authArea.innerHTML = `
+                <div class="user-area">
+                    <div class="user-greeting">
+                        <i class="fas fa-user-circle"></i> Olá, ${nomeExibido}!
+                    </div>
+                    <button class="btn btn-outline" onclick="abrirPerfil()">
+                        <i class="fas fa-user"></i> <span class="btn-text">Perfil</span>
+                    </button>
+                    ${isAdmin ? `
+                    <a href="#" class="btn btn-purple" onclick="acessarPainelAdmin()">
+                        <i class="fas fa-cog"></i> <span class="btn-text">Admin</span> <span class="admin-badge">ADM</span>
+                    </a>
+                    ` : ''}
+                    <button class="btn btn-primary" onclick="fazerLogout()">
+                        <i class="fas fa-sign-out-alt"></i> <span class="btn-text">Sair</span>
+                    </button>
+                </div>
+            `;
+            
+            // Fechar menu mobile se aberto
+            if (window.innerWidth <= 992) {
+                document.getElementById('navContainer').classList.remove('active');
+                document.getElementById('menuToggle').querySelector('i').classList.remove('fa-times');
+                document.getElementById('menuToggle').querySelector('i').classList.add('fa-bars');
+            }
+        }
+
+        function verificarUsuarioLogado() {
+            const userLoggedIn = localStorage.getItem('userLoggedIn');
+            const userName = localStorage.getItem('userName');
+            
+            if (userLoggedIn === 'true' && userName) {
+                atualizarInterfaceUsuarioLogado(userName);
+            }
+        }
+
+        function acessarPainelAdmin() {
+            const userEmail = localStorage.getItem('userEmail');
+            const adminEmails = ['admin@studyCert.com', 'moderador@studyCert.com', 'administrador@studyCert.com'];
+            
+            if (userEmail && adminEmails.includes(userEmail)) {
+                // Verificar se já está logado como admin
+                const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+                
+                if (adminLoggedIn === 'true') {
+                    window.location.href = 'admin.html';
+                } else {
+                    // Se não tiver credenciais de admin salvas, pedir login
+                    abrirModalAdmin();
+                }
+            } else {
+                // Se não for admin, mostrar modal de login admin
+                abrirModalAdmin();
+            }
         }
 
         // ========== FUNÇÕES AUXILIARES ==========
@@ -2391,102 +2059,72 @@
             }, 5000);
         }
 
-        function mostrarAdminErro(message) {
-            const errorElement = document.getElementById('adminError');
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-            
-            setTimeout(() => {
-                errorElement.style.display = 'none';
-            }, 3000);
-        }
-
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const toggleBtn = input.nextElementSibling;
-            const icon = toggleBtn.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-
         function fazerLogout() {
+            // Limpar dados
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userName');
             localStorage.removeItem('userArea');
             localStorage.removeItem('userLoggedIn');
             localStorage.removeItem('adminLoggedIn');
-            localStorage.removeItem('adminName');
-            localStorage.removeItem('adminUsername');
+            localStorage.removeItem('adminEmail');
             
             const authArea = document.getElementById('authArea');
             
-            // Voltar aos botões padrão
+            // Restaurar botões padrão
             authArea.innerHTML = `
                 <a href="#" class="btn btn-outline" onclick="abrirModalAuth('login')">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
+                    <i class="fas fa-sign-in-alt"></i> <span class="btn-text">Entrar</span>
                 </a>
                 <a href="#" class="btn btn-primary" onclick="abrirModalAuth('register')">
-                    <i class="fas fa-user-plus"></i> Cadastrar
+                    <i class="fas fa-user-plus"></i> <span class="btn-text">Cadastrar</span>
                 </a>
                 <a href="#" class="btn btn-purple" id="adminButton" style="display: none;" onclick="acessarPainelAdmin()">
-                    <i class="fas fa-cog"></i> Admin <span class="admin-badge">ADM</span>
+                    <i class="fas fa-cog"></i> <span class="btn-text">Admin</span> <span class="admin-badge">ADM</span>
                 </a>
             `;
             
+            // Mostrar mensagem
             alert('Você saiu da sua conta.');
             mostrarSecao('home');
         }
 
-        function solicitarRecuperacao(event) {
-            event.preventDefault();
+        function mostrarSecao(sectionId) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mainContents = document.querySelectorAll('.main-content');
             
-            const email = document.getElementById('recoveryEmail').value;
-            const message = document.getElementById('recoveryMessage');
-            
-            if (!email) {
-                mostrarMensagem(message, 'Por favor, digite seu e-mail.', 'error');
-                return false;
+            // Fechar menu mobile se aberto
+            if (window.innerWidth <= 992) {
+                document.getElementById('navContainer').classList.remove('active');
+                document.getElementById('menuToggle').querySelector('i').classList.remove('fa-times');
+                document.getElementById('menuToggle').querySelector('i').classList.add('fa-bars');
             }
             
-            mostrarMensagem(message, 'Enviando link de recuperação...', 'success');
+            // Atualizar link ativo
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            document.querySelector(`[data-target="${sectionId}"]`).classList.add('active');
             
-            setTimeout(() => {
-                mostrarMensagem(message, `Link enviado para ${email}. Verifique sua caixa de entrada.`, 'success');
-                
-                setTimeout(() => {
-                    mostrarLogin();
-                }, 3000);
-            }, 1500);
+            // Mostrar seção alvo
+            mainContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === sectionId) {
+                    content.classList.add('active');
+                }
+            });
             
-            return false;
+            // Scroll suave
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function mostrarRecuperacao() {
+            alert('Funcionalidade de recuperação de senha em desenvolvimento!');
         }
 
         function loginComGoogle() {
-            const message = document.getElementById('loginMessage');
-            mostrarMensagem(message, 'Redirecionando para login com Google...', 'success');
-            
-            setTimeout(() => {
-                fecharModalAuth();
-                atualizarInterfaceUsuarioLogado('Usuário Google');
-            }, 1500);
+            alert('Login com Google em desenvolvimento!');
         }
 
         function loginComGitHub() {
-            const message = document.getElementById('loginMessage');
-            mostrarMensagem(message, 'Redirecionando para login com GitHub...', 'success');
-            
-            setTimeout(() => {
-                fecharModalAuth();
-                atualizarInterfaceUsuarioLogado('Usuário GitHub');
-            }, 1500);
+            alert('Login com GitHub em desenvolvimento!');
         }
 
         function abrirPerfil() {
@@ -2501,45 +2139,23 @@
             alert('Política de Privacidade:\n\n1. Seus dados são protegidos\n2. Não compartilhamos informações com terceiros\n3. Você pode excluir sua conta a qualquer momento');
         }
 
-        // ========== CONFIGURAÇÃO DE EFEITOS HOVER ==========
-        function setupNavHoverEffects() {
+        // ========== FUNÇÕES DE DEMONSTRAÇÃO ==========
+        function mostrarSecao(sectionId) {
             const navLinks = document.querySelectorAll('.nav-link');
+            const mainContents = document.querySelectorAll('.main-content');
             
-            navLinks.forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('active')) {
-                        this.style.color = '#fff';
-                    }
-                });
-                
-                link.addEventListener('mouseleave', function() {
-                    if (!this.classList.contains('active')) {
-                        this.style.color = '';
-                    }
-                });
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            document.querySelector(`[data-target="${sectionId}"]`).classList.add('active');
+            
+            mainContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === sectionId) {
+                    content.classList.add('active');
+                }
             });
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // ========== FECHAR MODAIS ==========
-        document.getElementById('modalAuth').addEventListener('click', function(e) {
-            if (e.target === this) fecharModalAuth();
-        });
-
-        document.getElementById('modalSimulados').addEventListener('click', function(e) {
-            if (e.target === this) fecharModalSimulados();
-        });
-
-        document.getElementById('modalAdmin').addEventListener('click', function(e) {
-            if (e.target === this) fecharModalAdmin();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (document.getElementById('modalAuth').classList.contains('active')) fecharModalAuth();
-                if (document.getElementById('modalSimulados').classList.contains('active')) fecharModalSimulados();
-                if (document.getElementById('modalAdmin').classList.contains('active')) fecharModalAdmin();
-            }
-        });
     </script>
 </body>
 </html>
