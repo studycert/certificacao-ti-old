@@ -9,7 +9,7 @@
         /* ========== VARIÁVEIS CSS & RESET ========== */
         :root {
             --primary: #1a2b4c;
-            --secondary: #2d5aa0;
+            --secondary: #3498db;
             --accent: #ff6b35;
             --success: #2ecc71;
             --warning: #f39c12;
@@ -48,7 +48,7 @@
 
         /* ========== HEADER OTIMIZADO ========== */
         header {
-            background: linear-gradient(135deg, rgba(26, 43, 76, 0.98) 0%, rgba(45, 90, 160, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(26, 43, 76, 0.98) 0%, rgba(52, 152, 219, 0.95) 100%);
             color: white;
             padding: 0.8rem 0;
             box-shadow: var(--shadow);
@@ -77,8 +77,8 @@
 
         .logo i {
             font-size: 1.8rem;
-            color: var(--accent);
-            filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.4));
+            color: var(--secondary);
+            filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.4));
         }
 
         .logo h1 {
@@ -88,7 +88,7 @@
         }
 
         .logo span {
-            color: var(--accent);
+            color: var(--secondary);
         }
 
         /* NAVEGAÇÃO OTIMIZADA */
@@ -171,7 +171,7 @@
         }
 
         .badge-primary {
-            background: linear-gradient(135deg, var(--secondary), #3a6dc2);
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
             color: white;
         }
 
@@ -196,15 +196,15 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--secondary), #3a6dc2);
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
             color: white;
             border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(45, 90, 160, 0.4);
-            background: linear-gradient(135deg, #3a6dc2, var(--secondary));
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(135deg, #2980b9, var(--secondary));
         }
 
         .btn-outline {
@@ -234,7 +234,7 @@
         /* ========== HERO SECTION ========== */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(26, 43, 76, 0.9), rgba(45, 90, 160, 0.85)),
+            background: linear-gradient(135deg, rgba(26, 43, 76, 0.9), rgba(52, 152, 219, 0.85)),
                         url('https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
@@ -423,7 +423,7 @@
 
         .cert-code {
             display: inline-block;
-            background: rgba(45, 90, 160, 0.1);
+            background: rgba(52, 152, 219, 0.1);
             color: var(--secondary);
             padding: 0.3rem 0.8rem;
             border-radius: 6px;
@@ -442,7 +442,7 @@
 
         .cert-level {
             display: inline-block;
-            background: linear-gradient(135deg, var(--secondary), #3a6dc2);
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
             color: white;
             padding: 0.3rem 0.8rem;
             border-radius: 12px;
@@ -637,7 +637,7 @@
 
         .upload-area:hover {
             border-color: var(--secondary);
-            background: rgba(45, 90, 160, 0.02);
+            background: rgba(52, 152, 219, 0.02);
             transform: translateY(-5px);
         }
 
@@ -664,7 +664,7 @@
             justify-content: center;
             gap: 8px;
             padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, var(--secondary), #3a6dc2);
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
             color: white;
             border: none;
             border-radius: 20px;
@@ -678,10 +678,10 @@
 
         .show-simulados-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(45, 90, 160, 0.3);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
 
-        /* ========== BOTÃO ADICIONAR SIMULADO CORRIGIDO ========== */
+        /* ========== BOTÃO ADICIONAR SIMULADO ========== */
         .btn-add-simulado {
             background: transparent;
             border: 2px dashed var(--secondary);
@@ -700,10 +700,38 @@
         }
 
         .btn-add-simulado:hover {
-            background: rgba(45, 90, 160, 0.05);
+            background: rgba(52, 152, 219, 0.05);
             border-color: var(--accent);
             color: var(--accent);
             transform: translateY(-2px);
+        }
+
+        /* ========== VER TODOS OS SIMULADOS ========== */
+        .all-simulados-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid rgba(0,0,0,0.05);
+        }
+
+        .all-simulados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .all-simulado-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .all-simulado-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         /* ========== FOOTER ========== */
@@ -879,7 +907,7 @@
         .auth-form select:focus {
             outline: none !important;
             border-color: var(--secondary) !important;
-            box-shadow: 0 0 0 3px rgba(45, 90, 160, 0.1) !important;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1) !important;
         }
 
         .auth-form input:-webkit-autofill,
@@ -1136,10 +1164,10 @@
             <div class="cards-container">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-certificate"></i> +50 Certificações</h3>
+                        <h3><i class="fas fa-certificate"></i> +100 Certificações</h3>
                     </div>
                     <div class="card-body">
-                        <p>Preparação completa para Microsoft, AWS, Google Cloud, Cisco, CompTIA, Linux e muito mais.</p>
+                        <p>Preparação completa para Microsoft, AWS, Google, Cisco, CompTIA, Linux, Red Hat e muito mais.</p>
                     </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-primary" data-target="certificacoes">Ver Todas</a>
@@ -1186,7 +1214,7 @@
                         <h3>Azure Fundamentals</h3>
                         <p>Conceitos fundamentais de nuvem e serviços Microsoft Azure.</p>
                         <div class="cert-level">Fundamental</div>
-                        <a href="#" class="btn btn-primary">Começar</a>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
@@ -1199,7 +1227,7 @@
                         <h3>AWS Solutions Architect</h3>
                         <p>Projeto e implantação de sistemas escaláveis na AWS.</p>
                         <div class="cert-level">Associado</div>
-                        <a href="#" class="btn btn-primary">Começar</a>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
@@ -1208,11 +1236,11 @@
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">SY0-601</span>
+                        <span class="cert-code">SY0-701</span>
                         <h3>Security+</h3>
                         <p>Fundamentos de cybersecurity e operações de segurança.</p>
                         <div class="cert-level">Fundamental</div>
-                        <a href="#" class="btn btn-primary">Começar</a>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
@@ -1221,11 +1249,11 @@
                         <i class="fas fa-cube"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">ITIL 4</span>
+                        <span class="cert-code">ITIL4-FND</span>
                         <h3>ITIL 4 Foundation</h3>
                         <p>Framework de gerenciamento de serviços de TI.</p>
                         <div class="cert-level">Fundamental</div>
-                        <a href="#" class="btn btn-primary">Começar</a>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
             </div>
@@ -1236,169 +1264,492 @@
     <section id="certificacoes" class="main-content">
         <div class="container">
             <div class="section-title">
-                <h2>+50 Certificações Disponíveis</h2>
+                <h2>+100 Certificações Disponíveis</h2>
                 <p>Escolha sua carreira e comece sua preparação</p>
             </div>
 
-            <div class="certifications-grid">
-                <!-- Cloud - Microsoft -->
-                <div class="cert-card">
+            <div style="margin-bottom: 3rem; text-align: center;">
+                <button class="btn btn-primary" onclick="filtrarCertificacoes('todas')" style="margin: 0.3rem;">Todas</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('governanca')" style="margin: 0.3rem;">Governança</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('microsoft')" style="margin: 0.3rem;">Microsoft</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('seguranca')" style="margin: 0.3rem;">Segurança</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('redes')" style="margin: 0.3rem;">Redes</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('linux')" style="margin: 0.3rem;">Linux</button>
+                <button class="btn btn-outline" onclick="filtrarCertificacoes('devops')" style="margin: 0.3rem;">DevOps</button>
+            </div>
+
+            <div class="certifications-grid" id="certificationsContainer">
+                <!-- Governança & Gestão de TI -->
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">ITIL4-FND</span>
+                        <h3>ITIL 4 Foundation</h3>
+                        <p>Framework de gerenciamento de serviços de TI.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">COBIT-FND</span>
+                        <h3>COBIT 2019 Foundation</h3>
+                        <p>Governança e gestão de tecnologia da informação.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CISM</span>
+                        <h3>Certified Information Security Manager</h3>
+                        <p>Gerenciamento de segurança da informação.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CGEIT</span>
+                        <h3>Certified in Governance of Enterprise IT</h3>
+                        <p>Governança de TI em nível empresarial.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CRISC</span>
+                        <h3>Certified in Risk and Information Systems Control</h3>
+                        <p>Gestão de riscos e controles de sistemas.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Microsoft Ecosystem -->
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">MS-900</span>
+                        <h3>Microsoft 365 Fundamentals</h3>
+                        <p>Conceitos fundamentais do Microsoft 365.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">AZ-900</span>
+                        <h3>Azure Fundamentals</h3>
+                        <p>Conceitos fundamentais de nuvem Microsoft Azure.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">PL-900</span>
+                        <h3>Power Platform Fundamentals</h3>
+                        <p>Fundamentos da Power Platform da Microsoft.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">SC-900</span>
+                        <h3>Security, Compliance, Identity Fundamentals</h3>
+                        <p>Conceitos de segurança, conformidade e identidade.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">DP-900</span>
+                        <h3>Microsoft Data Fundamentals</h3>
+                        <p>Conceitos fundamentais de dados.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
                     <div class="cert-icon">
                         <i class="fab fa-microsoft"></i>
                     </div>
                     <div class="cert-content">
                         <span class="cert-code">AZ-104</span>
-                        <h3>Azure Administrator</h3>
-                        <p>Implementação, gerenciamento e monitoramento de ambientes Azure.</p>
+                        <h3>Azure Administrator Associate</h3>
+                        <p>Implementação e gerenciamento de ambientes Azure.</p>
                         <div class="cert-level">Associado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <div class="cert-card">
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">AZ-500</span>
+                        <h3>Azure Security Engineer</h3>
+                        <p>Implementação de controles de segurança no Azure.</p>
+                        <div class="cert-level">Associado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="microsoft">
                     <div class="cert-icon">
                         <i class="fab fa-microsoft"></i>
                     </div>
                     <div class="cert-content">
                         <span class="cert-code">AZ-305</span>
-                        <h3>Azure Solutions Architect</h3>
+                        <h3>Azure Solutions Architect Expert</h3>
                         <p>Design de soluções que rodam no Microsoft Azure.</p>
                         <div class="cert-level">Expert</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <!-- Cloud - AWS -->
-                <div class="cert-card">
+                <div class="cert-card" data-category="microsoft">
                     <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
+                        <i class="fab fa-microsoft"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">CLF-C02</span>
-                        <h3>AWS Cloud Practitioner</h3>
-                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
-                        <div class="cert-level">Fundamental</div>
+                        <span class="cert-code">AZ-400</span>
+                        <h3>Azure DevOps Engineer Expert</h3>
+                        <p>Design e implementação de estratégias DevOps.</p>
+                        <div class="cert-level">Expert</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <div class="cert-card">
+                <div class="cert-card" data-category="microsoft">
                     <div class="cert-icon">
-                        <i class="fab fa-aws"></i>
+                        <i class="fab fa-microsoft"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">SAP-C02</span>
-                        <h3>AWS Solutions Architect Pro</h3>
-                        <p>Arquitetura avançada de soluções distribuídas na AWS.</p>
-                        <div class="cert-level">Profissional</div>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <!-- Cloud - Google -->
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-google"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-code">ACE</span>
-                        <h3>Google Cloud Engineer</h3>
-                        <p>Implementação e gerenciamento de soluções na GCP.</p>
+                        <span class="cert-code">SC-300</span>
+                        <h3>Identity and Access Administrator</h3>
+                        <p>Design e implementação de soluções de identidade.</p>
                         <div class="cert-level">Associado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <!-- Security -->
-                <div class="cert-card">
+                <!-- Segurança & Cybersecurity -->
+                <div class="cert-card" data-category="seguranca">
                     <div class="cert-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">CYSA+</span>
-                        <h3>Cybersecurity Analyst</h3>
-                        <p>Análise de ameaças e resposta a incidentes de segurança.</p>
-                        <div class="cert-level">Intermediário</div>
+                        <span class="cert-code">SY0-701</span>
+                        <h3>CompTIA Security+</h3>
+                        <p>Certificação de segurança de nível básico.</p>
+                        <div class="cert-level">Fundamental</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <div class="cert-card">
+                <div class="cert-card" data-category="seguranca">
                     <div class="cert-icon">
                         <i class="fas fa-user-secret"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">CEH v12</span>
-                        <h3>Ethical Hacker</h3>
-                        <p>Técnicas de testes de invasão e segurança ofensiva.</p>
+                        <span class="cert-code">312-50</span>
+                        <h3>Certified Ethical Hacker (CEH)</h3>
+                        <p>Técnicas de testes de invasão éticos.</p>
                         <div class="cert-level">Avançado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <!-- Linux -->
-                <div class="cert-card">
+                <div class="cert-card" data-category="seguranca">
                     <div class="cert-icon">
-                        <i class="fas fa-server"></i>
+                        <i class="fas fa-search"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">LPIC-1</span>
-                        <h3>Linux Administrator</h3>
-                        <p>Administração de sistemas Linux em nível júnior.</p>
-                        <div class="cert-level">Fundamental</div>
-                        <a href="#" class="btn btn-primary">Estudar</a>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="cert-content">
-                        <span class="cert-code">LPIC-2</span>
-                        <h3>Linux Engineer</h3>
-                        <p>Administração avançada e planejamento de sistemas Linux.</p>
+                        <span class="cert-code">CS0-003</span>
+                        <h3>CompTIA CySA+</h3>
+                        <p>Análise de ameaças e resposta a incidentes.</p>
                         <div class="cert-level">Intermediário</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <!-- Redes -->
-                <div class="cert-card">
+                <div class="cert-card" data-category="seguranca">
+                    <div class="cert-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CISSP</span>
+                        <h3>Certified Information Systems Security Professional</h3>
+                        <p>Certificação de segurança de nível gerencial.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="seguranca">
+                    <div class="cert-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CCSP</span>
+                        <h3>Certified Cloud Security Professional</h3>
+                        <p>Segurança em ambientes de nuvem.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Redes & Infraestrutura -->
+                <div class="cert-card" data-category="redes">
                     <div class="cert-icon">
                         <i class="fas fa-network-wired"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">CCNA 200-301</span>
-                        <h3>Cisco Certified Network</h3>
-                        <p>Fundamentos de redes, segurança e automação Cisco.</p>
+                        <span class="cert-code">200-301</span>
+                        <h3>Cisco CCNA</h3>
+                        <p>Fundamentos de redes Cisco.</p>
                         <div class="cert-level">Associado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <!-- DevOps -->
-                <div class="cert-card">
+                <div class="cert-card" data-category="redes">
+                    <div class="cert-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">350-401</span>
+                        <h3>Cisco CCNP Enterprise</h3>
+                        <p>Redes corporativas avançadas.</p>
+                        <div class="cert-level">Profissional</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="redes">
                     <div class="cert-icon">
                         <i class="fas fa-code"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-code">DCA</span>
-                        <h3>Docker Certified</h3>
-                        <p>Containerização, orquestração e segurança com Docker.</p>
+                        <span class="cert-code">200-901</span>
+                        <h3>Cisco DevNet Associate</h3>
+                        <p>Automação e programação em redes.</p>
                         <div class="cert-level">Associado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <div class="cert-card">
+                <div class="cert-card" data-category="redes">
                     <div class="cert-icon">
-                        <i class="fab fa-jenkins"></i>
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">N10-009</span>
+                        <h3>CompTIA Network+</h3>
+                        <p>Fundamentos teóricos de redes.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Linux -->
+                <div class="cert-card" data-category="linux">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">XK0-005</span>
+                        <h3>CompTIA Linux+</h3>
+                        <p>Administração de sistemas Linux.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="linux">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">101-500/102-500</span>
+                        <h3>LPIC-1: Linux Administrator</h3>
+                        <p>Certificação Linux Professional nível 1.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="linux">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">EX200</span>
+                        <h3>RHCSA</h3>
+                        <p>Red Hat Certified System Administrator.</p>
+                        <div class="cert-level">Associado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="linux">
+                    <div class="cert-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">EX294</span>
+                        <h3>RHCE</h3>
+                        <p>Red Hat Certified Engineer.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- DevOps & Automação -->
+                <div class="cert-card" data-category="devops">
+                    <div class="cert-icon">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">DCA</span>
+                        <h3>Docker Certified Associate</h3>
+                        <p>Containerização com Docker.</p>
+                        <div class="cert-level">Associado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="devops">
+                    <div class="cert-icon">
+                        <i class="fas fa-cubes"></i>
                     </div>
                     <div class="cert-content">
                         <span class="cert-code">CKA</span>
-                        <h3>Kubernetes Admin</h3>
-                        <p>Administração, manutenção e troubleshooting de clusters K8s.</p>
+                        <h3>Certified Kubernetes Administrator</h3>
+                        <p>Administração de clusters Kubernetes.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="devops">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">DOP-C02</span>
+                        <h3>AWS DevOps Engineer</h3>
+                        <p>Engenharia DevOps na AWS.</p>
+                        <div class="cert-level">Profissional</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="devops">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">HashiCorp</span>
+                        <h3>Terraform Associate</h3>
+                        <p>Infraestrutura como código com Terraform.</p>
+                        <div class="cert-level">Associado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Projetos & Agilidade -->
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">PMP</span>
+                        <h3>Project Management Professional</h3>
+                        <p>Gerenciamento profissional de projetos.</p>
+                        <div class="cert-level">Avançado</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="governanca">
+                    <div class="cert-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">CSM</span>
+                        <h3>Certified ScrumMaster</h3>
+                        <p>Metodologia ágil Scrum.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Dados & AI -->
+                <div class="cert-card" data-category="microsoft">
+                    <div class="cert-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">AI-900</span>
+                        <h3>Azure AI Fundamentals</h3>
+                        <p>Fundamentos de Inteligência Artificial no Azure.</p>
+                        <div class="cert-level">Fundamental</div>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card" data-category="devops">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="cert-code">DP-300</span>
+                        <h3>Azure Database Administrator</h3>
+                        <p>Administração de bancos de dados no Azure.</p>
                         <div class="cert-level">Associado</div>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
@@ -1609,7 +1960,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-601</h3>
+                        <h3><i class="fas fa-play-circle"></i> Security+ SY0-701</h3>
                     </div>
                     <div class="card-body">
                         <p>Preparação completa para certificação de segurança.</p>
@@ -1674,11 +2025,11 @@
                 <!-- Security+ -->
                 <div class="simulado-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Security+ SY0-601</h3>
+                        <h3><i class="fas fa-shield-alt"></i> Security+ SY0-701</h3>
                     </div>
                     <div class="card-body">
                         <span class="simulado-badge">90 questões</span>
-                        <p>Simulado completo para CompTIA Security+ (SY0-601).</p>
+                        <p>Simulado completo para CompTIA Security+ (SY0-701).</p>
                         <p><strong>Tempo estimado:</strong> 90 minutos</p>
                     </div>
                     <div class="card-footer">
@@ -1762,11 +2113,99 @@
                 </div>
             </div>
 
-            <!-- Botão Adicionar Simulado CORRIGIDO -->
+            <!-- Botão Adicionar Simulado -->
             <div style="margin-top: 3rem; text-align: center;">
                 <button class="btn-add-simulado" onclick="showToast('Funcionalidade de upload em desenvolvimento!')">
                     <i class="fas fa-plus-circle"></i> Adicionar Novo Simulado
                 </button>
+            </div>
+
+            <!-- Seção "Ver Todos os Simulados" -->
+            <div class="all-simulados-section">
+                <div class="section-title">
+                    <h2>Todos os Simulados Disponíveis</h2>
+                    <p>Explore nossa biblioteca completa de simulados para todas as certificações</p>
+                </div>
+
+                <div class="all-simulados-grid">
+                    <!-- Microsoft -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-microsoft"></i> MS-900: Microsoft 365 Fundamentals</h4>
+                        <p><strong>50 questões</strong> • 60 minutos • Nível: Fundamental</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-microsoft"></i> AZ-900: Azure Fundamentals</h4>
+                        <p><strong>60 questões</strong> • 85 minutos • Nível: Fundamental</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-microsoft"></i> SC-900: Security Fundamentals</h4>
+                        <p><strong>55 questões</strong> • 70 minutos • Nível: Fundamental</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <!-- AWS -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-aws"></i> CLF-C02: Cloud Practitioner</h4>
+                        <p><strong>65 questões</strong> • 90 minutos • Nível: Fundamental</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-aws"></i> SAA-C03: Solutions Architect</h4>
+                        <p><strong>75 questões</strong> • 130 minutos • Nível: Associado</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <!-- Linux -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-server"></i> LPIC-1: Linux Administrator</h4>
+                        <p><strong>85 questões</strong> • 90 minutos • Nível: Fundamental</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-server"></i> RHCSA: Red Hat System Admin</h4>
+                        <p><strong>70 questões</strong> • 120 minutos • Nível: Associado</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <!-- Segurança -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-shield-alt"></i> CEH v12: Ethical Hacker</h4>
+                        <p><strong>125 questões</strong> • 240 minutos • Nível: Avançado</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-search"></i> CySA+: Cybersecurity Analyst</h4>
+                        <p><strong>85 questões</strong> • 165 minutos • Nível: Intermediário</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <!-- Redes -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-network-wired"></i> CCNP Enterprise</h4>
+                        <p><strong>100 questões</strong> • 120 minutos • Nível: Profissional</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <!-- DevOps -->
+                    <div class="all-simulado-item">
+                        <h4><i class="fab fa-docker"></i> Docker Certified Associate</h4>
+                        <p><strong>55 questões</strong> • 90 minutos • Nível: Associado</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+
+                    <div class="all-simulado-item">
+                        <h4><i class="fas fa-cubes"></i> Certified Kubernetes Admin</h4>
+                        <p><strong>85 questões</strong> • 180 minutos • Nível: Avançado</p>
+                        <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Iniciar</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1822,7 +2261,7 @@
             
             <div style="padding: 1.5rem;">
                 <div style="display: flex; background: #f8f9fa; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <button class="auth-tab active" onclick="mostrarLogin()" style="flex: 1; padding: 0.8rem; border: none; background: #2d5aa0; color: white; font-weight: 600; cursor: pointer; border-radius: 8px 0 0 8px;">Entrar</button>
+                    <button class="auth-tab active" onclick="mostrarLogin()" style="flex: 1; padding: 0.8rem; border: none; background: var(--secondary); color: white; font-weight: 600; cursor: pointer; border-radius: 8px 0 0 8px;">Entrar</button>
                     <button class="auth-tab" onclick="mostrarCadastro()" style="flex: 1; padding: 0.8rem; border: none; background: transparent; color: #666; font-weight: 600; cursor: pointer; border-radius: 0 8px 8px 0;">Cadastrar</button>
                 </div>
                 
@@ -1984,6 +2423,40 @@
                     localStorage.removeItem('currentUser');
                 }
             }
+        }
+
+        // ========== FUNÇÃO DE FILTRO DE CERTIFICAÇÕES ==========
+        function filtrarCertificacoes(categoria) {
+            const cards = document.querySelectorAll('.cert-card');
+            const buttons = document.querySelectorAll('#certificacoes .btn');
+            
+            // Atualizar botões ativos
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(categoria) || (categoria === 'todas' && btn.textContent === 'Todas')) {
+                    btn.classList.remove('btn-outline');
+                    btn.classList.add('btn-primary');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline');
+                }
+            });
+            
+            // Filtrar cards
+            cards.forEach(card => {
+                if (categoria === 'todas' || card.getAttribute('data-category') === categoria) {
+                    card.style.display = 'flex';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
         }
 
         // ========== NAVEGAÇÃO ==========
@@ -2203,7 +2676,7 @@
                 tab.style.background = 'transparent';
                 tab.style.color = '#666';
             });
-            document.querySelectorAll('.auth-tab')[0].style.background = '#2d5aa0';
+            document.querySelectorAll('.auth-tab')[0].style.background = 'var(--secondary)';
             document.querySelectorAll('.auth-tab')[0].style.color = 'white';
         }
 
@@ -2214,7 +2687,7 @@
                 tab.style.background = 'transparent';
                 tab.style.color = '#666';
             });
-            document.querySelectorAll('.auth-tab')[1].style.background = '#2d5aa0';
+            document.querySelectorAll('.auth-tab')[1].style.background = 'var(--secondary)';
             document.querySelectorAll('.auth-tab')[1].style.color = 'white';
         }
 
