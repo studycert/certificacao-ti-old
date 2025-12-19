@@ -8,30 +8,30 @@
     <style>
         /* ========== VARIÁVEIS CSS & RESET ========== */
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --gray: #95a5a6;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --radius: 10px;
-            --shadow: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-hover: 0 8px 24px rgba(0,0,0,0.15);
+            --primary: #1a365d;
+            --secondary: #3182ce;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --light: #f7fafc;
+            --dark: #2d3748;
+            --gray: #a0aec0;
+            --transition: all 0.3s ease;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
             background-color: #f5f7fa;
-            color: #333;
+            color: #2d3748;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
@@ -45,24 +45,24 @@
             padding: 0 20px;
         }
 
-        /* ========== HEADER & NAVEGAÇÃO CORRIGIDA ========== */
+        /* ========== HEADER & NAVEGAÇÃO MODERNIZADA ========== */
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
             color: white;
-            padding: 0.8rem 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(44, 62, 80, 0.95);
+            background-color: rgba(26, 54, 93, 0.95);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            position: relative;
         }
 
         .logo {
@@ -71,78 +71,107 @@
             gap: 12px;
             text-decoration: none;
             color: white;
-            flex-shrink: 0;
         }
 
         .logo i {
             font-size: 2.2rem;
             color: var(--secondary);
-            filter: drop-shadow(0 2px 4px rgba(52, 152, 219, 0.3));
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 50%;
         }
 
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            background: linear-gradient(45deg, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .logo span {
-            color: var(--secondary);
-            font-weight: 800;
-        }
-
-        /* NAVEGAÇÃO CORRIGIDA */
+        /* NAVEGAÇÃO SIMPLIFICADA COM DROPDOWN */
         nav {
-            flex: 1;
             display: flex;
-            justify-content: center;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
             gap: 5px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
-        nav a {
-            color: rgba(255, 255, 255, 0.9);
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
             text-decoration: none;
             font-weight: 500;
             padding: 0.6rem 1.2rem;
-            border-radius: var(--radius);
-            position: relative;
+            border-radius: 30px;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        nav a:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        nav a.active {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        .nav-link.active {
+            background: rgba(49, 130, 206, 0.3);
+            border: 1px solid rgba(49, 130, 206, 0.5);
         }
 
-        /* Área do usuário logado - CORRIGIDO */
+        /* Dropdown Menu */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--dark);
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid #edf2f7;
+            transition: var(--transition);
+        }
+
+        .dropdown-content a:hover {
+            background: #f7fafc;
+            color: var(--secondary);
+            padding-left: 1.2rem;
+        }
+
+        .dropdown-content a i {
+            width: 20px;
+            color: var(--secondary);
+        }
+
+        .nav-item:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Área do usuário logado */
         .user-area {
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
+            gap: 15px;
         }
 
         .user-info {
@@ -150,28 +179,24 @@
             align-items: center;
             gap: 10px;
             color: white;
-            padding: 0.3rem 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            background: linear-gradient(135deg, var(--secondary), #63b3ed);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            color: white;
+            font-size: 1.1rem;
         }
 
         .badge {
             display: inline-block;
-            padding: 0.2rem 0.6rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
@@ -180,7 +205,6 @@
         .badge-primary {
             background: var(--secondary);
             color: white;
-            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
         }
 
         .badge-success {
@@ -188,10 +212,10 @@
             color: white;
         }
 
-        /* ========== BOTÕES MELHORADOS ========== */
+        /* Botões redesenhados */
         .btn {
             padding: 0.6rem 1.5rem;
-            border-radius: var(--radius);
+            border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -201,59 +225,29 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 0.95rem;
-            letter-spacing: 0.3px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .btn:hover::after {
-            opacity: 1;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            background: linear-gradient(135deg, var(--secondary), #63b3ed);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #2980b9 0%, var(--secondary) 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(135deg, #2c5282, var(--secondary));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.4);
         }
 
         .btn-outline {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
-            backdrop-filter: blur(10px);
         }
 
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-sm {
-            padding: 0.4rem 1rem;
-            font-size: 0.85rem;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
         }
 
         /* Menu mobile toggle */
@@ -266,30 +260,29 @@
             cursor: pointer;
             padding: 0.5rem;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            width: 44px;
-            height: 44px;
-            align-items: center;
-            justify-content: center;
+            border-radius: 5px;
         }
 
         /* ========== HERO SECTION ========== */
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.95)), 
+            background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(44, 82, 130, 0.9)), 
                         url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 5rem 0;
+            padding: 6rem 0;
             text-align: center;
             flex: 1;
         }
 
         .hero h2 {
             font-size: 2.8rem;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
         }
 
         .hero p {
@@ -320,12 +313,12 @@
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
-            color: var(--primary);
         }
 
         .section-title h2 {
             font-size: 2.2rem;
             margin-bottom: 0.8rem;
+            color: var(--primary);
             position: relative;
             display: inline-block;
         }
@@ -337,9 +330,9 @@
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 4px;
+            height: 3px;
             background: var(--secondary);
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .section-title p {
@@ -349,7 +342,7 @@
             font-size: 1.1rem;
         }
 
-        /* ========== CARDS ========== */
+        /* ========== CARDS MODERNOS ========== */
         .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -363,403 +356,37 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             box-shadow: var(--shadow-hover);
         }
 
         .card-header {
             padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--dark));
             color: white;
+        }
+
+        .card-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .card-body {
-            padding: 1.8rem;
+            padding: 1.5rem;
         }
 
         .card-footer {
-            padding: 1.2rem 1.5rem;
-            background: #f8f9fa;
-            border-top: 1px solid #eee;
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
         }
 
-        /* ========== FORUM (CONTEÚDO ADICIONADO) ========== */
-        #forum .container {
-            max-width: 1000px;
-        }
-
-        .forum-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .forum-search {
-            position: relative;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .forum-search input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 3rem;
-            border: 2px solid #e0e0e0;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .forum-search input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        .forum-search i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .forum-categories {
-            background: white;
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .forum-categories h3 {
-            margin-bottom: 1.2rem;
-            color: var(--primary);
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid var(--secondary);
-        }
-
-        .category-list {
-            list-style: none;
-        }
-
-        .category-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            transition: var(--transition);
-        }
-
-        .category-list li:hover {
-            background: #f8f9fa;
-            padding-left: 10px;
-        }
-
-        .category-list a {
-            color: var(--dark);
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
-        }
-
-        .category-list a:hover {
-            color: var(--secondary);
-        }
-
-        .category-count {
-            background: var(--secondary);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .forum-posts {
-            background: white;
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .post {
-            padding: 1.5rem;
-            border-bottom: 1px solid #eee;
-            transition: var(--transition);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .post:hover {
-            background: #f8f9fa;
-            transform: translateX(5px);
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .post-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-decoration: none;
-            flex: 1;
-        }
-
-        .post-title:hover {
-            color: var(--secondary);
-        }
-
-        .post-meta {
-            color: var(--gray);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .post-excerpt {
-            color: #555;
-            margin-bottom: 1.2rem;
-            line-height: 1.7;
-        }
-
-        .post-footer {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        .post-stats {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .new-post-btn {
-            display: block;
-            margin: 2rem auto;
-            width: 200px;
-        }
-
-        /* ========== STUDY MATERIALS ========== */
-        .materials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .material-card {
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .material-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .material-icon {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            font-size: 2.5rem;
-        }
-
-        .material-content {
-            padding: 1.8rem;
-        }
-
-        .material-content h3 {
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-            font-size: 1.3rem;
-        }
-
-        .material-content p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .material-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .material-tag {
-            background: #f1f8ff;
-            color: var(--secondary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* ========== SIMULADOS ========== */
-        .simulados-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .simulado-card {
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .simulado-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .simulado-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--accent);
-            color: white;
-            padding: 0.4rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 20px;
-            z-index: 1;
-        }
-
-        .simulado-header {
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            position: relative;
-        }
-
-        .simulado-header h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .simulado-header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-
-        .simulado-content {
-            padding: 1.8rem;
-        }
-
-        .simulado-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        .upload-area {
-            background: white;
-            border: 2px dashed var(--gray);
-            border-radius: var(--radius);
-            padding: 3rem 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            transition: var(--transition);
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        }
-
-        .upload-area:hover {
-            border-color: var(--secondary);
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            transform: translateY(-5px);
-        }
-
-        .upload-area i {
-            font-size: 3.5rem;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
-            opacity: 0.8;
-        }
-
-        .upload-area h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .upload-area p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .show-simulados-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin: 20px 0 10px 0;
-            width: 220px;
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-        }
-
-        .show-simulados-btn:hover {
-            background: linear-gradient(135deg, #2980b9 0%, var(--secondary) 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-        }
-
-        /* ========== CERTIFICATIONS ========== */
+        /* ========== CERTIFICAÇÕES GRID ========== */
         .certifications-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -772,7 +399,7 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .cert-card:hover {
@@ -781,44 +408,140 @@
         }
 
         .cert-icon {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 2rem;
             text-align: center;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
         }
 
         .cert-content {
-            padding: 1.8rem;
+            padding: 1.5rem;
         }
 
         .cert-content h3 {
             margin-bottom: 0.8rem;
             color: var(--primary);
-            font-size: 1.3rem;
         }
 
         .cert-content p {
             color: #666;
             font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
         }
 
         .cert-level {
             display: inline-block;
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            background: linear-gradient(135deg, var(--secondary), #63b3ed);
             color: white;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 1rem;
             font-weight: 600;
         }
 
+        /* ========== FILTROS ========== */
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 2rem 0;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 0.7rem 1.5rem;
+            background: rgba(49, 130, 206, 0.1);
+            border: 2px solid transparent;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            color: var(--secondary);
+        }
+
+        .filter-tab:hover {
+            background: rgba(49, 130, 206, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .filter-tab.active {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
+        }
+
+        /* ========== TABELAS ========== */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+
+        .certification-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .certification-table th {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .certification-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .certification-table tr:hover {
+            background-color: #f7fafc;
+        }
+
+        .certification-table .cert-code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #edf2f7;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .cert-level-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .level-fundamentals { 
+            background: linear-gradient(135deg, #4299e1, #63b3ed); 
+        }
+        .level-associate { 
+            background: linear-gradient(135deg, #38a169, #48bb78); 
+        }
+        .level-expert { 
+            background: linear-gradient(135deg, #805ad5, #9f7aea); 
+        }
+        .level-specialty { 
+            background: linear-gradient(135deg, #d69e2e, #ecc94b); 
+        }
+
         /* ========== FOOTER ========== */
         footer {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #2d3748 100%);
             color: white;
             padding: 3rem 0 1.5rem;
             margin-top: auto;
@@ -827,13 +550,13 @@
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 2.5rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-column h3 {
             margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             position: relative;
             padding-bottom: 0.8rem;
         }
@@ -844,9 +567,8 @@
             bottom: 0;
             left: 0;
             width: 50px;
-            height: 3px;
+            height: 2px;
             background: var(--secondary);
-            border-radius: 3px;
         }
 
         .footer-links {
@@ -854,16 +576,11 @@
         }
 
         .footer-links li {
-            margin-bottom: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .footer-links li:hover {
-            transform: translateX(5px);
+            margin-bottom: 0.8rem;
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: #cbd5e0;
             text-decoration: none;
             transition: var(--transition);
             display: flex;
@@ -873,6 +590,7 @@
 
         .footer-links a:hover {
             color: var(--secondary);
+            padding-left: 5px;
         }
 
         .social-links {
@@ -885,49 +603,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 42px;
-            height: 42px;
-            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             color: white;
             transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .social-links a:hover {
             background: var(--secondary);
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+            transform: translateY(-3px);
         }
 
         .copyright {
             text-align: center;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
             font-size: 0.9rem;
         }
 
         /* ========== RESPONSIVIDADE ========== */
-        @media (max-width: 1100px) {
-            .header-content {
-                flex-wrap: wrap;
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
             }
             
             nav {
-                order: 3;
-                width: 100%;
-                margin-top: 1rem;
+                gap: 3px;
             }
             
-            nav ul {
-                justify-content: center;
+            .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero h2 {
+                font-size: 2.3rem;
             }
         }
 
         @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
             .menu-toggle {
-                display: flex;
+                display: block;
                 order: 1;
             }
 
@@ -935,26 +658,40 @@
                 width: 100%;
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.4s ease;
+                transition: max-height 0.3s ease;
                 order: 3;
-                margin-top: 0;
+                flex-direction: column;
+                margin-top: 1rem;
+                background: rgba(26, 54, 93, 0.95);
+                border-radius: var(--radius);
+                padding: 1rem;
+                gap: 10px;
             }
 
             nav.active {
                 max-height: 500px;
-                margin-top: 1rem;
             }
 
-            nav ul {
-                flex-direction: column;
+            .nav-item {
                 width: 100%;
             }
 
-            nav a {
-                padding: 1rem;
+            .nav-link {
+                width: 100%;
                 justify-content: center;
-                border-radius: 8px;
-                margin-bottom: 5px;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                margin-top: 10px;
+                border-radius: var(--radius);
+            }
+
+            .dropdown-content a {
+                color: white;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             .user-area {
@@ -962,339 +699,79 @@
                 margin-left: auto;
             }
 
+            .hero {
+                padding: 4rem 0;
+            }
+
             .hero h2 {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .cards-container,
-            .certifications-grid,
-            .materials-grid,
-            .simulados-container {
+            .certifications-grid {
                 grid-template-columns: 1fr;
             }
             
-            .section-title h2 {
-                font-size: 1.8rem;
+            .filter-tabs {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 10px;
             }
         }
 
         @media (max-width: 480px) {
-            .header-content {
-                gap: 10px;
+            .hero {
+                padding: 3rem 0;
             }
             
-            .logo h1 {
-                font-size: 1.5rem;
+            .hero h2 {
+                font-size: 1.6rem;
             }
             
-            .user-info span:not(.badge) {
-                display: none;
+            .section-title h2 {
+                font-size: 1.6rem;
             }
             
-            .user-info {
-                padding: 0.3rem;
+            .user-area {
+                gap: 8px;
             }
             
             .btn {
                 padding: 0.5rem 1rem;
                 font-size: 0.9rem;
             }
-            
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-            
-            .hero {
-                padding: 3rem 0;
-            }
         }
 
-        /* ========== TOAST NOTIFICATION ========== */
-        .toast {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, var(--success) 0%, #219653 100%);
-            color: white;
-            border-radius: var(--radius);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 10000;
-            animation: slideInRight 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: none;
-            min-width: 300px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
+        /* ========== ANIMAÇÕES ========== */
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
 
-        .toast.error {
-            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
-        }
-
-        .toast i {
-            font-size: 1.2rem;
-        }
-
-        /* ========== LOADING SPINNER ========== */
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--secondary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ========== ESTILOS PARA SEÇÕES ESPECÍFICAS ========== */
-        /* Microsoft Certifications Detalhadas */
-        .filter-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 2rem 0;
-            justify-content: center;
-        }
-
-        .filter-tab {
-            padding: 0.6rem 1.5rem;
-            background: rgba(52, 152, 219, 0.1);
-            border: 2px solid rgba(52, 152, 219, 0.2);
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            color: var(--primary);
-        }
-
-        .filter-tab:hover {
-            background: rgba(52, 152, 219, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .filter-tab.active {
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+        /* ========== TOAST NOTIFICATION ========== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--success), #48bb78);
             color: white;
-            border-color: var(--secondary);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-        }
-
-        .category-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 1.2rem 1.8rem;
             border-radius: var(--radius);
-            margin: 3rem 0 1.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .category-header h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            background: white;
-        }
-
-        .certification-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        .certification-table th {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 1.2rem;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 3px solid var(--secondary);
-        }
-
-        .certification-table td {
-            padding: 1.2rem;
-            border-bottom: 1px solid #eee;
-            transition: var(--transition);
-        }
-
-        .certification-table tr:hover td {
-            background-color: #f8f9fa;
-        }
-
-        .cert-level-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin: 0.2rem;
-        }
-
-        .level-fundamentals { 
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
-            color: white; 
-        }
-        .level-associate { 
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); 
-            color: white; 
-        }
-        .level-expert { 
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); 
-            color: white; 
-        }
-        .level-specialty { 
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); 
-            color: white; 
-        }
-
-        .vendor-icon {
-            font-size: 1.3rem;
-            margin-right: 10px;
-            vertical-align: middle;
-            color: var(--primary);
-        }
-
-        .subcategory-title {
-            margin: 2rem 0 1.2rem 0;
-            color: var(--primary);
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid var(--secondary);
-            font-size: 1.3rem;
-        }
-
-        /* Roadmaps */
-        .roadmap-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .roadmap-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 1.8rem;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--secondary);
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .roadmap-card:hover {
-            transform: translateY(-8px);
             box-shadow: var(--shadow-hover);
-        }
-
-        .roadmap-card h4 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
+            gap: 10px;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            display: none;
         }
 
-        .roadmap-steps {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .roadmap-steps li {
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            transition: var(--transition);
-        }
-
-        .roadmap-steps li:hover {
-            background: #f8f9fa;
-            padding-left: 10px;
-            border-radius: 5px;
-        }
-
-        .roadmap-steps li:last-child {
-            border-bottom: none;
-        }
-
-        .roadmap-steps .step-number {
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            font-weight: bold;
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-        }
-
-        /* Seção de Certificações */
-        .cert-code {
-            font-family: 'Courier New', monospace;
-            background: #f1f5f9;
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: var(--primary);
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Placeholder para conteúdo vazio */
-        .placeholder-content {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .placeholder-content i {
-            font-size: 4rem;
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            opacity: 0.5;
-        }
-
-        .placeholder-content h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .placeholder-content p {
-            color: var(--gray);
-            max-width: 500px;
-            margin: 0 auto 2rem;
+        .toast.error {
+            background: linear-gradient(135deg, var(--accent), #fc8181);
         }
     </style>
 </head>
@@ -1305,7 +782,7 @@
             <div class="header-content">
                 <a href="#" class="logo" data-target="home">
                     <i class="fas fa-graduation-cap"></i>
-                    <h1>Study<span>Cert</span></h1>
+                    <h1>StudyCert</h1>
                 </a>
                 
                 <button class="menu-toggle" id="menuToggle">
@@ -1313,16 +790,40 @@
                 </button>
                 
                 <nav id="mainNav">
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-target="home">Início</a></li>
-                        <li><a href="#" class="nav-link" data-target="all-certs">Todas Certificações</a></li>
-                        <li><a href="#" class="nav-link" data-target="microsoft">Microsoft</a></li>
-                        <li><a href="#" class="nav-link" data-target="other-certs">Outras Certificações</a></li>
-                        <li><a href="#" class="nav-link" data-target="roadmaps">Roadmaps</a></li>
-                        <li><a href="#" class="nav-link" data-target="forum">Fórum</a></li>
-                        <li><a href="#" class="nav-link" data-target="materiais">Material</a></li>
-                        <li><a href="#" class="nav-link" data-target="simulados">Simulados</a></li>
-                    </ul>
+                    <div class="nav-item">
+                        <a href="#" class="nav-link active" data-target="home">
+                            <i class="fas fa-home"></i> Início
+                        </a>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-target="all-certs">
+                            <i class="fas fa-certificate"></i> Certificações
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="#" data-target="microsoft"><i class="fab fa-microsoft"></i> Microsoft</a>
+                            <a href="#" data-target="other-certs"><i class="fas fa-network-wired"></i> Outras</a>
+                            <a href="#" data-target="roadmaps"><i class="fas fa-map-signs"></i> Roadmaps</a>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-target="forum">
+                            <i class="fas fa-comments"></i> Fórum
+                        </a>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-target="materiais">
+                            <i class="fas fa-book"></i> Material
+                        </a>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-target="simulados">
+                            <i class="fas fa-file-alt"></i> Simulados
+                        </a>
+                    </div>
                 </nav>
                 
                 <div class="user-area" id="userArea">
@@ -1452,24 +953,18 @@
                 <p>Explore todas as certificações disponíveis por categoria e fabricante</p>
             </div>
 
-            <div class="category-header">
-                <i class="fab fa-microsoft"></i>
-                <h3>Microsoft Certifications</h3>
-            </div>
-
             <div class="cards-container">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-graduation-cap"></i> Fundamentals (900)</h3>
+                        <h3><i class="fab fa-microsoft"></i> Microsoft</h3>
                     </div>
                     <div class="card-body">
-                        <p>Certificações de nível básico para iniciantes</p>
+                        <p>Certificações Microsoft organizadas por nível:</p>
                         <ul>
-                            <li>AZ-900: Azure Fundamentals</li>
-                            <li>MS-900: Microsoft 365 Fundamentals</li>
-                            <li>SC-900: Security, Compliance, Identity</li>
-                            <li>DP-900: Data Fundamentals</li>
-                            <li>AI-900: AI Fundamentals</li>
+                            <li>Fundamentals (900 series)</li>
+                            <li>Associate (100-400 series)</li>
+                            <li>Expert (500-600 series)</li>
+                            <li>Specialty</li>
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -1479,59 +974,15 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-user-tie"></i> Associate (100-400)</h3>
+                        <h3><i class="fas fa-shield-alt"></i> Segurança</h3>
                     </div>
                     <div class="card-body">
-                        <p>Certificações de nível intermediário</p>
+                        <p>Certificações de cybersecurity e segurança:</p>
                         <ul>
-                            <li>AZ-104: Azure Administrator</li>
-                            <li>MS-102: Microsoft 365 Administrator</li>
-                            <li>SC-200: Security Operations Analyst</li>
-                            <li>DP-203: Data Engineer</li>
-                            <li>PL-300: Power BI Data Analyst</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="microsoft">Ver Todas</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-crown"></i> Expert (500-600)</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Certificações de nível avançado</p>
-                        <ul>
-                            <li>AZ-305: Azure Solutions Architect</li>
-                            <li>AZ-500: Azure Security Engineer</li>
-                            <li>SC-100: Cybersecurity Architect</li>
-                            <li>PL-600: Power Platform Solution Architect</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="microsoft">Ver Todas</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category-header">
-                <i class="fas fa-network-wired"></i>
-                <h3>Outras Certificações de TI</h3>
-            </div>
-
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Segurança & Cybersecurity</h3>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>CompTIA Security+ (SY0-701)</li>
-                            <li>CISSP - Certified Information Systems Security Professional</li>
-                            <li>CEH - Certified Ethical Hacker</li>
-                            <li>CISM - Certified Information Security Manager</li>
-                            <li>CCSP - Certified Cloud Security Professional</li>
+                            <li>CompTIA Security+</li>
+                            <li>CISSP</li>
+                            <li>CEH</li>
+                            <li>CISM</li>
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -1544,30 +995,11 @@
                         <h3><i class="fab fa-linux"></i> Linux & Sistemas</h3>
                     </div>
                     <div class="card-body">
+                        <p>Certificações de sistemas operacionais:</p>
                         <ul>
-                            <li>LPIC-1: Linux Administrator</li>
-                            <li>LPIC-2: Linux Engineer</li>
-                            <li>RHCSA - Red Hat Certified System Administrator</li>
-                            <li>RHCE - Red Hat Certified Engineer</li>
+                            <li>LPIC-1 / LPIC-2</li>
+                            <li>RHCSA / RHCE</li>
                             <li>CompTIA Linux+</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="other-certs">Ver Todas</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-project-diagram"></i> Governança & Projetos</h3>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>ITIL 4 Foundation</li>
-                            <li>COBIT 2019 Foundation</li>
-                            <li>PMP - Project Management Professional</li>
-                            <li>PRINCE2 Practitioner</li>
-                            <li>CGEIT - Governance of Enterprise IT</li>
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -1589,24 +1021,17 @@
             <!-- Filtros -->
             <div class="filter-tabs" id="microsoftFilters">
                 <button class="filter-tab active" data-filter="all">Todas</button>
-                <button class="filter-tab" data-filter="fundamentals">Fundamentals (900)</button>
-                <button class="filter-tab" data-filter="associate">Associate (100-400)</button>
-                <button class="filter-tab" data-filter="expert">Expert (500-600)</button>
+                <button class="filter-tab" data-filter="fundamentals">Fundamentals</button>
+                <button class="filter-tab" data-filter="associate">Associate</button>
+                <button class="filter-tab" data-filter="expert">Expert</button>
                 <button class="filter-tab" data-filter="azure">Azure</button>
-                <button class="filter-tab" data-filter="m365">Microsoft 365</button>
                 <button class="filter-tab" data-filter="security">Security</button>
                 <button class="filter-tab" data-filter="data">Data & AI</button>
-                <button class="filter-tab" data-filter="power">Power Platform</button>
             </div>
 
-            <!-- NÍVEL FUNDAMENTALS (900 Series) -->
-            <div class="category-header" data-category="fundamentals">
-                <i class="fas fa-graduation-cap"></i>
-                <h3>📚 NÍVEL FUNDAMENTALS (900 Series) - BÁSICO</h3>
-            </div>
-            
+            <!-- Tabela de Certificações Microsoft -->
             <div class="table-container">
-                <table class="certification-table" data-category="fundamentals">
+                <table class="certification-table">
                     <thead>
                         <tr>
                             <th>Certificação</th>
@@ -1618,47 +1043,50 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><i class="fab fa-microsoft vendor-icon"></i> Azure Fundamentals</td>
+                            <td><i class="fab fa-microsoft"></i> Azure Fundamentals</td>
                             <td><span class="cert-code">AZ-900</span></td>
                             <td>Conceitos básicos de nuvem Azure</td>
                             <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                         <tr>
-                            <td><i class="fab fa-microsoft vendor-icon"></i> Microsoft 365 Fundamentals</td>
-                            <td><span class="cert-code">MS-900</span></td>
-                            <td>Conceitos Microsoft 365</td>
-                            <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
+                            <td><i class="fab fa-microsoft"></i> Azure Administrator Associate</td>
+                            <td><span class="cert-code">AZ-104</span></td>
+                            <td>Administração Azure</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                         <tr>
-                            <td><i class="fab fa-microsoft vendor-icon"></i> Power Platform Fundamentals</td>
-                            <td><span class="cert-code">PL-900</span></td>
-                            <td>Power Apps, Automate, BI</td>
-                            <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
+                            <td><i class="fab fa-microsoft"></i> Azure Solutions Architect Expert</td>
+                            <td><span class="cert-code">AZ-305</span></td>
+                            <td>Arquitetura de Soluções</td>
+                            <td><span class="cert-level-badge level-expert">Expert</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                         <tr>
-                            <td><i class="fab fa-microsoft vendor-icon"></i> Security, Compliance, Identity Fundamentals</td>
-                            <td><span class="cert-code">SC-900</span></td>
-                            <td>Segurança Microsoft</td>
-                            <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
+                            <td><i class="fab fa-microsoft"></i> Security Operations Analyst Associate</td>
+                            <td><span class="cert-code">SC-200</span></td>
+                            <td>Microsoft Sentinel/Defender</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                         <tr>
-                            <td><i class="fab fa-microsoft vendor-icon"></i> Data Fundamentals</td>
-                            <td><span class="cert-code">DP-900</span></td>
-                            <td>Conceitos de dados</td>
-                            <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
+                            <td><i class="fab fa-microsoft"></i> Data Analyst Associate</td>
+                            <td><span class="cert-code">PL-300</span></td>
+                            <td>Análise de Dados Power BI</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
+                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-microsoft"></i> Azure AI Engineer Associate</td>
+                            <td><span class="cert-code">AI-102</span></td>
+                            <td>Inteligência Artificial</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
-            <!-- Mais conteúdo das tabelas Microsoft (mantido do original) -->
-            <!-- ... -->
-            
         </div>
     </section>
 
@@ -1668,12 +1096,6 @@
             <div class="section-title">
                 <h2><i class="fas fa-certificate"></i> Outras Certificações de TI</h2>
                 <p>Certificações de outros fabricantes e organizações</p>
-            </div>
-
-            <!-- Cisco -->
-            <div class="category-header">
-                <i class="fas fa-network-wired"></i>
-                <h3>Cisco (Redes e Infraestrutura)</h3>
             </div>
 
             <div class="table-container">
@@ -1689,27 +1111,36 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><i class="fas fa-network-wired vendor-icon"></i> Cisco Certified Network Associate (CCNA)</td>
+                            <td><i class="fas fa-shield-alt"></i> CompTIA Security+</td>
+                            <td><span class="cert-code">SY0-701</span></td>
+                            <td>Fundamentos de Segurança</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
+                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-redhat"></i> Red Hat Certified System Administrator</td>
+                            <td><span class="cert-code">EX200</span></td>
+                            <td>Administração Básica Linux</td>
+                            <td><span class="cert-level-badge level-associate">Associate</span></td>
+                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-network-wired"></i> Cisco CCNA</td>
                             <td><span class="cert-code">200-301</span></td>
                             <td>Redes Básicas</td>
                             <td><span class="cert-level-badge level-associate">Associate</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
                         <tr>
-                            <td><i class="fas fa-network-wired vendor-icon"></i> Cisco Certified Network Professional (CCNP) Enterprise</td>
-                            <td><span class="cert-code">350-401</span></td>
-                            <td>Redes Enterprise Avançadas</td>
-                            <td><span class="cert-level-badge level-expert">Professional</span></td>
+                            <td><i class="fas fa-cube"></i> ITIL 4 Foundation</td>
+                            <td><span class="cert-code">ITIL 4</span></td>
+                            <td>Gerenciamento de Serviços</td>
+                            <td><span class="cert-level-badge level-fundamentals">Foundation</span></td>
                             <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
                         </tr>
-                        <!-- Mais linhas... -->
                     </tbody>
                 </table>
             </div>
-            
-            <!-- Mais conteúdo de outras certificações (mantido do original) -->
-            <!-- ... -->
-            
         </div>
     </section>
 
@@ -1721,415 +1152,41 @@
                 <p>Trilhas de estudo estruturadas para diferentes carreiras em TI</p>
             </div>
 
-            <div class="roadmap-container">
-                <!-- Trilha Azure Administrator -->
-                <div class="roadmap-card">
-                    <h4><i class="fas fa-cloud"></i> Trilha Azure Administrator</h4>
-                    <ul class="roadmap-steps">
-                        <li>
-                            <span class="step-number">1</span>
-                            <div>
-                                <strong>AZ-900</strong> - Azure Fundamentals
-                                <br><small>Conceitos básicos de nuvem</small>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number">2</span>
-                            <div>
-                                <strong>AZ-104</strong> - Azure Administrator
-                                <br><small>Administração Azure</small>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="step-number">3</span>
-                            <div>
-                                <strong>AZ-305</strong> - Azure Solutions Architect Expert
-                                <br><small>Arquitetura de Soluções</small>
-                            </div>
-                        </li>
-                    </ul>
-                    <a href="#" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Iniciar Trilha</a>
-                </div>
-
-                <!-- Mais roadmaps... -->
-                <!-- ... -->
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- Forum Content -->
-    <section id="forum" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2><i class="fas fa-comments"></i> Fórum de Discussão</h2>
-                <p>Participe de discussões, tire dúvidas e compartilhe conhecimento</p>
-            </div>
-
-            <div class="forum-actions">
-                <div class="forum-search">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar no fórum...">
-                </div>
-                <button class="btn btn-primary" onclick="showToast('Funcionalidade em desenvolvimento!')">
-                    <i class="fas fa-plus"></i> Nova Discussão
-                </button>
-            </div>
-
-            <div class="forum-categories">
-                <h3>Categorias do Fórum</h3>
-                <ul class="category-list">
-                    <li>
-                        <a href="#">
-                            <span><i class="fas fa-cloud"></i> Cloud & Virtualização</span>
-                            <span class="category-count">128</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="fas fa-shield-alt"></i> Segurança & Cybersecurity</span>
-                            <span class="category-count">89</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="fas fa-network-wired"></i> Redes & Infraestrutura</span>
-                            <span class="category-count">76</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="fas fa-database"></i> Banco de Dados</span>
-                            <span class="category-count">54</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="fas fa-code"></i> Desenvolvimento</span>
-                            <span class="category-count">112</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="forum-posts">
-                <h3>Discussões Recentes</h3>
-                
-                <div class="post">
-                    <div class="post-header">
-                        <a href="#" class="post-title">Dúvida sobre preparação para AZ-104</a>
-                        <div class="post-meta">
-                            <span><i class="fas fa-user"></i> João Silva</span>
-                            <span><i class="far fa-clock"></i> 2 horas atrás</span>
-                        </div>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cloud"></i> Trilha Azure Administrator</h3>
                     </div>
-                    <div class="post-excerpt">
-                        Estou estudando para o exame AZ-104 e gostaria de recomendações de materiais além dos oficiais da Microsoft. Alguém tem dicas de laboratórios práticos?
+                    <div class="card-body">
+                        <ol>
+                            <li><strong>AZ-900</strong> - Azure Fundamentals</li>
+                            <li><strong>AZ-104</strong> - Azure Administrator</li>
+                            <li><strong>AZ-305</strong> - Solutions Architect Expert</li>
+                        </ol>
                     </div>
-                    <div class="post-footer">
-                        <div class="post-stats">
-                            <i class="fas fa-comment"></i> 12 respostas
-                        </div>
-                        <div class="post-stats">
-                            <i class="far fa-eye"></i> 245 visualizações
-                        </div>
-                        <div class="post-stats">
-                            <span class="badge badge-primary">Azure</span>
-                        </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Trilha</a>
                     </div>
                 </div>
 
-                <div class="post">
-                    <div class="post-header">
-                        <a href="#" class="post-title">Experiências com certificação CISSP</a>
-                        <div class="post-meta">
-                            <span><i class="fas fa-user"></i> Maria Santos</span>
-                            <span><i class="far fa-clock"></i> 1 dia atrás</span>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shield-alt"></i> Trilha Security</h3>
                     </div>
-                    <div class="post-excerpt">
-                        Compartilhe sua experiência com o exame CISSP. Quanto tempo de estudo foi necessário? Vale a pena o investimento?
+                    <div class="card-body">
+                        <ol>
+                            <li><strong>SC-900</strong> - Security Fundamentals</li>
+                            <li><strong>AZ-500</strong> - Azure Security Engineer</li>
+                            <li><strong>CISSP</strong> - Certified Information Systems Security Professional</li>
+                        </ol>
                     </div>
-                    <div class="post-footer">
-                        <div class="post-stats">
-                            <i class="fas fa-comment"></i> 28 respostas
-                        </div>
-                        <div class="post-stats">
-                            <i class="far fa-eye"></i> 512 visualizações
-                        </div>
-                        <div class="post-stats">
-                            <span class="badge badge-primary">Segurança</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post">
-                    <div class="post-header">
-                        <a href="#" class="post-title">Roadmap para carreira em DevOps</a>
-                        <div class="post-meta">
-                            <span><i class="fas fa-user"></i> Carlos Oliveira</span>
-                            <span><i class="far fa-clock"></i> 3 dias atrás</span>
-                        </div>
-                    </div>
-                    <div class="post-excerpt">
-                        Quais certificações são mais valorizadas para quem quer seguir carreira em DevOps? AWS, Azure, Kubernetes?
-                    </div>
-                    <div class="post-footer">
-                        <div class="post-stats">
-                            <i class="fas fa-comment"></i> 45 respostas
-                        </div>
-                        <div class="post-stats">
-                            <i class="far fa-eye"></i> 689 visualizações
-                        </div>
-                        <div class="post-stats">
-                            <span class="badge badge-primary">DevOps</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary new-post-btn">
-                <i class="fas fa-plus"></i> Criar Nova Discussão
-            </button>
-        </div>
-    </section>
-
-    <!-- Study Materials Content -->
-    <section id="materiais" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2><i class="fas fa-book"></i> Material de Estudo</h2>
-                <p>Recursos e materiais para auxiliar na sua preparação</p>
-            </div>
-
-            <div class="materials-grid">
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Guia AZ-900 Completo</h3>
-                        <p>Guia completo para a certificação Azure Fundamentals com exemplos práticos e dicas de estudo.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Azure</span>
-                            <span class="material-tag">Fundamentals</span>
-                            <span class="material-tag">PDF</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-download"></i> Baixar
-                        </a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Playlist Security+</h3>
-                        <p>Vídeo aulas cobrindo todos os objetivos do exame SY0-701 com demonstrações práticas.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Segurança</span>
-                            <span class="material-tag">CompTIA</span>
-                            <span class="material-tag">Vídeo</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Assistir
-                        </a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Resumos ITIL 4</h3>
-                        <p>Resumos visuais e mapas mentais para facilitar a memorização dos conceitos do ITIL 4.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Governança</span>
-                            <span class="material-tag">ITIL</span>
-                            <span class="material-tag">Resumo</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-eye"></i> Visualizar
-                        </a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Laboratórios Azure</h3>
-                        <p>Scripts e instruções para criar laboratórios práticos no Azure para estudo.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Azure</span>
-                            <span class="material-tag">Prática</span>
-                            <span class="material-tag">Scripts</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-code-branch"></i> Acessar
-                        </a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Banco de Questões</h3>
-                        <p>Mais de 500 questões comentadas de exames anteriores para prática.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Questões</span>
-                            <span class="material-tag">Prática</span>
-                            <span class="material-tag">Simulado</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-question"></i> Praticar
-                        </a>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="material-content">
-                        <h3>Plano de Estudo</h3>
-                        <p>Modelo de plano de estudo personalizável para organizar sua preparação.</p>
-                        <div class="material-tags">
-                            <span class="material-tag">Organização</span>
-                            <span class="material-tag">Plano</span>
-                            <span class="material-tag">Template</span>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-download"></i> Baixar
-                        </a>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Iniciar Trilha</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Simulados Content -->
-    <section id="simulados" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2><i class="fas fa-file-alt"></i> Simulados</h2>
-                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
-            </div>
-
-            <div class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Compartilhe Seu Simulado</h3>
-                <p>Ajude outros estudantes compartilhando simulados que você criou</p>
-                <button class="btn btn-primary" onclick="showToast('Funcionalidade em desenvolvimento!')">
-                    <i class="fas fa-upload"></i> Upload de Simulado
-                </button>
-            </div>
-
-            <div class="simulados-container">
-                <div class="simulado-card">
-                    <div class="simulado-badge">Disponível</div>
-                    <div class="simulado-header">
-                        <h3>Simulado AZ-900</h3>
-                        <p>Azure Fundamentals - 50 questões</p>
-                    </div>
-                    <div class="simulado-content">
-                        <div class="simulado-stats">
-                            <div class="stat">
-                                <span class="stat-value">50</span>
-                                <span class="stat-label">Questões</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">60</span>
-                                <span class="stat-label">Minutos</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">700</span>
-                                <span class="stat-label">Pontos</span>
-                            </div>
-                        </div>
-                        <p>Teste seus conhecimentos nos conceitos fundamentais do Azure.</p>
-                        <a href="#" class="btn btn-primary" onclick="showToast('Simulado iniciado!')">
-                            <i class="fas fa-play"></i> Iniciar Simulado
-                        </a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="simulado-badge">Disponível</div>
-                    <div class="simulado-header">
-                        <h3>Simulado Security+</h3>
-                        <p>SY0-701 - 85 questões</p>
-                    </div>
-                    <div class="simulado-content">
-                        <div class="simulado-stats">
-                            <div class="stat">
-                                <span class="stat-value">85</span>
-                                <span class="stat-label">Questões</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">90</span>
-                                <span class="stat-label">Minutos</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">900</span>
-                                <span class="stat-label">Pontos</span>
-                            </div>
-                        </div>
-                        <p>Questões baseadas nos objetivos oficiais do exame SY0-701.</p>
-                        <a href="#" class="btn btn-primary" onclick="showToast('Simulado iniciado!')">
-                            <i class="fas fa-play"></i> Iniciar Simulado
-                        </a>
-                    </div>
-                </div>
-
-                <div class="simulado-card">
-                    <div class="simulado-badge">Em Breve</div>
-                    <div class="simulado-header">
-                        <h3>Simulado AZ-104</h3>
-                        <p>Azure Administrator - 60 questões</p>
-                    </div>
-                    <div class="simulado-content">
-                        <div class="simulado-stats">
-                            <div class="stat">
-                                <span class="stat-value">60</span>
-                                <span class="stat-label">Questões</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">120</span>
-                                <span class="stat-label">Minutos</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">1000</span>
-                                <span class="stat-label">Pontos</span>
-                            </div>
-                        </div>
-                        <p>Prática avançada para a certificação de administrador do Azure.</p>
-                        <button class="btn btn-outline" style="width: 100%;" onclick="showToast('Em breve disponível!')">
-                            <i class="far fa-clock"></i> Em Breve
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <button class="show-simulados-btn" onclick="showToast('Mais simulados em breve!')">
-                    <i class="fas fa-plus"></i> Ver Mais Simulados
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage"></span>
-    </div>
 
     <!-- Footer -->
     <footer>
@@ -2149,24 +1206,18 @@
                 <div class="footer-column">
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links">
-                        <li><a href="#" data-target="home">Início</a></li>
-                        <li><a href="#" data-target="all-certs">Todas Certificações</a></li>
-                        <li><a href="#" data-target="microsoft">Microsoft</a></li>
-                        <li><a href="#" data-target="roadmaps">Roadmaps</a></li>
-                        <li><a href="#" data-target="forum">Fórum</a></li>
-                        <li><a href="#" data-target="materiais">Material</a></li>
-                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                        <li><a href="#" data-target="home"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="#" data-target="all-certs"><i class="fas fa-certificate"></i> Certificações</a></li>
+                        <li><a href="#" data-target="roadmaps"><i class="fas fa-map-signs"></i> Roadmaps</a></li>
+                        <li><a href="#" data-target="forum"><i class="fas fa-comments"></i> Fórum</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-column">
-                    <h3>Certificações</h3>
+                    <h3>Recursos</h3>
                     <ul class="footer-links">
-                        <li><a href="#" data-target="microsoft">Microsoft</a></li>
-                        <li><a href="#" data-target="other-certs">AWS & Google Cloud</a></li>
-                        <li><a href="#" data-target="other-certs">Linux & Red Hat</a></li>
-                        <li><a href="#" data-target="other-certs">Segurança</a></li>
-                        <li><a href="#" data-target="other-certs">Governança</a></li>
+                        <li><a href="#" data-target="materiais"><i class="fas fa-book"></i> Material de Estudo</a></li>
+                        <li><a href="#" data-target="simulados"><i class="fas fa-file-alt"></i> Simulados</a></li>
                     </ul>
                 </div>
 
@@ -2175,7 +1226,6 @@
                     <ul class="footer-links">
                         <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
                         <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
                     </ul>
                 </div>
             </div>
@@ -2185,6 +1235,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
 
     <script>
         // ========== BANCO DE DADOS SIMULADO ==========
@@ -2196,22 +1252,9 @@
                     email: 'admin@studycert.com',
                     password: 'admin123',
                     type: 'admin',
-                    status: 'active',
-                    createdAt: new Date().toISOString()
-                },
-                {
-                    id: 2,
-                    name: 'João Silva',
-                    email: 'joao@email.com',
-                    password: 'senha123',
-                    type: 'student',
-                    status: 'active',
-                    createdAt: new Date().toISOString()
+                    status: 'active'
                 }
-            ],
-            files: [],
-            videos: [],
-            materials: []
+            ]
         };
 
         let currentUser = null;
@@ -2236,39 +1279,32 @@
 
         // ========== FILTROS ==========
         function setupFilters() {
-            // Filtros Microsoft
             const microsoftFilters = document.querySelectorAll('#microsoftFilters .filter-tab');
             microsoftFilters.forEach(filter => {
                 filter.addEventListener('click', function() {
                     microsoftFilters.forEach(f => f.classList.remove('active'));
                     this.classList.add('active');
-                    
-                    const filterValue = this.getAttribute('data-filter');
-                    
-                    document.querySelectorAll('.category-header, .certification-table, .subcategory-title').forEach(element => {
-                        if (filterValue === 'all') {
-                            element.style.display = '';
-                        } else {
-                            const category = element.getAttribute('data-category');
-                            if (category && category.includes(filterValue)) {
-                                element.style.display = '';
-                            } else {
-                                element.style.display = 'none';
-                            }
-                        }
-                    });
+                    // Implementar lógica de filtragem aqui
                 });
             });
         }
 
         // ========== NAVEGAÇÃO ==========
         function setupEventListeners() {
-            // Navegação
-            document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target], .logo[data-target]').forEach(link => {
+            // Navegação principal
+            document.querySelectorAll('.nav-link, .footer-links a[data-target], .btn[data-target]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('data-target');
                     showSection(targetId);
+                    
+                    // Atualizar navegação ativa
+                    document.querySelectorAll('.nav-link').forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    if (targetId === 'home') {
+                        document.querySelector('.nav-link[data-target="home"]').classList.add('active');
+                    }
                     
                     if (window.innerWidth <= 768) {
                         document.getElementById('mainNav').classList.remove('active');
@@ -2281,62 +1317,59 @@
                 document.getElementById('mainNav').classList.toggle('active');
             });
             
-            // Fechar menu ao clicar em um link no mobile
-            document.querySelectorAll('#mainNav a').forEach(link => {
+            // Fechar menu ao clicar em um item (mobile)
+            document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', function() {
                     if (window.innerWidth <= 768) {
                         document.getElementById('mainNav').classList.remove('active');
                     }
                 });
             });
+            
+            // Botões de ação genéricos
+            document.querySelectorAll('.btn-primary:not([data-target])').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!currentUser) {
+                        showToast('Faça login para acessar este recurso', 'error');
+                    } else {
+                        showToast('Recurso acessado com sucesso!');
+                    }
+                });
+            });
         }
 
         function showSection(sectionId) {
-            // Atualizar navegação ativa
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-target') === sectionId) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Esconder todas as seções e mostrar a ativa
+            // Esconder todas as seções
             document.querySelectorAll('.main-content').forEach(section => {
                 section.classList.remove('active');
             });
             
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            } else {
-                // Se a seção não existir, mostrar home
-                document.getElementById('home').classList.add('active');
+            // Mostrar seção selecionada
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+                
+                // Rolar para o topo suavemente
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             }
-            
-            // Rolagem suave para o topo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ========== AUTENTICAÇÃO ==========
-        function showAuthModal() {
-            showToast('Sistema de login em desenvolvimento!', 'error');
-        }
-
         function fazerLogin() {
-            const email = 'demo@studycert.com';
-            const password = 'demo123';
-            
+            // Simulação de login
             currentUser = {
-                id: 999,
+                id: 2,
                 name: 'Usuário Demo',
-                email: email,
-                type: 'student',
-                status: 'active'
+                email: 'demo@studycert.com',
+                type: 'student'
             };
             
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            showToast('Login realizado com sucesso! Bem-vindo ao modo demo.');
+            showToast('Login realizado com sucesso!');
             updateAuthUI();
         }
 
@@ -2358,19 +1391,18 @@
                 userArea.innerHTML = `
                     <div class="user-info">
                         <div class="user-avatar">${initials}</div>
-                        <span class="user-name">${currentUser.name.split(' ')[0]}</span>
-                        ${isAdmin ? '<span class="badge badge-primary">Admin</span>' : ''}
+                        <span>Olá, ${currentUser.name.split(' ')[0]}</span>
                     </div>
                     <button class="btn btn-outline" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
+                        <i class="fas fa-sign-out-alt"></i>
                     </button>
                 `;
             } else {
                 userArea.innerHTML = `
                     <button class="btn btn-outline" onclick="fazerLogin()">
-                        <i class="fas fa-sign-in-alt"></i> Demo Login
+                        <i class="fas fa-sign-in-alt"></i> Entrar
                     </button>
-                    <button class="btn btn-primary" onclick="showAuthModal()">
+                    <button class="btn btn-primary" onclick="fazerLogin()">
                         <i class="fas fa-user-plus"></i> Cadastrar
                     </button>
                 `;
@@ -2391,9 +1423,15 @@
             }, 3000);
         }
 
-        // Fechar toast ao clicar
-        document.getElementById('toast')?.addEventListener('click', function() {
-            this.style.display = 'none';
+        // ========== ANIMAÇÕES ==========
+        document.querySelectorAll('.card, .cert-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
     </script>
 </body>
