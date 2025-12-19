@@ -16,10 +16,12 @@
             --light: #f7fafc;
             --dark: #2d3748;
             --gray: #a0aec0;
-            --transition: all 0.3s ease;
-            --radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 12px;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-hover: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -30,7 +32,7 @@
         }
 
         body {
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             color: #2d3748;
             line-height: 1.6;
             min-height: 100vh;
@@ -47,7 +49,7 @@
 
         /* ========== HEADER & NAVEGAÇÃO MODERNIZADA ========== */
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.95) 0%, rgba(45, 55, 72, 0.95) 100%);
             color: white;
             padding: 1rem 0;
             box-shadow: var(--shadow);
@@ -55,7 +57,7 @@
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background-color: rgba(26, 54, 93, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header-content {
@@ -71,29 +73,35 @@
             gap: 12px;
             text-decoration: none;
             color: white;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
         }
 
         .logo i {
             font-size: 2.2rem;
             color: var(--secondary);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
+            background: var(--glass);
+            padding: 12px;
             border-radius: 50%;
+            border: 1px solid rgba(49, 130, 206, 0.3);
         }
 
         .logo h1 {
             font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #fff, var(--secondary));
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #63b3ed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* NAVEGAÇÃO SIMPLIFICADA COM DROPDOWN */
+        /* NAVEGAÇÃO COM EFEITO DE VIDRO */
         nav {
             display: flex;
-            gap: 5px;
+            gap: 8px;
         }
 
         .nav-item {
@@ -104,67 +112,81 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.6rem 1.2rem;
+            padding: 0.7rem 1.3rem;
             border-radius: 30px;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--glass-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(49, 130, 206, 0.4);
         }
 
         .nav-link.active {
-            background: rgba(49, 130, 206, 0.3);
-            border: 1px solid rgba(49, 130, 206, 0.5);
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.3), rgba(99, 179, 237, 0.2));
+            border: 1px solid rgba(49, 130, 206, 0.4);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.2);
         }
 
-        /* Dropdown Menu */
+        /* Dropdown Menu - Efeito de Vidro */
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 5px);
             left: 0;
-            background: white;
-            min-width: 200px;
+            background: rgba(26, 54, 93, 0.95);
+            backdrop-filter: blur(20px);
+            min-width: 300px;
             border-radius: var(--radius);
             box-shadow: var(--shadow-hover);
-            z-index: 100;
+            z-index: 1000;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.3s ease;
         }
 
         .dropdown-content a {
-            color: var(--dark);
-            padding: 0.8rem 1rem;
+            color: white;
+            padding: 0.9rem 1.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
-            border-bottom: 1px solid #edf2f7;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
         }
 
         .dropdown-content a:hover {
-            background: #f7fafc;
-            color: var(--secondary);
-            padding-left: 1.2rem;
+            background: rgba(49, 130, 206, 0.2);
+            padding-left: 1.5rem;
+            transform: translateX(5px);
         }
 
         .dropdown-content a i {
             width: 20px;
+            text-align: center;
             color: var(--secondary);
+        }
+
+        .dropdown-content a .vendor-count {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .nav-item:hover .dropdown-content {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
         /* Área do usuário logado */
@@ -177,8 +199,18 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: white;
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .user-info:hover {
+            background: var(--glass-hover);
+            transform: translateY(-2px);
         }
 
         .user-avatar {
@@ -192,6 +224,7 @@
             font-weight: bold;
             color: white;
             font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);
         }
 
         .badge {
@@ -203,18 +236,18 @@
         }
 
         .badge-primary {
-            background: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary), #63b3ed);
             color: white;
         }
 
         .badge-success {
-            background: var(--success);
+            background: linear-gradient(135deg, var(--success), #48bb78);
             color: white;
         }
 
-        /* Botões redesenhados */
+        /* Botões com efeito de vidro */
         .btn {
-            padding: 0.6rem 1.5rem;
+            padding: 0.7rem 1.8rem;
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
@@ -224,43 +257,72 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--secondary), #63b3ed);
+            background: linear-gradient(135deg, var(--secondary), #4299e1);
             color: white;
-            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+            border: 1px solid rgba(49, 130, 206, 0.3);
         }
 
         .btn-primary:hover {
             background: linear-gradient(135deg, #2c5282, var(--secondary));
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(49, 130, 206, 0.4);
         }
 
         .btn-outline {
-            background: transparent;
+            background: var(--glass);
             border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
+            backdrop-filter: blur(10px);
         }
 
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
         }
 
         /* Menu mobile toggle */
         .menu-toggle {
             display: none;
-            background: none;
-            border: none;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background: var(--glass-hover);
+            transform: rotate(90deg);
         }
 
         /* ========== HERO SECTION ========== */
@@ -269,296 +331,305 @@
                         url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
-            padding: 6rem 0;
+            padding: 8rem 0;
             text-align: center;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(49, 130, 206, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(56, 161, 105, 0.2) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .hero h2 {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             margin-bottom: 1.5rem;
-            font-weight: 700;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            font-weight: 800;
             line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
+            font-size: 1.3rem;
+            margin: 0 auto 3rem;
             opacity: 0.9;
+            max-width: 700px;
         }
 
         /* ========== MAIN CONTENT ========== */
         .main-content {
             display: none;
-            padding: 3rem 0;
+            padding: 4rem 0;
             min-height: 60vh;
             flex: 1;
         }
 
         .main-content.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.8s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
         }
 
         .section-title h2 {
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
             color: var(--primary);
             position: relative;
             display: inline-block;
+            font-weight: 700;
         }
 
         .section-title h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--secondary);
-            border-radius: 3px;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            border-radius: 2px;
         }
 
         .section-title p {
             color: var(--gray);
             max-width: 600px;
-            margin: 1.5rem auto 0;
+            margin: 2rem auto 0;
             font-size: 1.1rem;
+            line-height: 1.8;
         }
 
-        /* ========== CARDS MODERNOS ========== */
+        /* ========== CARDS MODERNOS COM EFEITO DE VIDRO ========== */
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
         }
 
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            z-index: 2;
         }
 
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--shadow-hover);
+            border-color: rgba(49, 130, 206, 0.3);
         }
 
         .card-header {
-            padding: 1.5rem;
+            padding: 1.8rem;
             background: linear-gradient(135deg, var(--primary), var(--dark));
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
         }
 
         .card-header h3 {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
         }
 
         .card-body {
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .card-footer {
-            padding: 1rem 1.5rem;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
+            padding: 1.5rem 2rem;
+            background: rgba(247, 250, 252, 0.8);
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
         }
+
+        /* ========== VENDOR BADGES ========== */
+        .vendor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .microsoft-badge { background: linear-gradient(135deg, #0078d4, #00bcf2); }
+        .aws-badge { background: linear-gradient(135deg, #ff9900, #ff6b00); }
+        .google-badge { background: linear-gradient(135deg, #4285f4, #34a853); }
+        .cisco-badge { background: linear-gradient(135deg, #1ba0d7, #005073); }
+        .comptia-badge { background: linear-gradient(135deg, #e33126, #f29100); }
+        .linux-badge { background: linear-gradient(135deg, #fcc624, #a51c30); }
+        .pmi-badge { background: linear-gradient(135deg, #006bb6, #004c8c); }
+        .iso-badge { background: linear-gradient(135deg, #0033a0, #0050b3); }
 
         /* ========== CERTIFICAÇÕES GRID ========== */
         .certifications-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
         }
 
         .cert-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
         }
 
         .cert-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--shadow-hover);
         }
 
         .cert-icon {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-icon::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
         }
 
         .cert-content {
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .cert-content h3 {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
         }
 
         .cert-content p {
             color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
         .cert-level {
             display: inline-block;
             background: linear-gradient(135deg, var(--secondary), #63b3ed);
             color: white;
-            padding: 0.3rem 1rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
             font-weight: 600;
-        }
-
-        /* ========== FILTROS ========== */
-        .filter-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 2rem 0;
-            justify-content: center;
-        }
-
-        .filter-tab {
-            padding: 0.7rem 1.5rem;
-            background: rgba(49, 130, 206, 0.1);
-            border: 2px solid transparent;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            color: var(--secondary);
-        }
-
-        .filter-tab:hover {
-            background: rgba(49, 130, 206, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .filter-tab.active {
-            background: var(--secondary);
-            color: white;
-            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
-        }
-
-        /* ========== TABELAS ========== */
-        .table-container {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            background: white;
-            border: 1px solid #e2e8f0;
-        }
-
-        .certification-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        .certification-table th {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: white;
-            padding: 1.2rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-        }
-
-        .certification-table td {
-            padding: 1.2rem 1rem;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        .certification-table tr:hover {
-            background-color: #f7fafc;
-        }
-
-        .certification-table .cert-code {
-            font-family: 'JetBrains Mono', monospace;
-            background: #edf2f7;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--primary);
-        }
-
-        .cert-level-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .level-fundamentals { 
-            background: linear-gradient(135deg, #4299e1, #63b3ed); 
-        }
-        .level-associate { 
-            background: linear-gradient(135deg, #38a169, #48bb78); 
-        }
-        .level-expert { 
-            background: linear-gradient(135deg, #805ad5, #9f7aea); 
-        }
-        .level-specialty { 
-            background: linear-gradient(135deg, #d69e2e, #ecc94b); 
+            box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
         }
 
         /* ========== FOOTER ========== */
         footer {
             background: linear-gradient(135deg, var(--primary) 0%, #2d3748 100%);
             color: white;
-            padding: 3rem 0 1.5rem;
+            padding: 4rem 0 2rem;
             margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
         .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
+            margin-bottom: 1.8rem;
+            font-size: 1.3rem;
             position: relative;
-            padding-bottom: 0.8rem;
+            padding-bottom: 1rem;
+            font-weight: 600;
         }
 
         .footer-column h3::after {
@@ -567,8 +638,9 @@
             bottom: 0;
             left: 0;
             width: 50px;
-            height: 2px;
+            height: 3px;
             background: var(--secondary);
+            border-radius: 2px;
         }
 
         .footer-links {
@@ -576,7 +648,7 @@
         }
 
         .footer-links li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .footer-links a {
@@ -585,12 +657,12 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .footer-links a:hover {
             color: var(--secondary);
-            padding-left: 5px;
+            padding-left: 8px;
         }
 
         .social-links {
@@ -603,22 +675,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             color: white;
             transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-links a:hover {
             background: var(--secondary);
-            transform: translateY(-3px);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
         }
 
         .copyright {
             text-align: center;
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #a0aec0;
             font-size: 0.9rem;
@@ -631,16 +705,16 @@
             }
             
             nav {
-                gap: 3px;
+                gap: 5px;
             }
             
             .nav-link {
-                padding: 0.5rem 1rem;
+                padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
             
             .hero h2 {
-                font-size: 2.3rem;
+                font-size: 2.5rem;
             }
         }
 
@@ -658,18 +732,20 @@
                 width: 100%;
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.3s ease;
+                transition: max-height 0.4s ease;
                 order: 3;
                 flex-direction: column;
                 margin-top: 1rem;
                 background: rgba(26, 54, 93, 0.95);
+                backdrop-filter: blur(20px);
                 border-radius: var(--radius);
                 padding: 1rem;
                 gap: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             nav.active {
-                max-height: 500px;
+                max-height: 600px;
             }
 
             .nav-item {
@@ -684,14 +760,10 @@
             .dropdown-content {
                 position: static;
                 box-shadow: none;
-                background: rgba(255, 255, 255, 0.05);
+                background: rgba(49, 130, 206, 0.1);
                 margin-top: 10px;
                 border-radius: var(--radius);
-            }
-
-            .dropdown-content a {
-                color: white;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             .user-area {
@@ -699,16 +771,20 @@
                 margin-left: auto;
             }
 
+            .user-info span:not(.badge) {
+                display: none;
+            }
+
             .hero {
-                padding: 4rem 0;
+                padding: 5rem 0;
             }
 
             .hero h2 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
 
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             .cards-container,
@@ -716,20 +792,18 @@
                 grid-template-columns: 1fr;
             }
             
-            .filter-tabs {
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding-bottom: 10px;
+            .section-title h2 {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 480px) {
             .hero {
-                padding: 3rem 0;
+                padding: 4rem 0;
             }
             
             .hero h2 {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
             
             .section-title h2 {
@@ -741,8 +815,13 @@
             }
             
             .btn {
-                padding: 0.5rem 1rem;
+                padding: 0.6rem 1.2rem;
                 font-size: 0.9rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
 
@@ -755,23 +834,36 @@
         /* ========== TOAST NOTIFICATION ========== */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
+            bottom: 25px;
+            right: 25px;
+            padding: 1.2rem 1.8rem;
             background: linear-gradient(135deg, var(--success), #48bb78);
             color: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow-hover);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             z-index: 10000;
-            animation: slideInRight 0.3s ease;
+            animation: slideInRight 0.4s ease;
             display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .toast.error {
             background: linear-gradient(135deg, var(--accent), #fc8181);
+        }
+
+        /* ========== PULSE ANIMATION ========== */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
@@ -796,14 +888,44 @@
                         </a>
                     </div>
                     
+                    <!-- Menu Dropdown de Certificações -->
                     <div class="nav-item">
-                        <a href="#" class="nav-link" data-target="all-certs">
+                        <a href="#" class="nav-link" data-target="certificacoes">
                             <i class="fas fa-certificate"></i> Certificações
                         </a>
                         <div class="dropdown-content">
-                            <a href="#" data-target="microsoft"><i class="fab fa-microsoft"></i> Microsoft</a>
-                            <a href="#" data-target="other-certs"><i class="fas fa-network-wired"></i> Outras</a>
-                            <a href="#" data-target="roadmaps"><i class="fas fa-map-signs"></i> Roadmaps</a>
+                            <a href="#" data-target="microsoft">
+                                <i class="fab fa-microsoft"></i> Microsoft
+                                <span class="vendor-count">25+</span>
+                            </a>
+                            <a href="#" data-target="aws">
+                                <i class="fab fa-aws"></i> Amazon AWS
+                                <span class="vendor-count">15+</span>
+                            </a>
+                            <a href="#" data-target="google">
+                                <i class="fab fa-google"></i> Google Cloud
+                                <span class="vendor-count">12+</span>
+                            </a>
+                            <a href="#" data-target="cisco">
+                                <i class="fas fa-network-wired"></i> Cisco
+                                <span class="vendor-count">10+</span>
+                            </a>
+                            <a href="#" data-target="comptia">
+                                <i class="fas fa-shield-alt"></i> CompTIA
+                                <span class="vendor-count">8+</span>
+                            </a>
+                            <a href="#" data-target="linux">
+                                <i class="fab fa-linux"></i> Linux & Red Hat
+                                <span class="vendor-count">6+</span>
+                            </a>
+                            <a href="#" data-target="pmi">
+                                <i class="fas fa-project-diagram"></i> PMI & Scrum
+                                <span class="vendor-count">5+</span>
+                            </a>
+                            <a href="#" data-target="iso">
+                                <i class="fas fa-certificate"></i> ISO & Governança
+                                <span class="vendor-count">4+</span>
+                            </a>
                         </div>
                     </div>
                     
@@ -836,9 +958,13 @@
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="container">
-            <h2>Prepare-se para suas Certificações de TI</h2>
-            <p>Explore +150 certificações organizadas por trilhas de carreira e nível de experiência</p>
-            <a href="#" class="btn btn-primary" data-target="roadmaps">Ver Roadmaps Recomendados</a>
+            <div class="hero-content">
+                <h2>Prepare-se para suas Certificações de TI</h2>
+                <p>Explore +150 certificações de +20 fabricantes. Material de estudo, fórum comunitário e simulados para sua preparação completa.</p>
+                <a href="#" class="btn btn-primary pulse" data-target="certificacoes">
+                    <i class="fas fa-rocket"></i> Explorar Certificações
+                </a>
+            </div>
         </div>
     </section>
 
@@ -857,6 +983,10 @@
                     </div>
                     <div class="card-body">
                         <p>Participe de discussões, tire dúvidas e compartilhe conhecimento com outros profissionais de TI.</p>
+                        <div class="stats">
+                            <div><i class="fas fa-users"></i> 5,000+ Membros</div>
+                            <div><i class="fas fa-comment"></i> 12,000+ Discussões</div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-primary" data-target="forum">Acessar Fórum</a>
@@ -869,6 +999,10 @@
                     </div>
                     <div class="card-body">
                         <p>Acesse guias, resumos, videoaulas e outros recursos para sua preparação.</p>
+                        <div class="stats">
+                            <div><i class="fas fa-file-pdf"></i> 500+ Materiais</div>
+                            <div><i class="fas fa-video"></i> 200+ Videoaulas</div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-primary" data-target="materiais">Ver Materiais</a>
@@ -881,6 +1015,10 @@
                     </div>
                     <div class="card-body">
                         <p>Teste seus conhecimentos com nossos simulados e acompanhe seu progresso.</p>
+                        <div class="stats">
+                            <div><i class="fas fa-question-circle"></i> 10,000+ Questões</div>
+                            <div><i class="fas fa-chart-line"></i> Progresso Detalhado</div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-primary" data-target="simulados">Ver Simulados</a>
@@ -889,8 +1027,8 @@
             </div>
 
             <div class="section-title">
-                <h2>Certificações em Destaque</h2>
-                <p>As certificações mais relevantes do mercado de TI</p>
+                <h2>Fabricantes em Destaque</h2>
+                <p>Certificações das principais empresas de tecnologia</p>
             </div>
 
             <div class="certifications-grid">
@@ -899,9 +1037,10 @@
                         <i class="fab fa-microsoft"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>Azure Fundamentals</h3>
-                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
+                        <span class="vendor-badge microsoft-badge">Microsoft</span>
+                        <h3>Azure Solutions Architect Expert</h3>
+                        <p>AZ-305: Projetar soluções que executem na Azure.</p>
+                        <span class="cert-level">Expert</span>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
@@ -911,9 +1050,10 @@
                         <i class="fab fa-aws"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-level">Cloud</span>
-                        <h3>AWS Cloud Practitioner</h3>
-                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
+                        <span class="vendor-badge aws-badge">Amazon AWS</span>
+                        <h3>AWS Solutions Architect</h3>
+                        <p>SAA-C03: Projetar e implantar sistemas escaláveis na AWS.</p>
+                        <span class="cert-level">Associate</span>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
@@ -923,21 +1063,23 @@
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-level">Segurança</span>
+                        <span class="vendor-badge comptia-badge">CompTIA</span>
                         <h3>Security+</h3>
-                        <p>CompTIA Security+: Fundamentos de cybersecurity.</p>
+                        <p>SY0-701: Fundamentos de cybersecurity e operações de segurança.</p>
+                        <span class="cert-level">Foundation</span>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
                 <div class="cert-card">
                     <div class="cert-icon">
-                        <i class="fas fa-cube"></i>
+                        <i class="fab fa-linux"></i>
                     </div>
                     <div class="cert-content">
-                        <span class="cert-level">Governança</span>
-                        <h3>ITIL 4 Foundation</h3>
-                        <p>Framework de gerenciamento de serviços de TI.</p>
+                        <span class="vendor-badge linux-badge">Linux</span>
+                        <h3>LPIC-1</h3>
+                        <p>Linux Administrator: Fundamentos de administração Linux.</p>
+                        <span class="cert-level">Associate</span>
                         <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
@@ -946,247 +1088,390 @@
     </section>
 
     <!-- Todas as Certificações -->
-    <section id="all-certs" class="main-content">
+    <section id="certificacoes" class="main-content">
         <div class="container">
             <div class="section-title">
                 <h2><i class="fas fa-certificate"></i> Todas as Certificações</h2>
-                <p>Explore todas as certificações disponíveis por categoria e fabricante</p>
+                <p>Selecione um fabricante para ver todas as certificações disponíveis</p>
             </div>
 
             <div class="cards-container">
-                <div class="card">
+                <!-- Microsoft -->
+                <div class="card" onclick="showSection('microsoft')" style="cursor: pointer;">
                     <div class="card-header">
                         <h3><i class="fab fa-microsoft"></i> Microsoft</h3>
                     </div>
                     <div class="card-body">
-                        <p>Certificações Microsoft organizadas por nível:</p>
+                        <p>Certificações de cloud, segurança, dados e produtividade:</p>
                         <ul>
-                            <li>Fundamentals (900 series)</li>
-                            <li>Associate (100-400 series)</li>
-                            <li>Expert (500-600 series)</li>
-                            <li>Specialty</li>
+                            <li>Azure Fundamentals (AZ-900)</li>
+                            <li>Azure Administrator (AZ-104)</li>
+                            <li>Azure Solutions Architect (AZ-305)</li>
+                            <li>Security Operations (SC-200)</li>
+                            <li>Data Engineer (DP-203)</li>
                         </ul>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="microsoft">Ver Todas</a>
+                        <span class="badge badge-primary">25+ Certificações</span>
                     </div>
                 </div>
 
-                <div class="card">
+                <!-- AWS -->
+                <div class="card" onclick="showSection('aws')" style="cursor: pointer;">
                     <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Segurança</h3>
+                        <h3><i class="fab fa-aws"></i> Amazon AWS</h3>
                     </div>
                     <div class="card-body">
-                        <p>Certificações de cybersecurity e segurança:</p>
+                        <p>Certificações de cloud computing e arquitetura:</p>
                         <ul>
-                            <li>CompTIA Security+</li>
-                            <li>CISSP</li>
-                            <li>CEH</li>
-                            <li>CISM</li>
+                            <li>Cloud Practitioner</li>
+                            <li>Solutions Architect Associate</li>
+                            <li>Solutions Architect Professional</li>
+                            <li>DevOps Engineer</li>
+                            <li>Security Specialty</li>
                         </ul>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="other-certs">Ver Todas</a>
+                        <span class="badge badge-primary">15+ Certificações</span>
                     </div>
                 </div>
 
-                <div class="card">
+                <!-- Google Cloud -->
+                <div class="card" onclick="showSection('google')" style="cursor: pointer;">
                     <div class="card-header">
-                        <h3><i class="fab fa-linux"></i> Linux & Sistemas</h3>
+                        <h3><i class="fab fa-google"></i> Google Cloud</h3>
                     </div>
                     <div class="card-body">
-                        <p>Certificações de sistemas operacionais:</p>
+                        <p>Certificações de cloud, dados e machine learning:</p>
                         <ul>
-                            <li>LPIC-1 / LPIC-2</li>
-                            <li>RHCSA / RHCE</li>
-                            <li>CompTIA Linux+</li>
+                            <li>Cloud Digital Leader</li>
+                            <li>Cloud Engineer</li>
+                            <li>Cloud Architect</li>
+                            <li>Data Engineer</li>
+                            <li>Machine Learning Engineer</li>
                         </ul>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary" data-target="other-certs">Ver Todas</a>
+                        <span class="badge badge-primary">12+ Certificações</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Microsoft Certifications Detalhadas -->
+    <!-- Microsoft Certifications -->
     <section id="microsoft" class="main-content">
         <div class="container">
             <div class="section-title">
-                <h2><i class="fab fa-microsoft"></i> Microsoft Certification Path</h2>
-                <p>Todas as certificações Microsoft organizadas por trilha e nível</p>
+                <h2><i class="fab fa-microsoft"></i> Microsoft Certifications</h2>
+                <p>Certificações Microsoft organizadas por trilha e nível</p>
             </div>
 
-            <!-- Filtros -->
-            <div class="filter-tabs" id="microsoftFilters">
-                <button class="filter-tab active" data-filter="all">Todas</button>
-                <button class="filter-tab" data-filter="fundamentals">Fundamentals</button>
-                <button class="filter-tab" data-filter="associate">Associate</button>
-                <button class="filter-tab" data-filter="expert">Expert</button>
-                <button class="filter-tab" data-filter="azure">Azure</button>
-                <button class="filter-tab" data-filter="security">Security</button>
-                <button class="filter-tab" data-filter="data">Data & AI</button>
-            </div>
-
-            <!-- Tabela de Certificações Microsoft -->
-            <div class="table-container">
-                <table class="certification-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Foco</th>
-                            <th>Nível</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Azure Fundamentals</td>
-                            <td><span class="cert-code">AZ-900</span></td>
-                            <td>Conceitos básicos de nuvem Azure</td>
-                            <td><span class="cert-level-badge level-fundamentals">Fundamentals</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Azure Administrator Associate</td>
-                            <td><span class="cert-code">AZ-104</span></td>
-                            <td>Administração Azure</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Azure Solutions Architect Expert</td>
-                            <td><span class="cert-code">AZ-305</span></td>
-                            <td>Arquitetura de Soluções</td>
-                            <td><span class="cert-level-badge level-expert">Expert</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Security Operations Analyst Associate</td>
-                            <td><span class="cert-code">SC-200</span></td>
-                            <td>Microsoft Sentinel/Defender</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Data Analyst Associate</td>
-                            <td><span class="cert-code">PL-300</span></td>
-                            <td>Análise de Dados Power BI</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-microsoft"></i> Azure AI Engineer Associate</td>
-                            <td><span class="cert-code">AI-102</span></td>
-                            <td>Inteligência Artificial</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Outras Certificações -->
-    <section id="other-certs" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2><i class="fas fa-certificate"></i> Outras Certificações de TI</h2>
-                <p>Certificações de outros fabricantes e organizações</p>
-            </div>
-
-            <div class="table-container">
-                <table class="certification-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Foco</th>
-                            <th>Nível</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-shield-alt"></i> CompTIA Security+</td>
-                            <td><span class="cert-code">SY0-701</span></td>
-                            <td>Fundamentos de Segurança</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-redhat"></i> Red Hat Certified System Administrator</td>
-                            <td><span class="cert-code">EX200</span></td>
-                            <td>Administração Básica Linux</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-network-wired"></i> Cisco CCNA</td>
-                            <td><span class="cert-code">200-301</span></td>
-                            <td>Redes Básicas</td>
-                            <td><span class="cert-level-badge level-associate">Associate</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-cube"></i> ITIL 4 Foundation</td>
-                            <td><span class="cert-code">ITIL 4</span></td>
-                            <td>Gerenciamento de Serviços</td>
-                            <td><span class="cert-level-badge level-fundamentals">Foundation</span></td>
-                            <td><a href="#" class="btn btn-primary btn-sm">Estudar</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção Roadmaps -->
-    <section id="roadmaps" class="main-content">
-        <div class="container">
-            <div class="section-title">
-                <h2><i class="fas fa-map-signs"></i> Roadmaps Recomendados</h2>
-                <p>Trilhas de estudo estruturadas para diferentes carreiras em TI</p>
-            </div>
-
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-cloud"></i> Trilha Azure Administrator</h3>
+            <div class="certifications-grid">
+                <!-- Fundamentals -->
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <div class="card-body">
-                        <ol>
-                            <li><strong>AZ-900</strong> - Azure Fundamentals</li>
-                            <li><strong>AZ-104</strong> - Azure Administrator</li>
-                            <li><strong>AZ-305</strong> - Solutions Architect Expert</li>
-                        </ol>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Trilha</a>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Fundamentals</span>
+                        <h3>Azure Fundamentals</h3>
+                        <p>AZ-900: Conceitos fundamentais de nuvem e serviços Azure.</p>
+                        <span class="cert-level">Fundamentals</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-shield-alt"></i> Trilha Security</h3>
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <div class="card-body">
-                        <ol>
-                            <li><strong>SC-900</strong> - Security Fundamentals</li>
-                            <li><strong>AZ-500</strong> - Azure Security Engineer</li>
-                            <li><strong>CISSP</strong> - Certified Information Systems Security Professional</li>
-                        </ol>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Fundamentals</span>
+                        <h3>Security, Compliance, Identity</h3>
+                        <p>SC-900: Conceitos fundamentais de segurança, conformidade e identidade.</p>
+                        <span class="cert-level">Fundamentals</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Iniciar Trilha</a>
+                </div>
+
+                <!-- Associate -->
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Associate</span>
+                        <h3>Azure Administrator</h3>
+                        <p>AZ-104: Implementar, gerenciar e monitorar recursos Azure.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Associate</span>
+                        <h3>Azure Developer</h3>
+                        <p>AZ-204: Desenvolver soluções para o Microsoft Azure.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Expert -->
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-archway"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Expert</span>
+                        <h3>Azure Solutions Architect</h3>
+                        <p>AZ-305: Projetar soluções que executem na Azure.</p>
+                        <span class="cert-level">Expert</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Expert</span>
+                        <h3>Cybersecurity Architect</h3>
+                        <p>SC-100: Projetar arquiteturas de segurança para soluções Microsoft.</p>
+                        <span class="cert-level">Expert</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Security</span>
+                        <h3>Azure Security Engineer</h3>
+                        <p>AZ-500: Implementar controles de segurança e proteção de ameaças.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge microsoft-badge">Security</span>
+                        <h3>Identity and Access Administrator</h3>
+                        <p>SC-300: Implementar soluções de identidade e acesso.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- AWS Certifications -->
+    <section id="aws" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fab fa-aws"></i> AWS Certifications</h2>
+                <p>Certificações Amazon Web Services organizadas por nível</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Foundational</span>
+                        <h3>AWS Cloud Practitioner</h3>
+                        <p>Fundamentos da AWS e conceitos de computação em nuvem.</p>
+                        <span class="cert-level">Foundational</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-archway"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Associate</span>
+                        <h3>AWS Solutions Architect</h3>
+                        <p>SAA-C03: Projetar e implantar sistemas escaláveis na AWS.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Associate</span>
+                        <h3>AWS SysOps Administrator</h3>
+                        <p>SOA-C02: Implantar, gerenciar e operar cargas de trabalho na AWS.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Associate</span>
+                        <h3>AWS Developer</h3>
+                        <p>DVA-C02: Desenvolver e manter aplicações na AWS.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Specialty</span>
+                        <h3>AWS Security Specialty</h3>
+                        <p>SCS-C01: Especialização em segurança e conformidade na AWS.</p>
+                        <span class="cert-level">Specialty</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge aws-badge">Specialty</span>
+                        <h3>AWS Database Specialty</h3>
+                        <p>DBS-C01: Especialização em bancos de dados na AWS.</p>
+                        <span class="cert-level">Specialty</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Cloud Certifications -->
+    <section id="google" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fab fa-google"></i> Google Cloud Certifications</h2>
+                <p>Certificações Google Cloud Platform</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge google-badge">Fundamental</span>
+                        <h3>Cloud Digital Leader</h3>
+                        <p>Conceitos fundamentais de cloud e serviços Google Cloud.</p>
+                        <span class="cert-level">Fundamental</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge google-badge">Associate</span>
+                        <h3>Cloud Engineer</h3>
+                        <p>Implantar, gerenciar e operar infraestrutura no Google Cloud.</p>
+                        <span class="cert-level">Associate</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-archway"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge google-badge">Professional</span>
+                        <h3>Cloud Architect</h3>
+                        <p>Projetar, desenvolver e gerenciar soluções no Google Cloud.</p>
+                        <span class="cert-level">Professional</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="cert-content">
+                        <span class="vendor-badge google-badge">Professional</span>
+                        <h3>Data Engineer</h3>
+                        <p>Projetar e construir sistemas de processamento de dados.</p>
+                        <span class="cert-level">Professional</span>
+                        <a href="#" class="btn btn-primary">Estudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- (Manter as outras seções: Forum, Materiais, Simulados) -->
+    <!-- Forum Content -->
+    <section id="forum" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-comments"></i> Fórum de Discussão</h2>
+                <p>Conecte-se com outros profissionais, tire dúvidas e compartilhe conhecimento</p>
+            </div>
+            <!-- Conteúdo do fórum aqui -->
+        </div>
+    </section>
+
+    <!-- Study Materials Content -->
+    <section id="materiais" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-book"></i> Material de Estudo</h2>
+                <p>Recursos selecionados para sua preparação</p>
+            </div>
+            <!-- Conteúdo de materiais aqui -->
+        </div>
+    </section>
+
+    <!-- Simulados Content -->
+    <section id="simulados" class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-file-alt"></i> Simulados</h2>
+                <p>Teste seus conhecimentos e acompanhe seu progresso</p>
+            </div>
+            <!-- Conteúdo de simulados aqui -->
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1194,7 +1479,7 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>StudyCert</h3>
-                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação. Explore +150 certificações de +20 fabricantes.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -1207,17 +1492,21 @@
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links">
                         <li><a href="#" data-target="home"><i class="fas fa-home"></i> Início</a></li>
-                        <li><a href="#" data-target="all-certs"><i class="fas fa-certificate"></i> Certificações</a></li>
-                        <li><a href="#" data-target="roadmaps"><i class="fas fa-map-signs"></i> Roadmaps</a></li>
+                        <li><a href="#" data-target="certificacoes"><i class="fas fa-certificate"></i> Certificações</a></li>
                         <li><a href="#" data-target="forum"><i class="fas fa-comments"></i> Fórum</a></li>
+                        <li><a href="#" data-target="materiais"><i class="fas fa-book"></i> Material</a></li>
+                        <li><a href="#" data-target="simulados"><i class="fas fa-file-alt"></i> Simulados</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-column">
-                    <h3>Recursos</h3>
+                    <h3>Fabricantes</h3>
                     <ul class="footer-links">
-                        <li><a href="#" data-target="materiais"><i class="fas fa-book"></i> Material de Estudo</a></li>
-                        <li><a href="#" data-target="simulados"><i class="fas fa-file-alt"></i> Simulados</a></li>
+                        <li><a href="#" data-target="microsoft"><i class="fab fa-microsoft"></i> Microsoft</a></li>
+                        <li><a href="#" data-target="aws"><i class="fab fa-aws"></i> Amazon AWS</a></li>
+                        <li><a href="#" data-target="google"><i class="fab fa-google"></i> Google Cloud</a></li>
+                        <li><a href="#" data-target="cisco"><i class="fas fa-network-wired"></i> Cisco</a></li>
+                        <li><a href="#" data-target="comptia"><i class="fas fa-shield-alt"></i> CompTIA</a></li>
                     </ul>
                 </div>
 
@@ -1226,6 +1515,7 @@
                     <ul class="footer-links">
                         <li><i class="fas fa-envelope"></i> contato@studyCert.com</li>
                         <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
                     </ul>
                 </div>
             </div>
@@ -1235,12 +1525,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage"></span>
-    </div>
 
     <script>
         // ========== BANCO DE DADOS SIMULADO ==========
@@ -1265,7 +1549,7 @@
             initApp();
             setupEventListeners();
             updateAuthUI();
-            setupFilters();
+            setupDropdowns();
         });
 
         function initApp() {
@@ -1277,15 +1561,14 @@
             }
         }
 
-        // ========== FILTROS ==========
-        function setupFilters() {
-            const microsoftFilters = document.querySelectorAll('#microsoftFilters .filter-tab');
-            microsoftFilters.forEach(filter => {
-                filter.addEventListener('click', function() {
-                    microsoftFilters.forEach(f => f.classList.remove('active'));
-                    this.classList.add('active');
-                    // Implementar lógica de filtragem aqui
-                });
+        function setupDropdowns() {
+            // Fechar dropdowns ao clicar fora
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-item')) {
+                    document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                        dropdown.style.display = 'none';
+                    });
+                }
             });
         }
 
@@ -1302,8 +1585,17 @@
                     document.querySelectorAll('.nav-link').forEach(nav => {
                         nav.classList.remove('active');
                     });
-                    if (targetId === 'home') {
-                        document.querySelector('.nav-link[data-target="home"]').classList.add('active');
+                    
+                    if (this.classList.contains('nav-link')) {
+                        this.classList.add('active');
+                    } else {
+                        // Encontrar o nav-link correspondente
+                        const correspondingNav = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+                        if (correspondingNav) {
+                            correspondingNav.classList.add('active');
+                        } else {
+                            document.querySelector('.nav-link[data-target="home"]')?.classList.add('active');
+                        }
                     }
                     
                     if (window.innerWidth <= 768) {
@@ -1350,11 +1642,20 @@
             if (section) {
                 section.classList.add('active');
                 
+                // Animação de entrada
+                section.style.animation = 'none';
+                setTimeout(() => {
+                    section.style.animation = 'fadeIn 0.8s ease';
+                }, 10);
+                
                 // Rolar para o topo suavemente
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
+            } else {
+                // Se não encontrar, mostrar home
+                document.getElementById('home').classList.add('active');
             }
         }
 
@@ -1392,6 +1693,7 @@
                     <div class="user-info">
                         <div class="user-avatar">${initials}</div>
                         <span>Olá, ${currentUser.name.split(' ')[0]}</span>
+                        ${isAdmin ? '<span class="badge badge-primary">Admin</span>' : ''}
                     </div>
                     <button class="btn btn-outline" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i>
@@ -1423,15 +1725,59 @@
             }, 3000);
         }
 
-        // ========== ANIMAÇÕES ==========
+        // ========== EFEITOS VISUAIS ==========
+        // Efeito de hover nos cards
         document.querySelectorAll('.card, .cert-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
             });
             
             card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = 'var(--shadow)';
             });
+        });
+
+        // Efeito de digitação no hero
+        const heroTitle = document.querySelector('.hero h2');
+        if (heroTitle) {
+            const originalText = heroTitle.textContent;
+            heroTitle.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    heroTitle.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            setTimeout(typeWriter, 500);
+        }
+
+        // Animar elementos ao scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar todos os cards
+        document.querySelectorAll('.card, .cert-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
         });
     </script>
 </body>
