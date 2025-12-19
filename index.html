@@ -92,57 +92,160 @@
             color: var(--secondary);
         }
 
-        /* NAVEGAÇÃO CORRIGIDA - EFEITO SEPARADO POR BOTÃO */
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 1rem;
-        }
+       /* NAVEGAÇÃO CORRIGIDA - EFEITO SEPARADO POR BOTÃO */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            position: relative;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    position: relative;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        /* CORREÇÃO: Efeito de barra azul corrigido */
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--secondary);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
+/* CORREÇÃO: Efeito de barra azul corrigido */
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: var(--secondary);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
 
-        nav a:hover::after {
-            width: 70%;
-        }
+nav a:hover::after {
+    width: 70%;
+}
 
-        nav a.active::after {
-            width: 70%;
-            background: var(--success);
-        }
+nav a.active::after {
+    width: 70%;
+    background: var(--success);
+}
 
-        nav a:hover {
-            color: var(--secondary);
-            transform: translateY(-2px);
-        }
+nav a:hover {
+    color: var(--secondary);
+    transform: translateY(-2px);
+}
 
-        nav a.active {
-            color: var(--secondary);
-        }
+nav a.active {
+    color: var(--secondary);
+}
+        /* EFEITOS AVANÇADOS NOS BOTÕES DA NAVEGAÇÃO */
+
+/* 1. Efeito de brilho ao passar o mouse */
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+nav a:hover::before {
+    opacity: 1;
+}
+
+/* 2. Efeito de gradiente no botão ativo */
+nav a.active {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.15) 0%, rgba(41, 128, 185, 0.1) 100%);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+/* 3. Efeito de pulso no botão ativo */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(52, 152, 219, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+}
+
+nav a.active::before {
+    animation: pulse 2s infinite;
+}
+
+/* 4. Efeito de borda brilhante */
+nav a {
+    border: 1px solid transparent;
+}
+
+nav a:hover {
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 5. Efeito de ícone nos botões */
+nav a i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover i {
+    transform: translateY(-2px);
+    color: var(--secondary);
+}
+        /* Efeito de vidro no header */
+header {
+    background: linear-gradient(135deg, 
+        rgba(44, 62, 80, 0.95) 0%, 
+        rgba(44, 62, 80, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 
+        0 2px 20px rgba(0,0,0,0.1),
+        0 8px 32px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+        /* Efeitos nos botões principais */
+.btn-primary {
+    background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9 0%, var(--secondary) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+}
 
         /* Área do usuário logado */
         .user-area {
@@ -234,29 +337,39 @@
             padding: 0.5rem;
         }
 
-        /* ========== HERO SECTION ========== */
-        .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), 
-                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 5rem 0;
-            text-align: center;
-            flex: 1;
-        }
+        /* Hero Section COM EFEITO DE TRANSPARÊNCIA */
+.hero {
+    background: 
+        /* Efeito de gradiente escuro com transparência */
+        linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.92)),
+        /* Efeito de textura sutil */
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+        /* Imagem de fundo */
+        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito parallax */
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
 
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
+/* Efeito de partículas sutil (opcional) */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(231, 76, 60, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
 
         /* ========== MAIN CONTENT ========== */
         .main-content {
