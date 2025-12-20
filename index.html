@@ -6,18 +6,6 @@
     <title>StudyCert - Sua Plataforma de Certificação em TI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Corrigindo o botão "Adicionar Simulado" */
-        .simulado-card .btn-outline {
-            color: var(--secondary);
-            border-color: var(--secondary);
-            background: transparent;
-        }
-
-        .simulado-card .btn-outline:hover {
-            background: var(--secondary);
-            color: white;
-        }
-        
         /* ========== VARIÁVEIS CSS & RESET ========== */
         :root {
             --primary: #2c3e50;
@@ -31,6 +19,7 @@
             --gray: #95a5a6;
             --transition: all 0.3s ease;
             --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 25px rgba(52, 152, 219, 0.15);
         }
 
         * {
@@ -56,12 +45,12 @@
             padding: 0 20px;
         }
 
-        /* ========== HEADER & NAVEGAÇÃO COM DROPDOWN ========== */
+        /* ========== HEADER & NAVEGAÇÃO COM DROPDOWN CORRIGIDO ========== */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
             padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -71,6 +60,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -79,6 +69,7 @@
             gap: 10px;
             text-decoration: none;
             color: white;
+            z-index: 1001;
         }
 
         .logo i {
@@ -95,38 +86,39 @@
             color: var(--secondary);
         }
 
-        /* NAVEGAÇÃO COM DROPDOWN */
+        /* NAVEGAÇÃO COM DROPDOWN - CORRIGIDO */
         nav ul {
             display: flex;
             list-style: none;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
         nav > ul > li {
             position: relative;
         }
 
-        /* Estilo base dos botões da navegação */
+        /* Botões da navegação - REDUZIDOS E MELHORADOS */
         .nav-link, .nav-dropdown-btn {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
             position: relative;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            min-height: 36px;
         }
 
         .nav-dropdown-btn {
-            padding-right: 2.5rem;
+            padding-right: 2rem;
         }
 
         .nav-dropdown-btn::after {
@@ -134,64 +126,69 @@
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             position: absolute;
-            right: 1.2rem;
+            right: 0.8rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             transition: var(--transition);
         }
 
-        /* Efeito hover nos botões - CORRIGIDO: Mantém texto branco */
+        /* Efeito hover corrigido - texto não fica subscrito */
         .nav-link:hover, .nav-dropdown-btn:hover {
             color: white !important;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Barra azul animada no hover */
-        .nav-link::after, .nav-dropdown-btn::after {
+        /* Barra azul animada removida do after original e adicionada nova */
+        .nav-link::before, .nav-dropdown-btn::before {
             content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
-            height: 3px;
+            height: 2px;
             background: var(--secondary);
-            border-radius: 3px;
+            border-radius: 2px;
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover::after, .nav-dropdown-btn:hover::after {
-            width: 70%;
+        .nav-link:hover::before, .nav-dropdown-btn:hover::before {
+            width: 60%;
         }
 
-        .nav-link.active::after {
-            width: 70%;
+        .nav-link.active::before {
+            width: 60%;
             background: var(--success);
         }
 
         .nav-link.active {
             color: white;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary);
         }
 
-        /* DROPDOWN MENUS */
+        /* DROPDOWN MENUS - TRANSPARENTE */
         .dropdown-menu {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 5px);
             left: 0;
-            background: white;
-            min-width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            min-width: 300px;
             border-radius: 12px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: all 0.3s ease;
-            z-index: 100;
+            z-index: 1000;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Mostrar dropdown ao passar o mouse */
@@ -204,15 +201,15 @@
         .dropdown-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 1.2rem;
+            padding: 1rem;
         }
 
         .dropdown-header h4 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .dropdown-grid {
@@ -222,8 +219,8 @@
         }
 
         .dropdown-item {
-            padding: 1rem;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 0.9rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             transition: var(--transition);
             display: flex;
             align-items: center;
@@ -233,7 +230,7 @@
         }
 
         .dropdown-item:nth-child(odd) {
-            border-right: 1px solid #f0f0f0;
+            border-right: 1px solid rgba(0,0,0,0.05);
         }
 
         .dropdown-item:last-child,
@@ -242,53 +239,55 @@
         }
 
         .dropdown-item:hover {
-            background: #f8fafc;
+            background: rgba(52, 152, 219, 0.05);
             color: var(--secondary);
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         .dropdown-item i {
             color: var(--secondary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             width: 20px;
             text-align: center;
         }
 
         .dropdown-item span {
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .dropdown-footer {
-            padding: 1rem;
-            background: #f8f9fa;
+            padding: 0.8rem;
+            background: rgba(248, 249, 250, 0.8);
             text-align: center;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .dropdown-footer a {
             color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .dropdown-footer a:hover {
             color: var(--primary);
         }
 
-        /* DROPDOWN ESPECIAL PARA ROADMAPS */
+        /* DROPDOWN ESPECIAL PARA ROADMAPS MELHORADO */
         .roadmaps-dropdown {
-            min-width: 320px;
+            min-width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         .roadmap-category {
-            padding: 1rem;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 0.9rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .roadmap-category:last-child {
@@ -309,29 +308,31 @@
         }
 
         .roadmap-category p {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gray);
             margin-bottom: 0.8rem;
             line-height: 1.4;
         }
 
         .roadmap-path {
-            background: #f8f9fa;
-            padding: 0.6rem;
+            background: rgba(248, 249, 250, 0.8);
+            padding: 0.5rem;
             border-radius: 6px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             cursor: pointer;
             transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .roadmap-path:hover {
-            background: #e3f2fd;
+            background: rgba(52, 152, 219, 0.1);
             transform: translateX(3px);
+            border-color: rgba(52, 152, 219, 0.2);
         }
 
         .roadmap-path h6 {
             color: var(--primary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
@@ -339,41 +340,43 @@
         }
 
         .roadmap-path p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--gray);
             margin: 0;
         }
 
-        /* Área do usuário logado */
+        /* Área do usuário logado - BOTÃO CADASTRAR CORRIGIDO */
         .user-area {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            z-index: 1001;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: white;
         }
 
         .user-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .badge {
             display: inline-block;
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
@@ -387,9 +390,10 @@
             color: white;
         }
 
+        /* BOTÕES CORRIGIDOS - CADASTRAR NÃO CORTA MAIS */
         .btn {
-            padding: 0.6rem 1.8rem;
-            border-radius: 30px;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -398,30 +402,38 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            gap: 6px;
+            font-size: 0.9rem;
+            min-height: 36px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .btn-primary {
             background: var(--secondary);
             color: white;
+            border: 1px solid var(--secondary);
         }
 
         .btn-primary:hover {
             background: #2980b9;
+            border-color: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: var(--shadow-hover);
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid white;
+            border: 1px solid white;
             color: white;
         }
 
         .btn-outline:hover {
             background: white;
             color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         /* Menu mobile toggle */
@@ -433,9 +445,10 @@
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0.5rem;
+            z-index: 1001;
         }
 
-        /* ========== ROADMAPS PAGE ========== */
+        /* ========== ROADMAPS PAGE MELHORADA ========== */
         .roadmaps-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -458,21 +471,22 @@
 
         .vendor-filter {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             justify-content: center;
         }
 
         .vendor-btn {
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1.2rem;
             background: white;
             border: 2px solid #e0e0e0;
-            border-radius: 30px;
+            border-radius: 25px;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
             color: var(--primary);
+            font-size: 0.9rem;
         }
 
         .vendor-btn.active {
@@ -491,13 +505,19 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .roadmap-table-container:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
         }
 
         .roadmap-table-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .roadmap-table-header h3 {
@@ -505,6 +525,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.1rem;
         }
 
         .roadmap-table {
@@ -514,17 +535,19 @@
 
         .roadmap-table th {
             background: #f8f9fa;
-            padding: 1rem;
+            padding: 0.9rem;
             text-align: left;
             font-weight: 600;
             color: var(--primary);
             border-bottom: 2px solid #e0e0e0;
+            font-size: 0.9rem;
         }
 
         .roadmap-table td {
-            padding: 1rem;
+            padding: 0.9rem;
             border-bottom: 1px solid #f0f0f0;
             vertical-align: top;
+            font-size: 0.9rem;
         }
 
         .roadmap-table tr:hover {
@@ -533,9 +556,9 @@
 
         .cert-level {
             display: inline-block;
-            padding: 0.3rem 0.8rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
@@ -544,13 +567,15 @@
         .level-professional { background: #fff3e0; color: #ef6c00; }
         .level-expert { background: #fce4ec; color: #c2185b; }
         .level-specialty { background: #f3e5f5; color: #7b1fa2; }
+        .level-manager { background: #e8eaf6; color: #3949ab; }
+        .level-auditor { background: #f1f8e9; color: #689f38; }
 
         .exam-code {
             font-family: 'Courier New', monospace;
             background: #f5f5f5;
-            padding: 0.2rem 0.5rem;
+            padding: 0.2rem 0.4rem;
             border-radius: 4px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* ========== HERO SECTION ========== */
@@ -630,7 +655,7 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-hover);
         }
 
         .card-header {
@@ -777,6 +802,7 @@
 
         .material-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .material-icon {
@@ -820,6 +846,7 @@
 
         .simulado-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .simulado-badge {
@@ -905,6 +932,7 @@
 
         .cert-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .cert-icon {
@@ -1383,6 +1411,49 @@
             transition: var(--transition);
         }
 
+        /* ========== TOAST NOTIFICATION ========== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            display: none;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.error {
+            background: var(--accent);
+        }
+
+        /* ========== LOADING SPINNER ========== */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* ========== RESPONSIVIDADE ========== */
         @media (max-width: 1024px) {
             .container {
@@ -1394,8 +1465,8 @@
             }
             
             .nav-link, .nav-dropdown-btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
             }
             
             .dropdown-menu {
@@ -1428,11 +1499,18 @@
                 overflow: hidden;
                 transition: max-height 0.3s ease;
                 order: 3;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: var(--primary);
+                z-index: 1000;
             }
 
             nav.active {
                 max-height: 600px;
                 margin-top: 1rem;
+                padding: 1rem;
+                border-top: 1px solid rgba(255,255,255,0.1);
             }
 
             nav ul {
@@ -1446,10 +1524,11 @@
 
             .nav-link, .nav-dropdown-btn {
                 padding: 1rem;
-                justify-content: center;
+                justify-content: flex-start;
                 width: 100%;
                 border-radius: 8px;
                 margin-bottom: 0.5rem;
+                background: rgba(255, 255, 255, 0.05);
             }
 
             .dropdown-menu {
@@ -1460,7 +1539,9 @@
                 box-shadow: none;
                 background: rgba(255, 255, 255, 0.05);
                 margin-top: 0.5rem;
+                margin-left: 1rem;
                 display: none;
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             .dropdown-menu.active {
@@ -1569,49 +1650,15 @@
                 width: 100%;
                 text-align: center;
             }
-        }
-
-        /* ========== TOAST NOTIFICATION ========== */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: var(--success);
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 10000;
-            animation: slideInRight 0.3s ease;
-            display: none;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .toast.error {
-            background: var(--accent);
-        }
-
-        /* ========== LOADING SPINNER ========== */
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--secondary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            
+            .user-area {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            
+            .user-info {
+                margin-bottom: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -1962,7 +2009,7 @@
         </div>
     </section>
 
-    <!-- Roadmaps Content -->
+    <!-- Roadmaps Content MELHORADO -->
     <section id="roadmaps" class="main-content">
         <div class="roadmaps-header">
             <div class="container">
@@ -1986,6 +2033,10 @@
                 <button class="vendor-btn" data-vendor="linux">🐧 Linux</button>
                 <button class="vendor-btn" data-vendor="security">🔐 Segurança</button>
                 <button class="vendor-btn" data-vendor="cloud">☁️ Cloud</button>
+                <button class="vendor-btn" data-vendor="management">📊 Gestão TI</button>
+                <button class="vendor-btn" data-vendor="database">🗃️ Banco Dados</button>
+                <button class="vendor-btn" data-vendor="ai">🤖 IA & Dados</button>
+                <button class="vendor-btn" data-vendor="redhat">🎩 Red Hat</button>
             </div>
 
             <!-- CISCO Roadmaps -->
@@ -2058,7 +2109,7 @@
             <!-- MICROSOFT Roadmaps -->
             <div class="roadmap-table-container" data-vendor="microsoft">
                 <div class="roadmap-table-header">
-                    <h3><i class="fab fa-microsoft"></i> 💻 MICROSOFT - Fundamentos</h3>
+                    <h3><i class="fab fa-microsoft"></i> 💻 MICROSOFT</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2071,28 +2122,28 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Microsoft Certified: Fundamentals</td>
-                            <td><span class="exam-code">MS-900</span></td>
-                            <td><span class="cert-level level-fundamental">Fundamentals</span></td>
-                            <td>Microsoft 365</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft 365 Certified: Fundamentals</td>
-                            <td><span class="exam-code">MS-900</span></td>
-                            <td><span class="cert-level level-fundamental">Fundamentals</span></td>
-                            <td>M365 Conceitos</td>
-                        </tr>
-                        <tr>
-                            <td>Azure Fundamentals</td>
+                            <td>Microsoft Certified: Azure Fundamentals</td>
                             <td><span class="exam-code">AZ-900</span></td>
                             <td><span class="cert-level level-fundamental">Fundamentals</span></td>
                             <td>Conceitos Azure</td>
                         </tr>
                         <tr>
-                            <td>Security, Compliance, Identity Fundamentals</td>
-                            <td><span class="exam-code">SC-900</span></td>
-                            <td><span class="cert-level level-fundamental">Fundamentals</span></td>
-                            <td>Segurança Microsoft</td>
+                            <td>Azure Administrator Associate</td>
+                            <td><span class="exam-code">AZ-104</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Administração Azure</td>
+                        </tr>
+                        <tr>
+                            <td>Azure Solutions Architect Expert</td>
+                            <td><span class="exam-code">AZ-305</span></td>
+                            <td><span class="cert-level level-expert">Expert</span></td>
+                            <td>Arquitetura Azure</td>
+                        </tr>
+                        <tr>
+                            <td>Azure Security Engineer Associate</td>
+                            <td><span class="exam-code">AZ-500</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Segurança Azure</td>
                         </tr>
                         <tr>
                             <td>Power Platform Fundamentals</td>
@@ -2160,12 +2211,6 @@
                             <td><span class="exam-code">SCS-C02</span></td>
                             <td><span class="cert-level level-specialty">Specialty</span></td>
                             <td>Segurança AWS</td>
-                        </tr>
-                        <tr>
-                            <td>AWS Certified Advanced Networking</td>
-                            <td><span class="exam-code">ANS-C01</span></td>
-                            <td><span class="cert-level level-specialty">Specialty</span></td>
-                            <td>Redes Avançadas</td>
                         </tr>
                     </tbody>
                 </table>
@@ -2265,24 +2310,6 @@
                             <td><span class="cert-level level-expert">Senior</span></td>
                             <td>Integração Windows/Linux</td>
                         </tr>
-                        <tr>
-                            <td>LPIC-3 Security</td>
-                            <td><span class="exam-code">303-300</span></td>
-                            <td><span class="cert-level level-expert">Senior</span></td>
-                            <td>Segurança Linux</td>
-                        </tr>
-                        <tr>
-                            <td>LPIC-3 Virtualization</td>
-                            <td><span class="exam-code">305-300</span></td>
-                            <td><span class="cert-level level-expert">Senior</span></td>
-                            <td>Virtualização</td>
-                        </tr>
-                        <tr>
-                            <td>Essentials</td>
-                            <td><span class="exam-code">010-160</span></td>
-                            <td><span class="cert-level level-fundamental">Entry</span></td>
-                            <td>Fundamentos Linux</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -2311,13 +2338,13 @@
                         <tr>
                             <td>Certified Information Security Manager (CISM)</td>
                             <td><span class="exam-code">CISM</span></td>
-                            <td><span class="cert-level level-professional">Manager</span></td>
+                            <td><span class="cert-level level-manager">Manager</span></td>
                             <td>Gestão Segurança</td>
                         </tr>
                         <tr>
                             <td>Certified Information Systems Auditor (CISA)</td>
                             <td><span class="exam-code">CISA</span></td>
-                            <td><span class="cert-level level-professional">Auditor</span></td>
+                            <td><span class="cert-level level-auditor">Auditor</span></td>
                             <td>Auditoria</td>
                         </tr>
                         <tr>
@@ -2332,12 +2359,6 @@
                             <td><span class="cert-level level-professional">Professional</span></td>
                             <td>Penetration Testing</td>
                         </tr>
-                        <tr>
-                            <td>GIAC Security Essentials (GSEC)</td>
-                            <td><span class="exam-code">GSEC</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Fundamentos Práticos</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -2345,7 +2366,7 @@
             <!-- Cloud Security Roadmaps -->
             <div class="roadmap-table-container" data-vendor="cloud">
                 <div class="roadmap-table-header">
-                    <h3><i class="fas fa-cloud"></i> ☁️ CLOUD SECURITY</h3>
+                    <h3><i class="fas fa-cloud"></i> ☁️ CLOUD & DEVOPS</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2364,22 +2385,230 @@
                             <td>Segurança Cloud</td>
                         </tr>
                         <tr>
-                            <td>AWS Certified Security Specialty</td>
-                            <td><span class="exam-code">SCS-C02</span></td>
-                            <td><span class="cert-level level-specialty">Specialty</span></td>
-                            <td>Segurança AWS</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Azure Security Engineer</td>
-                            <td><span class="exam-code">AZ-500</span></td>
+                            <td>Google Cloud Certified - Associate Cloud Engineer</td>
+                            <td><span class="exam-code">N/A</span></td>
                             <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Segurança Azure</td>
+                            <td>Engenharia GCP</td>
                         </tr>
                         <tr>
-                            <td>Google Cloud Certified - Professional Cloud Security Engineer</td>
+                            <td>Docker Certified Associate (DCA)</td>
+                            <td><span class="exam-code">DCA</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Containerização</td>
+                        </tr>
+                        <tr>
+                            <td>Certified Kubernetes Administrator (CKA)</td>
+                            <td><span class="exam-code">CKA</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Kubernetes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- GESTÃO TI Roadmaps -->
+            <div class="roadmap-table-container" data-vendor="management">
+                <div class="roadmap-table-header">
+                    <h3><i class="fas fa-chart-line"></i> 📊 GESTÃO DE TI</h3>
+                </div>
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Certificação</th>
+                            <th>Código Exame</th>
+                            <th>Nível</th>
+                            <th>Foco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ITIL 4 Foundation</td>
+                            <td><span class="exam-code">ITIL 4</span></td>
+                            <td><span class="cert-level level-fundamental">Fundamental</span></td>
+                            <td>Gerenciamento Serviços</td>
+                        </tr>
+                        <tr>
+                            <td>ITIL 4 Specialist</td>
+                            <td><span class="exam-code">ITIL 4</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Práticas Avançadas</td>
+                        </tr>
+                        <tr>
+                            <td>COBIT 2019 Foundation</td>
+                            <td><span class="exam-code">COBIT</span></td>
+                            <td><span class="cert-level level-fundamental">Fundamental</span></td>
+                            <td>Governança TI</td>
+                        </tr>
+                        <tr>
+                            <td>PMI Project Management Professional (PMP)</td>
+                            <td><span class="exam-code">PMP</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Gestão Projetos</td>
+                        </tr>
+                        <tr>
+                            <td>ISO 27001 Lead Implementer</td>
+                            <td><span class="exam-code">ISO 27001</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Gestão Segurança</td>
+                        </tr>
+                        <tr>
+                            <td>ISO 20000 Lead Auditor</td>
+                            <td><span class="exam-code">ISO 20000</span></td>
+                            <td><span class="cert-level level-auditor">Auditor</span></td>
+                            <td>Auditoria Serviços</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BANCO DE DADOS Roadmaps -->
+            <div class="roadmap-table-container" data-vendor="database">
+                <div class="roadmap-table-header">
+                    <h3><i class="fas fa-database"></i> 🗃️ BANCO DE DADOS</h3>
+                </div>
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Certificação</th>
+                            <th>Código Exame</th>
+                            <th>Nível</th>
+                            <th>Foco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oracle Database SQL Certified Associate</td>
+                            <td><span class="exam-code">1Z0-071</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>SQL Oracle</td>
+                        </tr>
+                        <tr>
+                            <td>Oracle Database Administration Certified Professional</td>
+                            <td><span class="exam-code">1Z0-083</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Administração Oracle</td>
+                        </tr>
+                        <tr>
+                            <td>Microsoft Certified: Azure Data Fundamentals</td>
+                            <td><span class="exam-code">DP-900</span></td>
+                            <td><span class="cert-level level-fundamental">Fundamentals</span></td>
+                            <td>Dados Azure</td>
+                        </tr>
+                        <tr>
+                            <td>Microsoft Certified: Azure Data Engineer Associate</td>
+                            <td><span class="exam-code">DP-203</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Engenharia Dados</td>
+                        </tr>
+                        <tr>
+                            <td>MongoDB Certified Developer Associate</td>
+                            <td><span class="exam-code">C100DEV</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>MongoDB</td>
+                        </tr>
+                        <tr>
+                            <td>AWS Certified Database - Specialty</td>
+                            <td><span class="exam-code">DBS-C01</span></td>
+                            <td><span class="cert-level level-specialty">Specialty</span></td>
+                            <td>Banco Dados AWS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- IA & DADOS Roadmaps -->
+            <div class="roadmap-table-container" data-vendor="ai">
+                <div class="roadmap-table-header">
+                    <h3><i class="fas fa-brain"></i> 🤖 IA & BUSINESS INTELLIGENCE</h3>
+                </div>
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Certificação</th>
+                            <th>Código Exame</th>
+                            <th>Nível</th>
+                            <th>Foco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Microsoft Certified: Azure AI Fundamentals</td>
+                            <td><span class="exam-code">AI-900</span></td>
+                            <td><span class="cert-level level-fundamental">Fundamentals</span></td>
+                            <td>IA Azure</td>
+                        </tr>
+                        <tr>
+                            <td>Microsoft Certified: Azure AI Engineer Associate</td>
+                            <td><span class="exam-code">AI-102</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Engenharia IA</td>
+                        </tr>
+                        <tr>
+                            <td>Microsoft Certified: Power BI Data Analyst Associate</td>
+                            <td><span class="exam-code">PL-300</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Power BI</td>
+                        </tr>
+                        <tr>
+                            <td>AWS Certified Machine Learning - Specialty</td>
+                            <td><span class="exam-code">MLS-C01</span></td>
+                            <td><span class="cert-level level-specialty">Specialty</span></td>
+                            <td>Machine Learning</td>
+                        </tr>
+                        <tr>
+                            <td>Google Cloud Certified - Data Engineer</td>
                             <td><span class="exam-code">N/A</span></td>
                             <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Segurança GCP</td>
+                            <td>Engenharia Dados</td>
+                        </tr>
+                        <tr>
+                            <td>Tableau Desktop Specialist</td>
+                            <td><span class="exam-code">Tableau</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Visualização Dados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- RED HAT Roadmaps -->
+            <div class="roadmap-table-container" data-vendor="redhat">
+                <div class="roadmap-table-header">
+                    <h3><i class="fab fa-redhat"></i> 🎩 RED HAT</h3>
+                </div>
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Certificação</th>
+                            <th>Código Exame</th>
+                            <th>Nível</th>
+                            <th>Foco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Red Hat Certified System Administrator (RHCSA)</td>
+                            <td><span class="exam-code">EX200</span></td>
+                            <td><span class="cert-level level-associate">Associate</span></td>
+                            <td>Administração RHEL</td>
+                        </tr>
+                        <tr>
+                            <td>Red Hat Certified Engineer (RHCE)</td>
+                            <td><span class="exam-code">EX294</span></td>
+                            <td><span class="cert-level level-professional">Professional</span></td>
+                            <td>Engenharia RHEL</td>
+                        </tr>
+                        <tr>
+                            <td>Red Hat Certified Specialist in Ansible Automation</td>
+                            <td><span class="exam-code">EX407</span></td>
+                            <td><span class="cert-level level-specialty">Specialty</span></td>
+                            <td>Ansible</td>
+                        </tr>
+                        <tr>
+                            <td>Red Hat Certified Architect (RHCA)</td>
+                            <td><span class="exam-code">Várias</span></td>
+                            <td><span class="cert-level level-expert">Expert</span></td>
+                            <td>Arquitetura Red Hat</td>
                         </tr>
                     </tbody>
                 </table>
@@ -2402,7 +2631,7 @@
                         <p><strong>Foco:</strong> Suporte TI → Redes → Segurança Básica</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                        <a href="#" class="btn btn-primary" onclick="showRoadmapsSection()">Ver Detalhes</a>
                     </div>
                 </div>
 
@@ -2416,7 +2645,7 @@
                         <p><strong>Foco:</strong> Fundamentos → Análise → Gestão</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                        <a href="#" class="btn btn-primary" onclick="showRoadmapsSection()">Ver Detalhes</a>
                     </div>
                 </div>
 
@@ -2430,7 +2659,21 @@
                         <p><strong>Foco:</strong> Conceitos → Administração → Arquitetura</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                        <a href="#" class="btn btn-primary" onclick="showRoadmapsSection()">Ver Detalhes</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Data Engineer</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Caminho:</strong> DP-900 → DP-203 → AI-900</p>
+                        <p><strong>Duração estimada:</strong> 12-18 meses</p>
+                        <p><strong>Foco:</strong> Dados → Engenharia → IA</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" onclick="showRoadmapsSection()">Ver Detalhes</a>
                     </div>
                 </div>
             </div>
@@ -2452,6 +2695,8 @@
                             <li>Redes e Infraestrutura</li>
                             <li>Desenvolvimento DevOps</li>
                             <li>Governança de TI</li>
+                            <li>Banco de Dados</li>
+                            <li>IA & Business Intelligence</li>
                         </ul>
                     </div>
                 </div>
@@ -3174,6 +3419,10 @@
 
         function showRoadmapsSection() {
             showSection('roadmaps');
+            // Rolar para o topo da seção
+            setTimeout(() => {
+                document.getElementById('roadmaps').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         }
 
         // ========== NAVEGAÇÃO ==========
@@ -3254,6 +3503,18 @@
                             dropdownMenu.style.visibility = 'hidden';
                             dropdownMenu.style.transform = 'translateY(10px)';
                         }
+                    }
+                });
+            });
+            
+            // Melhorar dropdown do roadmap para mobile
+            document.querySelectorAll('.roadmap-path').forEach(path => {
+                path.addEventListener('click', function() {
+                    showRoadmapsSection();
+                    // Fechar dropdowns mobile
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('mainNav').classList.remove('active');
+                        document.getElementById('roadmapsDropdown').classList.remove('active');
                     }
                 });
             });
