@@ -45,7 +45,7 @@
             padding: 0 20px;
         }
 
-        /* ========== HEADER & NAVEGAÇÃO COM DROPDOWN TRANSPARENTE ========== */
+        /* ========== HEADER & NAVEGAÇÃO CORRIGIDO ========== */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -86,7 +86,7 @@
             color: var(--secondary);
         }
 
-        /* NAVEGAÇÃO COM DROPDOWN - TRANSPARENTE */
+        /* NAVEGAÇÃO CORRIGIDA - ESTILO ORIGINAL */
         nav ul {
             display: flex;
             list-style: none;
@@ -97,7 +97,7 @@
             position: relative;
         }
 
-        /* Botões da navegação */
+        /* Botões da navegação - ESTILO ORIGINAL */
         .nav-link, .nav-dropdown-btn {
             color: white;
             text-decoration: none;
@@ -133,7 +133,7 @@
             transition: var(--transition);
         }
 
-        /* Efeito hover */
+        /* Efeito hover original */
         .nav-link:hover, .nav-dropdown-btn:hover {
             color: white !important;
             background: rgba(255, 255, 255, 0.1);
@@ -175,7 +175,7 @@
             position: absolute;
             top: calc(100% + 5px);
             left: 0;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             min-width: 300px;
@@ -447,7 +447,7 @@
             z-index: 1001;
         }
 
-        /* ========== ROADMAPS PAGE ========== */
+        /* ========== ROADMAPS PAGE COM LOGOS ========== */
         .roadmaps-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -525,6 +525,14 @@
             align-items: center;
             gap: 10px;
             font-size: 1.1rem;
+        }
+
+        .vendor-logo {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .roadmap-table {
@@ -693,6 +701,29 @@
             color: var(--secondary);
         }
 
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
         .copyright {
             text-align: center;
             padding-top: 1.5rem;
@@ -813,9 +844,7 @@
                 order: 2;
                 margin-left: auto;
             }
-        }
 
-        @media (max-width: 480px) {
             .vendor-filter {
                 flex-direction: column;
                 align-items: center;
@@ -824,6 +853,25 @@
             .vendor-btn {
                 width: 100%;
                 text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -889,7 +937,7 @@
                                     </a>
                                 </div>
                                 <div class="dropdown-footer">
-                                    <a href="#" data-target="certificacoes">
+                                    <a href="#" data-target="roadmaps">
                                         <i class="fas fa-arrow-right"></i>
                                         Ver todas as certificações
                                     </a>
@@ -950,6 +998,12 @@
                 
                 <div class="user-area" id="userArea">
                     <!-- Conteúdo dinâmico será inserido aqui -->
+                    <button class="btn btn-outline" onclick="abrirModalAuth('login')">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                    <button class="btn btn-primary" onclick="abrirModalAuth('register')">
+                        <i class="fas fa-user-plus"></i> Cadastrar
+                    </button>
                 </div>
             </div>
         </div>
@@ -960,12 +1014,12 @@
         <div class="container">
             <h2>Prepare-se para suas Certificações de TI</h2>
             <p>Encontre materiais de estudo, participe de discussões no fórum e teste seus conhecimentos com nossos simulados.</p>
-            <a href="#" class="btn btn-primary" data-target="simulados">Começar Agora</a>
+            <a href="#" class="btn btn-primary" data-target="roadmaps">Começar Agora</a>
         </div>
     </section>
 
-    <!-- Roadmaps Content com TODAS as certificações -->
-    <section id="roadmaps" class="main-content">
+    <!-- Roadmaps Content com LOGOS DAS EMPRESAS -->
+    <section id="roadmaps" class="main-content active">
         <div class="roadmaps-header">
             <div class="container">
                 <h1><i class="fas fa-map-signs"></i> Roadmaps de Certificação</h1>
@@ -981,27 +1035,42 @@
 
             <div class="vendor-filter" id="vendorFilter">
                 <button class="vendor-btn active" data-vendor="all">Todos</button>
-                <button class="vendor-btn" data-vendor="cisco">🌐 Cisco</button>
-                <button class="vendor-btn" data-vendor="microsoft">💻 Microsoft</button>
-                <button class="vendor-btn" data-vendor="aws">☁️ AWS</button>
-                <button class="vendor-btn" data-vendor="linux">🐧 Linux</button>
-                <button class="vendor-btn" data-vendor="comptia">🛡️ CompTIA</button>
-                <button class="vendor-btn" data-vendor="security">🔐 Segurança</button>
-                <button class="vendor-btn" data-vendor="cloud">☁️ Cloud</button>
-                <button class="vendor-btn" data-vendor="management">📊 Gestão TI</button>
-                <button class="vendor-btn" data-vendor="database">🗃️ Banco Dados</button>
-                <button class="vendor-btn" data-vendor="ai">🤖 IA & Dados</button>
-                <button class="vendor-btn" data-vendor="redhat">🎩 Red Hat</button>
-                <button class="vendor-btn" data-vendor="google">🔵 Google</button>
-                <button class="vendor-btn" data-vendor="oracle">⚡ Oracle</button>
-                <button class="vendor-btn" data-vendor="vmware">🌀 VMware</button>
-                <button class="vendor-btn" data-vendor="devops">⚙️ DevOps</button>
+                <button class="vendor-btn" data-vendor="cisco">
+                    <i class="fab fa-cisco"></i> Cisco
+                </button>
+                <button class="vendor-btn" data-vendor="microsoft">
+                    <i class="fab fa-microsoft"></i> Microsoft
+                </button>
+                <button class="vendor-btn" data-vendor="aws">
+                    <i class="fab fa-aws"></i> AWS
+                </button>
+                <button class="vendor-btn" data-vendor="linux">
+                    <i class="fab fa-linux"></i> Linux
+                </button>
+                <button class="vendor-btn" data-vendor="comptia">
+                    <i class="fas fa-shield-alt"></i> CompTIA
+                </button>
+                <button class="vendor-btn" data-vendor="security">
+                    <i class="fas fa-user-secret"></i> Segurança
+                </button>
+                <button class="vendor-btn" data-vendor="redhat">
+                    <i class="fab fa-redhat"></i> Red Hat
+                </button>
+                <button class="vendor-btn" data-vendor="google">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="vendor-btn" data-vendor="oracle">
+                    <i class="fas fa-database"></i> Oracle
+                </button>
+                <button class="vendor-btn" data-vendor="vmware">
+                    <i class="fas fa-cube"></i> VMware
+                </button>
             </div>
 
             <!-- CISCO Roadmaps -->
             <div class="roadmap-table-container" data-vendor="cisco">
                 <div class="roadmap-table-header">
-                    <h3><i class="fas fa-network-wired"></i> 🌐 CISCO - Redes e Infraestrutura</h3>
+                    <h3><i class="fab fa-cisco"></i> CISCO - Redes e Infraestrutura</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1068,7 +1137,7 @@
             <!-- MICROSOFT Roadmaps -->
             <div class="roadmap-table-container" data-vendor="microsoft">
                 <div class="roadmap-table-header">
-                    <h3><i class="fab fa-microsoft"></i> 💻 MICROSOFT</h3>
+                    <h3><i class="fab fa-microsoft"></i> MICROSOFT</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1085,12 +1154,6 @@
                             <td><span class="exam-code">MS-900</span></td>
                             <td><span class="cert-level level-foundational">Fundamentals</span></td>
                             <td>Microsoft 365</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft 365 Certified: Fundamentals</td>
-                            <td><span class="exam-code">MS-900</span></td>
-                            <td><span class="cert-level level-foundational">Fundamentals</span></td>
-                            <td>M365 Conceitos</td>
                         </tr>
                         <tr>
                             <td>Azure Fundamentals</td>
@@ -1117,12 +1180,6 @@
                             <td>Administração Azure</td>
                         </tr>
                         <tr>
-                            <td>Azure Developer Associate</td>
-                            <td><span class="exam-code">AZ-204</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Desenvolvimento Azure</td>
-                        </tr>
-                        <tr>
                             <td>Azure Solutions Architect Expert</td>
                             <td><span class="exam-code">AZ-305</span></td>
                             <td><span class="cert-level level-expert">Expert</span></td>
@@ -1147,58 +1204,10 @@
                             <td>IA Azure</td>
                         </tr>
                         <tr>
-                            <td>Azure DevOps Engineer Expert</td>
-                            <td><span class="exam-code">AZ-400</span></td>
-                            <td><span class="cert-level level-expert">Expert</span></td>
-                            <td>DevOps Azure</td>
-                        </tr>
-                        <tr>
                             <td>Windows Client</td>
                             <td><span class="exam-code">MD-100</span></td>
                             <td><span class="cert-level level-associate">Associate</span></td>
                             <td>Windows 10/11</td>
-                        </tr>
-                        <tr>
-                            <td>Managing Modern Desktops</td>
-                            <td><span class="exam-code">MD-101</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Administração Desktop</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft 365 Administrator</td>
-                            <td><span class="exam-code">MS-102</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Admin M365</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft 365 Enterprise Administrator</td>
-                            <td><span class="exam-code">MS-102</span></td>
-                            <td><span class="cert-level level-expert">Expert</span></td>
-                            <td>Enterprise Admin</td>
-                        </tr>
-                        <tr>
-                            <td>Identity and Access Administrator</td>
-                            <td><span class="exam-code">SC-300</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Identidade Microsoft</td>
-                        </tr>
-                        <tr>
-                            <td>Security Operations Analyst</td>
-                            <td><span class="exam-code">SC-200</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Operações Segurança</td>
-                        </tr>
-                        <tr>
-                            <td>Information Protection Administrator</td>
-                            <td><span class="exam-code">SC-400</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Proteção Informação</td>
-                        </tr>
-                        <tr>
-                            <td>Azure Network Engineer Associate</td>
-                            <td><span class="exam-code">AZ-700</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Redes Azure</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1207,7 +1216,7 @@
             <!-- AWS Roadmaps -->
             <div class="roadmap-table-container" data-vendor="aws">
                 <div class="roadmap-table-header">
-                    <h3><i class="fab fa-aws"></i> ☁️ AMAZON AWS</h3>
+                    <h3><i class="fab fa-aws"></i> AMAZON AWS</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1261,24 +1270,6 @@
                             <td><span class="cert-level level-specialty">Specialty</span></td>
                             <td>Segurança AWS</td>
                         </tr>
-                        <tr>
-                            <td>AWS Certified Advanced Networking</td>
-                            <td><span class="exam-code">ANS-C01</span></td>
-                            <td><span class="cert-level level-specialty">Specialty</span></td>
-                            <td>Redes Avançadas</td>
-                        </tr>
-                        <tr>
-                            <td>AWS Certified Database - Specialty</td>
-                            <td><span class="exam-code">DBS-C01</span></td>
-                            <td><span class="cert-level level-specialty">Specialty</span></td>
-                            <td>Banco Dados AWS</td>
-                        </tr>
-                        <tr>
-                            <td>AWS Certified Machine Learning - Specialty</td>
-                            <td><span class="exam-code">MLS-C01</span></td>
-                            <td><span class="cert-level level-specialty">Specialty</span></td>
-                            <td>Machine Learning</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1286,7 +1277,7 @@
             <!-- LINUX Roadmaps -->
             <div class="roadmap-table-container" data-vendor="linux">
                 <div class="roadmap-table-header">
-                    <h3><i class="fas fa-server"></i> 🐧 LINUX PROFESSIONAL INSTITUTE (LPI)</h3>
+                    <h3><i class="fab fa-linux"></i> LINUX PROFESSIONAL INSTITUTE (LPI)</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1317,24 +1308,6 @@
                             <td>Enterprise Linux</td>
                         </tr>
                         <tr>
-                            <td>LPIC-3 Mixed Environments</td>
-                            <td><span class="exam-code">300-300</span></td>
-                            <td><span class="cert-level level-senior">Senior</span></td>
-                            <td>Integração Windows/Linux</td>
-                        </tr>
-                        <tr>
-                            <td>LPIC-3 Security</td>
-                            <td><span class="exam-code">303-300</span></td>
-                            <td><span class="cert-level level-senior">Senior</span></td>
-                            <td>Segurança Linux</td>
-                        </tr>
-                        <tr>
-                            <td>LPIC-3 Virtualization</td>
-                            <td><span class="exam-code">305-300</span></td>
-                            <td><span class="cert-level level-senior">Senior</span></td>
-                            <td>Virtualização</td>
-                        </tr>
-                        <tr>
                             <td>Essentials</td>
                             <td><span class="exam-code">010-160</span></td>
                             <td><span class="cert-level level-entry">Entry</span></td>
@@ -1347,7 +1320,7 @@
             <!-- CompTIA Roadmaps -->
             <div class="roadmap-table-container" data-vendor="comptia">
                 <div class="roadmap-table-header">
-                    <h3><i class="fas fa-shield-alt"></i> 🛡️ COMPTIA</h3>
+                    <h3><i class="fas fa-shield-alt"></i> COMPTIA</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1389,18 +1362,6 @@
                             <td><span class="cert-level level-advanced">Advanced</span></td>
                             <td>Análise Segurança</td>
                         </tr>
-                        <tr>
-                            <td>CompTIA CASP+</td>
-                            <td><span class="exam-code">CAS-004</span></td>
-                            <td><span class="cert-level level-advanced">Advanced</span></td>
-                            <td>Segurança Avançada</td>
-                        </tr>
-                        <tr>
-                            <td>CompTIA PenTest+</td>
-                            <td><span class="exam-code">PT0-003</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Penetration Testing</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1408,7 +1369,7 @@
             <!-- SEGURANÇA DA INFORMAÇÃO Roadmaps -->
             <div class="roadmap-table-container" data-vendor="security">
                 <div class="roadmap-table-header">
-                    <h3><i class="fas fa-user-secret"></i> 🔐 SEGURANÇA DA INFORMAÇÃO</h3>
+                    <h3><i class="fas fa-user-secret"></i> SEGURANÇA DA INFORMAÇÃO</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1433,46 +1394,16 @@
                             <td>Gestão Segurança</td>
                         </tr>
                         <tr>
-                            <td>Certified Information Systems Auditor (CISA)</td>
-                            <td><span class="exam-code">CISA</span></td>
-                            <td><span class="cert-level level-auditor">Auditor</span></td>
-                            <td>Auditoria</td>
-                        </tr>
-                        <tr>
                             <td>Certified Ethical Hacker (CEH)</td>
                             <td><span class="exam-code">312-50</span></td>
                             <td><span class="cert-level level-professional">Professional</span></td>
                             <td>Ethical Hacking</td>
                         </tr>
                         <tr>
-                            <td>GIAC Security Essentials (GSEC)</td>
-                            <td><span class="exam-code">GSEC</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Fundamentos Práticos</td>
-                        </tr>
-                        <tr>
                             <td>Offensive Security Certified Professional (OSCP)</td>
                             <td><span class="exam-code">OSCP</span></td>
                             <td><span class="cert-level level-professional">Professional</span></td>
                             <td>Pentesting Prático</td>
-                        </tr>
-                        <tr>
-                            <td>OSCE (Offensive Security Certified Expert)</td>
-                            <td><span class="exam-code">OSCE</span></td>
-                            <td><span class="cert-level level-expert">Expert</span></td>
-                            <td>Exploitation Avançado</td>
-                        </tr>
-                        <tr>
-                            <td>GPEN (GIAC Penetration Tester)</td>
-                            <td><span class="exam-code">GPEN</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Testes Penetração</td>
-                        </tr>
-                        <tr>
-                            <td>GWAPT (GIAC Web Application Penetration Tester)</td>
-                            <td><span class="exam-code">GWAPT</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Web App Pentesting</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1481,7 +1412,7 @@
             <!-- RED HAT Roadmaps -->
             <div class="roadmap-table-container" data-vendor="redhat">
                 <div class="roadmap-table-header">
-                    <h3><i class="fab fa-redhat"></i> 🎩 RED HAT</h3>
+                    <h3><i class="fab fa-redhat"></i> RED HAT</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1512,12 +1443,6 @@
                             <td>Segurança Linux</td>
                         </tr>
                         <tr>
-                            <td>Red Hat Certified Specialist in OpenShift</td>
-                            <td><span class="exam-code">EX280</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Containers</td>
-                        </tr>
-                        <tr>
                             <td>Red Hat Certified Architect (RHCA)</td>
                             <td><span class="exam-code">Várias</span></td>
                             <td><span class="cert-level level-expert">Expert</span></td>
@@ -1530,7 +1455,7 @@
             <!-- GOOGLE CLOUD Roadmaps -->
             <div class="roadmap-table-container" data-vendor="google">
                 <div class="roadmap-table-header">
-                    <h3><i class="fab fa-google"></i> 🔵 GOOGLE CLOUD</h3>
+                    <h3><i class="fab fa-google"></i> GOOGLE CLOUD</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -1566,461 +1491,102 @@
                             <td><span class="cert-level level-professional">Professional</span></td>
                             <td>Segurança Cloud</td>
                         </tr>
-                        <tr>
-                            <td>Professional Cloud Developer</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Desenvolvimento Cloud</td>
-                        </tr>
-                        <tr>
-                            <td>Google Cloud Certified - Data Engineer</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Dados GCP</td>
-                        </tr>
-                        <tr>
-                            <td>Professional Cloud Security Engineer</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Segurança GCP</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- ORACLE Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="oracle">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-database"></i> ⚡ ORACLE</h3>
-                </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Oracle Cloud Infrastructure Foundations</td>
-                            <td><span class="exam-code">1Z0-1085</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Fundamentos OCI</td>
-                        </tr>
-                        <tr>
-                            <td>OCI Architect Associate</td>
-                            <td><span class="exam-code">1Z0-1072</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Arquitetura OCI</td>
-                        </tr>
-                        <tr>
-                            <td>OCI Architect Professional</td>
-                            <td><span class="exam-code">1Z0-997</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Arquitetura Avançada</td>
-                        </tr>
-                        <tr>
-                            <td>Oracle Database SQL Certified Associate</td>
-                            <td><span class="exam-code">1Z0-071</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>SQL Oracle</td>
-                        </tr>
-                        <tr>
-                            <td>Oracle Database Administration Certified Professional</td>
-                            <td><span class="exam-code">1Z0-083</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Administração Oracle</td>
-                        </tr>
-                        <tr>
-                            <td>Java SE Programmer</td>
-                            <td><span class="exam-code">1Z0-819</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Java Development</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Roadmaps Sugeridos -->
+            <div class="section-title" style="margin-top: 4rem;">
+                <h2><i class="fas fa-road"></i> Roadmaps Sugeridos</h2>
+                <p>Caminhos estruturados para diferentes áreas de carreira</p>
             </div>
 
-            <!-- VMWARE Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="vmware">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-cube"></i> 🌀 VMWARE</h3>
-                </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>VMware Certified Professional (VCP)</td>
-                            <td><span class="exam-code">2V0-21.23</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>vSphere</td>
-                        </tr>
-                        <tr>
-                            <td>VCP-NV</td>
-                            <td><span class="exam-code">2V0-41.20</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>NSX</td>
-                        </tr>
-                        <tr>
-                            <td>VCP-DCV</td>
-                            <td><span class="exam-code">2V0-21.23</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Data Center</td>
-                        </tr>
-                        <tr>
-                            <td>VMware Certified Advanced Professional (VCAP)</td>
-                            <td><span class="exam-code">Várias</span></td>
-                            <td><span class="cert-level level-advanced">Advanced</span></td>
-                            <td>Especialização</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="vendor-filter" style="margin-bottom: 2rem;">
+                <button class="vendor-btn active" data-roadmap="all">Todos</button>
+                <button class="vendor-btn" data-roadmap="iniciante">Iniciante</button>
+                <button class="vendor-btn" data-roadmap="segurança">Segurança</button>
+                <button class="vendor-btn" data-roadmap="cloud">Cloud</button>
+                <button class="vendor-btn" data-roadmap="devops">DevOps</button>
             </div>
 
-            <!-- ITIL Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="management">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-cube"></i> 📊 ITIL & GESTÃO</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 4rem;">
+                <div class="roadmap-card" data-roadmap="iniciante">
+                    <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 1.5rem; border-radius: 12px 12px 0 0;">
+                        <h4 style="margin: 0; display: flex; align-items: center; gap: 10px;"><i class="fas fa-user-graduate"></i> Iniciante em TI</h4>
+                    </div>
+                    <div style="padding: 1.5rem; background: white; border-radius: 0 0 12px 12px; box-shadow: var(--shadow);">
+                        <p><strong>Caminho:</strong> CompTIA A+ → Network+ → Security+</p>
+                        <p><strong>Duração estimada:</strong> 6-12 meses</p>
+                        <p><strong>Foco:</strong> Suporte TI → Redes → Segurança Básica</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="showRoadmapsSection()">Ver Detalhes</button>
+                    </div>
                 </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ITIL 4 Foundation</td>
-                            <td><span class="exam-code">ITIL 4 FND</span></td>
-                            <td><span class="cert-level level-foundational">Foundation</span></td>
-                            <td>Gestão Serviços</td>
-                        </tr>
-                        <tr>
-                            <td>ITIL 4 Specialist</td>
-                            <td><span class="exam-code">Várias</span></td>
-                            <td><span class="cert-level level-specialty">Specialist</span></td>
-                            <td>Especialização</td>
-                        </tr>
-                        <tr>
-                            <td>ITIL 4 Strategist</td>
-                            <td><span class="exam-code">DITS</span></td>
-                            <td><span class="cert-level level-leader">Strategist</span></td>
-                            <td>Estratégia</td>
-                        </tr>
-                        <tr>
-                            <td>ITIL 4 Leader</td>
-                            <td><span class="exam-code">DITS</span></td>
-                            <td><span class="cert-level level-leader">Leader</span></td>
-                            <td>Liderança</td>
-                        </tr>
-                        <tr>
-                            <td>ITIL 4 Master</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-master">Master</span></td>
-                            <td>Maestria</td>
-                        </tr>
-                        <tr>
-                            <td>Project Management Professional (PMP)</td>
-                            <td><span class="exam-code">PMP</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Gerenciamento Projetos</td>
-                        </tr>
-                        <tr>
-                            <td>Certified Associate Project Management (CAPM)</td>
-                            <td><span class="exam-code">CAPM</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Projetos Entry</td>
-                        </tr>
-                        <tr>
-                            <td>PRINCE2 Foundation</td>
-                            <td><span class="exam-code">PRINCE2 FND</span></td>
-                            <td><span class="cert-level level-foundational">Foundation</span></td>
-                            <td>Metodologia Projetos</td>
-                        </tr>
-                        <tr>
-                            <td>Certified ScrumMaster (CSM)</td>
-                            <td><span class="exam-code">CSM</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Scrum</td>
-                        </tr>
-                        <tr>
-                            <td>COBIT 2019 Foundation</td>
-                            <td><span class="exam-code">COBIT 2019 FND</span></td>
-                            <td><span class="cert-level level-foundational">Foundation</span></td>
-                            <td>Framework Governança</td>
-                        </tr>
-                        <tr>
-                            <td>Certified in the Governance of Enterprise IT (CGEIT)</td>
-                            <td><span class="exam-code">CGEIT</span></td>
-                            <td><span class="cert-level level-expert">Expert</span></td>
-                            <td>Governança Corporativa</td>
-                        </tr>
-                        <tr>
-                            <td>ISACA Certified in Risk and Information Systems Control (CRISC)</td>
-                            <td><span class="exam-code">CRISC</span></td>
-                            <td><span class="cert-level level-manager">Manager</span></td>
-                            <td>Gestão Riscos</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+                <div class="roadmap-card" data-roadmap="segurança">
+                    <div style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 1.5rem; border-radius: 12px 12px 0 0;">
+                        <h4 style="margin: 0; display: flex; align-items: center; gap: 10px;"><i class="fas fa-shield-alt"></i> Segurança da Informação</h4>
+                    </div>
+                    <div style="padding: 1.5rem; background: white; border-radius: 0 0 12px 12px; box-shadow: var(--shadow);">
+                        <p><strong>Caminho:</strong> Security+ → CySA+ → CISSP</p>
+                        <p><strong>Duração estimada:</strong> 12-24 meses</p>
+                        <p><strong>Foco:</strong> Fundamentos → Análise → Gestão</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="showRoadmapsSection()">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <div class="roadmap-card" data-roadmap="cloud">
+                    <div style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; padding: 1.5rem; border-radius: 12px 12px 0 0;">
+                        <h4 style="margin: 0; display: flex; align-items: center; gap: 10px;"><i class="fas fa-cloud"></i> Cloud Engineer</h4>
+                    </div>
+                    <div style="padding: 1.5rem; background: white; border-radius: 0 0 12px 12px; box-shadow: var(--shadow);">
+                        <p><strong>Caminho:</strong> AZ-900 → AZ-104 → AZ-305</p>
+                        <p><strong>Duração estimada:</strong> 12-18 meses</p>
+                        <p><strong>Foco:</strong> Conceitos → Administração → Arquitetura</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="showRoadmapsSection()">Ver Detalhes</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- CLOUD SECURITY Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="cloud">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-cloud"></i> ☁️ CLOUD SECURITY</h3>
-                </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Certified Cloud Security Professional (CCSP)</td>
-                            <td><span class="exam-code">CCSP</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Segurança Cloud</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Azure Security Engineer</td>
-                            <td><span class="exam-code">AZ-500</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Segurança Azure</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="section-title" style="margin-top: 4rem;">
+                <h2><i class="fas fa-lightbulb"></i> Como Escolher</h2>
+                <p>Orientações para selecionar o melhor roadmap</p>
             </div>
 
-            <!-- DEVOPS Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="devops">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-code"></i> ⚙️ DEVOPS & CONTAINERS</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;"><i class="fas fa-bullseye"></i> Passo 1: Identifique sua Área</h4>
+                    <ul style="padding-left: 1.5rem; color: #666;">
+                        <li>Cloud Computing</li>
+                        <li>Segurança da Informação</li>
+                        <li>Redes e Infraestrutura</li>
+                        <li>Desenvolvimento DevOps</li>
+                        <li>Governança de TI</li>
+                        <li>Banco de Dados</li>
+                        <li>IA & Business Intelligence</li>
+                    </ul>
                 </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Docker Certified Associate (DCA)</td>
-                            <td><span class="exam-code">DCA</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Docker</td>
-                        </tr>
-                        <tr>
-                            <td>Certified Kubernetes Administrator (CKA)</td>
-                            <td><span class="exam-code">CKA</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Kubernetes</td>
-                        </tr>
-                        <tr>
-                            <td>Certified Kubernetes Application Developer (CKAD)</td>
-                            <td><span class="exam-code">CKAD</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Kubernetes Dev</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
-            <!-- BANCO DE DADOS Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="database">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-database"></i> 🗃️ BANCO DE DADOS</h3>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;"><i class="fas fa-chart-line"></i> Passo 2: Considere seu Nível</h4>
+                    <ul style="padding-left: 1.5rem; color: #666;">
+                        <li>Entry Level (0-2 anos)</li>
+                        <li>Intermediate (2-5 anos)</li>
+                        <li>Advanced (5+ anos)</li>
+                        <li>Verifique pré-requisitos</li>
+                        <li>Experiência necessária</li>
+                    </ul>
                 </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Microsoft Certified: Azure Database Administrator</td>
-                            <td><span class="exam-code">DP-300</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>BD Azure</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Azure Data Fundamentals</td>
-                            <td><span class="exam-code">DP-900</span></td>
-                            <td><span class="cert-level level-foundational">Fundamentals</span></td>
-                            <td>Dados Azure</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Azure Data Engineer Associate</td>
-                            <td><span class="exam-code">DP-203</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Engenharia Dados</td>
-                        </tr>
-                        <tr>
-                            <td>MongoDB Certified Developer Associate</td>
-                            <td><span class="exam-code">C100DEV</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>MongoDB</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
-            <!-- IA & DADOS Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="ai">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-brain"></i> 🤖 IA & BUSINESS INTELLIGENCE</h3>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;"><i class="fas fa-search-dollar"></i> Passo 3: Analise o Mercado</h4>
+                    <ul style="padding-left: 1.5rem; color: #666;">
+                        <li>Demanda regional</li>
+                        <li>Salários médios</li>
+                        <li>Crescimento da área</li>
+                        <li>Tendências do setor</li>
+                        <li>Certificações valorizadas</li>
+                    </ul>
                 </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Microsoft Certified: Azure AI Fundamentals</td>
-                            <td><span class="exam-code">AI-900</span></td>
-                            <td><span class="cert-level level-foundational">Fundamentals</span></td>
-                            <td>IA Azure</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Azure Data Scientist</td>
-                            <td><span class="exam-code">DP-100</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Data Science</td>
-                        </tr>
-                        <tr>
-                            <td>Microsoft Certified: Power BI Data Analyst Associate</td>
-                            <td><span class="exam-code">PL-300</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Power BI</td>
-                        </tr>
-                        <tr>
-                            <td>Tableau Desktop Specialist</td>
-                            <td><span class="exam-code">Tableau</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Visualização Dados</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- SALESFORCE Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="management">
-                <div class="roadmap-table-header">
-                    <h3><i class="fab fa-salesforce"></i> 📈 SALESFORCE</h3>
-                </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Salesforce Administrator</td>
-                            <td><span class="exam-code">ADM-201</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Administração</td>
-                        </tr>
-                        <tr>
-                            <td>Salesforce Platform App Builder</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>Desenvolvimento</td>
-                        </tr>
-                        <tr>
-                            <td>Salesforce Developer</td>
-                            <td><span class="exam-code">PD1</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Desenvolvimento Avançado</td>
-                        </tr>
-                        <tr>
-                            <td>Salesforce Architect</td>
-                            <td><span class="exam-code">Várias</span></td>
-                            <td><span class="cert-level level-expert">Expert</span></td>
-                            <td>Arquitetura</td>
-                        </tr>
-                        <tr>
-                            <td>HubSpot CRM Certification</td>
-                            <td><span class="exam-code">N/A</span></td>
-                            <td><span class="cert-level level-associate">Associate</span></td>
-                            <td>CRM HubSpot</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ISO E AUDITORIA Roadmaps -->
-            <div class="roadmap-table-container" data-vendor="management">
-                <div class="roadmap-table-header">
-                    <h3><i class="fas fa-clipboard-check"></i> 📋 ISO & AUDITORIA</h3>
-                </div>
-                <table class="roadmap-table">
-                    <thead>
-                        <tr>
-                            <th>Certificação</th>
-                            <th>Código Exame</th>
-                            <th>Nível</th>
-                            <th>Foco</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ISO/IEC 27001 Lead Auditor</td>
-                            <td><span class="exam-code">PECB 27001 LA</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Auditoria Segurança</td>
-                        </tr>
-                        <tr>
-                            <td>ISO 9001 Lead Implementer</td>
-                            <td><span class="exam-code">PECB 9001 LI</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Qualidade</td>
-                        </tr>
-                        <tr>
-                            <td>ISO 20000-1 Service Management</td>
-                            <td><span class="exam-code">PECB 20000</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Gestão Serviços</td>
-                        </tr>
-                        <tr>
-                            <td>ISO 22301 Business Continuity</td>
-                            <td><span class="exam-code">PECB 22301</span></td>
-                            <td><span class="cert-level level-professional">Professional</span></td>
-                            <td>Continuidade</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </section>
@@ -2032,14 +1598,33 @@
                 <div class="footer-column">
                     <h3>StudyCert</h3>
                     <p>Sua plataforma completa para preparação e certificação em Tecnologia da Informação.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
 
                 <div class="footer-column">
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links">
                         <li><a href="#" data-target="home">Início</a></li>
-                        <li><a href="#" data-target="certificacoes">Certificações</a></li>
                         <li><a href="#" data-target="roadmaps">Roadmaps</a></li>
+                        <li><a href="#" data-target="forum">Fórum</a></li>
+                        <li><a href="#" data-target="materiais">Material de Estudo</a></li>
+                        <li><a href="#" data-target="simulados">Simulados</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Certificações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-target="roadmaps" data-vendor="microsoft">Microsoft</a></li>
+                        <li><a href="#" data-target="roadmaps" data-vendor="aws">AWS</a></li>
+                        <li><a href="#" data-target="roadmaps" data-vendor="linux">LPIC-1/LPIC-2</a></li>
+                        <li><a href="#" data-target="roadmaps" data-vendor="comptia">CompTIA</a></li>
+                        <li><a href="#" data-target="roadmaps" data-vendor="security">Segurança</a></li>
                     </ul>
                 </div>
 
@@ -2071,7 +1656,8 @@
 
         // ========== ROADMAPS FILTER ==========
         function setupRoadmapsFilter() {
-            const vendorButtons = document.querySelectorAll('.vendor-btn');
+            // Filtro por vendor
+            const vendorButtons = document.querySelectorAll('.vendor-btn[data-vendor]');
             vendorButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     // Remover classe active de todos os botões
@@ -2081,6 +1667,20 @@
                     // Filtrar roadmaps
                     const vendor = this.getAttribute('data-vendor');
                     filterRoadmaps(vendor);
+                });
+            });
+
+            // Filtro por roadmap sugerido
+            const roadmapButtons = document.querySelectorAll('.vendor-btn[data-roadmap]');
+            roadmapButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remover classe active de todos os botões
+                    roadmapButtons.forEach(btn => btn.classList.remove('active'));
+                    // Adicionar classe active ao botão clicado
+                    this.classList.add('active');
+                    // Filtrar roadmaps sugeridos
+                    const roadmap = this.getAttribute('data-roadmap');
+                    filterSuggestedRoadmaps(roadmap);
                 });
             });
         }
@@ -2097,6 +1697,18 @@
             });
         }
 
+        function filterSuggestedRoadmaps(roadmap) {
+            const roadmapCards = document.querySelectorAll('.roadmap-card');
+            
+            roadmapCards.forEach(card => {
+                if (roadmap === 'all' || card.getAttribute('data-roadmap') === roadmap) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         function showRoadmapsSection() {
             showSection('roadmaps');
             // Rolar para o topo da seção
@@ -2107,13 +1719,24 @@
 
         // ========== NAVEGAÇÃO ==========
         function setupEventListeners() {
-            // Navegação
+            // Navegação principal
             document.querySelectorAll('.nav-link, .dropdown-item, .footer-links a[data-target], .btn[data-target]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('data-target');
                     if (targetId) {
                         showSection(targetId);
+                    }
+                    
+                    // Se tiver vendor, aplicar filtro
+                    const vendor = this.getAttribute('data-vendor');
+                    if (vendor) {
+                        setTimeout(() => {
+                            const vendorBtn = document.querySelector(`.vendor-btn[data-vendor="${vendor}"]`);
+                            if (vendorBtn) {
+                                vendorBtn.click();
+                            }
+                        }, 100);
                     }
                     
                     // Fechar menu mobile
@@ -2199,6 +1822,11 @@
             
             // Scroll suave para topo
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== MODAL FUNÇÕES ==========
+        function abrirModalAuth(tab) {
+            alert('Funcionalidade de login será implementada em breve!');
         }
     </script>
 </body>
