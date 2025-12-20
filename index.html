@@ -171,17 +171,17 @@
             border-color: var(--secondary);
         }
 
-        /* DROPDOWN MENUS - TOTALMENTE TRANSPARENTE */
+        /* DROPDOWN MENUS - TRANSPARENTE */
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 5px);
             left: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             min-width: 300px;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
@@ -199,11 +199,9 @@
         }
 
         .dropdown-header {
-            background: rgba(52, 152, 219, 0.3);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 1rem;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .dropdown-header h4 {
@@ -222,18 +220,17 @@
 
         .dropdown-item {
             padding: 0.9rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--primary);
         }
 
         .dropdown-item:nth-child(odd) {
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(0,0,0,0.05);
         }
 
         .dropdown-item:last-child,
@@ -242,14 +239,13 @@
         }
 
         .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--secondary-light);
+            background: rgba(52, 152, 219, 0.05);
+            color: var(--secondary);
             transform: translateX(3px);
-            backdrop-filter: blur(5px);
         }
 
         .dropdown-item i {
-            color: var(--secondary-light);
+            color: var(--secondary);
             font-size: 1rem;
             width: 20px;
             text-align: center;
@@ -262,14 +258,13 @@
 
         .dropdown-footer {
             padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(248, 249, 250, 0.8);
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .dropdown-footer a {
-            color: var(--secondary-light);
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.85rem;
@@ -280,7 +275,7 @@
         }
 
         .dropdown-footer a:hover {
-            color: white;
+            color: var(--primary);
         }
 
         /* DROPDOWN ESPECIAL PARA ROADMAPS MELHORADO */
@@ -292,8 +287,7 @@
 
         .roadmap-category {
             padding: 0.9rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .roadmap-category:last-child {
@@ -301,7 +295,7 @@
         }
 
         .roadmap-category h5 {
-            color: white;
+            color: var(--primary);
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
             display: flex;
@@ -310,35 +304,34 @@
         }
 
         .roadmap-category h5 i {
-            color: var(--secondary-light);
+            color: var(--secondary);
         }
 
         .roadmap-category p {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--gray);
             margin-bottom: 0.8rem;
             line-height: 1.4;
         }
 
         .roadmap-path {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(248, 249, 250, 0.8);
             padding: 0.5rem;
             border-radius: 6px;
             margin-bottom: 0.4rem;
             cursor: pointer;
             transition: var(--transition);
             border: 1px solid transparent;
-            backdrop-filter: blur(5px);
         }
 
         .roadmap-path:hover {
-            background: rgba(52, 152, 219, 0.2);
+            background: rgba(52, 152, 219, 0.1);
             transform: translateX(3px);
-            border-color: rgba(52, 152, 219, 0.3);
+            border-color: rgba(52, 152, 219, 0.2);
         }
 
         .roadmap-path h6 {
-            color: white;
+            color: var(--primary);
             font-size: 0.8rem;
             margin-bottom: 0.2rem;
             display: flex;
@@ -348,7 +341,7 @@
 
         .roadmap-path p {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--gray);
             margin: 0;
         }
 
@@ -583,173 +576,6 @@
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
             font-size: 0.85rem;
-        }
-
-        /* Logos das empresas nas tabelas - CORRIGIDAS */
-        .vendor-logo {
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            vertical-align: middle;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-            color: white;
-        }
-
-        /* CISCO - Logo oficial (azul com letra C branca) */
-        .vendor-logo.cisco { 
-            background: #1ba0d7; 
-            color: white; 
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            font-weight: 800;
-        }
-
-        /* MICROSOFT - Logo Windows (quadrado azul com janela branca) */
-        .vendor-logo.microsoft { 
-            background: #0078d4; 
-            color: white; 
-            position: relative;
-            overflow: hidden;
-        }
-
-        .vendor-logo.microsoft::before {
-            content: "";
-            font-family: 'Segoe MDL2 Assets';
-            font-size: 16px;
-        }
-
-        /* AWS - Logo Amazon (laranja com seta) */
-        .vendor-logo.aws { 
-            background: #ff9900; 
-            color: #232f3e; 
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        /* CompTIA - Logo vermelho com + */
-        .vendor-logo.comptia { 
-            background: #e13834; 
-            color: white; 
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        /* Linux LPI - Anel preto com LPI branco */
-        .vendor-logo.lpi { 
-            background: #000; 
-            color: white; 
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px #000;
-            font-weight: 700;
-            font-size: 10px;
-            padding: 2px;
-        }
-
-        /* Red Hat - Chapéu vermelho */
-        .vendor-logo.redhat { 
-            background: #e00; 
-            color: white; 
-            font-weight: 800;
-            font-size: 11px;
-            border-radius: 50%;
-        }
-
-        /* CISSP - Logo preto e amarelo */
-        .vendor-logo.cissp { 
-            background: #000; 
-            color: #ffcc00; 
-            font-weight: 800;
-            font-size: 10px;
-            padding: 0 5px;
-        }
-
-        /* Google Cloud - G azul */
-        .vendor-logo.google { 
-            background: #4285f4; 
-            color: white; 
-            font-weight: 800;
-            font-size: 14px;
-            border-radius: 50%;
-        }
-
-        /* Docker - Logo azul com baleia */
-        .vendor-logo.docker { 
-            background: #2496ed; 
-            color: white; 
-            font-weight: 800;
-            font-size: 12px;
-        }
-
-        /* Kubernetes - Logo azul */
-        .vendor-logo.kubernetes { 
-            background: #326ce5; 
-            color: white; 
-            font-weight: 800;
-            font-size: 11px;
-        }
-
-        /* ITIL - Logo azul escuro */
-        .vendor-logo.itil { 
-            background: #00539f; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
-        }
-
-        /* COBIT - Logo laranja */
-        .vendor-logo.cobit { 
-            background: #ff6b00; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
-        }
-
-        /* PMI - Logo azul escuro */
-        .vendor-logo.pmi { 
-            background: #00465d; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
-        }
-
-        /* ISO - Logo preto */
-        .vendor-logo.iso { 
-            background: #000; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
-            padding: 0 5px;
-        }
-
-        /* Oracle - Logo vermelho */
-        .vendor-logo.oracle { 
-            background: #f80000; 
-            color: white; 
-            font-weight: 800;
-            font-size: 12px;
-            border-radius: 50%;
-        }
-
-        /* MongoDB - Logo verde */
-        .vendor-logo.mongodb { 
-            background: #47a248; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
-            border-radius: 50%;
-        }
-
-        /* Tableau - Logo laranja */
-        .vendor-logo.tableau { 
-            background: #e9762b; 
-            color: white; 
-            font-weight: 700;
-            font-size: 11px;
         }
 
         /* ========== HERO SECTION ========== */
@@ -2201,7 +2027,7 @@
             <div class="vendor-filter" id="vendorFilter">
                 <button class="vendor-btn active" data-vendor="all">Todos</button>
                 <button class="vendor-btn" data-vendor="cisco">Cisco</button>
-                <button class="vendor-btn" data-vendor="microsoft">Microsoft</button>
+                <button class="vendor-btn" data-vendor="microsoft"> Microsoft</button>
                 <button class="vendor-btn" data-vendor="aws">AWS</button>
                 <button class="vendor-btn" data-vendor="comptia">CompTIA</button>
                 <button class="vendor-btn" data-vendor="linux">Linux</button>
@@ -2216,7 +2042,7 @@
             <!-- CISCO Roadmaps -->
             <div class="roadmap-table-container" data-vendor="cisco">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo cisco">C</span> CISCO - Redes e Infraestrutura</h3>
+                    <h3><i class="fas fa-network-wired"></i>CISCO - Redes e Infraestrutura</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2283,7 +2109,7 @@
             <!-- MICROSOFT Roadmaps -->
             <div class="roadmap-table-container" data-vendor="microsoft">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo microsoft"></span> MICROSOFT</h3>
+                    <h3><i class="fab fa-microsoft"></i> MICROSOFT</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2332,7 +2158,7 @@
             <!-- AWS Roadmaps -->
             <div class="roadmap-table-container" data-vendor="aws">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo aws">A</span> AMAZON AWS</h3>
+                    <h3><i class="fab fa-aws"></i>AMAZON AWS</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2393,7 +2219,7 @@
             <!-- CompTIA Roadmaps -->
             <div class="roadmap-table-container" data-vendor="comptia">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo comptia">C+</span> COMPTIA</h3>
+                    <h3><i class="fas fa-shield-alt"></i>COMPTIA</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2448,7 +2274,7 @@
             <!-- Linux Roadmaps -->
             <div class="roadmap-table-container" data-vendor="linux">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo lpi">LPI</span> LINUX PROFESSIONAL INSTITUTE (LPI)</h3>
+                    <h3><i class="fas fa-server"></i>LINUX PROFESSIONAL INSTITUTE (LPI)</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2491,7 +2317,7 @@
             <!-- Security Roadmaps -->
             <div class="roadmap-table-container" data-vendor="security">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo cissp">CISSP</span> SEGURANÇA DA INFORMAÇÃO</h3>
+                    <h3><i class="fas fa-user-secret"></i>SEGURANÇA DA INFORMAÇÃO</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2540,7 +2366,7 @@
             <!-- Cloud Security Roadmaps -->
             <div class="roadmap-table-container" data-vendor="cloud">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo google">G</span> CLOUD & DEVOPS</h3>
+                    <h3><i class="fas fa-cloud"></i>CLOUD & DEVOPS</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2583,7 +2409,7 @@
             <!-- GESTÃO TI Roadmaps -->
             <div class="roadmap-table-container" data-vendor="management">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo itil">ITIL</span> GESTÃO DE TI</h3>
+                    <h3><i class="fas fa-chart-line"></i>GESTÃO DE TI</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2638,7 +2464,7 @@
             <!-- BANCO DE DADOS Roadmaps -->
             <div class="roadmap-table-container" data-vendor="database">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo oracle">O</span> BANCO DE DADOS</h3>
+                    <h3><i class="fas fa-database"></i>BANCO DE DADOS</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2693,7 +2519,7 @@
             <!-- IA & DADOS Roadmaps -->
             <div class="roadmap-table-container" data-vendor="ai">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo tableau">T</span> IA & BUSINESS INTELLIGENCE</h3>
+                    <h3><i class="fas fa-brain"></i>IA & BUSINESS INTELLIGENCE</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
@@ -2748,7 +2574,7 @@
             <!-- RED HAT Roadmaps -->
             <div class="roadmap-table-container" data-vendor="redhat">
                 <div class="roadmap-table-header">
-                    <h3><span class="vendor-logo redhat">RH</span> RED HAT</h3>
+                    <h3><i class="fab fa-redhat"></i>RED HAT</h3>
                 </div>
                 <table class="roadmap-table">
                     <thead>
